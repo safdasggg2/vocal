@@ -112,9 +112,13 @@
   .toast.show{transform:translateX(-50%) translateY(0);}
 
   /* ---------- Tabs ---------- */
-  .tabs{ display:flex; gap:6px; margin:18px 0 14px; overflow-x:auto; padding-bottom:4px; }
+  .tabs{ 
+    display:flex; gap:6px; margin:18px 0 14px; 
+    overflow-x:auto; padding-bottom:6px; scrollbar-width: none;
+  }
+  .tabs::-webkit-scrollbar { display: none; }
   .tab-btn{
-    flex:1; padding:10px 8px; background:var(--bg-panel); border:1px solid var(--line);
+    flex:1; padding:10px 12px; background:var(--bg-panel); border:1px solid var(--line);
     color:var(--muted); font-family:'Work Sans', sans-serif; font-weight:600; font-size:13px;
     border-radius:10px; cursor:pointer; transition:all .2s; white-space:nowrap;
   }
@@ -217,6 +221,25 @@
     font-size: 11px; font-weight: 700; text-decoration: none; font-family: var(--font-sans);
   }
   .file-chip:hover { background: rgba(232,163,61,0.22); }
+
+  /* ---------- Roadmap Map Styles (NEW) ---------- */
+  .roadmap-map { position: relative; padding-left: 50px; margin-top: 24px; padding-bottom: 20px; }
+  .map-line { position: absolute; left: 24px; top: 20px; bottom: 20px; width: 4px; background: var(--bg-panel-2); border: 1px solid var(--line); border-radius: 4px; }
+  .map-line-fill { position: absolute; left: 25px; top: 20px; width: 4px; background: linear-gradient(180deg, var(--amber-dim), var(--amber)); border-radius: 4px; transition: height 0.6s cubic-bezier(0.34, 1.56, 0.64, 1); height: 0; z-index: 1; }
+  .map-node-wrapper { position: relative; z-index: 2; margin-bottom: 24px; }
+  .map-node { display: flex; align-items: center; opacity: 0.5; transition: all 0.3s ease; }
+  .map-node.done { opacity: 1; }
+  .map-node.active { opacity: 1; transform: scale(1.02); }
+  .stage-icon { position: absolute; left: -50px; width: 48px; height: 48px; border-radius: 50%; background: var(--bg-panel); border: 2px solid var(--line); display: flex; align-items: center; justify-content: center; font-size: 22px; z-index: 3; transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1); }
+  .map-node.done .stage-icon { background: var(--amber-dim); border-color: var(--amber); }
+  .map-node.active .stage-icon { background: var(--amber); border-color: var(--cream); box-shadow: 0 0 15px var(--amber-glow); font-size: 26px; }
+  .stage-name { font-size: 11px; color: var(--amber); margin-bottom: 6px; font-weight: 700; font-family: 'JetBrains Mono', monospace; }
+  .node-card { background: var(--bg-panel-2); border: 1px solid var(--line); border-radius: 12px; padding: 14px; flex: 1; display: flex; align-items: center; gap: 10px; transition: border-color 0.3s; }
+  .map-node.done .node-card { border-color: var(--amber-dim); background: linear-gradient(90deg, rgba(232,163,61,0.08), transparent); }
+  .map-node.active .node-card { border-color: var(--amber); box-shadow: 0 4px 12px rgba(232,163,61,0.1); }
+  
+  .avatar { position: absolute; top: -30px; font-size: 32px; animation: bounce 1s infinite; z-index: 10; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.4)); }
+  @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
 
   /* ---------- Calendar view ---------- */
   .cal-head{display:flex; align-items:center; justify-content:space-between; gap:8px; margin-bottom:14px; flex-wrap:wrap;}
@@ -361,10 +384,36 @@
   </div>
 
   <div class="tabs">
-    <button class="tab-btn active" data-tab="daily">일일 목표</button>
-    <button class="tab-btn" data-tab="goals">주간 목표</button>
-    <button class="tab-btn" data-tab="repo">레퍼토리 🎤</button>
-    <button class="tab-btn" data-tab="cal">달력 (~2050)</button>
+    <button class="tab-btn active" data-tab="daily">일일</button>
+    <button class="tab-btn" data-tab="goals">주간</button>
+    <button class="tab-btn" data-tab="roadmap">로드맵 🗺️</button>
+    <button class="tab-btn" data-tab="repo">레퍼토리</button>
+    <button class="tab-btn" data-tab="cal">달력</button>
+  </div>
+
+  <!-- ROADMAP TAB (콘서트 투어 맵 테마) -->
+  <div class="panel" id="roadmapPanel" style="display:none;">
+    <div class="cal-head">
+      <div class="cal-title">나만의 라이브 투어 로드맵</div>
+    </div>
+
+    <!-- 엄청 긴 목표 (Ultimate Goal) -->
+    <div style="background:var(--bg-panel-2); padding:14px; border-radius:10px; border:1px solid var(--amber-dim); margin-bottom:10px;">
+      <div style="font-size:12px; color:var(--amber); margin-bottom:6px; font-weight:700;">최종 목표 (Ultimate Goal)</div>
+      <textarea id="ultimateGoalInput" placeholder="예: 2045년까지 장르 불문 자유로운 발성 완성하기" style="width:100%; background:transparent; border:none; color:var(--cream); font-family:'Work Sans'; font-size:14px; line-height:1.4; resize:none; outline:none; height:48px;" onchange="saveUltimateGoal(this.value)"></textarea>
+    </div>
+
+    <div id="roadmapMapContainer">
+      <!-- 자바스크립트로 맵이 그려질 공간 -->
+    </div>
+
+    <div class="empty-note" id="roadmapEmptyNote" style="display:none;">최종 목표로 가기 위한 큰 단계(마일스톤)를 쪼개서 추가해보세요. 스크롤을 내릴수록 더 큰 무대가 펼쳐집니다!</div>
+
+    <form class="add-form" id="addMilestoneForm">
+      <input type="text" id="milestoneInput" placeholder="예: 1단계 - 흉성구 피치 브레이크 극복" maxlength="60" required>
+      <button type="submit" class="add-btn">무대 추가</button>
+    </form>
+    <div class="footnote" style="margin-top:14px;">무대를 하나씩 클리어 할 때마다 200 EXP가 터집니다 🔥</div>
   </div>
 
   <!-- DAILY GOALS TAB -->
@@ -560,13 +609,14 @@
 
   const TIERS = [ {label:'쉬움', exp:10}, {label:'보통', exp:20}, {label:'도전', exp:40} ];
   const WEEKLY_REWARD = 80;
+  const ROADMAP_REWARD = 200; // 로드맵 마일스톤 달성 시 엄청난 경험치
   const MAX_YEAR = 2050, MAX_MONTH = 11;
 
   const today = new Date(); today.setHours(0,0,0,0);
   const todayMonday = getMonday(today);
 
   let currentUser = null;
-  let state = { totalExp:0, goals:{}, dailyGoals:{}, notes:{}, repo:[] };
+  let state = { totalExp:0, goals:{}, dailyGoals:{}, notes:{}, repo:[], roadmap:{ ultimate:'', milestones:[] } };
   
   let currentDailyDate = new Date(today);
   let currentWeekMonday = new Date(todayMonday);
@@ -690,7 +740,7 @@
   window.logout = function() {
     localStorage.removeItem(LOGIN_KEY);
     currentUser = null;
-    state = { totalExp:0, goals:{}, dailyGoals:{}, notes:{}, repo:[] };
+    state = { totalExp:0, goals:{}, dailyGoals:{}, notes:{}, repo:[], roadmap:{ ultimate:'', milestones:[] } };
     checkLoginStatus();
     renderAll();
   }
@@ -707,7 +757,7 @@
     }, 3500);
 
     if(!currentUser || !currentUser.userId) {
-      state = { totalExp:0, goals:{}, dailyGoals:{}, notes:{}, repo:[] };
+      state = { totalExp:0, goals:{}, dailyGoals:{}, notes:{}, repo:[], roadmap:{ ultimate:'', milestones:[] } };
       try { renderAll(); } catch(e){}
       clearTimeout(failsafe);
       overlay.style.opacity = '0';
@@ -732,10 +782,11 @@
           goals: (parsed.goals && typeof parsed.goals === 'object') ? parsed.goals : {},
           dailyGoals: (parsed.dailyGoals && typeof parsed.dailyGoals === 'object') ? parsed.dailyGoals : {},
           notes: (parsed.notes && typeof parsed.notes === 'object') ? parsed.notes : {},
-          repo: Array.isArray(parsed.repo) ? parsed.repo : []
+          repo: Array.isArray(parsed.repo) ? parsed.repo : [],
+          roadmap: (parsed.roadmap && typeof parsed.roadmap === 'object') ? parsed.roadmap : { ultimate:'', milestones:[] }
         };
       } else {
-        state = { totalExp:0, goals:{}, dailyGoals:{}, notes:{}, repo:[] };
+        state = { totalExp:0, goals:{}, dailyGoals:{}, notes:{}, repo:[], roadmap:{ ultimate:'', milestones:[] } };
       }
     } catch(e) {
       console.error('불러오기 오류:', e);
@@ -830,6 +881,9 @@
         if(Array.isArray(list)) count += list.filter(g => g && g.done).length;
       });
     }
+    if(state && state.roadmap && Array.isArray(state.roadmap.milestones)) {
+       count += state.roadmap.milestones.filter(g => g && g.done).length;
+    }
     return count;
   }
 
@@ -861,6 +915,128 @@
     t.classList.add('show');
     setTimeout(()=> t.classList.remove('show'), 1600);
   }
+
+  // ---------- Roadmap Map (NEW CONCERT TOUR THEME) ----------
+  window.saveUltimateGoal = function(val) {
+    if(!currentUser) return;
+    if(!state.roadmap) state.roadmap = { ultimate:'', milestones:[] };
+    state.roadmap.ultimate = val;
+    save();
+  }
+
+  function renderRoadmap() {
+    if(!state.roadmap) state.roadmap = { ultimate:'', milestones:[] };
+    document.getElementById('ultimateGoalInput').value = state.roadmap.ultimate || '';
+
+    const list = state.roadmap.milestones || [];
+    const container = document.getElementById('roadmapMapContainer');
+    const emptyNote = document.getElementById('roadmapEmptyNote');
+    
+    if(list.length === 0) {
+      container.style.display = 'none';
+      emptyNote.style.display = 'block';
+      return;
+    }
+
+    container.style.display = 'block';
+    emptyNote.style.display = 'none';
+    
+    const STAGE_EMOJIS = ['🎧', '🎸', '🎪', '🏟️', '👑'];
+    const STAGE_NAMES = ['방구석 연습', '소규모 공연', '대형 콘서트홀', '스타디움 투어', '전설의 무대'];
+    
+    // 캐릭터가 서있을 현재 목표 인덱스 찾기
+    let activeIdx = 0;
+    for(let i=0; i<list.length; i++) {
+        if(list[i].done) activeIdx = i + 1;
+        else break; 
+    }
+    if(activeIdx >= list.length) activeIdx = list.length - 1; // 전부 다 깼으면 맨 마지막에 서있음
+
+    let html = `<div class="roadmap-map">
+                  <div class="map-line"></div>
+                  <div class="map-line-fill" id="mapFill"></div>`;
+
+    list.forEach((m, idx) => {
+      if(!m) return;
+      
+      const tier = Math.min(idx, 4); // 인덱스가 늘어날수록 스테이지 등급업 (최대 4)
+      const isDone = m.done;
+      const isActive = (!isDone && idx === activeIdx) || (isDone && idx === list.length - 1 && activeIdx === list.length - 1);
+      
+      const nodeClass = isDone ? 'map-node done' : (isActive ? 'map-node active' : 'map-node');
+      
+      // 지금 깨고있는 타겟 스테이지 위에 캐릭터 이모지 띄우기
+      let avatarHtml = '';
+      if(isActive) {
+         avatarHtml = `<div class="avatar">🧑‍🎤</div>`;
+      }
+
+      html += `
+        <div class="map-node-wrapper">
+          <div class="${nodeClass}">
+            <div class="stage-icon">
+              ${avatarHtml}
+              ${STAGE_EMOJIS[tier]}
+            </div>
+            <div class="node-card">
+              <div style="flex:1;">
+                <div class="stage-name">${STAGE_NAMES[tier]}</div>
+                <div class="goal-text" style="${isDone ? 'color:var(--muted); text-decoration:line-through;' : 'color:var(--cream);'}">${m.text}</div>
+              </div>
+              <button class="check ${isDone ? 'checked' : ''}" data-idx="${idx}" aria-label="달성 체크"></button>
+              <button class="del-btn roadmap-del" data-idx="${idx}" aria-label="삭제">×</button>
+            </div>
+          </div>
+        </div>
+      `;
+    });
+
+    html += `</div>`;
+    container.innerHTML = html;
+
+    // 길(진행률 선) 채우기 애니메이션
+    setTimeout(() => {
+        const fill = document.getElementById('mapFill');
+        if(fill) {
+            const pct = list.length <= 1 ? (list[0].done ? 100 : 0) : (activeIdx / (list.length - 1)) * 100;
+            fill.style.height = `calc(${pct}% - 20px)`; 
+        }
+    }, 50);
+
+    // 이벤트 리스너 달아주기
+    container.querySelectorAll('.check').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        const idx = Number(e.currentTarget.dataset.idx);
+        toggleRoadmap(idx);
+      });
+    });
+    
+    container.querySelectorAll('.roadmap-del').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        const idx = Number(e.currentTarget.dataset.idx);
+        deleteRoadmap(idx);
+      });
+    });
+  }
+
+  window.toggleRoadmap = function(idx) {
+    if(!currentUser) { alert('로그인 후 이용 가능합니다.'); return; }
+    const m = state.roadmap.milestones[idx];
+    const before = levelInfo(state.totalExp).level;
+    m.done = !m.done;
+    state.totalExp = Math.max(0, state.totalExp + (m.done ? ROADMAP_REWARD : -ROADMAP_REWARD));
+    if(levelInfo(state.totalExp).level > before) showLevelUpToast();
+    save(); renderHeader(); renderRoadmap();
+  };
+
+  window.deleteRoadmap = function(idx) {
+    if(!currentUser) { alert('로그인 후 이용 가능합니다.'); return; }
+    const m = state.roadmap.milestones[idx];
+    if(m.done) state.totalExp = Math.max(0, state.totalExp - ROADMAP_REWARD);
+    state.roadmap.milestones.splice(idx, 1);
+    save(); renderHeader(); renderRoadmap();
+  };
+
 
   // ---------- Daily Goals ----------
   function renderDaily(){
@@ -1086,7 +1262,7 @@
     } catch (err) {} finally { document.getElementById('loadOverlay').style.display = 'none'; }
   });
 
-  // ---------- Calendar (에러 방어 완전 적용) ----------
+  // ---------- Calendar ----------
   const yearSelect = document.getElementById('yearSelect');
   const monthSelect = document.getElementById('monthSelect');
 
@@ -1301,6 +1477,7 @@
         state.dailyGoals = (parsed.dailyGoals && typeof parsed.dailyGoals === 'object') ? parsed.dailyGoals : {};
         state.notes = (parsed.notes && typeof parsed.notes === 'object') ? parsed.notes : {}; 
         state.repo = Array.isArray(parsed.repo) ? parsed.repo : [];
+        state.roadmap = (parsed.roadmap && typeof parsed.roadmap === 'object') ? parsed.roadmap : { ultimate:'', milestones:[] };
         save(); renderAll();
       }catch(err){ alert('파일을 읽을 수 없어요.'); }
     };
@@ -1314,6 +1491,7 @@
     document.querySelectorAll('.tab-btn').forEach(b => b.classList.toggle('active', b.dataset.tab === tab));
     document.getElementById('dailyPanel').style.display = tab === 'daily' ? 'block' : 'none';
     document.getElementById('goalsPanel').style.display = tab === 'goals' ? 'block' : 'none';
+    document.getElementById('roadmapPanel').style.display = tab === 'roadmap' ? 'block' : 'none';
     document.getElementById('repoPanel').style.display = tab === 'repo' ? 'block' : 'none';
     document.getElementById('calPanel').style.display = tab === 'cal' ? 'block' : 'none';
   }
@@ -1325,6 +1503,7 @@
       populateYearSelect(); 
       renderDaily();
       renderGoals(); 
+      renderRoadmap();
       renderRepo(); 
       renderCalendar(); 
     }
