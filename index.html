@@ -118,7 +118,7 @@
   }
   .tabs::-webkit-scrollbar { display: none; }
   .tab-btn{
-    flex:1; padding:10px 12px; background:var(--bg-panel); border:1px solid var(--line);
+    flex:none; padding:10px 14px; background:var(--bg-panel); border:1px solid var(--line);
     color:var(--muted); font-family:'Work Sans', sans-serif; font-weight:600; font-size:13px;
     border-radius:10px; cursor:pointer; transition:all .2s; white-space:nowrap;
   }
@@ -237,6 +237,45 @@
   .avatar { position: absolute; top: -30px; font-size: 32px; animation: bounce 1s infinite; z-index: 10; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.4)); }
   @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
 
+  /* ---------- Game / Pet / Gacha / Dungeon Styles (NEW) ---------- */
+  .game-section { background:var(--bg-panel-2); border-radius:14px; border:1px solid var(--amber-dim); padding:18px; margin-bottom:18px; }
+  .game-section-title { font-family:'Fraunces', serif; font-size:16px; color:var(--amber); margin-bottom:12px; display:flex; justify-content:space-between; align-items:center; }
+  
+  /* Pet Info */
+  .pet-info-box { display:flex; align-items:center; gap:16px; margin-bottom:14px; }
+  .pet-avatar { font-size: 60px; animation: float 2s ease-in-out infinite; }
+  @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
+  .pet-details { flex:1; }
+  .pet-name { font-family:'Fraunces', serif; font-size:18px; color:var(--cream); font-weight:700; margin-bottom:4px; }
+  .pet-stat-row { font-size:12px; color:var(--muted); font-family:'JetBrains Mono', monospace; margin-bottom:4px; }
+  .feed-btn { background:var(--amber); color:#20160a; padding:6px 12px; font-size:12px; font-weight:700; border:none; border-radius:8px; cursor:pointer; transition:all 0.2s; }
+  .feed-btn:hover:not(:disabled) { filter:brightness(1.1); }
+  .feed-btn:disabled { background:var(--bg-panel); color:var(--muted); border:1px solid var(--line); cursor:not-allowed; }
+
+  /* Gacha */
+  .gacha-btn { width:100%; background:linear-gradient(45deg, #d9b23c, #e8a33d); color:#20160a; padding:12px; font-size:15px; font-weight:700; border:none; border-radius:10px; cursor:pointer; margin-bottom:12px; font-family:'Work Sans'; box-shadow:0 4px 12px rgba(232,163,61,0.2); }
+  .gacha-btn:hover { transform:translateY(-2px); box-shadow:0 6px 16px rgba(232,163,61,0.3); }
+  .gacha-result { text-align:center; font-size:14px; font-weight:700; padding:10px; border-radius:8px; margin-bottom:12px; display:none; animation: popIn 0.3s ease; }
+  @keyframes popIn { 0% { transform:scale(0.8); opacity:0; } 100% { transform:scale(1); opacity:1; } }
+  
+  .inv-container { max-height:160px; overflow-y:auto; background:var(--bg-stage); padding:10px; border-radius:8px; border:1px solid var(--line); display:flex; flex-direction:column; gap:6px; }
+  .inv-item { display:flex; justify-content:space-between; align-items:center; padding:8px 10px; background:var(--bg-panel); border:1px solid var(--line); border-radius:6px; cursor:pointer; transition:all 0.2s; }
+  .inv-item:hover { border-color:var(--amber-dim); }
+  .inv-item.equipped { border-color:var(--amber); box-shadow:0 0 8px rgba(232,163,61,0.2); background:linear-gradient(90deg, rgba(232,163,61,0.05), transparent); }
+  .inv-item-name { font-size:13px; font-weight:600; }
+  .inv-item-atk { font-family:'JetBrains Mono', monospace; font-size:11px; color:var(--muted); }
+
+  /* Dungeon */
+  .boss-area { text-align:center; padding:10px 0; }
+  .boss-emoji { font-size:70px; animation: shake 2s infinite; margin-bottom:10px; }
+  @keyframes shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-4px) rotate(-5deg); } 75% { transform: translateX(4px) rotate(5deg); } }
+  .boss-name { font-family:'Fraunces', serif; font-size:18px; font-weight:700; color:var(--burgundy); margin-bottom:10px; }
+  .boss-hp-track { height:16px; background:var(--bg-stage); border-radius:8px; margin:0 auto 16px; width:90%; overflow:hidden; border:1px solid var(--line); position:relative; }
+  .boss-hp-fill { height:100%; background:var(--burgundy); transition:width 0.2s; }
+  .boss-hp-text { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; font-family:'JetBrains Mono', monospace; font-size:10px; font-weight:700; color:var(--cream); text-shadow:0 1px 2px rgba(0,0,0,0.8); }
+  .atk-btn { background:var(--burgundy); color:var(--cream); padding:12px 24px; font-size:14px; font-weight:700; border:none; border-radius:999px; cursor:pointer; font-family:'Work Sans'; box-shadow:0 4px 12px rgba(138,67,72,0.3); }
+  .atk-btn:hover { background:#a14e54; transform:scale(1.05); }
+
   /* ---------- Calendar view ---------- */
   .cal-head{display:flex; align-items:center; justify-content:space-between; gap:8px; margin-bottom:14px; flex-wrap:wrap;}
   .cal-title{font-family:'Fraunces', serif; font-weight:600; font-size:17px;}
@@ -345,7 +384,7 @@
   .modal-goto{background:none; color:var(--amber); border-color:var(--amber-dim); flex:1;}
   .modal-goto:hover{border-color:var(--amber);}
 
-  /* ---------- Stats & Sliders (NEW) ---------- */
+  /* ---------- Stats & Sliders ---------- */
   .stat-sliders { margin-bottom:12px; background:rgba(232,163,61,0.03); border:1px solid var(--line); border-radius:8px; padding:12px; }
   .stat-row { display:flex; align-items:center; gap:10px; margin-bottom:8px; }
   .stat-row:last-child { margin-bottom:0; }
@@ -353,7 +392,6 @@
   .stat-slider { flex:1; -webkit-appearance:none; background:var(--bg-stage); height:4px; border-radius:2px; outline:none; }
   .stat-slider::-webkit-slider-thumb { -webkit-appearance:none; width:14px; height:14px; border-radius:50%; background:var(--amber); cursor:pointer; border:2px solid var(--bg-panel-2); box-shadow:0 0 4px rgba(0,0,0,0.5); }
   .stat-val { width:16px; font-family:'JetBrains Mono', monospace; font-size:12px; color:var(--amber); text-align:right; }
-
   .time-inputs { display:flex; gap:10px; margin-bottom:12px; }
   .time-col { flex:1; display:flex; flex-direction:column; gap:4px; }
   .time-col label { font-size:11px; color:var(--muted); font-weight:600; }
@@ -368,7 +406,7 @@
 <div class="load-overlay" id="loadOverlay">
   <div id="loadStatus">데이터 확인 중…</div>
 </div>
-<div class="toast" id="toast">LEVEL UP!</div>
+<div class="toast" id="toast">LEVEL UP + 100🪙!</div>
 <div class="app">
 
   <div class="marquee">
@@ -380,8 +418,13 @@
         <button class="auth-btn logout" id="logoutBtn" onclick="logout()" style="display:none;">로그아웃</button>
       </div>
     </div>
+    
+    <!-- 레벨업 뱃지 & 코인 뱃지 -->
     <div style="display:flex; justify-content:space-between; align-items:center;">
       <div class="level-badge"><span class="dot"></span><span class="lv-num" id="lvNum">Lv.1</span><span class="total-done" id="totalDoneDisplay">(총 달성: 0회)</span></div>
+      <div class="level-badge" style="background:var(--bg-panel-2); border-color:var(--amber-dim); padding-left:14px;">
+        <span style="font-size:16px;">🪙</span> <span class="lv-num" id="coinCount" style="margin-left:6px;">0</span>
+      </div>
     </div>
     <div class="meter-row">
       <div class="meter" id="meter"></div>
@@ -392,10 +435,66 @@
   <div class="tabs">
     <button class="tab-btn active" data-tab="daily">일일</button>
     <button class="tab-btn" data-tab="goals">주간</button>
+    <button class="tab-btn" data-tab="game">미니게임 🎮</button> <!-- NEW GAME TAB -->
     <button class="tab-btn" data-tab="roadmap">로드맵 🗺️</button>
-    <button class="tab-btn" data-tab="stats">분석 📊</button> <!-- NEW TAB -->
+    <button class="tab-btn" data-tab="stats">분석 📊</button>
     <button class="tab-btn" data-tab="repo">레퍼토리</button>
     <button class="tab-btn" data-tab="cal">달력</button>
+  </div>
+
+  <!-- GAME TAB (Pet + Gacha + Dungeon) -->
+  <div class="panel" id="gamePanel" style="display:none;">
+    
+    <!-- 1. 캐릭터 정보 (Pet) -->
+    <div class="game-section">
+      <div class="game-section-title">내 보컬 아바타 🧑‍🎤</div>
+      <div class="pet-info-box">
+        <div class="pet-avatar" id="gamePetEmoji">🥚</div>
+        <div class="pet-details">
+          <div class="pet-name" id="gamePetName">알</div>
+          <div class="pet-stat-row">아바타 기본 ATK: <span id="gamePetAtk" style="color:var(--cream); font-weight:700;">10</span></div>
+          <div class="pet-stat-row">장착 장비 ATK: <span id="gameEquipAtk" style="color:var(--amber); font-weight:700;">+0</span></div>
+          <div class="pet-stat-row" style="margin-top:6px; color:var(--sage);">총 전투력(ATK): <strong id="gameTotalAtk" style="font-size:14px;">10</strong></div>
+        </div>
+      </div>
+      <div style="display:flex; gap:10px; align-items:center;">
+        <div class="progress-wrap" style="flex:1; margin-bottom:0;">
+          <div class="progress-top" style="margin-bottom:2px;"><span class="meter-label" style="font-size:10px;">성장치</span><span class="pct" id="gamePetProgressPct" style="font-size:10px;">0 / 100</span></div>
+          <div class="progress-track" style="height:6px;"><div class="progress-fill" id="gamePetProgressFill" style="width:0%; background:linear-gradient(90deg, #8ca07d, var(--amber));"></div></div>
+        </div>
+        <button class="feed-btn" id="gameFeedBtn" onclick="feedPet()">트레이닝 (50 🪙)</button>
+      </div>
+    </div>
+
+    <!-- 2. 가챠 상점 -->
+    <div class="game-section">
+      <div class="game-section-title">신비한 보컬 장비 뽑기 🎰</div>
+      <button class="gacha-btn" onclick="drawGacha()">장비 상자 열기 (100 🪙)</button>
+      <div id="gachaResultMsg" class="gacha-result"></div>
+      
+      <div style="font-size:12px; color:var(--muted); font-weight:600; margin-bottom:6px;">장비 인벤토리 (클릭하여 장착)</div>
+      <div class="inv-container" id="inventoryList">
+        <div class="empty-note" style="padding:10px;">보유한 장비가 없습니다.</div>
+      </div>
+    </div>
+
+    <!-- 3. 보컬 던전 -->
+    <div class="game-section" style="margin-bottom:0; border-color:var(--burgundy);">
+      <div class="game-section-title" style="color:var(--burgundy);">보컬 마왕의 던전 ⚔️</div>
+      <div class="boss-area">
+        <div class="boss-emoji" id="bossEmoji">👺</div>
+        <div class="boss-name" id="bossName">Lv.1 삑사리 고블린</div>
+        
+        <div class="boss-hp-track">
+          <div class="boss-hp-fill" id="bossHpFill" style="width:100%;"></div>
+          <div class="boss-hp-text" id="bossHpText">100 / 100</div>
+        </div>
+        
+        <button class="atk-btn" onclick="attackBoss()">🔥 공격하기 (10 🪙)</button>
+      </div>
+      <div style="text-align:center; font-size:11px; color:var(--muted); margin-top:10px;">보스를 처치하면 대량의 EXP와 코인이 쏟아집니다!</div>
+    </div>
+
   </div>
 
   <!-- ROADMAP TAB -->
@@ -413,10 +512,10 @@
       <input type="text" id="milestoneInput" placeholder="예: 1단계 - 흉성구 피치 브레이크 극복" maxlength="60" required>
       <button type="submit" class="add-btn">무대 추가</button>
     </form>
-    <div class="footnote" style="margin-top:14px;">무대를 하나씩 클리어 할 때마다 200 EXP가 터집니다 🔥</div>
+    <div class="footnote" style="margin-top:14px;">무대를 클리어 할 때마다 200 EXP + 200 🪙 가 터집니다 🔥</div>
   </div>
 
-  <!-- STATS / ANALYSIS TAB (NEW) -->
+  <!-- STATS / ANALYSIS TAB -->
   <div class="panel" id="statsPanel" style="display:none;">
     <div class="cal-head">
       <div class="cal-title">내 보컬 스탯 분석 📊</div>
@@ -543,7 +642,7 @@
     <div class="footnote" style="margin-top:12px;">날짜를 클릭하면 그날의 연습 녹음을 남기거나 목표로 이동할 수 있어요</div>
   </div>
 
-  <div class="footnote">목표를 달성하면 EXP가 쌓이고 레벨이 올라가요 · 2026 – 2050</div>
+  <div class="footnote">퀘스트를 달성하면 EXP와 코인(🪙)이 쌓여요 · 2026 – 2050</div>
   
   <div class="backup-row">
     <button class="backup-btn" id="exportBtn">내 데이터 백업</button>
@@ -561,7 +660,6 @@
     </div>
     <div class="modal-sub" id="dayModalSub"></div>
     
-    <!-- 시간대 트래커 입력창 -->
     <div class="time-inputs">
       <div class="time-col">
         <label>연습 시작 시간</label>
@@ -573,40 +671,14 @@
       </div>
     </div>
 
-    <!-- 스탯 평가 슬라이더 -->
     <div class="stat-sliders">
       <div style="font-size:11px; color:var(--amber); margin-bottom:10px; font-weight:700;">오늘 연습은 어땠나요? (1~5점)</div>
-      
-      <div class="stat-row">
-        <div class="stat-label">음정</div>
-        <input type="range" class="stat-slider" id="stat-pitch" min="1" max="5" value="3" oninput="this.nextElementSibling.textContent=this.value">
-        <div class="stat-val">3</div>
-      </div>
-      <div class="stat-row">
-        <div class="stat-label">박자</div>
-        <input type="range" class="stat-slider" id="stat-rhythm" min="1" max="5" value="3" oninput="this.nextElementSibling.textContent=this.value">
-        <div class="stat-val">3</div>
-      </div>
-      <div class="stat-row">
-        <div class="stat-label">호흡</div>
-        <input type="range" class="stat-slider" id="stat-breath" min="1" max="5" value="3" oninput="this.nextElementSibling.textContent=this.value">
-        <div class="stat-val">3</div>
-      </div>
-      <div class="stat-row">
-        <div class="stat-label">발성</div>
-        <input type="range" class="stat-slider" id="stat-vocal" min="1" max="5" value="3" oninput="this.nextElementSibling.textContent=this.value">
-        <div class="stat-val">3</div>
-      </div>
-      <div class="stat-row">
-        <div class="stat-label">고음</div>
-        <input type="range" class="stat-slider" id="stat-high" min="1" max="5" value="3" oninput="this.nextElementSibling.textContent=this.value">
-        <div class="stat-val">3</div>
-      </div>
-      <div class="stat-row">
-        <div class="stat-label">감정</div>
-        <input type="range" class="stat-slider" id="stat-emotion" min="1" max="5" value="3" oninput="this.nextElementSibling.textContent=this.value">
-        <div class="stat-val">3</div>
-      </div>
+      <div class="stat-row"><div class="stat-label">음정</div><input type="range" class="stat-slider" id="stat-pitch" min="1" max="5" value="3" oninput="this.nextElementSibling.textContent=this.value"><div class="stat-val">3</div></div>
+      <div class="stat-row"><div class="stat-label">박자</div><input type="range" class="stat-slider" id="stat-rhythm" min="1" max="5" value="3" oninput="this.nextElementSibling.textContent=this.value"><div class="stat-val">3</div></div>
+      <div class="stat-row"><div class="stat-label">호흡</div><input type="range" class="stat-slider" id="stat-breath" min="1" max="5" value="3" oninput="this.nextElementSibling.textContent=this.value"><div class="stat-val">3</div></div>
+      <div class="stat-row"><div class="stat-label">발성</div><input type="range" class="stat-slider" id="stat-vocal" min="1" max="5" value="3" oninput="this.nextElementSibling.textContent=this.value"><div class="stat-val">3</div></div>
+      <div class="stat-row"><div class="stat-label">고음</div><input type="range" class="stat-slider" id="stat-high" min="1" max="5" value="3" oninput="this.nextElementSibling.textContent=this.value"><div class="stat-val">3</div></div>
+      <div class="stat-row"><div class="stat-label">감정</div><input type="range" class="stat-slider" id="stat-emotion" min="1" max="5" value="3" oninput="this.nextElementSibling.textContent=this.value"><div class="stat-val">3</div></div>
     </div>
 
     <label class="upload-box" for="dayFile" style="margin-top:0; margin-bottom:12px;">
@@ -630,7 +702,7 @@
   </div>
 </div>
 
-<!-- 로그인 / 회원가입 모달 (이전과 동일) -->
+<!-- 로그인 모달 -->
 <div class="modal-overlay" id="loginModal">
   <div class="modal-box">
     <div class="modal-head"><div class="modal-title">로그인</div><button class="modal-close" onclick="closeAuthModal('loginModal')">×</button></div>
@@ -643,6 +715,7 @@
   </div>
 </div>
 
+<!-- 회원가입 모달 -->
 <div class="modal-overlay" id="signupModal">
   <div class="modal-box">
     <div class="modal-head"><div class="modal-title">회원가입</div><button class="modal-close" onclick="closeAuthModal('signupModal')">×</button></div>
@@ -665,11 +738,41 @@
   const ROADMAP_REWARD = 200; 
   const MAX_YEAR = 2050, MAX_MONTH = 11;
 
+  // 아바타 진화 트리
+  const PET_STAGES = [
+    { min: 0, emoji: '🥚', name: '알', desc: '아직은 조용한 알입니다. 연습의 기운이 필요해요.', baseAtk: 10 },
+    { min: 100, emoji: '🐥', name: '옹알이 병아리', desc: '삐약! 드디어 소리를 내기 시작했어요.', baseAtk: 30 },
+    { min: 300, emoji: '🎤', name: '마이크 슬라임', desc: '마이크와 한 몸이 되어버린 귀여운 슬라임!', baseAtk: 80 },
+    { min: 600, emoji: '🧑‍🎤', name: '방구석 락스타', desc: '제법 그럴싸한 발성을 구사하는 락스타입니다.', baseAtk: 200 },
+    { min: 1000, emoji: '👑', name: '전설의 메인보컬', desc: '모든 무대를 장악할 준비가 된 완벽한 보컬!', baseAtk: 500 }
+  ];
+
+  // 가챠 확률 및 아이템 DB
+  const GACHA_ITEMS = [
+    { rank: '윈터', prob: 0.001, atk: 99999, name: '❄️ 윈터의 마스터 마이크', color: '#00ffff' },
+    { rank: '불가능', prob: 0.01, atk: 10000, name: '🌌 시공간을 가르는 앰프', color: '#ff00ff' },
+    { rank: '전설', prob: 0.1, atk: 2000, name: '👑 전설의 황금 성대', color: '#ffd700' },
+    { rank: '신화', prob: 1.0, atk: 500, name: '🪶 세이렌의 눈물', color: '#ff4500' },
+    { rank: '에픽', prob: 5.0, atk: 150, name: '📘 마스터의 발성 교본', color: '#8a2be2' },
+    { rank: '초희귀', prob: 15.0, atk: 50, name: '💎 빛나는 튜닝 포크', color: '#00bfff' },
+    { rank: '희귀', prob: 30.0, atk: 20, name: '🍬 꿀맛 목캔디 세트', color: '#32cd32' },
+    { rank: '일반', prob: 48.889, atk: 5, name: '💧 미지근한 생수', color: '#a4917d' }
+  ];
+
+  // 던전 보스
+  const BOSS_NAMES = ['음정파괴 고블린 👺', '박자무시 오크 👹', '성대결절 마왕 🧛‍♂️', '불협화음 드래곤 🐉'];
+
   const today = new Date(); today.setHours(0,0,0,0);
   const todayMonday = getMonday(today);
 
   let currentUser = null;
-  let state = { totalExp:0, goals:{}, dailyGoals:{}, notes:{}, repo:[], roadmap:{ ultimate:'', milestones:[] } };
+  // ★ state에 가챠(gacha)와 던전(dungeon) 데이터 추가
+  let state = { 
+    totalExp:0, coins:0, petExp:0, 
+    goals:{}, dailyGoals:{}, notes:{}, repo:[], roadmap:{ ultimate:'', milestones:[] },
+    gacha: { inventory: [], equippedId: null },
+    dungeon: { level: 1, hp: 100, maxHp: 100 }
+  };
   
   let currentDailyDate = new Date(today);
   let currentWeekMonday = new Date(todayMonday);
@@ -689,11 +792,7 @@
   async function apiPost(params) {
     const form = new URLSearchParams();
     Object.entries(params).forEach(([k, v]) => form.append(k, v == null ? '' : String(v)));
-    const res = await fetch(API, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8' },
-      body: form.toString()
-    });
+    const res = await fetch(API, { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8' }, body: form.toString() });
     const text = await res.text();
     try { return JSON.parse(text); } catch (e) { return { ok:false, error: '서버 응답 오류!' }; }
   }
@@ -721,7 +820,8 @@
 
   window.openAuthModal = function(id) { document.getElementById(id).classList.add('show'); }
   window.closeAuthModal = function(id) { document.getElementById(id).classList.remove('show'); }
-  window.doLogin = async function() { /* 생략 없이 기존 유지 */
+  
+  window.doLogin = async function() {
     const userId = document.getElementById('login-id').value.trim();
     const password = document.getElementById('login-pw').value;
     if(!userId || !password) return alert('아이디와 비밀번호를 입력해주세요.');
@@ -734,6 +834,7 @@
       closeAuthModal('loginModal'); checkLoginStatus(); await loadData();
     } catch(e) { document.getElementById('loadOverlay').style.display = 'none'; alert('오류가 발생했습니다.'); }
   }
+  
   window.doSignup = async function() {
     const userId = document.getElementById('su-id').value.trim();
     const password = document.getElementById('su-pw').value;
@@ -748,9 +849,10 @@
       closeAuthModal('signupModal'); checkLoginStatus(); await loadData();
     } catch(e) { document.getElementById('loadOverlay').style.display = 'none'; alert('오류가 발생했습니다.'); }
   }
+  
   window.logout = function() {
     localStorage.removeItem(LOGIN_KEY); currentUser = null;
-    state = { totalExp:0, goals:{}, dailyGoals:{}, notes:{}, repo:[], roadmap:{ ultimate:'', milestones:[] } };
+    state = { totalExp:0, coins:0, petExp:0, goals:{}, dailyGoals:{}, notes:{}, repo:[], roadmap:{ ultimate:'', milestones:[] }, gacha:{inventory:[], equippedId:null}, dungeon:{level:1, hp:100, maxHp:100} };
     checkLoginStatus(); renderAll();
   }
 
@@ -760,7 +862,7 @@
     const failsafe = setTimeout(() => { overlay.style.opacity = '0'; setTimeout(() => { overlay.style.display = 'none'; }, 300); }, 3500);
 
     if(!currentUser) {
-      state = { totalExp:0, goals:{}, dailyGoals:{}, notes:{}, repo:[], roadmap:{ ultimate:'', milestones:[] } };
+      state = { totalExp:0, coins:0, petExp:0, goals:{}, dailyGoals:{}, notes:{}, repo:[], roadmap:{ ultimate:'', milestones:[] }, gacha:{inventory:[], equippedId:null}, dungeon:{level:1, hp:100, maxHp:100} };
       try { renderAll(); } catch(e){}
       clearTimeout(failsafe); overlay.style.opacity = '0'; setTimeout(() => { overlay.style.display = 'none'; }, 300);
       return;
@@ -775,14 +877,18 @@
         const parsed = JSON.parse(myRows[myRows.length - 1][1]);
         state = {
           totalExp: parsed.totalExp || 0,
+          coins: parsed.coins || 0,
+          petExp: parsed.petExp || 0,
           goals: parsed.goals || {},
           dailyGoals: parsed.dailyGoals || {},
           notes: parsed.notes || {},
           repo: Array.isArray(parsed.repo) ? parsed.repo : [],
-          roadmap: parsed.roadmap || { ultimate:'', milestones:[] }
+          roadmap: parsed.roadmap || { ultimate:'', milestones:[] },
+          gacha: parsed.gacha || { inventory: [], equippedId: null },
+          dungeon: parsed.dungeon || { level: 1, hp: 100, maxHp: 100 }
         };
       } else {
-        state = { totalExp:0, goals:{}, dailyGoals:{}, notes:{}, repo:[], roadmap:{ ultimate:'', milestones:[] } };
+        state = { totalExp:0, coins:0, petExp:0, goals:{}, dailyGoals:{}, notes:{}, repo:[], roadmap:{ ultimate:'', milestones:[] }, gacha:{inventory:[], equippedId:null}, dungeon:{level:1, hp:100, maxHp:100} };
       }
     } catch(e) {}
     try { renderAll(); } catch(e) {}
@@ -791,21 +897,7 @@
   
   async function save(){
     if(!currentUser) return;
-    try{
-      await apiPost({ action: 'append', sheet: 'vocal_log', row: JSON.stringify([ currentUser.userId, JSON.stringify(state), new Date().toLocaleString() ]) });
-    }catch(e){}
-  }
-
-  // ---------- File Upload ----------
-  function fileToBase64(file) {
-    return new Promise((res, rej) => { const r = new FileReader(); r.onload = () => res(String(r.result).split(',')[1]); r.onerror = rej; r.readAsDataURL(file); });
-  }
-  async function uploadFileToGas(file) {
-    if (!file) return { url: '', name: '' };
-    if (file.size > 4*1024*1024) { alert('4MB 이하만 가능합니다.'); throw new Error('용량 초과'); }
-    const base64 = await fileToBase64(file);
-    const res = await apiPost({ action: 'uploadFile', fileName: file.name, mimeType: file.type || 'application/octet-stream', base64: base64 });
-    return { url: res.url || res.fileUrl || '', name: res.name || file.name };
+    try{ await apiPost({ action: 'append', sheet: 'vocal_log', row: JSON.stringify([ currentUser.userId, JSON.stringify(state), new Date().toLocaleString() ]) }); }catch(e){}
   }
 
   // ---------- Helpers ----------
@@ -813,6 +905,26 @@
   function fmtKey(d){ return d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0'); }
   function addDays(d, n){ const nd = new Date(d); nd.setDate(nd.getDate()+n); return nd; }
   function sameDay(a,b){ return a.getFullYear()===b.getFullYear() && a.getMonth()===b.getMonth() && a.getDate()===b.getDate(); }
+  function weekRangeLabel(monday){
+    const sunday = addDays(monday, 6); const sameMonth = monday.getMonth() === sunday.getMonth();
+    const l = (monday.getMonth()+1) + '.' + monday.getDate(); const r = (sameMonth ? '' : (sunday.getMonth()+1)+'.') + sunday.getDate();
+    return { main: monday.getFullYear() + '년 ' + (monday.getMonth()+1) + '월', sub: l + ' – ' + r };
+  }
+
+  // ★★★ EXP & COIN 처리 통합 엔진 ★★★
+  function handleExpAndCoin(expAmount) {
+    const beforeLevel = levelInfo(state.totalExp).level;
+    state.totalExp = Math.max(0, state.totalExp + expAmount);
+    
+    if(!state.coins) state.coins = 0;
+    state.coins = Math.max(0, state.coins + expAmount); 
+
+    const afterLevel = levelInfo(state.totalExp).level;
+    if (afterLevel > beforeLevel) {
+      showLevelUpToast();
+      state.coins += (afterLevel - beforeLevel) * 100; // 레벨업 100 코인 잭팟!
+    }
+  }
 
   // ---------- Header ----------
   function levelInfo(totalExp){ let level = 1, remaining = totalExp, need = 100; while(remaining >= need){ remaining -= need; level += 1; need += 50; } return { level, into: remaining, need }; }
@@ -826,6 +938,7 @@
   function renderHeader(){
     const info = levelInfo(state.totalExp || 0);
     document.getElementById('lvNum').textContent = `Lv.${info.level}`;
+    document.getElementById('coinCount').textContent = state.coins || 0; 
     document.getElementById('totalDoneDisplay').textContent = `(총 달성: ${getTotalDoneCount()}회)`;
     document.getElementById('meterLabel').textContent = info.into + ' / ' + info.need;
     const meter = document.getElementById('meter');
@@ -833,7 +946,184 @@
     meter.innerHTML = '';
     for(let i=0;i<12;i++){ const seg = document.createElement('i'); if(i < filled) seg.classList.add('on'); meter.appendChild(seg); }
   }
-  function showLevelUpToast(){ const t = document.getElementById('toast'); t.classList.add('show'); setTimeout(()=> t.classList.remove('show'), 1600); }
+  function showLevelUpToast(){ const t = document.getElementById('toast'); t.classList.add('show'); setTimeout(()=> t.classList.remove('show'), 2000); }
+
+
+  // ---------- Game Tab (Pet + Gacha + Dungeon) ----------
+  function getPetCurrentStage() {
+    let current = PET_STAGES[0];
+    for(let i=PET_STAGES.length-1; i>=0; i--) {
+      if((state.petExp||0) >= PET_STAGES[i].min) { current = PET_STAGES[i]; break; }
+    }
+    return current;
+  }
+  
+  function getEquippedItem() {
+    if(!state.gacha || !state.gacha.equippedId) return null;
+    return state.gacha.inventory.find(i => i.id === state.gacha.equippedId) || null;
+  }
+
+  function renderGame() {
+    // 1. 아바타 (Pet)
+    const petExp = state.petExp || 0;
+    const coins = state.coins || 0;
+    
+    let currentStage = getPetCurrentStage();
+    let nextStage = PET_STAGES.find(s => s.min > petExp) || null;
+    
+    document.getElementById('gamePetEmoji').textContent = currentStage.emoji;
+    document.getElementById('gamePetName').textContent = currentStage.name;
+    document.getElementById('gamePetAtk').textContent = currentStage.baseAtk;
+    
+    const equipped = getEquippedItem();
+    const equipAtk = equipped ? equipped.atk : 0;
+    document.getElementById('gameEquipAtk').textContent = '+' + equipAtk;
+    document.getElementById('gameTotalAtk').textContent = currentStage.baseAtk + equipAtk;
+    
+    const feedBtn = document.getElementById('gameFeedBtn');
+    if (coins >= 50 && nextStage) {
+      feedBtn.disabled = false; feedBtn.textContent = '트레이닝 (50 🪙)';
+    } else if (!nextStage) {
+      feedBtn.disabled = true; feedBtn.textContent = '최대 레벨 도달!';
+    } else {
+      feedBtn.disabled = true; feedBtn.textContent = '코인 부족 (50🪙)';
+    }
+    
+    if(nextStage) {
+      const range = nextStage.min - currentStage.min;
+      const into = petExp - currentStage.min;
+      const pct = Math.round((into/range)*100);
+      document.getElementById('gamePetProgressPct').textContent = `${petExp} / ${nextStage.min}`;
+      document.getElementById('gamePetProgressFill').style.width = pct + '%';
+    } else {
+      document.getElementById('gamePetProgressPct').textContent = 'MAX LEVEL';
+      document.getElementById('gamePetProgressFill').style.width = '100%';
+    }
+
+    // 2. 가챠 인벤토리 렌더링
+    const invContainer = document.getElementById('inventoryList');
+    invContainer.innerHTML = '';
+    const inv = state.gacha.inventory || [];
+    if(inv.length === 0) {
+      invContainer.innerHTML = '<div class="empty-note" style="padding:10px;">아직 뽑은 장비가 없습니다.<br>상자를 열어보세요!</div>';
+    } else {
+      // 최신 획득순 정렬
+      [...inv].reverse().forEach(item => {
+        const isEquipped = item.id === state.gacha.equippedId;
+        const div = document.createElement('div');
+        div.className = 'inv-item' + (isEquipped ? ' equipped' : '');
+        div.innerHTML = `
+          <div style="flex:1;">
+            <div class="inv-item-name" style="color:${item.color}">${item.name}</div>
+            <div class="inv-item-atk">공격력: +${item.atk}</div>
+          </div>
+          ${isEquipped ? '<div style="font-size:11px; font-weight:700; color:var(--amber);">장착됨 ✓</div>' : '<button class="nav-btn" style="width:auto; padding:0 8px; height:26px; font-size:11px;">장착</button>'}
+        `;
+        if(!isEquipped) {
+          div.querySelector('button').onclick = () => {
+            state.gacha.equippedId = item.id;
+            save(); renderGame();
+          };
+        }
+        invContainer.appendChild(div);
+      });
+    }
+
+    // 3. 던전 렌더링
+    if(!state.dungeon) state.dungeon = { level: 1, hp: 100, maxHp: 100 };
+    const bossNameIndex = (state.dungeon.level - 1) % BOSS_NAMES.length;
+    const bossFullName = BOSS_NAMES[bossNameIndex];
+    const emojiMatch = bossFullName.match(/[\uD800-\uDBFF][\uDC00-\uDFFF]|\p{Emoji_Presentation}/gu);
+    const bEmoji = emojiMatch ? emojiMatch[0] : '👺';
+    
+    document.getElementById('bossEmoji').textContent = bEmoji;
+    document.getElementById('bossName').textContent = `Lv.${state.dungeon.level} ${bossFullName.replace(bEmoji, '').trim()}`;
+    
+    const hpPct = Math.max(0, Math.round((state.dungeon.hp / state.dungeon.maxHp) * 100));
+    document.getElementById('bossHpFill').style.width = hpPct + '%';
+    document.getElementById('bossHpText').textContent = `${state.dungeon.hp} / ${state.dungeon.maxHp}`;
+  }
+
+  window.feedPet = function() {
+    if(!currentUser) return;
+    if((state.coins||0) < 50) return;
+    state.coins -= 50;
+    state.petExp = (state.petExp||0) + 50;
+    save(); renderHeader(); renderGame();
+    
+    const emoji = document.getElementById('gamePetEmoji');
+    emoji.style.transform = 'scale(1.4)';
+    setTimeout(() => emoji.style.transform = 'scale(1)', 200);
+  }
+
+  window.drawGacha = function() {
+    if(!currentUser) return;
+    if((state.coins||0) < 100) return alert('상자를 열려면 100 코인이 필요합니다!');
+    
+    state.coins -= 100;
+
+    // 가챠 확률 로직
+    const rand = Math.random() * 100; 
+    let cumulative = 0;
+    let drawnItem = GACHA_ITEMS[GACHA_ITEMS.length - 1]; // 기본 일반
+    for (const item of GACHA_ITEMS) {
+        cumulative += item.prob;
+        if (rand <= cumulative) { drawnItem = item; break; }
+    }
+
+    const newItem = { id: Date.now(), ...drawnItem };
+    if(!state.gacha) state.gacha = { inventory: [], equippedId: null };
+    state.gacha.inventory.push(newItem);
+    
+    // 첫 장비면 자동 장착
+    if(!state.gacha.equippedId) state.gacha.equippedId = newItem.id;
+
+    save(); renderHeader(); renderGame();
+
+    const msgBox = document.getElementById('gachaResultMsg');
+    msgBox.style.display = 'block';
+    msgBox.style.background = `linear-gradient(45deg, var(--bg-panel), ${drawnItem.color}33)`;
+    msgBox.style.border = `1px solid ${drawnItem.color}`;
+    msgBox.innerHTML = `<span style="color:var(--muted); font-size:11px;">[${drawnItem.rank}]</span><br><span style="color:${drawnItem.color}; font-size:16px;">${drawnItem.name} 획득!</span>`;
+    
+    setTimeout(() => { msgBox.style.display = 'none'; }, 4000);
+  }
+
+  window.attackBoss = function() {
+    if(!currentUser) return;
+    if((state.coins||0) < 10) return alert('공격하려면 10 코인이 필요합니다!');
+    state.coins -= 10;
+
+    const pet = getPetCurrentStage();
+    const equipped = getEquippedItem();
+    const totalAtk = pet.baseAtk + (equipped ? equipped.atk : 0);
+
+    // 공격 데미지에 약간의 랜덤성 (80% ~ 120%) 부여
+    const dmg = Math.floor(totalAtk * (0.8 + Math.random() * 0.4));
+    
+    state.dungeon.hp -= dmg;
+    
+    // 타격 이펙트 (보스 이모지 흔들기 강화)
+    const bEmoji = document.getElementById('bossEmoji');
+    bEmoji.style.transform = 'scale(0.8) rotate(-15deg)';
+    bEmoji.style.filter = 'drop-shadow(0 0 10px red)';
+    setTimeout(() => { bEmoji.style.transform = 'none'; bEmoji.style.filter = 'none'; }, 150);
+
+    if(state.dungeon.hp <= 0) {
+      // 보스 처치!
+      const reward = state.dungeon.level * 150; // 던전 레벨 * 150의 파격적인 경험치/코인 보상
+      alert(`🎉 보스 처치 성공!\n보상으로 ${reward} EXP 와 코인을 획득했습니다!`);
+      
+      handleExpAndCoin(reward);
+
+      state.dungeon.level += 1;
+      state.dungeon.maxHp = Math.floor(state.dungeon.maxHp * 1.6);
+      state.dungeon.hp = state.dungeon.maxHp;
+    }
+    
+    save(); renderHeader(); renderGame();
+  }
+
 
   // ---------- Roadmap ----------
   window.saveUltimateGoal = function(val) { if(!currentUser) return; state.roadmap.ultimate = val; save(); }
@@ -881,13 +1171,13 @@
     }, 50);
   }
   window.toggleRoadmap = function(idx) {
-    if(!currentUser) return; const m = state.roadmap.milestones[idx]; const before = levelInfo(state.totalExp).level;
-    m.done = !m.done; state.totalExp = Math.max(0, state.totalExp + (m.done ? ROADMAP_REWARD : -ROADMAP_REWARD));
-    if(levelInfo(state.totalExp).level > before) showLevelUpToast(); save(); renderHeader(); renderRoadmap();
+    if(!currentUser) return; const m = state.roadmap.milestones[idx];
+    m.done = !m.done; handleExpAndCoin(m.done ? ROADMAP_REWARD : -ROADMAP_REWARD);
+    save(); renderHeader(); renderRoadmap(); 
   };
   window.deleteRoadmap = function(idx) {
     if(!currentUser) return; const m = state.roadmap.milestones[idx];
-    if(m.done) state.totalExp = Math.max(0, state.totalExp - ROADMAP_REWARD);
+    if(m.done) handleExpAndCoin(-ROADMAP_REWARD);
     state.roadmap.milestones.splice(idx, 1); save(); renderHeader(); renderRoadmap();
   };
   document.getElementById('addMilestoneForm').addEventListener('submit', (e) => {
@@ -898,24 +1188,35 @@
     document.getElementById('milestoneInput').value = ''; save(); renderRoadmap();
   });
 
-  // ---------- Daily/Week/Repo Logic (유지) ----------
+  // ---------- Daily Logic ----------
   function renderDaily(){
     const key = fmtKey(currentDailyDate);
     document.getElementById('dailyRange').firstChild.textContent = `${currentDailyDate.getFullYear()}년 ${currentDailyDate.getMonth()+1}월 ${currentDailyDate.getDate()}일 `;
     document.getElementById('dailySub').textContent = ['일','월','화','수','목','금','토'][currentDailyDate.getDay()] + '요일';
     document.getElementById('gotoTodayDaily').style.display = sameDay(currentDailyDate, today) ? 'none' : 'inline-block';
+    
     const list = state.dailyGoals[key] || [];
     const ul = document.getElementById('dailyList'); ul.innerHTML = '';
-    if(list.length === 0){ document.getElementById('dailyEmptyNote').style.display = 'block'; document.getElementById('dailyProgressWrap').style.display = 'none'; } 
-    else {
+    if(list.length === 0){ 
+      document.getElementById('dailyEmptyNote').style.display = 'block'; document.getElementById('dailyProgressWrap').style.display = 'none'; 
+    } else {
       document.getElementById('dailyEmptyNote').style.display = 'none'; document.getElementById('dailyProgressWrap').style.display = 'block';
       const pct = Math.round((list.filter(g=>g.done).length / list.length) * 100);
       document.getElementById('dailyProgressPct').textContent = pct + '%'; document.getElementById('dailyProgressFill').style.width = pct + '%';
+      
       list.forEach((g, idx) => {
         const li = document.createElement('li'); li.className = 'goal-row' + (g.done ? ' done' : '');
         li.innerHTML = `<button class="check ${g.done?'checked':''}"></button><span class="goal-text">${g.text}</span><span class="tier-badge">${TIERS[g.tier].label} · ${TIERS[g.tier].exp} EXP</span><button class="del-btn">×</button>`;
-        li.querySelector('.check').onclick = () => { const b=levelInfo(state.totalExp).level; g.done=!g.done; state.totalExp=Math.max(0, state.totalExp+(g.done?TIERS[g.tier].exp:-TIERS[g.tier].exp)); if(levelInfo(state.totalExp).level>b)showLevelUpToast(); save(); renderHeader(); renderDaily(); renderCalendar(); };
-        li.querySelector('.del-btn').onclick = () => { if(g.done)state.totalExp=Math.max(0,state.totalExp-TIERS[g.tier].exp); state.dailyGoals[key].splice(idx,1); if(state.dailyGoals[key].length===0)delete state.dailyGoals[key]; save(); renderHeader(); renderDaily(); renderCalendar(); };
+        li.querySelector('.check').onclick = () => { 
+          if(!currentUser) return; g.done=!g.done; 
+          handleExpAndCoin(g.done ? TIERS[g.tier].exp : -TIERS[g.tier].exp);
+          save(); renderHeader(); renderDaily(); renderCalendar();
+        };
+        li.querySelector('.del-btn').onclick = () => { 
+          if(!currentUser) return; if(g.done) handleExpAndCoin(-TIERS[g.tier].exp);
+          state.dailyGoals[key].splice(idx,1); if(state.dailyGoals[key].length===0) delete state.dailyGoals[key]; 
+          save(); renderHeader(); renderDaily(); renderCalendar(); 
+        };
         ul.appendChild(li);
       });
     }
@@ -930,6 +1231,96 @@
   document.getElementById('prevDay').onclick = () => { currentDailyDate = addDays(currentDailyDate,-1); renderDaily(); };
   document.getElementById('nextDay').onclick = () => { currentDailyDate = addDays(currentDailyDate,1); renderDaily(); };
   document.getElementById('gotoTodayDaily').onclick = () => { currentDailyDate = new Date(today); renderDaily(); };
+
+  // ---------- Weekly Goals Logic ----------
+  function renderGoals(){
+    const key = fmtKey(currentWeekMonday);
+    const label = weekRangeLabel(currentWeekMonday);
+    document.getElementById('weekRange').firstChild.textContent = label.main;
+    document.getElementById('weekSub').textContent = label.sub;
+    document.getElementById('prevWeek').disabled = currentWeekMonday <= todayMonday;
+    document.getElementById('nextWeek').disabled = currentWeekMonday >= getMonday(new Date(MAX_YEAR, MAX_MONTH, 31));
+    document.getElementById('gotoToday').style.display = sameDay(currentWeekMonday, todayMonday) ? 'none' : 'inline-block';
+
+    const list = state.goals[key] || [];
+    const ul = document.getElementById('goalList'); ul.innerHTML = '';
+    const emptyNote = document.getElementById('emptyNote');
+    const progressWrap = document.getElementById('progressWrap');
+    
+    if(list.length === 0){
+      emptyNote.style.display = 'block'; progressWrap.style.display = 'none';
+    } else {
+      emptyNote.style.display = 'none'; progressWrap.style.display = 'block';
+      const pct = Math.round((list.filter(g => g && g.done).length / list.length) * 100);
+      document.getElementById('progressPct').textContent = pct + '%'; document.getElementById('progressFill').style.width = pct + '%';
+      
+      list.forEach((g, idx) => {
+        if(!g) return;
+        const li = document.createElement('li'); li.className = 'goal-row' + (g.done ? ' done' : '');
+        li.innerHTML = `<button class="check ${g.done?'checked':''}"></button><span class="goal-text">${g.text}</span><span class="tier-badge" style="color:var(--amber); border-color:var(--amber);">주간 보상 · ${WEEKLY_REWARD} EXP</span><button class="del-btn">×</button>`;
+        li.querySelector('.check').onclick = () => {
+          if(!currentUser) return; g.done = !g.done;
+          handleExpAndCoin(g.done ? WEEKLY_REWARD : -WEEKLY_REWARD);
+          save(); renderHeader(); renderGoals();
+        };
+        li.querySelector('.del-btn').onclick = () => {
+          if(!currentUser) return; if(g.done) handleExpAndCoin(-WEEKLY_REWARD);
+          state.goals[key].splice(idx, 1); if(state.goals[key].length === 0) delete state.goals[key];
+          save(); renderHeader(); renderGoals(); 
+        };
+        ul.appendChild(li);
+      });
+    }
+  }
+  document.getElementById('addWeekForm').addEventListener('submit', (e) => {
+    e.preventDefault(); if(!currentUser) { openAuthModal('loginModal'); return; }
+    const text = document.getElementById('weekGoalInput').value.trim(); if(!text) return;
+    const key = fmtKey(currentWeekMonday); if(!state.goals[key] || !Array.isArray(state.goals[key])) state.goals[key] = [];
+    state.goals[key].push({ id: Date.now() + '', text, done: false });
+    document.getElementById('weekGoalInput').value = ''; save(); renderGoals();
+  });
+  document.getElementById('prevWeek').onclick = () => { currentWeekMonday = addDays(currentWeekMonday, -7); renderGoals(); };
+  document.getElementById('nextWeek').onclick = () => { currentWeekMonday = addDays(currentWeekMonday, 7); renderGoals(); };
+  document.getElementById('gotoToday').onclick = () => { currentWeekMonday = new Date(todayMonday); renderGoals(); };
+
+  // ---------- Repo Logic ----------
+  window.showRepoFile = function() {
+    const file = document.getElementById('repoFile').files[0];
+    document.getElementById('repoFileName').textContent = file ? `${file.name} · ${(file.size / 1024 / 1024).toFixed(2)}MB` : '4MB 이하의 악보나 MR 파일';
+  }
+  function renderRepo(){
+    const ul = document.getElementById('repoList'); const empty = document.getElementById('repoEmpty'); ul.innerHTML = '';
+    const list = Array.isArray(state.repo) ? state.repo : [];
+    empty.style.display = list.length === 0 ? 'block' : 'none';
+    list.forEach(r => {
+      if(!r) return;
+      const li = document.createElement('li'); li.className = 'goal-row';
+      li.innerHTML =
+        `<div style="flex:1; line-height:1.4; min-width:0;">` +
+          `<div style="font-size:14.5px; font-weight:600; color:var(--cream);">${r.song} <span style="font-size:12.5px; font-weight:400; color:var(--muted);"> - ${r.artist}</span></div>` +
+          (r.keyMemo ? `<div style="font-size:12px; color:var(--amber); margin-top:3px; font-family:var(--font-sans);">Key: ${r.keyMemo}</div>` : '') +
+          (r.fileUrl ? `<a class="file-chip" href="${r.fileUrl}" target="_blank" rel="noopener">📎 ${r.fileName}</a>` : '') +
+        `</div><button class="del-btn">×</button>`;
+      li.querySelector('.del-btn').onclick = () => { if(!currentUser) return; state.repo = state.repo.filter(item => item.id !== r.id); save(); renderRepo(); };
+      ul.appendChild(li);
+    });
+  }
+  document.getElementById('addRepoForm').addEventListener('submit', async (e) => {
+    e.preventDefault(); if(!currentUser) { openAuthModal('loginModal'); return; }
+    const song = document.getElementById('repoSong').value.trim(); const artist = document.getElementById('repoArtist').value.trim();
+    const keyMemo = document.getElementById('repoKey').value.trim(); const fileInput = document.getElementById('repoFile');
+    if(!song || !artist) return;
+    document.getElementById('loadOverlay').style.display = 'flex'; document.getElementById('loadOverlay').style.opacity = '1';
+    document.getElementById('loadStatus').textContent = fileInput.files[0] ? '파일 업로드 및 저장 중...' : '저장 중...';
+    try {
+      let fileUrl = '', fileName = '';
+      if (fileInput.files[0]) { const u = await uploadFileToGas(fileInput.files[0]); fileUrl=u.url; fileName=u.name; }
+      if(!Array.isArray(state.repo)) state.repo = [];
+      state.repo.push({ id: Date.now() + '', song, artist, keyMemo, fileUrl, fileName });
+      document.getElementById('repoSong').value = ''; document.getElementById('repoArtist').value = ''; document.getElementById('repoKey').value = ''; fileInput.value = ''; showRepoFile();
+      await save(); renderRepo();
+    } catch (err) {} finally { document.getElementById('loadOverlay').style.display = 'none'; }
+  });
 
   // ---------- Calendar ----------
   const yearSelect = document.getElementById('yearSelect'); const monthSelect = document.getElementById('monthSelect');
@@ -956,9 +1347,8 @@
   yearSelect.onchange = () => { calYear=Number(yearSelect.value); renderCalendar(); };
   monthSelect.onchange = () => { calMonth=Number(monthSelect.value); renderCalendar(); };
 
-  // ---------- Day Modal (스탯 + 24시간 로직 포함) ----------
+  // ---------- Day Modal ----------
   const dayModal = document.getElementById('dayModal');
-  
   function openDayModal(d){
     modalDate = new Date(d); const k = fmtKey(modalDate);
     document.getElementById('dayModalTitle').textContent = `${modalDate.getFullYear()}.${String(modalDate.getMonth()+1).padStart(2,'0')}.${String(modalDate.getDate()).padStart(2,'0')}`;
@@ -967,190 +1357,109 @@
     const note = state.notes[k] || {};
     document.getElementById('dayModalNote').value = note.text || (typeof note === 'string' ? note : '');
     
-    // 시간 세팅 (저장된 24:00은 input type="time"에 맞게 00:00으로 렌더링해서 오류 방지)
     document.getElementById('dayTimeStart').value = note.timeStart || '';
-    let tEnd = note.timeEnd || '';
-    if(tEnd === '24:00') tEnd = '00:00'; 
+    let tEnd = note.timeEnd || ''; if(tEnd === '24:00') tEnd = '00:00'; 
     document.getElementById('dayTimeEnd').value = tEnd;
 
-    // 스탯 세팅
     const stats = note.stats || [3,3,3,3,3,3];
-    ['pitch','rhythm','breath','vocal','high','emotion'].forEach((id, i) => {
-      const el = document.getElementById('stat-'+id);
-      el.value = stats[i];
-      el.nextElementSibling.textContent = stats[i];
-    });
+    ['pitch','rhythm','breath','vocal','high','emotion'].forEach((id, i) => { const el = document.getElementById('stat-'+id); el.value = stats[i]; el.nextElementSibling.textContent = stats[i]; });
 
-    document.getElementById('dayFile').value = '';
-    const linkDiv = document.getElementById('dayFileLink');
-    if (note.fileUrl) {
-      linkDiv.style.display = 'block'; linkDiv.innerHTML = `<a class="file-chip" href="${note.fileUrl}" target="_blank">기존 녹음: ${note.fileName}</a>`;
-      document.getElementById('dayFileTitle').textContent = '새로운 녹음으로 덮어쓰기';
-    } else {
-      linkDiv.style.display = 'none'; linkDiv.innerHTML = '';
-      document.getElementById('dayFileTitle').textContent = '연습 녹음 첨부 (선택)';
-    }
+    document.getElementById('dayFile').value = ''; const linkDiv = document.getElementById('dayFileLink');
+    if (note.fileUrl) { linkDiv.style.display = 'block'; linkDiv.innerHTML = `<a class="file-chip" href="${note.fileUrl}" target="_blank">기존 녹음: ${note.fileName}</a>`; document.getElementById('dayFileTitle').textContent = '새로운 녹음으로 덮어쓰기';
+    } else { linkDiv.style.display = 'none'; linkDiv.innerHTML = ''; document.getElementById('dayFileTitle').textContent = '연습 녹음 첨부 (선택)'; }
     dayModal.classList.add('show');
   }
   window.closeDayModal = function(){ dayModal.classList.remove('show'); modalDate = null; }
   
   document.getElementById('dayModalSave').onclick = async () => {
     if(!currentUser) return openAuthModal('loginModal');
-    const k = fmtKey(modalDate);
-    const text = document.getElementById('dayModalNote').value.trim();
-    
-    const tStart = document.getElementById('dayTimeStart').value;
-    let tEnd = document.getElementById('dayTimeEnd').value;
-    
-    // ★ 시간대 연속성을 위해 자정에 끝난 연습은 '24:00'으로 치환하여 저장!
+    const k = fmtKey(modalDate); const text = document.getElementById('dayModalNote').value.trim();
+    const tStart = document.getElementById('dayTimeStart').value; let tEnd = document.getElementById('dayTimeEnd').value;
     if(tEnd === '00:00') tEnd = '24:00'; 
-
     const stats = ['pitch','rhythm','breath','vocal','high','emotion'].map(id => Number(document.getElementById('stat-'+id).value));
     const fileInput = document.getElementById('dayFile');
     
-    let existingUrl = '', existingName = '';
-    if(state.notes[k]) { existingUrl = state.notes[k].fileUrl || ''; existingName = state.notes[k].fileName || ''; }
-
-    if(text === '' && !fileInput.files[0] && !existingUrl && !tStart && !tEnd) {
-      delete state.notes[k]; save(); renderCalendar(); renderStats(); closeDayModal(); return;
-    }
-
+    let existingUrl = '', existingName = ''; if(state.notes[k]) { existingUrl = state.notes[k].fileUrl || ''; existingName = state.notes[k].fileName || ''; }
+    if(text === '' && !fileInput.files[0] && !existingUrl && !tStart && !tEnd) { delete state.notes[k]; save(); renderCalendar(); renderStats(); closeDayModal(); return; }
     document.getElementById('loadOverlay').style.display = 'flex'; document.getElementById('loadOverlay').style.opacity = '1';
     try {
-      let fileUrl = existingUrl, fileName = existingName;
-      if (fileInput.files[0]) { const u = await uploadFileToGas(fileInput.files[0]); fileUrl=u.url; fileName=u.name; }
+      let fileUrl = existingUrl, fileName = existingName; if (fileInput.files[0]) { const u = await uploadFileToGas(fileInput.files[0]); fileUrl=u.url; fileName=u.name; }
       state.notes[k] = { text, fileUrl, fileName, timeStart: tStart, timeEnd: tEnd, stats };
       await save(); renderCalendar(); renderStats(); closeDayModal();
     } catch(e){} finally { document.getElementById('loadOverlay').style.display='none'; }
   };
-  document.getElementById('dayModalDelete').onclick = () => {
-    if(!currentUser) return; delete state.notes[fmtKey(modalDate)]; save(); renderCalendar(); renderStats(); closeDayModal();
-  };
+  document.getElementById('dayModalDelete').onclick = () => { if(!currentUser) return; delete state.notes[fmtKey(modalDate)]; save(); renderCalendar(); renderStats(); closeDayModal(); };
   document.getElementById('dayModalGoto').onclick = () => { currentDailyDate = new Date(modalDate); closeDayModal(); switchTab('daily'); };
 
-  // ---------- STATS / ANALYSIS TAB (NEW) ----------
+  // ---------- STATS / ANALYSIS TAB ----------
   function renderStats() {
-    const canvas = document.getElementById('radarChart');
-    if(!canvas) return;
-    const ctx = canvas.getContext('2d');
-    const w = canvas.width, h = canvas.height;
-    const cx = w/2, cy = h/2;
-    const radius = 80;
+    const canvas = document.getElementById('radarChart'); if(!canvas) return;
+    const ctx = canvas.getContext('2d'); const w = canvas.width, h = canvas.height; const cx = w/2, cy = h/2; const radius = 80;
+    let totalStats = [0,0,0,0,0,0]; let count = 0; const timeLogs = [];
 
-    let totalStats = [0,0,0,0,0,0];
-    let count = 0;
-    const timeLogs = [];
-
-    // 데이터 수집
     if(state.notes) {
       Object.keys(state.notes).sort().reverse().forEach(key => {
         const n = state.notes[key];
-        if(n.stats && Array.isArray(n.stats)) {
-          for(let i=0; i<6; i++) totalStats[i] += (n.stats[i] || 3);
-          count++;
-        }
-        if(n.timeStart || n.timeEnd) {
-          timeLogs.push({ date: key, start: n.timeStart||'미입력', end: n.timeEnd||'미입력' });
-        }
+        if(n.stats && Array.isArray(n.stats)) { for(let i=0; i<6; i++) totalStats[i] += (n.stats[i] || 3); count++; }
+        if(n.timeStart || n.timeEnd) { timeLogs.push({ date: key, start: n.timeStart||'미입력', end: n.timeEnd||'미입력' }); }
       });
     }
 
-    if(count === 0) {
-      document.getElementById('statsEmpty').style.display = 'block';
-      ctx.clearRect(0,0,w,h);
+    if(count === 0) { document.getElementById('statsEmpty').style.display = 'block'; ctx.clearRect(0,0,w,h);
     } else {
-      document.getElementById('statsEmpty').style.display = 'none';
-      const avgs = totalStats.map(s => s/count);
-      
-      ctx.clearRect(0,0,w,h);
-      ctx.strokeStyle = '#3a2f26'; ctx.lineWidth = 1;
-      
-      // 배경 거미줄 그리기
-      for(let level=1; level<=5; level++) {
-        ctx.beginPath();
-        for(let i=0; i<6; i++) {
-          const r = radius * (level/5);
-          const angle = -Math.PI/2 + (Math.PI/3)*i;
-          const x = cx + r * Math.cos(angle);
-          const y = cy + r * Math.sin(angle);
-          if(i===0) ctx.moveTo(x,y); else ctx.lineTo(x,y);
-        }
-        ctx.closePath(); ctx.stroke();
-      }
-
-      // 방사형 축 그리기
-      const labels = ['음정', '고음', '감정', '발성', '호흡', '박자'];
-      ctx.fillStyle = '#a4917d'; ctx.font = '600 12px "Work Sans"'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
-      for(let i=0; i<6; i++) {
-        const angle = -Math.PI/2 + (Math.PI/3)*i;
-        ctx.beginPath(); ctx.moveTo(cx, cy); ctx.lineTo(cx + radius*Math.cos(angle), cy + radius*Math.sin(angle)); ctx.stroke();
-        // 라벨 텍스트
-        const tx = cx + (radius+20) * Math.cos(angle);
-        const ty = cy + (radius+15) * Math.sin(angle);
-        ctx.fillText(labels[i], tx, ty);
-      }
-
-      // 내 스탯 폴리곤 그리기
-      ctx.beginPath();
-      for(let i=0; i<6; i++) {
-        const r = radius * (avgs[i]/5);
-        const angle = -Math.PI/2 + (Math.PI/3)*i;
-        const x = cx + r * Math.cos(angle);
-        const y = cy + r * Math.sin(angle);
-        if(i===0) ctx.moveTo(x,y); else ctx.lineTo(x,y);
-      }
-      ctx.closePath();
-      ctx.fillStyle = 'rgba(232,163,61,0.45)'; ctx.fill();
-      ctx.strokeStyle = '#e8a33d'; ctx.lineWidth = 2; ctx.stroke();
-      
-      // 스탯 꼭짓점 점
-      ctx.fillStyle = '#f3ead9';
-      for(let i=0; i<6; i++) {
-        const r = radius * (avgs[i]/5);
-        const angle = -Math.PI/2 + (Math.PI/3)*i;
-        const x = cx + r * Math.cos(angle);
-        const y = cy + r * Math.sin(angle);
-        ctx.beginPath(); ctx.arc(x,y,4,0,Math.PI*2); ctx.fill();
-      }
+      document.getElementById('statsEmpty').style.display = 'none'; const avgs = totalStats.map(s => s/count);
+      ctx.clearRect(0,0,w,h); ctx.strokeStyle = '#3a2f26'; ctx.lineWidth = 1;
+      for(let level=1; level<=5; level++) { ctx.beginPath(); for(let i=0; i<6; i++) { const r = radius * (level/5); const angle = -Math.PI/2 + (Math.PI/3)*i; const x = cx + r * Math.cos(angle); const y = cy + r * Math.sin(angle); if(i===0) ctx.moveTo(x,y); else ctx.lineTo(x,y); } ctx.closePath(); ctx.stroke(); }
+      const labels = ['음정', '고음', '감정', '발성', '호흡', '박자']; ctx.fillStyle = '#a4917d'; ctx.font = '600 12px "Work Sans"'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+      for(let i=0; i<6; i++) { const angle = -Math.PI/2 + (Math.PI/3)*i; ctx.beginPath(); ctx.moveTo(cx, cy); ctx.lineTo(cx + radius*Math.cos(angle), cy + radius*Math.sin(angle)); ctx.stroke(); const tx = cx + (radius+20) * Math.cos(angle); const ty = cy + (radius+15) * Math.sin(angle); ctx.fillText(labels[i], tx, ty); }
+      ctx.beginPath(); for(let i=0; i<6; i++) { const r = radius * (avgs[i]/5); const angle = -Math.PI/2 + (Math.PI/3)*i; const x = cx + r * Math.cos(angle); const y = cy + r * Math.sin(angle); if(i===0) ctx.moveTo(x,y); else ctx.lineTo(x,y); } ctx.closePath(); ctx.fillStyle = 'rgba(232,163,61,0.45)'; ctx.fill(); ctx.strokeStyle = '#e8a33d'; ctx.lineWidth = 2; ctx.stroke();
+      ctx.fillStyle = '#f3ead9'; for(let i=0; i<6; i++) { const r = radius * (avgs[i]/5); const angle = -Math.PI/2 + (Math.PI/3)*i; const x = cx + r * Math.cos(angle); const y = cy + r * Math.sin(angle); ctx.beginPath(); ctx.arc(x,y,4,0,Math.PI*2); ctx.fill(); }
     }
-
-    // 시간대 트래커 목록 그리기
-    const logContainer = document.getElementById('timeLogContainer');
-    const timeEmpty = document.getElementById('timeEmpty');
-    logContainer.innerHTML = '';
-    if(timeLogs.length === 0) {
-      timeEmpty.style.display = 'block';
-    } else {
-      timeEmpty.style.display = 'none';
-      // 최근 10개만 보여주기
-      timeLogs.slice(0, 10).forEach(log => {
-        const div = document.createElement('div'); div.className = 'time-log-row';
-        div.innerHTML = `<div class="time-log-date">${log.date} 연습</div><div class="time-log-time">${log.start} ~ ${log.end}</div>`;
-        logContainer.appendChild(div);
-      });
-    }
+    const logContainer = document.getElementById('timeLogContainer'); const timeEmpty = document.getElementById('timeEmpty'); logContainer.innerHTML = '';
+    if(timeLogs.length === 0) { timeEmpty.style.display = 'block'; } else { timeEmpty.style.display = 'none'; timeLogs.slice(0, 10).forEach(log => { const div = document.createElement('div'); div.className = 'time-log-row'; div.innerHTML = `<div class="time-log-date">${log.date} 연습</div><div class="time-log-time">${log.start} ~ ${log.end}</div>`; logContainer.appendChild(div); }); }
   }
 
-  // ---------- Tabs ----------
+  // ---------- Backup ----------
+  document.getElementById('exportBtn').onclick = () => {
+    if(!currentUser) return alert('데이터를 백업하려면 먼저 로그인해주세요.');
+    const blob = new Blob([JSON.stringify(state, null, 2)], { type: 'application/json' }); const url = URL.createObjectURL(blob);
+    const a = document.createElement('a'); a.href = url; a.download = `vocal-log-${currentUser.userId}-${fmtKey(today)}.json`; document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url);
+  };
+  document.getElementById('importBtn').onclick = () => { if(!currentUser) return alert('데이터를 복구하려면 먼저 로그인해주세요.'); document.getElementById('importFile').click(); };
+  document.getElementById('importFile').onchange = (e) => {
+    const file = e.target.files[0]; if(!file) return; const reader = new FileReader();
+    reader.onload = () => {
+      try{
+        const parsed = JSON.parse(reader.result); if(!confirm('선택한 파일의 내용으로 현재 데이터를 완전히 덮어쓸까요?')) return;
+        state.totalExp = parsed.totalExp || 0; state.coins = parsed.coins || 0; state.petExp = parsed.petExp || 0;
+        state.goals = parsed.goals || {}; state.dailyGoals = parsed.dailyGoals || {}; state.notes = parsed.notes || {}; 
+        state.repo = Array.isArray(parsed.repo) ? parsed.repo : []; state.roadmap = parsed.roadmap || { ultimate:'', milestones:[] };
+        state.gacha = parsed.gacha || {inventory:[], equippedId:null}; state.dungeon = parsed.dungeon || {level:1, hp:100, maxHp:100};
+        save(); renderAll();
+      }catch(err){ alert('파일을 읽을 수 없어요.'); }
+    }; reader.readAsText(file); e.target.value = '';
+  };
+
+  // ---------- Tabs & Render All ----------
   function switchTab(tab){
     activeTab = tab;
     document.querySelectorAll('.tab-btn').forEach(b => b.classList.toggle('active', b.dataset.tab === tab));
     document.getElementById('dailyPanel').style.display = tab === 'daily' ? 'block' : 'none';
     document.getElementById('goalsPanel').style.display = tab === 'goals' ? 'block' : 'none';
+    document.getElementById('gamePanel').style.display = tab === 'game' ? 'block' : 'none';
     document.getElementById('roadmapPanel').style.display = tab === 'roadmap' ? 'block' : 'none';
     document.getElementById('statsPanel').style.display = tab === 'stats' ? 'block' : 'none';
     document.getElementById('repoPanel').style.display = tab === 'repo' ? 'block' : 'none';
     document.getElementById('calPanel').style.display = tab === 'cal' ? 'block' : 'none';
-    
-    if(tab === 'stats') renderStats(); // 스탯 탭 누를때마다 캔버스 리렌더링
+    if(tab === 'stats') renderStats(); 
   }
   document.querySelectorAll('.tab-btn').forEach(b => b.addEventListener('click', () => switchTab(b.dataset.tab)));
 
   function renderAll(){
     try { 
-      renderHeader(); renderCalendar(); renderDaily(); /* 주간, 레퍼토리는 길이상 축약/기존동일하게 작동함 */ 
-      renderRoadmap(); renderStats();
-    } catch(e) {}
+      renderHeader(); populateYearSelect(); renderDaily(); renderGoals(); 
+      renderGame(); renderRepo(); renderRoadmap(); renderStats(); renderCalendar();
+    } catch(e) { console.error('전체 렌더링 에러:', e); }
   }
 
   checkLoginStatus(); loadData();
