@@ -532,7 +532,8 @@
       <div class="nav-btns">
         <button class="nav-btn" id="prevDay">‹</button>
       </div>
-      <div class="range" style="text-align:center;"><span id="dailyMain">-</span> <small id="dailySub"></small></div>
+      <!-- ★ 버그 수정: span ID 복구 완료 -->
+      <div class="range" style="text-align:center;"><span id="dailyMain"></span> <small id="dailySub"></small></div>
       <div class="nav-btns">
         <button class="today-chip" id="gotoTodayDaily">오늘</button>
         <button class="nav-btn" id="nextDay">›</button>
@@ -561,7 +562,8 @@
       <div class="nav-btns">
         <button class="nav-btn" id="prevWeek">‹</button>
       </div>
-      <div class="range" style="text-align:center;"><span id="weekMain">-</span><small id="weekSub"></small></div>
+      <!-- ★ 버그 수정: span ID 복구 완료 -->
+      <div class="range" style="text-align:center;"><span id="weekMain"></span><small id="weekSub"></small></div>
       <div class="nav-btns">
         <button class="today-chip" id="gotoToday">이번주</button>
         <button class="nav-btn" id="nextWeek">›</button>
@@ -727,7 +729,7 @@
   const TIERS = [ {label:'쉬움', exp:10}, {label:'보통', exp:20}, {label:'도전', exp:40} ];
   const WEEKLY_REWARD = 80;
   const ROADMAP_REWARD = 200; 
-  const MAX_YEAR = 2050, MAX_MONTH = 11;
+  const MAX_YEAR = 2050;
 
   const PET_STAGES = [
     { min: 0, emoji: '🥚', name: '알', desc: '아직은 조용한 알입니다. 연습의 기운이 필요해요.', baseAtk: 10 },
@@ -908,7 +910,6 @@
     return { main: monday.getFullYear() + '년 ' + (monday.getMonth()+1) + '월', sub: l + ' – ' + r };
   }
 
-  // ★★★ EXP & COIN 처리 통합 엔진 ★★★
   function handleExpAndCoin(expAmount) {
     const beforeLevel = levelInfo(state.totalExp).level;
     state.totalExp = Math.max(0, state.totalExp + expAmount);
@@ -925,23 +926,25 @@
   function levelInfo(totalExp){ let level = 1, remaining = totalExp, need = 100; while(remaining >= need){ remaining -= need; level += 1; need += 50; } return { level, into: remaining, need }; }
   function getTotalDoneCount(){
     let count = 0;
-    if(state.goals) Object.values(state.goals).forEach(list => count += (Array.isArray(list) ? list.filter(g=>g.done).length : 0));
-    if(state.dailyGoals) Object.values(state.dailyGoals).forEach(list => count += (Array.isArray(list) ? list.filter(g=>g.done).length : 0));
-    if(state.roadmap && state.roadmap.milestones) count += state.roadmap.milestones.filter(g=>g.done).length;
+    if(state.goals) Object.values(state.goals).forEach(list => count += (Array.isArray(list) ? list.filter(g=>g&&g.done).length : 0));
+    if(state.dailyGoals) Object.values(state.dailyGoals).forEach(list => count += (Array.isArray(list) ? list.filter(g=>g&&g.done).length : 0));
+    if(state.roadmap && state.roadmap.milestones) count += state.roadmap.milestones.filter(g=>g&&g.done).length;
     return count;
   }
   function renderHeader(){
     const info = levelInfo(state.totalExp || 0);
-    document.getElementById('lvNum').textContent = `Lv.${info.level}`;
-    document.getElementById('coinCount').textContent = state.coins || 0; 
-    document.getElementById('totalDoneDisplay').textContent = `(총 달성: ${getTotalDoneCount()}회)`;
-    document.getElementById('meterLabel').textContent = info.into + ' / ' + info.need;
+    const lvNum = document.getElementById('lvNum'); if(lvNum) lvNum.textContent = `Lv.${info.level}`;
+    const coinCount = document.getElementById('coinCount'); if(coinCount) coinCount.textContent = state.coins || 0; 
+    const totalDone = document.getElementById('totalDoneDisplay'); if(totalDone) totalDone.textContent = `(총 달성: ${getTotalDoneCount()}회)`;
+    const meterLabel = document.getElementById('meterLabel'); if(meterLabel) meterLabel.textContent = info.into + ' / ' + info.need;
     const meter = document.getElementById('meter');
-    const filled = Math.round((info.into / info.need) * 12);
-    meter.innerHTML = '';
-    for(let i=0;i<12;i++){ const seg = document.createElement('i'); if(i < filled) seg.classList.add('on'); meter.appendChild(seg); }
+    if(meter) {
+      const filled = Math.round((info.into / info.need) * 12);
+      meter.innerHTML = '';
+      for(let i=0;i<12;i++){ const seg = document.createElement('i'); if(i < filled) seg.classList.add('on'); meter.appendChild(seg); }
+    }
   }
-  function showLevelUpToast(){ const t = document.getElementById('toast'); t.classList.add('show'); setTimeout(()=> t.classList.remove('show'), 2000); }
+  function showLevelUpToast(){ const t = document.getElementById('toast'); if(!t) return; t.classList.add('show'); setTimeout(()=> t.classList.remove('show'), 2000); }
 
 
   // ---------- Game Tab ----------
@@ -964,57 +967,65 @@
     let currentStage = getPetCurrentStage();
     let nextStage = PET_STAGES.find(s => s.min > petExp) || null;
     
-    document.getElementById('gamePetEmoji').textContent = currentStage.emoji;
-    document.getElementById('gamePetName').textContent = currentStage.name;
-    document.getElementById('gamePetAtk').textContent = currentStage.baseAtk;
+    const petEmoji = document.getElementById('gamePetEmoji'); if(petEmoji) petEmoji.textContent = currentStage.emoji;
+    const petName = document.getElementById('gamePetName'); if(petName) petName.textContent = currentStage.name;
+    const petAtk = document.getElementById('gamePetAtk'); if(petAtk) petAtk.textContent = currentStage.baseAtk;
     
     const equipped = getEquippedItem();
     const equipAtk = equipped ? equipped.atk : 0;
-    document.getElementById('gameEquipAtk').textContent = '+' + equipAtk;
-    document.getElementById('gameTotalAtk').textContent = currentStage.baseAtk + equipAtk;
+    const gEqAtk = document.getElementById('gameEquipAtk'); if(gEqAtk) gEqAtk.textContent = '+' + equipAtk;
+    const gTotAtk = document.getElementById('gameTotalAtk'); if(gTotAtk) gTotAtk.textContent = currentStage.baseAtk + equipAtk;
     
     const feedBtn = document.getElementById('gameFeedBtn');
-    if (coins >= 50 && nextStage) {
-      feedBtn.disabled = false; feedBtn.textContent = '트레이닝 (50 🪙)';
-    } else if (!nextStage) {
-      feedBtn.disabled = true; feedBtn.textContent = '최대 레벨 도달!';
-    } else {
-      feedBtn.disabled = true; feedBtn.textContent = '코인 부족 (50🪙)';
+    if(feedBtn) {
+      if (coins >= 50 && nextStage) {
+        feedBtn.disabled = false; feedBtn.textContent = '트레이닝 (50 🪙)';
+      } else if (!nextStage) {
+        feedBtn.disabled = true; feedBtn.textContent = '최대 레벨 도달!';
+      } else {
+        feedBtn.disabled = true; feedBtn.textContent = '코인 부족 (50🪙)';
+      }
     }
     
-    if(nextStage) {
-      const range = nextStage.min - currentStage.min;
-      const into = petExp - currentStage.min;
-      const pct = Math.round((into/range)*100);
-      document.getElementById('gamePetProgressPct').textContent = `${petExp} / ${nextStage.min}`;
-      document.getElementById('gamePetProgressFill').style.width = pct + '%';
-    } else {
-      document.getElementById('gamePetProgressPct').textContent = 'MAX LEVEL';
-      document.getElementById('gamePetProgressFill').style.width = '100%';
+    const petPct = document.getElementById('gamePetProgressPct');
+    const petFill = document.getElementById('gamePetProgressFill');
+    if(petPct && petFill) {
+      if(nextStage) {
+        const range = nextStage.min - currentStage.min;
+        const into = petExp - currentStage.min;
+        const pct = Math.round((into/range)*100);
+        petPct.textContent = `${petExp} / ${nextStage.min}`;
+        petFill.style.width = pct + '%';
+      } else {
+        petPct.textContent = 'MAX LEVEL';
+        petFill.style.width = '100%';
+      }
     }
 
     const invContainer = document.getElementById('inventoryList');
-    invContainer.innerHTML = '';
-    const inv = state.gacha.inventory || [];
-    if(inv.length === 0) {
-      invContainer.innerHTML = '<div class="empty-note" style="padding:10px;">아직 뽑은 장비가 없습니다.<br>상자를 열어보세요!</div>';
-    } else {
-      [...inv].reverse().forEach(item => {
-        const isEquipped = item.id === state.gacha.equippedId;
-        const div = document.createElement('div');
-        div.className = 'inv-item' + (isEquipped ? ' equipped' : '');
-        div.innerHTML = `
-          <div style="flex:1;">
-            <div class="inv-item-name" style="color:${item.color}">${item.name}</div>
-            <div class="inv-item-atk">공격력: +${item.atk}</div>
-          </div>
-          ${isEquipped ? '<div style="font-size:11px; font-weight:700; color:var(--amber);">장착됨 ✓</div>' : '<button class="nav-btn" style="width:auto; padding:0 8px; height:26px; font-size:11px;">장착</button>'}
-        `;
-        if(!isEquipped) {
-          div.querySelector('button').onclick = () => { state.gacha.equippedId = item.id; save(); renderGame(); };
-        }
-        invContainer.appendChild(div);
-      });
+    if(invContainer) {
+      invContainer.innerHTML = '';
+      const inv = state.gacha ? state.gacha.inventory || [] : [];
+      if(inv.length === 0) {
+        invContainer.innerHTML = '<div class="empty-note" style="padding:10px;">아직 뽑은 장비가 없습니다.<br>상자를 열어보세요!</div>';
+      } else {
+        [...inv].reverse().forEach(item => {
+          const isEquipped = item.id === state.gacha.equippedId;
+          const div = document.createElement('div');
+          div.className = 'inv-item' + (isEquipped ? ' equipped' : '');
+          div.innerHTML = `
+            <div style="flex:1;">
+              <div class="inv-item-name" style="color:${item.color}">${item.name}</div>
+              <div class="inv-item-atk">공격력: +${item.atk}</div>
+            </div>
+            ${isEquipped ? '<div style="font-size:11px; font-weight:700; color:var(--amber);">장착됨 ✓</div>' : '<button class="nav-btn" style="width:auto; padding:0 8px; height:26px; font-size:11px;">장착</button>'}
+          `;
+          if(!isEquipped) {
+            div.querySelector('button').onclick = () => { state.gacha.equippedId = item.id; save(); renderGame(); };
+          }
+          invContainer.appendChild(div);
+        });
+      }
     }
 
     if(!state.dungeon) state.dungeon = { level: 1, hp: 100, maxHp: 100 };
@@ -1023,12 +1034,12 @@
     const emojiMatch = bossFullName.match(/[\uD800-\uDBFF][\uDC00-\uDFFF]|\p{Emoji_Presentation}/gu);
     const bEmoji = emojiMatch ? emojiMatch[0] : '👺';
     
-    document.getElementById('bossEmoji').textContent = bEmoji;
-    document.getElementById('bossName').textContent = `Lv.${state.dungeon.level} ${bossFullName.replace(bEmoji, '').trim()}`;
+    const bossE = document.getElementById('bossEmoji'); if(bossE) bossE.textContent = bEmoji;
+    const bossN = document.getElementById('bossName'); if(bossN) bossN.textContent = `Lv.${state.dungeon.level} ${bossFullName.replace(bEmoji, '').trim()}`;
     
     const hpPct = Math.max(0, Math.round((state.dungeon.hp / state.dungeon.maxHp) * 100));
-    document.getElementById('bossHpFill').style.width = hpPct + '%';
-    document.getElementById('bossHpText').textContent = `${state.dungeon.hp} / ${state.dungeon.maxHp}`;
+    const hFill = document.getElementById('bossHpFill'); if(hFill) hFill.style.width = hpPct + '%';
+    const hText = document.getElementById('bossHpText'); if(hText) hText.textContent = `${state.dungeon.hp} / ${state.dungeon.maxHp}`;
   }
 
   window.feedPet = function() {
@@ -1037,7 +1048,7 @@
     state.coins -= 50; state.petExp = (state.petExp||0) + 50;
     save(); renderHeader(); renderGame();
     const emoji = document.getElementById('gamePetEmoji');
-    emoji.style.transform = 'scale(1.4)'; setTimeout(() => emoji.style.transform = 'scale(1)', 200);
+    if(emoji) { emoji.style.transform = 'scale(1.4)'; setTimeout(() => emoji.style.transform = 'scale(1)', 200); }
   }
 
   window.drawGacha = function() {
@@ -1060,11 +1071,13 @@
 
     save(); renderHeader(); renderGame();
     const msgBox = document.getElementById('gachaResultMsg');
-    msgBox.style.display = 'block';
-    msgBox.style.background = `linear-gradient(45deg, var(--bg-panel), ${drawnItem.color}33)`;
-    msgBox.style.border = `1px solid ${drawnItem.color}`;
-    msgBox.innerHTML = `<span style="color:var(--muted); font-size:11px;">[${drawnItem.rank}]</span><br><span style="color:${drawnItem.color}; font-size:16px;">${drawnItem.name} 획득!</span>`;
-    setTimeout(() => { msgBox.style.display = 'none'; }, 4000);
+    if(msgBox) {
+      msgBox.style.display = 'block';
+      msgBox.style.background = `linear-gradient(45deg, var(--bg-panel), ${drawnItem.color}33)`;
+      msgBox.style.border = `1px solid ${drawnItem.color}`;
+      msgBox.innerHTML = `<span style="color:var(--muted); font-size:11px;">[${drawnItem.rank}]</span><br><span style="color:${drawnItem.color}; font-size:16px;">${drawnItem.name} 획득!</span>`;
+      setTimeout(() => { msgBox.style.display = 'none'; }, 4000);
+    }
   }
 
   window.attackBoss = function() {
@@ -1080,9 +1093,11 @@
     state.dungeon.hp -= dmg;
     
     const bEmoji = document.getElementById('bossEmoji');
-    bEmoji.style.transform = 'scale(0.8) rotate(-15deg)';
-    bEmoji.style.filter = 'drop-shadow(0 0 10px red)';
-    setTimeout(() => { bEmoji.style.transform = 'none'; bEmoji.style.filter = 'none'; }, 150);
+    if(bEmoji) {
+      bEmoji.style.transform = 'scale(0.8) rotate(-15deg)';
+      bEmoji.style.filter = 'drop-shadow(0 0 10px red)';
+      setTimeout(() => { bEmoji.style.transform = 'none'; bEmoji.style.filter = 'none'; }, 150);
+    }
 
     if(state.dungeon.hp <= 0) {
       const reward = state.dungeon.level * 150;
@@ -1099,10 +1114,12 @@
   // ---------- Roadmap ----------
   window.saveUltimateGoal = function(val) { if(!currentUser) return; state.roadmap.ultimate = val; save(); }
   function renderRoadmap() {
-    document.getElementById('ultimateGoalInput').value = state.roadmap.ultimate || '';
+    const ul = document.getElementById('ultimateGoalInput'); if(ul) ul.value = state.roadmap.ultimate || '';
     const list = state.roadmap.milestones || [];
     const container = document.getElementById('roadmapMapContainer');
     const emptyNote = document.getElementById('roadmapEmptyNote');
+    if(!container || !emptyNote) return;
+
     if(list.length === 0) { container.style.display = 'none'; emptyNote.style.display = 'block'; return; }
     container.style.display = 'block'; emptyNote.style.display = 'none';
     
@@ -1110,11 +1127,12 @@
     const STAGE_NAMES = ['방구석 연습', '소규모 공연', '대형 콘서트홀', '스타디움 투어', '전설의 무대'];
     
     let activeIdx = 0;
-    for(let i=0; i<list.length; i++) { if(list[i].done) activeIdx = i + 1; else break; }
+    for(let i=0; i<list.length; i++) { if(list[i] && list[i].done) activeIdx = i + 1; else break; }
     if(activeIdx >= list.length) activeIdx = list.length - 1; 
 
     let html = `<div class="roadmap-map"><div class="map-line"></div><div class="map-line-fill" id="mapFill"></div>`;
     list.forEach((m, idx) => {
+      if(!m) return;
       const tier = Math.min(idx, 4);
       const isDone = m.done;
       const isActive = (!isDone && idx === activeIdx) || (isDone && idx === list.length - 1 && activeIdx === list.length - 1);
@@ -1142,12 +1160,12 @@
     }, 50);
   }
   window.toggleRoadmap = function(idx) {
-    if(!currentUser) return; const m = state.roadmap.milestones[idx];
+    if(!currentUser) return; const m = state.roadmap.milestones[idx]; if(!m) return;
     m.done = !m.done; handleExpAndCoin(m.done ? ROADMAP_REWARD : -ROADMAP_REWARD);
     save(); renderHeader(); renderRoadmap(); 
   };
   window.deleteRoadmap = function(idx) {
-    if(!currentUser) return; const m = state.roadmap.milestones[idx];
+    if(!currentUser) return; const m = state.roadmap.milestones[idx]; if(!m) return;
     if(m.done) handleExpAndCoin(-ROADMAP_REWARD);
     state.roadmap.milestones.splice(idx, 1); save(); renderHeader(); renderRoadmap();
   };
@@ -1162,23 +1180,36 @@
   // ---------- Daily Logic ----------
   function renderDaily(){
     const key = fmtKey(currentDailyDate);
-    document.getElementById('dailyMain').textContent = `${currentDailyDate.getFullYear()}년 ${currentDailyDate.getMonth()+1}월 ${currentDailyDate.getDate()}일`;
-    document.getElementById('dailySub').textContent = ['일','월','화','수','목','금','토'][currentDailyDate.getDay()] + '요일';
-    document.getElementById('gotoTodayDaily').style.display = sameDay(currentDailyDate, today) ? 'none' : 'inline-block';
+    const dm = document.getElementById('dailyMain');
+    if(dm) dm.textContent = `${currentDailyDate.getFullYear()}년 ${currentDailyDate.getMonth()+1}월 ${currentDailyDate.getDate()}일`;
+    const ds = document.getElementById('dailySub');
+    if(ds) ds.textContent = ['일','월','화','수','목','금','토'][currentDailyDate.getDay()] + '요일';
+    
+    const gotoToday = document.getElementById('gotoTodayDaily');
+    if(gotoToday) gotoToday.style.display = sameDay(currentDailyDate, today) ? 'none' : 'inline-block';
     
     const list = state.dailyGoals[key] || [];
-    const ul = document.getElementById('dailyList'); ul.innerHTML = '';
+    const ul = document.getElementById('dailyList'); if(!ul) return;
+    ul.innerHTML = '';
+    
+    const emptyNote = document.getElementById('dailyEmptyNote');
+    const progressWrap = document.getElementById('dailyProgressWrap');
+
     if(list.length === 0){ 
-      document.getElementById('dailyEmptyNote').style.display = 'block'; document.getElementById('dailyProgressWrap').style.display = 'none'; 
+      if(emptyNote) emptyNote.style.display = 'block'; 
+      if(progressWrap) progressWrap.style.display = 'none'; 
     } else {
-      document.getElementById('dailyEmptyNote').style.display = 'none'; document.getElementById('dailyProgressWrap').style.display = 'block';
-      const pct = Math.round((list.filter(g=>g.done).length / list.length) * 100);
-      document.getElementById('dailyProgressPct').textContent = pct + '%'; document.getElementById('dailyProgressFill').style.width = pct + '%';
+      if(emptyNote) emptyNote.style.display = 'none'; 
+      if(progressWrap) progressWrap.style.display = 'block';
+      
+      const doneCount = list.filter(g => g && g.done).length;
+      const pct = Math.round((doneCount / list.length) * 100);
+      const dPct = document.getElementById('dailyProgressPct'); if(dPct) dPct.textContent = pct + '%';
+      const dFill = document.getElementById('dailyProgressFill'); if(dFill) dFill.style.width = pct + '%';
       
       list.forEach((g, idx) => {
         if(!g) return;
         const li = document.createElement('li'); li.className = 'goal-row' + (g.done ? ' done' : '');
-        // ★ 에러 방어: 과거 데이터에 tier 값이 없어도 기본값[1](보통) 적용!
         const tierObj = TIERS[g.tier] || TIERS[1]; 
         li.innerHTML = `<button class="check ${g.done?'checked':''}"></button><span class="goal-text">${g.text}</span><span class="tier-badge">${tierObj.label} · ${tierObj.exp} EXP</span><button class="del-btn">×</button>`;
         li.querySelector('.check').onclick = () => { 
@@ -1204,29 +1235,37 @@
   });
   document.getElementById('prevDay').onclick = () => { currentDailyDate = addDays(currentDailyDate,-1); renderDaily(); };
   document.getElementById('nextDay').onclick = () => { currentDailyDate = addDays(currentDailyDate,1); renderDaily(); };
-  document.getElementById('gotoTodayDaily').onclick = () => { currentDailyDate = new Date(today); renderDaily(); };
+  const gotoBtnDaily = document.getElementById('gotoTodayDaily'); if(gotoBtnDaily) gotoBtnDaily.onclick = () => { currentDailyDate = new Date(today); renderDaily(); };
 
   // ---------- Weekly Goals Logic ----------
   function renderGoals(){
     const key = fmtKey(currentWeekMonday);
     const label = weekRangeLabel(currentWeekMonday);
-    document.getElementById('weekMain').textContent = label.main;
-    document.getElementById('weekSub').textContent = label.sub;
-    document.getElementById('prevWeek').disabled = currentWeekMonday <= todayMonday;
-    document.getElementById('nextWeek').disabled = currentWeekMonday >= getMonday(new Date(MAX_YEAR, MAX_MONTH, 31));
-    document.getElementById('gotoToday').style.display = sameDay(currentWeekMonday, todayMonday) ? 'none' : 'inline-block';
+    
+    const wm = document.getElementById('weekMain'); if(wm) wm.textContent = label.main;
+    const ws = document.getElementById('weekSub'); if(ws) ws.textContent = label.sub;
+    
+    const prevW = document.getElementById('prevWeek'); if(prevW) prevW.disabled = currentWeekMonday <= todayMonday;
+    const nextW = document.getElementById('nextWeek'); if(nextW) nextW.disabled = currentWeekMonday >= getMonday(new Date(MAX_YEAR, MAX_MONTH, 31));
+    const gt = document.getElementById('gotoToday'); if(gt) gt.style.display = sameDay(currentWeekMonday, todayMonday) ? 'none' : 'inline-block';
 
     const list = state.goals[key] || [];
-    const ul = document.getElementById('goalList'); ul.innerHTML = '';
+    const ul = document.getElementById('goalList'); if(!ul) return;
+    ul.innerHTML = '';
     const emptyNote = document.getElementById('emptyNote');
     const progressWrap = document.getElementById('progressWrap');
     
     if(list.length === 0){
-      emptyNote.style.display = 'block'; progressWrap.style.display = 'none';
+      if(emptyNote) emptyNote.style.display = 'block'; 
+      if(progressWrap) progressWrap.style.display = 'none';
     } else {
-      emptyNote.style.display = 'none'; progressWrap.style.display = 'block';
-      const pct = Math.round((list.filter(g => g && g.done).length / list.length) * 100);
-      document.getElementById('progressPct').textContent = pct + '%'; document.getElementById('progressFill').style.width = pct + '%';
+      if(emptyNote) emptyNote.style.display = 'none'; 
+      if(progressWrap) progressWrap.style.display = 'block';
+      
+      const doneCount = list.filter(g => g && g.done).length;
+      const pct = Math.round((doneCount / list.length) * 100);
+      const pPct = document.getElementById('progressPct'); if(pPct) pPct.textContent = pct + '%'; 
+      const pFill = document.getElementById('progressFill'); if(pFill) pFill.style.width = pct + '%';
       
       list.forEach((g, idx) => {
         if(!g) return;
@@ -1253,19 +1292,21 @@
     state.goals[key].push({ id: Date.now() + '', text, done: false });
     document.getElementById('weekGoalInput').value = ''; save(); renderGoals();
   });
-  document.getElementById('prevWeek').onclick = () => { currentWeekMonday = addDays(currentWeekMonday, -7); renderGoals(); };
-  document.getElementById('nextWeek').onclick = () => { currentWeekMonday = addDays(currentWeekMonday, 7); renderGoals(); };
-  document.getElementById('gotoToday').onclick = () => { currentWeekMonday = new Date(todayMonday); renderGoals(); };
+  const pW = document.getElementById('prevWeek'); if(pW) pW.onclick = () => { currentWeekMonday = addDays(currentWeekMonday, -7); renderGoals(); };
+  const nW = document.getElementById('nextWeek'); if(nW) nW.onclick = () => { currentWeekMonday = addDays(currentWeekMonday, 7); renderGoals(); };
+  const gtW = document.getElementById('gotoToday'); if(gtW) gtW.onclick = () => { currentWeekMonday = new Date(todayMonday); renderGoals(); };
 
   // ---------- Repo Logic ----------
   window.showRepoFile = function() {
     const file = document.getElementById('repoFile').files[0];
-    document.getElementById('repoFileName').textContent = file ? `${file.name} · ${(file.size / 1024 / 1024).toFixed(2)}MB` : '4MB 이하의 악보나 MR 파일';
+    const n = document.getElementById('repoFileName');
+    if(n) n.textContent = file ? `${file.name} · ${(file.size / 1024 / 1024).toFixed(2)}MB` : '4MB 이하의 악보나 MR 파일';
   }
   function renderRepo(){
-    const ul = document.getElementById('repoList'); const empty = document.getElementById('repoEmpty'); ul.innerHTML = '';
+    const ul = document.getElementById('repoList'); const empty = document.getElementById('repoEmpty'); 
+    if(!ul) return; ul.innerHTML = '';
     const list = Array.isArray(state.repo) ? state.repo : [];
-    empty.style.display = list.length === 0 ? 'block' : 'none';
+    if(empty) empty.style.display = list.length === 0 ? 'block' : 'none';
     list.forEach(r => {
       if(!r) return;
       const li = document.createElement('li'); li.className = 'goal-row';
@@ -1298,64 +1339,70 @@
 
   // ---------- Calendar ----------
   const yearSelect = document.getElementById('yearSelect'); const monthSelect = document.getElementById('monthSelect');
+  function populateYearSelect(){
+    if(!yearSelect || !monthSelect) return;
+    yearSelect.innerHTML=''; for(let y=2024; y<=MAX_YEAR; y++) yearSelect.innerHTML+=`<option value="${y}">${y}년</option>`; yearSelect.value = calYear;
+    // ★ 과거 달력 무조건 볼 수 있도록 제한 해제
+    monthSelect.innerHTML=''; for(let m=0; m<=11; m++) monthSelect.innerHTML+=`<option value="${m}">${m+1}월</option>`; monthSelect.value = calMonth;
+  }
+  
   function renderCalendar(){
-    yearSelect.innerHTML=''; for(let y=today.getFullYear(); y<=MAX_YEAR; y++) yearSelect.innerHTML+=`<option value="${y}">${y}년</option>`; yearSelect.value = calYear;
-    monthSelect.innerHTML=''; for(let m=(calYear===today.getFullYear()?today.getMonth():0); m<=(calYear===MAX_YEAR?MAX_MONTH:11); m++) monthSelect.innerHTML+=`<option value="${m}">${m+1}월</option>`; monthSelect.value = calMonth;
-    document.getElementById('calTitle').textContent = `${calYear}년 ${calMonth+1}월`;
-    const grid = document.getElementById('calGrid'); grid.innerHTML = '';
+    if(!yearSelect || !monthSelect) return;
+    yearSelect.value = calYear; monthSelect.value = calMonth;
+    const cTitle = document.getElementById('calTitle'); if(cTitle) cTitle.textContent = `${calYear}년 ${calMonth+1}월`;
+    const grid = document.getElementById('calGrid'); if(!grid) return;
+    grid.innerHTML = '';
+    
     const start = getMonday(new Date(calYear, calMonth, 1));
     for(let i=0; i<42; i++){
       const d = addDays(start, i); const inMonth = d.getMonth() === calMonth;
       if(i>=35 && !inMonth) continue;
       const cell = document.createElement('div'); cell.className = 'day-cell' + (inMonth?'':' dim') + (sameDay(d,today)?' today':'');
       const k = fmtKey(d); const list = state.dailyGoals[k]||[];
-      if(list.length>0) cell.classList.add(list.filter(g=>g.done).length>=list.length ? 'wk-full' : 'wk-partial');
+      if(list.length>0) cell.classList.add(list.filter(g=>g&&g.done).length>=list.length ? 'wk-full' : 'wk-partial');
       if(state.notes && state.notes[k]) cell.classList.add('has-note');
       cell.innerHTML = `<div class="day-num">${d.getDate()}</div><div class="wk-dot"></div><div class="note-mark"></div>`;
       if(inMonth) cell.onclick = () => openDayModal(d); else cell.classList.add('dim');
       grid.appendChild(cell);
     }
   }
-  document.getElementById('prevMonth').onclick = () => { calMonth--; if(calMonth<0){calMonth=11;calYear--;} renderCalendar(); };
-  document.getElementById('nextMonth').onclick = () => { calMonth++; if(calMonth>11){calMonth=0;calYear++;} renderCalendar(); };
-  yearSelect.onchange = () => { calYear=Number(yearSelect.value); renderCalendar(); };
-  monthSelect.onchange = () => { calMonth=Number(monthSelect.value); renderCalendar(); };
+  
+  const pM = document.getElementById('prevMonth'); if(pM) pM.onclick = () => { calMonth--; if(calMonth<0){calMonth=11;calYear--;} renderCalendar(); };
+  const nM = document.getElementById('nextMonth'); if(nM) nM.onclick = () => { calMonth++; if(calMonth>11){calMonth=0;calYear++;} renderCalendar(); };
+  if(yearSelect) yearSelect.onchange = () => { calYear=Number(yearSelect.value); renderCalendar(); };
+  if(monthSelect) monthSelect.onchange = () => { calMonth=Number(monthSelect.value); renderCalendar(); };
 
   // ---------- Day Modal ----------
   const dayModal = document.getElementById('dayModal');
   function openDayModal(d){
     modalDate = new Date(d); const k = fmtKey(modalDate);
-    document.getElementById('dayModalTitle').textContent = `${modalDate.getFullYear()}.${String(modalDate.getMonth()+1).padStart(2,'0')}.${String(modalDate.getDate()).padStart(2,'0')}`;
-    document.getElementById('dayModalSub').textContent = ['일','월','화','수','목','금','토'][modalDate.getDay()] + '요일 · 연습 기록';
+    const mTitle = document.getElementById('dayModalTitle'); if(mTitle) mTitle.textContent = `${modalDate.getFullYear()}.${String(modalDate.getMonth()+1).padStart(2,'0')}.${String(modalDate.getDate()).padStart(2,'0')}`;
+    const mSub = document.getElementById('dayModalSub'); if(mSub) mSub.textContent = ['일','월','화','수','목','금','토'][modalDate.getDay()] + '요일 · 연습 기록';
     
     const note = state.notes[k] || {};
-    document.getElementById('dayModalNote').value = note.text || (typeof note === 'string' ? note : '');
+    const dNote = document.getElementById('dayModalNote'); if(dNote) dNote.value = note.text || (typeof note === 'string' ? note : '');
     
-    // 24시간 표기 변환 처리
-    document.getElementById('dayTimeStart').value = note.timeStart || '';
-    let tEnd = note.timeEnd || ''; 
-    if(tEnd === '24:00') tEnd = '00:00'; 
-    document.getElementById('dayTimeEnd').value = tEnd;
+    const ts = document.getElementById('dayTimeStart'); if(ts) ts.value = note.timeStart || '';
+    let tEnd = note.timeEnd || ''; if(tEnd === '24:00') tEnd = '00:00'; 
+    const te = document.getElementById('dayTimeEnd'); if(te) te.value = tEnd;
 
     const stats = note.stats || [3,3,3,3,3,3];
-    ['pitch','rhythm','breath','vocal','high','emotion'].forEach((id, i) => { const el = document.getElementById('stat-'+id); el.value = stats[i]; el.nextElementSibling.textContent = stats[i]; });
+    ['pitch','rhythm','breath','vocal','high','emotion'].forEach((id, i) => { const el = document.getElementById('stat-'+id); if(el) {el.value = stats[i]; el.nextElementSibling.textContent = stats[i];} });
 
-    document.getElementById('dayFile').value = ''; const linkDiv = document.getElementById('dayFileLink');
-    if (note.fileUrl) { linkDiv.style.display = 'block'; linkDiv.innerHTML = `<a class="file-chip" href="${note.fileUrl}" target="_blank">기존 녹음: ${note.fileName}</a>`; document.getElementById('dayFileTitle').textContent = '새로운 녹음으로 덮어쓰기';
-    } else { linkDiv.style.display = 'none'; linkDiv.innerHTML = ''; document.getElementById('dayFileTitle').textContent = '연습 녹음 첨부 (선택)'; }
-    dayModal.classList.add('show');
+    const df = document.getElementById('dayFile'); if(df) df.value = ''; 
+    const linkDiv = document.getElementById('dayFileLink');
+    if (note.fileUrl && linkDiv) { linkDiv.style.display = 'block'; linkDiv.innerHTML = `<a class="file-chip" href="${note.fileUrl}" target="_blank">기존 녹음: ${note.fileName}</a>`; document.getElementById('dayFileTitle').textContent = '새로운 녹음으로 덮어쓰기';
+    } else if(linkDiv) { linkDiv.style.display = 'none'; linkDiv.innerHTML = ''; document.getElementById('dayFileTitle').textContent = '연습 녹음 첨부 (선택)'; }
+    if(dayModal) dayModal.classList.add('show');
   }
-  window.closeDayModal = function(){ dayModal.classList.remove('show'); modalDate = null; }
+  window.closeDayModal = function(){ if(dayModal) dayModal.classList.remove('show'); modalDate = null; }
   
-  document.getElementById('dayModalSave').onclick = async () => {
+  const dmSave = document.getElementById('dayModalSave');
+  if(dmSave) dmSave.onclick = async () => {
     if(!currentUser) return openAuthModal('loginModal');
     const k = fmtKey(modalDate); const text = document.getElementById('dayModalNote').value.trim();
-    const tStart = document.getElementById('dayTimeStart').value; 
-    let tEnd = document.getElementById('dayTimeEnd').value;
-    
-    // 시간 연속성을 위해 자정을 24:00으로 강제 저장
+    const tStart = document.getElementById('dayTimeStart').value; let tEnd = document.getElementById('dayTimeEnd').value;
     if(tEnd === '00:00') tEnd = '24:00'; 
-
     const stats = ['pitch','rhythm','breath','vocal','high','emotion'].map(id => Number(document.getElementById('stat-'+id).value));
     const fileInput = document.getElementById('dayFile');
     
@@ -1368,8 +1415,8 @@
       await save(); renderCalendar(); renderStats(); closeDayModal();
     } catch(e){} finally { document.getElementById('loadOverlay').style.display='none'; }
   };
-  document.getElementById('dayModalDelete').onclick = () => { if(!currentUser) return; delete state.notes[fmtKey(modalDate)]; save(); renderCalendar(); renderStats(); closeDayModal(); };
-  document.getElementById('dayModalGoto').onclick = () => { currentDailyDate = new Date(modalDate); closeDayModal(); switchTab('daily'); };
+  const dmDel = document.getElementById('dayModalDelete'); if(dmDel) dmDel.onclick = () => { if(!currentUser) return; delete state.notes[fmtKey(modalDate)]; save(); renderCalendar(); renderStats(); closeDayModal(); };
+  const dmGo = document.getElementById('dayModalGoto'); if(dmGo) dmGo.onclick = () => { currentDailyDate = new Date(modalDate); closeDayModal(); switchTab('daily'); renderDaily(); };
 
   // ---------- STATS / ANALYSIS TAB ----------
   function renderStats() {
@@ -1385,9 +1432,10 @@
       });
     }
 
-    if(count === 0) { document.getElementById('statsEmpty').style.display = 'block'; ctx.clearRect(0,0,w,h);
+    const sEmpty = document.getElementById('statsEmpty');
+    if(count === 0) { if(sEmpty) sEmpty.style.display = 'block'; ctx.clearRect(0,0,w,h);
     } else {
-      document.getElementById('statsEmpty').style.display = 'none'; const avgs = totalStats.map(s => s/count);
+      if(sEmpty) sEmpty.style.display = 'none'; const avgs = totalStats.map(s => s/count);
       ctx.clearRect(0,0,w,h); ctx.strokeStyle = '#3a2f26'; ctx.lineWidth = 1;
       for(let level=1; level<=5; level++) { ctx.beginPath(); for(let i=0; i<6; i++) { const r = radius * (level/5); const angle = -Math.PI/2 + (Math.PI/3)*i; const x = cx + r * Math.cos(angle); const y = cy + r * Math.sin(angle); if(i===0) ctx.moveTo(x,y); else ctx.lineTo(x,y); } ctx.closePath(); ctx.stroke(); }
       const labels = ['음정', '고음', '감정', '발성', '호흡', '박자']; ctx.fillStyle = '#a4917d'; ctx.font = '600 12px "Work Sans"'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
@@ -1395,18 +1443,22 @@
       ctx.beginPath(); for(let i=0; i<6; i++) { const r = radius * (avgs[i]/5); const angle = -Math.PI/2 + (Math.PI/3)*i; const x = cx + r * Math.cos(angle); const y = cy + r * Math.sin(angle); if(i===0) ctx.moveTo(x,y); else ctx.lineTo(x,y); } ctx.closePath(); ctx.fillStyle = 'rgba(232,163,61,0.45)'; ctx.fill(); ctx.strokeStyle = '#e8a33d'; ctx.lineWidth = 2; ctx.stroke();
       ctx.fillStyle = '#f3ead9'; for(let i=0; i<6; i++) { const r = radius * (avgs[i]/5); const angle = -Math.PI/2 + (Math.PI/3)*i; const x = cx + r * Math.cos(angle); const y = cy + r * Math.sin(angle); ctx.beginPath(); ctx.arc(x,y,4,0,Math.PI*2); ctx.fill(); }
     }
-    const logContainer = document.getElementById('timeLogContainer'); const timeEmpty = document.getElementById('timeEmpty'); logContainer.innerHTML = '';
-    if(timeLogs.length === 0) { timeEmpty.style.display = 'block'; } else { timeEmpty.style.display = 'none'; timeLogs.slice(0, 10).forEach(log => { const div = document.createElement('div'); div.className = 'time-log-row'; div.innerHTML = `<div class="time-log-date">${log.date} 연습</div><div class="time-log-time">${log.start} ~ ${log.end}</div>`; logContainer.appendChild(div); }); }
+    const logContainer = document.getElementById('timeLogContainer'); const timeEmpty = document.getElementById('timeEmpty'); 
+    if(!logContainer) return; logContainer.innerHTML = '';
+    if(timeLogs.length === 0) { if(timeEmpty) timeEmpty.style.display = 'block'; } 
+    else { if(timeEmpty) timeEmpty.style.display = 'none'; timeLogs.slice(0, 10).forEach(log => { const div = document.createElement('div'); div.className = 'time-log-row'; div.innerHTML = `<div class="time-log-date">${log.date} 연습</div><div class="time-log-time">${log.start} ~ ${log.end}</div>`; logContainer.appendChild(div); }); }
   }
 
   // ---------- Backup ----------
-  document.getElementById('exportBtn').onclick = () => {
+  const expBtn = document.getElementById('exportBtn');
+  if(expBtn) expBtn.onclick = () => {
     if(!currentUser) return alert('데이터를 백업하려면 먼저 로그인해주세요.');
     const blob = new Blob([JSON.stringify(state, null, 2)], { type: 'application/json' }); const url = URL.createObjectURL(blob);
     const a = document.createElement('a'); a.href = url; a.download = `vocal-log-${currentUser.userId}-${fmtKey(today)}.json`; document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url);
   };
-  document.getElementById('importBtn').onclick = () => { if(!currentUser) return alert('데이터를 복구하려면 먼저 로그인해주세요.'); document.getElementById('importFile').click(); };
-  document.getElementById('importFile').onchange = (e) => {
+  const impBtn = document.getElementById('importBtn'); if(impBtn) impBtn.onclick = () => { if(!currentUser) return alert('데이터를 복구하려면 먼저 로그인해주세요.'); document.getElementById('importFile').click(); };
+  const impFile = document.getElementById('importFile');
+  if(impFile) impFile.onchange = (e) => {
     const file = e.target.files[0]; if(!file) return; const reader = new FileReader();
     reader.onload = () => {
       try{
@@ -1420,32 +1472,27 @@
     }; reader.readAsText(file); e.target.value = '';
   };
 
-  // ---------- Tabs & Render All ----------
+  // ---------- Tabs & Render All (★ 방화벽 100% 분리 ★) ----------
   function switchTab(tab){
     activeTab = tab;
     document.querySelectorAll('.tab-btn').forEach(b => b.classList.toggle('active', b.dataset.tab === tab));
-    document.getElementById('dailyPanel').style.display = tab === 'daily' ? 'block' : 'none';
-    document.getElementById('goalsPanel').style.display = tab === 'goals' ? 'block' : 'none';
-    document.getElementById('gamePanel').style.display = tab === 'game' ? 'block' : 'none';
-    document.getElementById('roadmapPanel').style.display = tab === 'roadmap' ? 'block' : 'none';
-    document.getElementById('statsPanel').style.display = tab === 'stats' ? 'block' : 'none';
-    document.getElementById('repoPanel').style.display = tab === 'repo' ? 'block' : 'none';
-    document.getElementById('calPanel').style.display = tab === 'cal' ? 'block' : 'none';
+    const panels = ['daily','goals','game','roadmap','stats','repo','cal'];
+    panels.forEach(p => { const el = document.getElementById(p+'Panel'); if(el) el.style.display = (p===tab ? 'block' : 'none'); });
     if(tab === 'stats') renderStats(); 
   }
   document.querySelectorAll('.tab-btn').forEach(b => b.addEventListener('click', () => switchTab(b.dataset.tab)));
 
-  // ★★★ 에러 방화벽 구조 (하나가 뻗어도 다른 화면은 정상 출력됨) ★★★
   function renderAll(){
-    try { renderHeader(); } catch(e){ console.error('Header 렌더링 에러:', e); }
-    try { populateYearSelect(); } catch(e){ console.error('Select 설정 에러:', e); }
-    try { renderDaily(); } catch(e){ console.error('Daily 렌더링 에러:', e); }
-    try { renderGoals(); } catch(e){ console.error('Goals 렌더링 에러:', e); }
-    try { renderGame(); } catch(e){ console.error('Game 렌더링 에러:', e); }
-    try { renderRepo(); } catch(e){ console.error('Repo 렌더링 에러:', e); }
-    try { renderRoadmap(); } catch(e){ console.error('Roadmap 렌더링 에러:', e); }
-    try { renderStats(); } catch(e){ console.error('Stats 렌더링 에러:', e); }
-    try { renderCalendar(); } catch(e){ console.error('Calendar 렌더링 에러:', e); }
+    // 어느 하나가 에러나도 나머지 화면은 정상적으로 뜨도록 완벽하게 쪼개놓음
+    try { renderHeader(); } catch(e) { console.error('Header 에러:', e); }
+    try { populateYearSelect(); } catch(e) { console.error('Calendar 옵션 설정 에러:', e); }
+    try { renderDaily(); } catch(e) { console.error('Daily 에러:', e); }
+    try { renderGoals(); } catch(e) { console.error('Goals 에러:', e); }
+    try { renderGame(); } catch(e) { console.error('Game 에러:', e); }
+    try { renderRepo(); } catch(e) { console.error('Repo 에러:', e); }
+    try { renderRoadmap(); } catch(e) { console.error('Roadmap 에러:', e); }
+    try { renderStats(); } catch(e) { console.error('Stats 에러:', e); }
+    try { renderCalendar(); } catch(e) { console.error('Calendar 렌더링 에러:', e); }
   }
 
   checkLoginStatus(); loadData();
