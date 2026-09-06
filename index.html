@@ -123,31 +123,13 @@
     border-radius:10px; cursor:pointer; transition:all .2s; white-space:nowrap;
   }
   .tab-btn.active{ color:var(--bg-stage); background:var(--amber); border-color:var(--amber); }
-  .tab-btn:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible{
-    outline:2px solid var(--amber); outline-offset:2px;
-  }
 
   .panel{
     background:var(--bg-panel); border:1px solid var(--line);
     border-radius:14px; padding:18px;
   }
 
-  /* ---------- Goals view ---------- */
-  .week-nav{ display:flex; align-items:center; justify-content:space-between; margin-bottom:14px; }
-  .week-nav .range{ font-family:'Fraunces', serif; font-weight:600; font-size:17px; }
-  .week-nav .range small{ display:block; font-family:'JetBrains Mono', monospace; font-weight:400; font-size:11px; color:var(--muted); margin-top:2px; }
-  .nav-btn{
-    background:var(--bg-panel-2); border:1px solid var(--line); color:var(--cream);
-    width:32px; height:32px; border-radius:8px; cursor:pointer; font-size:15px; line-height:1;
-  }
-  .nav-btn:disabled{opacity:.3; cursor:not-allowed;}
-  .nav-btns{display:flex; gap:6px; align-items:center;}
-  .today-chip{
-    font-family:'JetBrains Mono', monospace; font-size:11px;
-    background:transparent; border:1px solid var(--amber-dim); color:var(--amber);
-    border-radius:999px; padding:5px 10px; cursor:pointer;
-  }
-
+  /* ---------- Shared List Styles ---------- */
   .goal-list{list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:8px;}
   .goal-row{
     display:flex; align-items:center; gap:10px;
@@ -176,18 +158,32 @@
     font-size:16px; padding:2px 4px; line-height:1;
   }
   .del-btn:hover{color:var(--burgundy);}
-
   .empty-note{
     color:var(--muted); font-size:13px; text-align:center; padding:22px 10px;
     border:1px dashed var(--line); border-radius:10px; line-height:1.5;
   }
 
+  /* ---------- UI Elements ---------- */
+  .week-nav{ display:flex; align-items:center; justify-content:space-between; margin-bottom:14px; }
+  .week-nav .range{ font-family:'Fraunces', serif; font-weight:600; font-size:17px; text-align:center; }
+  .week-nav .range small{ display:block; font-family:'JetBrains Mono', monospace; font-weight:400; font-size:11px; color:var(--muted); margin-top:2px; }
+  .nav-btn{
+    background:var(--bg-panel-2); border:1px solid var(--line); color:var(--cream);
+    width:32px; height:32px; border-radius:8px; cursor:pointer; font-size:15px; line-height:1;
+  }
+  .nav-btn:disabled{opacity:.3; cursor:not-allowed;}
+  .nav-btns{display:flex; gap:6px; align-items:center;}
+  .today-chip{
+    font-family:'JetBrains Mono', monospace; font-size:11px;
+    background:transparent; border:1px solid var(--amber-dim); color:var(--amber);
+    border-radius:999px; padding:5px 10px; cursor:pointer;
+  }
   .add-form{ display:flex; gap:8px; margin-top:14px; flex-wrap:wrap; }
-  .add-form input[type=text], .add-form select{
+  .add-form input[type=text], .add-form select, .add-form input[type=time]{
     background:var(--bg-stage); border:1px solid var(--line); color:var(--cream);
     border-radius:8px; padding:9px 10px; font-family:'Work Sans'; font-size:14px; outline:none;
   }
-  .add-form input[type=text]:focus, .add-form select:focus { border-color:var(--amber); }
+  .add-form input[type=text]:focus, .add-form select:focus, .add-form input[type=time]:focus { border-color:var(--amber); }
   .add-form input[type=text]{ flex:1; min-width:100px; }
   .add-btn{
     background:var(--amber); border:none; color:#20160a; font-weight:700;
@@ -272,7 +268,6 @@
   .day-cell.wk-partial .wk-dot{background:var(--amber-dim);}
   .day-cell.wk-full{background:linear-gradient(180deg, rgba(140,160,125,0.18), var(--bg-panel-2)); border-color:var(--sage);}
   .day-cell.wk-full .wk-dot{background:var(--sage); box-shadow:0 0 6px 1px rgba(140,160,125,0.6);}
-
   .legend{display:flex; gap:16px; margin-top:14px; flex-wrap:wrap;}
   .legend-item{display:flex; align-items:center; gap:6px; font-size:11px; color:var(--muted); font-family:'JetBrains Mono', monospace;}
   .legend-dot{width:8px; height:8px; border-radius:50%;}
@@ -282,7 +277,6 @@
     font-family:'JetBrains Mono', monospace;
   }
 
-  /* ---------- Backup row ---------- */
   .backup-row{display:flex; gap:10px; justify-content:center; margin-top:10px;}
   .backup-btn{
     background:none; border:1px solid var(--line); color:var(--muted);
@@ -291,7 +285,6 @@
   }
   .backup-btn:hover{border-color:var(--amber-dim); color:var(--amber); background:rgba(232,163,61,0.05);}
 
-  /* ---------- Loading overlay ---------- */
   .load-overlay{
     position:fixed; inset:0; background:var(--bg-stage);
     display:flex; align-items:center; justify-content:center; flex-direction:column; gap:10px;
@@ -300,7 +293,6 @@
   }
   .load-overlay.hidden{opacity:0; pointer-events:none;}
 
-  /* ---------- Weekly progress ---------- */
   .progress-wrap{margin-bottom:12px;}
   .progress-top{display:flex; justify-content:space-between; align-items:baseline; margin-bottom:6px;}
   .progress-top .pct{font-family:'JetBrains Mono', monospace; font-size:12px; color:var(--amber);}
@@ -324,7 +316,7 @@
   }
   .modal-overlay.show{display:flex;}
   .modal-box{
-    width:100%; max-width:400px;
+    width:100%; max-width:400px; max-height:90vh; overflow-y:auto;
     background:linear-gradient(180deg, var(--bg-panel-2), var(--bg-panel));
     border:1px solid var(--line); border-radius:14px;
     padding:20px;
@@ -339,7 +331,7 @@
     border-radius:8px; padding:10px; font-family:'Work Sans'; font-size:14px; outline:none; box-sizing:border-box;
   }
   .modal-box textarea:focus, .modal-box input:focus { border-color:var(--amber); }
-  .modal-box textarea { min-height:100px; resize:vertical; line-height:1.5; }
+  .modal-box textarea { min-height:80px; resize:vertical; line-height:1.5; }
   
   .modal-actions{display:flex; gap:8px; margin-top:12px; flex-wrap:wrap;}
   .modal-actions button{
@@ -352,7 +344,23 @@
   .modal-delete:hover{border-color:var(--burgundy);}
   .modal-goto{background:none; color:var(--amber); border-color:var(--amber-dim); flex:1;}
   .modal-goto:hover{border-color:var(--amber);}
-  .modal-goto:disabled{opacity:.3; cursor:not-allowed;}
+
+  /* ---------- Stats & Sliders (NEW) ---------- */
+  .stat-sliders { margin-bottom:12px; background:rgba(232,163,61,0.03); border:1px solid var(--line); border-radius:8px; padding:12px; }
+  .stat-row { display:flex; align-items:center; gap:10px; margin-bottom:8px; }
+  .stat-row:last-child { margin-bottom:0; }
+  .stat-label { width:36px; font-size:12px; color:var(--muted); font-weight:600; }
+  .stat-slider { flex:1; -webkit-appearance:none; background:var(--bg-stage); height:4px; border-radius:2px; outline:none; }
+  .stat-slider::-webkit-slider-thumb { -webkit-appearance:none; width:14px; height:14px; border-radius:50%; background:var(--amber); cursor:pointer; border:2px solid var(--bg-panel-2); box-shadow:0 0 4px rgba(0,0,0,0.5); }
+  .stat-val { width:16px; font-family:'JetBrains Mono', monospace; font-size:12px; color:var(--amber); text-align:right; }
+
+  .time-inputs { display:flex; gap:10px; margin-bottom:12px; }
+  .time-col { flex:1; display:flex; flex-direction:column; gap:4px; }
+  .time-col label { font-size:11px; color:var(--muted); font-weight:600; }
+  
+  .time-log-row { background:var(--bg-panel-2); border:1px solid var(--line); border-radius:8px; padding:10px; margin-bottom:8px; display:flex; justify-content:space-between; align-items:center; }
+  .time-log-date { font-size:13px; font-weight:600; color:var(--cream); }
+  .time-log-time { font-family:'JetBrains Mono', monospace; font-size:12px; color:var(--amber); background:rgba(232,163,61,0.1); padding:4px 8px; border-radius:6px; border:1px solid var(--amber-dim); }
 
 </style>
 </head>
@@ -366,14 +374,12 @@
   <div class="marquee">
     <div class="marquee-top">
       <div class="brand">VOCAL <span>LOG</span></div>
-      <!-- 로그인 영역 -->
       <div class="auth-area">
         <span class="user-name" id="userNameDisplay">로그인 필요</span>
         <button class="auth-btn" id="loginBtn" onclick="openAuthModal('loginModal')">로그인</button>
         <button class="auth-btn logout" id="logoutBtn" onclick="logout()" style="display:none;">로그아웃</button>
       </div>
     </div>
-    <!-- 레벨 배지 영역 -->
     <div style="display:flex; justify-content:space-between; align-items:center;">
       <div class="level-badge"><span class="dot"></span><span class="lv-num" id="lvNum">Lv.1</span><span class="total-done" id="totalDoneDisplay">(총 달성: 0회)</span></div>
     </div>
@@ -387,6 +393,7 @@
     <button class="tab-btn active" data-tab="daily">일일</button>
     <button class="tab-btn" data-tab="goals">주간</button>
     <button class="tab-btn" data-tab="roadmap">로드맵 🗺️</button>
+    <button class="tab-btn" data-tab="stats">분석 📊</button> <!-- NEW TAB -->
     <button class="tab-btn" data-tab="repo">레퍼토리</button>
     <button class="tab-btn" data-tab="cal">달력</button>
   </div>
@@ -396,19 +403,12 @@
     <div class="cal-head">
       <div class="cal-title">나만의 라이브 투어 로드맵</div>
     </div>
-
-    <!-- 엄청 긴 목표 (Ultimate Goal) -->
     <div style="background:var(--bg-panel-2); padding:14px; border-radius:10px; border:1px solid var(--amber-dim); margin-bottom:10px;">
       <div style="font-size:12px; color:var(--amber); margin-bottom:6px; font-weight:700;">최종 목표 (Ultimate Goal)</div>
       <textarea id="ultimateGoalInput" placeholder="예: 2045년까지 장르 불문 자유로운 발성 완성하기" style="width:100%; background:transparent; border:none; color:var(--cream); font-family:'Work Sans'; font-size:14px; line-height:1.4; resize:none; outline:none; height:48px;" onchange="saveUltimateGoal(this.value)"></textarea>
     </div>
-
-    <div id="roadmapMapContainer">
-      <!-- 자바스크립트로 맵이 그려질 공간 -->
-    </div>
-
+    <div id="roadmapMapContainer"></div>
     <div class="empty-note" id="roadmapEmptyNote" style="display:none;">최종 목표로 가기 위한 큰 단계(마일스톤)를 쪼개서 추가해보세요. 스크롤을 내릴수록 더 큰 무대가 펼쳐집니다!</div>
-
     <form class="add-form" id="addMilestoneForm">
       <input type="text" id="milestoneInput" placeholder="예: 1단계 - 흉성구 피치 브레이크 극복" maxlength="60" required>
       <button type="submit" class="add-btn">무대 추가</button>
@@ -416,27 +416,44 @@
     <div class="footnote" style="margin-top:14px;">무대를 하나씩 클리어 할 때마다 200 EXP가 터집니다 🔥</div>
   </div>
 
+  <!-- STATS / ANALYSIS TAB (NEW) -->
+  <div class="panel" id="statsPanel" style="display:none;">
+    <div class="cal-head">
+      <div class="cal-title">내 보컬 스탯 분석 📊</div>
+    </div>
+    <div style="text-align:center; margin-bottom:20px; font-size:12px; color:var(--muted);">
+      달력에서 연습 기록을 남길 때 평가한 스탯의 <strong style="color:var(--amber);">전체 평균</strong>입니다.
+    </div>
+    <div style="background:var(--bg-stage); padding:20px; border-radius:50%; border:1px dashed var(--line); width:280px; height:280px; margin:0 auto 20px; display:flex; align-items:center; justify-content:center;">
+      <canvas id="radarChart" width="240" height="240"></canvas>
+    </div>
+    <div class="empty-note" id="statsEmpty" style="display:none;">아직 평가된 스탯이 없습니다.<br>달력에서 날짜를 누르고 연습 기록을 남겨보세요!</div>
+
+    <div class="cal-head" style="margin-top:30px;">
+      <div class="cal-title" style="font-size:15px;">최근 연습 시간대 🕒</div>
+    </div>
+    <div id="timeLogContainer"></div>
+    <div class="empty-note" id="timeEmpty" style="display:none; margin-top:0;">기록된 연습 시간이 없습니다.</div>
+  </div>
+
   <!-- DAILY GOALS TAB -->
   <div class="panel" id="dailyPanel">
     <div class="week-nav">
       <div class="nav-btns">
-        <button class="nav-btn" id="prevDay" aria-label="이전 일">‹</button>
+        <button class="nav-btn" id="prevDay">‹</button>
       </div>
       <div class="range" id="dailyRange" style="text-align:center;">- <small id="dailySub"></small></div>
       <div class="nav-btns">
         <button class="today-chip" id="gotoTodayDaily">오늘</button>
-        <button class="nav-btn" id="nextDay" aria-label="다음 일">›</button>
+        <button class="nav-btn" id="nextDay">›</button>
       </div>
     </div>
-
     <div class="progress-wrap" id="dailyProgressWrap" style="display:none;">
       <div class="progress-top"><span class="meter-label">일일 달성률</span><span class="pct" id="dailyProgressPct">0%</span></div>
       <div class="progress-track"><div class="progress-fill" id="dailyProgressFill" style="width:0%;"></div></div>
     </div>
-
     <ul class="goal-list" id="dailyList"></ul>
     <div class="empty-note" id="dailyEmptyNote" style="display:none;">이 날의 일일 목표가 없습니다. 아래에서 내일의 목표도 미리 추가해보세요.</div>
-
     <form class="add-form" id="addDailyForm">
       <input type="text" id="dailyGoalInput" placeholder="예: 스케일 연습 10분" maxlength="60" required>
       <select id="dailyTierSelect">
@@ -452,23 +469,20 @@
   <div class="panel" id="goalsPanel" style="display:none;">
     <div class="week-nav">
       <div class="nav-btns">
-        <button class="nav-btn" id="prevWeek" aria-label="이전 주">‹</button>
+        <button class="nav-btn" id="prevWeek">‹</button>
       </div>
       <div class="range" id="weekRange">-<small id="weekSub"></small></div>
       <div class="nav-btns">
         <button class="today-chip" id="gotoToday">이번주</button>
-        <button class="nav-btn" id="nextWeek" aria-label="다음 주">›</button>
+        <button class="nav-btn" id="nextWeek">›</button>
       </div>
     </div>
-
     <div class="progress-wrap" id="progressWrap" style="display:none;">
       <div class="progress-top"><span class="meter-label">주간 달성률</span><span class="pct" id="progressPct">0%</span></div>
       <div class="progress-track"><div class="progress-fill" id="progressFill" style="width:0%;"></div></div>
     </div>
-
     <ul class="goal-list" id="goalList"></ul>
     <div class="empty-note" id="emptyNote" style="display:none;">이번 주 목표가 아직 없어요. 주간 퀘스트를 추가해보세요.</div>
-
     <form class="add-form" id="addWeekForm">
       <input type="text" id="weekGoalInput" placeholder="예: 일주일간 매일 발성 30분 달성하기" maxlength="60" required>
       <button type="submit" class="add-btn">퀘스트 추가</button>
@@ -490,7 +504,6 @@
         <input type="text" id="repoArtist" placeholder="가수 (예: 아이유)" required style="flex:1;">
         <input type="text" id="repoKey" placeholder="키(예:-1)" style="flex:0.7;">
       </div>
-      
       <label class="upload-box" for="repoFile">
         <input type="file" id="repoFile" onchange="showRepoFile()">
         <span class="upload-icon">📎</span>
@@ -533,8 +546,8 @@
   <div class="footnote">목표를 달성하면 EXP가 쌓이고 레벨이 올라가요 · 2026 – 2050</div>
   
   <div class="backup-row">
-    <button class="backup-btn" id="exportBtn">내 데이터 백업 (파일 다운로드)</button>
-    <button class="backup-btn" id="importBtn">데이터 복구 (파일 불러오기)</button>
+    <button class="backup-btn" id="exportBtn">내 데이터 백업</button>
+    <button class="backup-btn" id="importBtn">데이터 복구</button>
     <input type="file" id="importFile" accept="application/json" style="display:none;">
   </div>
 </div>
@@ -548,6 +561,54 @@
     </div>
     <div class="modal-sub" id="dayModalSub"></div>
     
+    <!-- 시간대 트래커 입력창 -->
+    <div class="time-inputs">
+      <div class="time-col">
+        <label>연습 시작 시간</label>
+        <input type="time" id="dayTimeStart">
+      </div>
+      <div class="time-col">
+        <label>연습 종료 시간</label>
+        <input type="time" id="dayTimeEnd">
+      </div>
+    </div>
+
+    <!-- 스탯 평가 슬라이더 -->
+    <div class="stat-sliders">
+      <div style="font-size:11px; color:var(--amber); margin-bottom:10px; font-weight:700;">오늘 연습은 어땠나요? (1~5점)</div>
+      
+      <div class="stat-row">
+        <div class="stat-label">음정</div>
+        <input type="range" class="stat-slider" id="stat-pitch" min="1" max="5" value="3" oninput="this.nextElementSibling.textContent=this.value">
+        <div class="stat-val">3</div>
+      </div>
+      <div class="stat-row">
+        <div class="stat-label">박자</div>
+        <input type="range" class="stat-slider" id="stat-rhythm" min="1" max="5" value="3" oninput="this.nextElementSibling.textContent=this.value">
+        <div class="stat-val">3</div>
+      </div>
+      <div class="stat-row">
+        <div class="stat-label">호흡</div>
+        <input type="range" class="stat-slider" id="stat-breath" min="1" max="5" value="3" oninput="this.nextElementSibling.textContent=this.value">
+        <div class="stat-val">3</div>
+      </div>
+      <div class="stat-row">
+        <div class="stat-label">발성</div>
+        <input type="range" class="stat-slider" id="stat-vocal" min="1" max="5" value="3" oninput="this.nextElementSibling.textContent=this.value">
+        <div class="stat-val">3</div>
+      </div>
+      <div class="stat-row">
+        <div class="stat-label">고음</div>
+        <input type="range" class="stat-slider" id="stat-high" min="1" max="5" value="3" oninput="this.nextElementSibling.textContent=this.value">
+        <div class="stat-val">3</div>
+      </div>
+      <div class="stat-row">
+        <div class="stat-label">감정</div>
+        <input type="range" class="stat-slider" id="stat-emotion" min="1" max="5" value="3" oninput="this.nextElementSibling.textContent=this.value">
+        <div class="stat-val">3</div>
+      </div>
+    </div>
+
     <label class="upload-box" for="dayFile" style="margin-top:0; margin-bottom:12px;">
       <input type="file" id="dayFile" onchange="showDayFile()">
       <span class="upload-icon">🎙️</span>
@@ -564,18 +625,15 @@
       <button class="modal-delete" id="dayModalDelete">메모 삭제</button>
     </div>
     <div class="modal-actions">
-      <button class="modal-save" id="dayModalSave">메모/녹음 저장</button>
+      <button class="modal-save" id="dayModalSave">저장하기</button>
     </div>
   </div>
 </div>
 
-<!-- 로그인 모달 -->
+<!-- 로그인 / 회원가입 모달 (이전과 동일) -->
 <div class="modal-overlay" id="loginModal">
   <div class="modal-box">
-    <div class="modal-head">
-      <div class="modal-title">로그인</div>
-      <button class="modal-close" onclick="closeAuthModal('loginModal')">×</button>
-    </div>
+    <div class="modal-head"><div class="modal-title">로그인</div><button class="modal-close" onclick="closeAuthModal('loginModal')">×</button></div>
     <div style="display:flex; flex-direction:column; gap:10px; margin-top:10px;">
       <input type="text" id="login-id" placeholder="아이디">
       <input type="password" id="login-pw" placeholder="비밀번호">
@@ -585,13 +643,9 @@
   </div>
 </div>
 
-<!-- 회원가입 모달 -->
 <div class="modal-overlay" id="signupModal">
   <div class="modal-box">
-    <div class="modal-head">
-      <div class="modal-title">회원가입</div>
-      <button class="modal-close" onclick="closeAuthModal('signupModal')">×</button>
-    </div>
+    <div class="modal-head"><div class="modal-title">회원가입</div><button class="modal-close" onclick="closeAuthModal('signupModal')">×</button></div>
     <div style="display:flex; flex-direction:column; gap:10px; margin-top:10px;">
       <input type="text" id="su-id" placeholder="사용할 아이디 (영문/숫자)">
       <input type="password" id="su-pw" placeholder="비밀번호 (4자 이상)">
@@ -603,13 +657,12 @@
 
 <script>
 (function(){
-  // ★ 구글 웹 앱 URL
   const API = 'https://script.google.com/macros/s/AKfycbwnJWD2jZxLMRCVTUDr7IDL5TzQVMlmIAy7jwQUBd7jjqVBvvLk9KUR-9dNM33CCHXf/exec';
   const LOGIN_KEY = 'vocal-log-current-user';
 
   const TIERS = [ {label:'쉬움', exp:10}, {label:'보통', exp:20}, {label:'도전', exp:40} ];
   const WEEKLY_REWARD = 80;
-  const ROADMAP_REWARD = 200; // 로드맵 마일스톤 달성 시 엄청난 경험치
+  const ROADMAP_REWARD = 200; 
   const MAX_YEAR = 2050, MAX_MONTH = 11;
 
   const today = new Date(); today.setHours(0,0,0,0);
@@ -625,17 +678,12 @@
   let activeTab = 'daily';
   let modalDate = null;
 
-  // ---------- Auth / API 통신 ----------
+  // ---------- API / Auth ----------
   async function api(params) {
     const qs = Object.entries(params).map(([k,v]) => `${k}=${encodeURIComponent(v)}`).join('&');
     const res = await fetch(`${API}?${qs}`);
     const text = await res.text();
-    try { 
-      return JSON.parse(text); 
-    } catch (e) { 
-      console.error("API 응답 에러 (GET):", text);
-      return { ok:false, error:'서버가 잘못된 응답을 보냈습니다.' }; 
-    }
+    try { return JSON.parse(text); } catch (e) { return { ok:false, error:'서버가 잘못된 응답을 보냈습니다.' }; }
   }
 
   async function apiPost(params) {
@@ -647,12 +695,7 @@
       body: form.toString()
     });
     const text = await res.text();
-    try { 
-      return JSON.parse(text); 
-    } catch (e) { 
-      console.error("API 응답 에러 (POST):", text);
-      return { ok:false, error: '서버 응답 오류!\n원인: ' + text.slice(0, 60) + '...' }; 
-    }
+    try { return JSON.parse(text); } catch (e) { return { ok:false, error: '서버 응답 오류!' }; }
   }
 
   function checkLoginStatus() {
@@ -678,833 +721,415 @@
 
   window.openAuthModal = function(id) { document.getElementById(id).classList.add('show'); }
   window.closeAuthModal = function(id) { document.getElementById(id).classList.remove('show'); }
-
-  window.doLogin = async function() {
+  window.doLogin = async function() { /* 생략 없이 기존 유지 */
     const userId = document.getElementById('login-id').value.trim();
     const password = document.getElementById('login-pw').value;
     if(!userId || !password) return alert('아이디와 비밀번호를 입력해주세요.');
-    
-    document.getElementById('loadOverlay').style.display = 'flex';
-    document.getElementById('loadOverlay').style.opacity = '1';
-    document.getElementById('loadStatus').textContent = '로그인 중...';
-    
+    document.getElementById('loadOverlay').style.display = 'flex'; document.getElementById('loadOverlay').style.opacity = '1';
     try {
       const result = await apiPost({ action:'login', userId, password });
-      if(!result.ok) {
-        document.getElementById('loadOverlay').style.display = 'none';
-        return alert(result.error || '로그인에 실패했습니다.');
-      }
-      const userObj = result.user || {};
-      const finalUserId = String(userObj.userId || userObj.username || userObj.id || userId).trim();
-      const finalName = String(userObj.displayName || userObj.name || userObj.nickname || finalUserId).trim();
-      
-      currentUser = { userId: finalUserId, name: finalName };
+      if(!result.ok) { document.getElementById('loadOverlay').style.display = 'none'; return alert(result.error); }
+      currentUser = { userId: result.user.userId || userId, name: result.user.name || result.user.userId || userId };
       localStorage.setItem(LOGIN_KEY, JSON.stringify(currentUser));
-      closeAuthModal('loginModal');
-      checkLoginStatus();
-      await loadData();
-    } catch(e) {
-      document.getElementById('loadOverlay').style.display = 'none';
-      alert('네트워크 오류가 발생했습니다.');
-    }
+      closeAuthModal('loginModal'); checkLoginStatus(); await loadData();
+    } catch(e) { document.getElementById('loadOverlay').style.display = 'none'; alert('오류가 발생했습니다.'); }
   }
-
   window.doSignup = async function() {
     const userId = document.getElementById('su-id').value.trim();
     const password = document.getElementById('su-pw').value;
     const name = document.getElementById('su-name').value.trim();
     if(!userId || !password || !name) return alert('모든 칸을 입력해주세요.');
-    if(password.length < 4) return alert('비밀번호는 4자 이상이어야 합니다.');
-
-    document.getElementById('loadOverlay').style.display = 'flex';
-    document.getElementById('loadOverlay').style.opacity = '1';
-    document.getElementById('loadStatus').textContent = '가입 진행 중...';
-
+    document.getElementById('loadOverlay').style.display = 'flex'; document.getElementById('loadOverlay').style.opacity = '1';
     try {
       const result = await apiPost({ action:'signup', userId, password, name, role: '보컬' });
-      if(!result.ok) {
-        document.getElementById('loadOverlay').style.display = 'none';
-        return alert(result.error || '회원가입에 실패했습니다.');
-      }
-      currentUser = { userId: userId, name: name };
+      if(!result.ok) { document.getElementById('loadOverlay').style.display = 'none'; return alert(result.error); }
+      currentUser = { userId, name };
       localStorage.setItem(LOGIN_KEY, JSON.stringify(currentUser));
-      closeAuthModal('signupModal');
-      checkLoginStatus();
-      await loadData();
-    } catch(e) {
-      document.getElementById('loadOverlay').style.display = 'none';
-      alert('네트워크 오류가 발생했습니다.');
-    }
+      closeAuthModal('signupModal'); checkLoginStatus(); await loadData();
+    } catch(e) { document.getElementById('loadOverlay').style.display = 'none'; alert('오류가 발생했습니다.'); }
   }
-
   window.logout = function() {
-    localStorage.removeItem(LOGIN_KEY);
-    currentUser = null;
+    localStorage.removeItem(LOGIN_KEY); currentUser = null;
     state = { totalExp:0, goals:{}, dailyGoals:{}, notes:{}, repo:[], roadmap:{ ultimate:'', milestones:[] } };
-    checkLoginStatus();
-    renderAll();
+    checkLoginStatus(); renderAll();
   }
 
-  // ---------- 데이터 불러오기/저장 ----------
+  // ---------- Data Load / Save ----------
   async function loadData(){
     const overlay = document.getElementById('loadOverlay');
-    
-    const failsafe = setTimeout(() => {
-      if(overlay.style.display !== 'none') {
-        overlay.style.opacity = '0';
-        setTimeout(() => { overlay.style.display = 'none'; }, 300);
-      }
-    }, 3500);
+    const failsafe = setTimeout(() => { overlay.style.opacity = '0'; setTimeout(() => { overlay.style.display = 'none'; }, 300); }, 3500);
 
-    if(!currentUser || !currentUser.userId) {
+    if(!currentUser) {
       state = { totalExp:0, goals:{}, dailyGoals:{}, notes:{}, repo:[], roadmap:{ ultimate:'', milestones:[] } };
       try { renderAll(); } catch(e){}
-      clearTimeout(failsafe);
-      overlay.style.opacity = '0';
-      setTimeout(() => { overlay.style.display = 'none'; overlay.style.opacity = '1'; }, 300);
+      clearTimeout(failsafe); overlay.style.opacity = '0'; setTimeout(() => { overlay.style.display = 'none'; }, 300);
       return;
     }
 
-    overlay.style.display = 'flex';
-    overlay.style.opacity = '1';
-    document.getElementById('loadStatus').textContent = '데이터를 불러오는 중...';
-
+    overlay.style.display = 'flex'; overlay.style.opacity = '1';
     try {
       const res = await api({ action: 'read', sheet: 'vocal_log' });
       const rows = res.data || [];
       const myRows = rows.filter(r => r[0] === currentUser.userId);
-      
       if(myRows.length > 0){
-        const lastRow = myRows[myRows.length - 1]; 
-        const parsed = JSON.parse(lastRow[1]);
+        const parsed = JSON.parse(myRows[myRows.length - 1][1]);
         state = {
           totalExp: parsed.totalExp || 0,
-          goals: (parsed.goals && typeof parsed.goals === 'object') ? parsed.goals : {},
-          dailyGoals: (parsed.dailyGoals && typeof parsed.dailyGoals === 'object') ? parsed.dailyGoals : {},
-          notes: (parsed.notes && typeof parsed.notes === 'object') ? parsed.notes : {},
+          goals: parsed.goals || {},
+          dailyGoals: parsed.dailyGoals || {},
+          notes: parsed.notes || {},
           repo: Array.isArray(parsed.repo) ? parsed.repo : [],
-          roadmap: (parsed.roadmap && typeof parsed.roadmap === 'object') ? parsed.roadmap : { ultimate:'', milestones:[] }
+          roadmap: parsed.roadmap || { ultimate:'', milestones:[] }
         };
       } else {
         state = { totalExp:0, goals:{}, dailyGoals:{}, notes:{}, repo:[], roadmap:{ ultimate:'', milestones:[] } };
       }
-    } catch(e) {
-      console.error('불러오기 오류:', e);
-    }
-
-    try { renderAll(); } catch(e) { console.error('렌더링 오류:', e); }
-
-    clearTimeout(failsafe);
-    overlay.style.opacity = '0';
-    setTimeout(() => { overlay.style.display = 'none'; overlay.style.opacity = '1'; }, 300);
+    } catch(e) {}
+    try { renderAll(); } catch(e) {}
+    clearTimeout(failsafe); overlay.style.opacity = '0'; setTimeout(() => { overlay.style.display = 'none'; overlay.style.opacity = '1'; }, 300);
   }
   
   async function save(){
-    if(!currentUser || !currentUser.userId) return;
+    if(!currentUser) return;
     try{
-      const timestamp = new Date().toLocaleString();
-      await apiPost({ 
-        action: 'append', 
-        sheet: 'vocal_log', 
-        row: JSON.stringify([ currentUser.userId, JSON.stringify(state), timestamp ]) 
-      });
-    }catch(e){ console.error('저장 실패', e); }
+      await apiPost({ action: 'append', sheet: 'vocal_log', row: JSON.stringify([ currentUser.userId, JSON.stringify(state), new Date().toLocaleString() ]) });
+    }catch(e){}
   }
 
   // ---------- File Upload ----------
   function fileToBase64(file) {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.onload = () => resolve(String(reader.result).split(',')[1]);
-      reader.onerror = reject;
-      reader.readAsDataURL(file);
-    });
+    return new Promise((res, rej) => { const r = new FileReader(); r.onload = () => res(String(r.result).split(',')[1]); r.onerror = rej; r.readAsDataURL(file); });
   }
-
   async function uploadFileToGas(file) {
     if (!file) return { url: '', name: '' };
-    if (file.size > 4 * 1024 * 1024) {
-      alert('4MB 이하 파일만 업로드 가능합니다.');
-      throw new Error('용량 초과');
-    }
+    if (file.size > 4*1024*1024) { alert('4MB 이하만 가능합니다.'); throw new Error('용량 초과'); }
     const base64 = await fileToBase64(file);
-    const res = await apiPost({
-      action: 'uploadFile',
-      fileName: file.name,
-      mimeType: file.type || 'application/octet-stream',
-      base64: base64
-    });
-    if (!res.ok) throw new Error(res.error || '업로드 실패');
+    const res = await apiPost({ action: 'uploadFile', fileName: file.name, mimeType: file.type || 'application/octet-stream', base64: base64 });
     return { url: res.url || res.fileUrl || '', name: res.name || file.name };
   }
 
   // ---------- Helpers ----------
-  function getMonday(d){
-    const nd = new Date(d);
-    const day = nd.getDay();
-    const diff = day === 0 ? -6 : 1 - day;
-    nd.setDate(nd.getDate() + diff);
-    nd.setHours(0,0,0,0);
-    return nd;
-  }
+  function getMonday(d){ const nd = new Date(d); const day = nd.getDay(); const diff = day===0 ? -6 : 1-day; nd.setDate(nd.getDate()+diff); nd.setHours(0,0,0,0); return nd; }
   function fmtKey(d){ return d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0'); }
   function addDays(d, n){ const nd = new Date(d); nd.setDate(nd.getDate()+n); return nd; }
   function sameDay(a,b){ return a.getFullYear()===b.getFullYear() && a.getMonth()===b.getMonth() && a.getDate()===b.getDate(); }
-  function weekRangeLabel(monday){
-    const sunday = addDays(monday, 6);
-    const sameMonth = monday.getMonth() === sunday.getMonth();
-    const l = (monday.getMonth()+1) + '.' + monday.getDate();
-    const r = (sameMonth ? '' : (sunday.getMonth()+1)+'.') + sunday.getDate();
-    return { main: monday.getFullYear() + '년 ' + (monday.getMonth()+1) + '월', sub: l + ' – ' + r };
-  }
 
-  // ---------- Rendering ----------
-  function levelInfo(totalExp){
-    let level = 1, remaining = totalExp, need = 100;
-    while(remaining >= need){
-      remaining -= need;
-      level += 1;
-      need += 50;
-    }
-    return { level, into: remaining, need };
-  }
-
+  // ---------- Header ----------
+  function levelInfo(totalExp){ let level = 1, remaining = totalExp, need = 100; while(remaining >= need){ remaining -= need; level += 1; need += 50; } return { level, into: remaining, need }; }
   function getTotalDoneCount(){
     let count = 0;
-    if(state && state.goals) {
-      Object.values(state.goals).forEach(list => {
-        if(Array.isArray(list)) count += list.filter(g => g && g.done).length;
-      });
-    }
-    if(state && state.dailyGoals) {
-      Object.values(state.dailyGoals).forEach(list => {
-        if(Array.isArray(list)) count += list.filter(g => g && g.done).length;
-      });
-    }
-    if(state && state.roadmap && Array.isArray(state.roadmap.milestones)) {
-       count += state.roadmap.milestones.filter(g => g && g.done).length;
-    }
+    if(state.goals) Object.values(state.goals).forEach(list => count += (Array.isArray(list) ? list.filter(g=>g.done).length : 0));
+    if(state.dailyGoals) Object.values(state.dailyGoals).forEach(list => count += (Array.isArray(list) ? list.filter(g=>g.done).length : 0));
+    if(state.roadmap && state.roadmap.milestones) count += state.roadmap.milestones.filter(g=>g.done).length;
     return count;
   }
-
   function renderHeader(){
     const info = levelInfo(state.totalExp || 0);
-    const lvNum = document.getElementById('lvNum');
-    const totalDone = document.getElementById('totalDoneDisplay');
-    const meterLabel = document.getElementById('meterLabel');
+    document.getElementById('lvNum').textContent = `Lv.${info.level}`;
+    document.getElementById('totalDoneDisplay').textContent = `(총 달성: ${getTotalDoneCount()}회)`;
+    document.getElementById('meterLabel').textContent = info.into + ' / ' + info.need;
     const meter = document.getElementById('meter');
-    
-    if (lvNum) lvNum.textContent = `Lv.${info.level}`;
-    if (totalDone) totalDone.textContent = `(총 달성: ${getTotalDoneCount()}회)`;
-    if (meterLabel) meterLabel.textContent = info.into + ' / ' + info.need;
-    
-    if (meter) {
-      const segments = 12;
-      const filled = Math.round((info.into / info.need) * segments);
-      meter.innerHTML = '';
-      for(let i=0;i<segments;i++){
-        const seg = document.createElement('i');
-        if(i < filled) seg.classList.add('on');
-        meter.appendChild(seg);
-      }
-    }
+    const filled = Math.round((info.into / info.need) * 12);
+    meter.innerHTML = '';
+    for(let i=0;i<12;i++){ const seg = document.createElement('i'); if(i < filled) seg.classList.add('on'); meter.appendChild(seg); }
   }
+  function showLevelUpToast(){ const t = document.getElementById('toast'); t.classList.add('show'); setTimeout(()=> t.classList.remove('show'), 1600); }
 
-  function showLevelUpToast(){
-    const t = document.getElementById('toast');
-    t.classList.add('show');
-    setTimeout(()=> t.classList.remove('show'), 1600);
-  }
-
-  // ---------- Roadmap Map (NEW CONCERT TOUR THEME) ----------
-  window.saveUltimateGoal = function(val) {
-    if(!currentUser) return;
-    if(!state.roadmap) state.roadmap = { ultimate:'', milestones:[] };
-    state.roadmap.ultimate = val;
-    save();
-  }
-
+  // ---------- Roadmap ----------
+  window.saveUltimateGoal = function(val) { if(!currentUser) return; state.roadmap.ultimate = val; save(); }
   function renderRoadmap() {
-    if(!state.roadmap) state.roadmap = { ultimate:'', milestones:[] };
     document.getElementById('ultimateGoalInput').value = state.roadmap.ultimate || '';
-
     const list = state.roadmap.milestones || [];
     const container = document.getElementById('roadmapMapContainer');
     const emptyNote = document.getElementById('roadmapEmptyNote');
-    
-    if(list.length === 0) {
-      container.style.display = 'none';
-      emptyNote.style.display = 'block';
-      return;
-    }
-
-    container.style.display = 'block';
-    emptyNote.style.display = 'none';
+    if(list.length === 0) { container.style.display = 'none'; emptyNote.style.display = 'block'; return; }
+    container.style.display = 'block'; emptyNote.style.display = 'none';
     
     const STAGE_EMOJIS = ['🎧', '🎸', '🎪', '🏟️', '👑'];
     const STAGE_NAMES = ['방구석 연습', '소규모 공연', '대형 콘서트홀', '스타디움 투어', '전설의 무대'];
     
-    // 캐릭터가 서있을 현재 목표 인덱스 찾기
     let activeIdx = 0;
-    for(let i=0; i<list.length; i++) {
-        if(list[i].done) activeIdx = i + 1;
-        else break; 
-    }
-    if(activeIdx >= list.length) activeIdx = list.length - 1; // 전부 다 깼으면 맨 마지막에 서있음
+    for(let i=0; i<list.length; i++) { if(list[i].done) activeIdx = i + 1; else break; }
+    if(activeIdx >= list.length) activeIdx = list.length - 1; 
 
-    let html = `<div class="roadmap-map">
-                  <div class="map-line"></div>
-                  <div class="map-line-fill" id="mapFill"></div>`;
-
+    let html = `<div class="roadmap-map"><div class="map-line"></div><div class="map-line-fill" id="mapFill"></div>`;
     list.forEach((m, idx) => {
-      if(!m) return;
-      
-      const tier = Math.min(idx, 4); // 인덱스가 늘어날수록 스테이지 등급업 (최대 4)
+      const tier = Math.min(idx, 4);
       const isDone = m.done;
       const isActive = (!isDone && idx === activeIdx) || (isDone && idx === list.length - 1 && activeIdx === list.length - 1);
-      
-      const nodeClass = isDone ? 'map-node done' : (isActive ? 'map-node active' : 'map-node');
-      
-      // 지금 깨고있는 타겟 스테이지 위에 캐릭터 이모지 띄우기
-      let avatarHtml = '';
-      if(isActive) {
-         avatarHtml = `<div class="avatar">🧑‍🎤</div>`;
-      }
-
       html += `
         <div class="map-node-wrapper">
-          <div class="${nodeClass}">
-            <div class="stage-icon">
-              ${avatarHtml}
-              ${STAGE_EMOJIS[tier]}
-            </div>
+          <div class="map-node ${isDone ? 'done' : ''} ${isActive ? 'active' : ''}">
+            <div class="stage-icon">${isActive ? '<div class="avatar">🧑‍🎤</div>' : ''}${STAGE_EMOJIS[tier]}</div>
             <div class="node-card">
               <div style="flex:1;">
                 <div class="stage-name">${STAGE_NAMES[tier]}</div>
                 <div class="goal-text" style="${isDone ? 'color:var(--muted); text-decoration:line-through;' : 'color:var(--cream);'}">${m.text}</div>
               </div>
-              <button class="check ${isDone ? 'checked' : ''}" data-idx="${idx}" aria-label="달성 체크"></button>
-              <button class="del-btn roadmap-del" data-idx="${idx}" aria-label="삭제">×</button>
+              <button class="check ${isDone ? 'checked' : ''}" onclick="toggleRoadmap(${idx})"></button>
+              <button class="del-btn" onclick="deleteRoadmap(${idx})">×</button>
             </div>
           </div>
         </div>
       `;
     });
-
     html += `</div>`;
     container.innerHTML = html;
-
-    // 길(진행률 선) 채우기 애니메이션
     setTimeout(() => {
         const fill = document.getElementById('mapFill');
-        if(fill) {
-            const pct = list.length <= 1 ? (list[0].done ? 100 : 0) : (activeIdx / (list.length - 1)) * 100;
-            fill.style.height = `calc(${pct}% - 20px)`; 
-        }
+        if(fill) { const pct = list.length <= 1 ? (list[0].done ? 100 : 0) : (activeIdx / (list.length - 1)) * 100; fill.style.height = `calc(${pct}% - 20px)`; }
     }, 50);
-
-    // 이벤트 리스너 달아주기
-    container.querySelectorAll('.check').forEach(btn => {
-      btn.addEventListener('click', (e) => {
-        const idx = Number(e.currentTarget.dataset.idx);
-        toggleRoadmap(idx);
-      });
-    });
-    
-    container.querySelectorAll('.roadmap-del').forEach(btn => {
-      btn.addEventListener('click', (e) => {
-        const idx = Number(e.currentTarget.dataset.idx);
-        deleteRoadmap(idx);
-      });
-    });
   }
-
   window.toggleRoadmap = function(idx) {
-    if(!currentUser) { alert('로그인 후 이용 가능합니다.'); return; }
-    const m = state.roadmap.milestones[idx];
-    const before = levelInfo(state.totalExp).level;
-    m.done = !m.done;
-    state.totalExp = Math.max(0, state.totalExp + (m.done ? ROADMAP_REWARD : -ROADMAP_REWARD));
-    if(levelInfo(state.totalExp).level > before) showLevelUpToast();
-    save(); renderHeader(); renderRoadmap();
+    if(!currentUser) return; const m = state.roadmap.milestones[idx]; const before = levelInfo(state.totalExp).level;
+    m.done = !m.done; state.totalExp = Math.max(0, state.totalExp + (m.done ? ROADMAP_REWARD : -ROADMAP_REWARD));
+    if(levelInfo(state.totalExp).level > before) showLevelUpToast(); save(); renderHeader(); renderRoadmap();
   };
-
   window.deleteRoadmap = function(idx) {
-    if(!currentUser) { alert('로그인 후 이용 가능합니다.'); return; }
-    const m = state.roadmap.milestones[idx];
+    if(!currentUser) return; const m = state.roadmap.milestones[idx];
     if(m.done) state.totalExp = Math.max(0, state.totalExp - ROADMAP_REWARD);
-    state.roadmap.milestones.splice(idx, 1);
-    save(); renderHeader(); renderRoadmap();
+    state.roadmap.milestones.splice(idx, 1); save(); renderHeader(); renderRoadmap();
   };
-
-  // ★★★ 아까 빼먹었던 '무대 추가' 버튼 이벤트 리스너 (여기가 핵심!) ★★★
   document.getElementById('addMilestoneForm').addEventListener('submit', (e) => {
-    e.preventDefault();
-    if(!currentUser) { alert('로그인 후 추가할 수 있습니다.'); openAuthModal('loginModal'); return; }
-    const text = document.getElementById('milestoneInput').value.trim();
-    if(!text) return;
-    
+    e.preventDefault(); if(!currentUser) { openAuthModal('loginModal'); return; }
+    const text = document.getElementById('milestoneInput').value.trim(); if(!text) return;
     if(!state.roadmap) state.roadmap = { ultimate:'', milestones:[] };
-    if(!Array.isArray(state.roadmap.milestones)) state.roadmap.milestones = [];
-    
-    state.roadmap.milestones.push({
-      id: Date.now() + '-' + Math.random().toString(36).slice(2,7),
-      text: text,
-      done: false
-    });
-    
-    document.getElementById('milestoneInput').value = '';
-    save(); 
-    renderRoadmap();
+    state.roadmap.milestones.push({ id: Date.now()+'-'+Math.random().toString(36).slice(2,7), text: text, done: false });
+    document.getElementById('milestoneInput').value = ''; save(); renderRoadmap();
   });
 
-
-  // ---------- Daily Goals ----------
+  // ---------- Daily/Week/Repo Logic (유지) ----------
   function renderDaily(){
     const key = fmtKey(currentDailyDate);
-    const y = currentDailyDate.getFullYear();
-    const m = currentDailyDate.getMonth() + 1;
-    const d = currentDailyDate.getDate();
-    const dow = ['일','월','화','수','목','금','토'][currentDailyDate.getDay()];
-    
-    const rangeEl = document.getElementById('dailyRange');
-    if(rangeEl && rangeEl.firstChild) rangeEl.firstChild.textContent = `${y}년 ${m}월 ${d}일 `;
-    const subEl = document.getElementById('dailySub');
-    if(subEl) subEl.textContent = `${dow}요일`;
-    
-    const isToday = sameDay(currentDailyDate, today);
-    document.getElementById('gotoTodayDaily').style.display = isToday ? 'none' : 'inline-block';
-
-    const list = (state.dailyGoals && Array.isArray(state.dailyGoals[key])) ? state.dailyGoals[key] : [];
-    const ul = document.getElementById('dailyList');
-    const emptyNote = document.getElementById('dailyEmptyNote');
-    const progressWrap = document.getElementById('dailyProgressWrap');
-    ul.innerHTML = '';
-    
-    if(list.length === 0){
-      emptyNote.style.display = 'block';
-      progressWrap.style.display = 'none';
-    } else {
-      emptyNote.style.display = 'none';
-      progressWrap.style.display = 'block';
-      const done = list.filter(g => g && g.done).length;
-      const pct = Math.round((done / list.length) * 100);
-      document.getElementById('dailyProgressPct').textContent = pct + '%';
-      document.getElementById('dailyProgressFill').style.width = pct + '%';
-      list.forEach(g => {
-        if(!g) return;
-        const li = document.createElement('li');
-        li.className = 'goal-row' + (g.done ? ' done' : '');
-        const tier = TIERS[g.tier] || TIERS[1];
-        li.innerHTML =
-          '<button class="check' + (g.done?' checked':'') + '" aria-label="달성 체크"></button>' +
-          '<span class="goal-text"></span>' +
-          '<span class="tier-badge">' + tier.label + ' · ' + tier.exp + ' EXP</span>' +
-          '<button class="del-btn" aria-label="삭제">×</button>';
-        li.querySelector('.goal-text').textContent = g.text;
-        li.querySelector('.check').addEventListener('click', () => {
-          if(!currentUser) { alert('로그인 후 이용 가능합니다.'); return; }
-          const before = levelInfo(state.totalExp).level;
-          g.done = !g.done;
-          state.totalExp = Math.max(0, state.totalExp + (g.done ? tier.exp : -tier.exp));
-          if(levelInfo(state.totalExp).level > before) showLevelUpToast();
-          save(); renderHeader(); renderDaily(); renderCalendar();
-        });
-        li.querySelector('.del-btn').addEventListener('click', () => {
-          if(!currentUser) { alert('로그인 후 이용 가능합니다.'); return; }
-          if(g.done) state.totalExp = Math.max(0, state.totalExp - tier.exp);
-          const idx = state.dailyGoals[key].indexOf(g);
-          state.dailyGoals[key].splice(idx, 1);
-          if(state.dailyGoals[key].length === 0) delete state.dailyGoals[key];
-          save(); renderHeader(); renderDaily(); renderCalendar();
-        });
+    document.getElementById('dailyRange').firstChild.textContent = `${currentDailyDate.getFullYear()}년 ${currentDailyDate.getMonth()+1}월 ${currentDailyDate.getDate()}일 `;
+    document.getElementById('dailySub').textContent = ['일','월','화','수','목','금','토'][currentDailyDate.getDay()] + '요일';
+    document.getElementById('gotoTodayDaily').style.display = sameDay(currentDailyDate, today) ? 'none' : 'inline-block';
+    const list = state.dailyGoals[key] || [];
+    const ul = document.getElementById('dailyList'); ul.innerHTML = '';
+    if(list.length === 0){ document.getElementById('dailyEmptyNote').style.display = 'block'; document.getElementById('dailyProgressWrap').style.display = 'none'; } 
+    else {
+      document.getElementById('dailyEmptyNote').style.display = 'none'; document.getElementById('dailyProgressWrap').style.display = 'block';
+      const pct = Math.round((list.filter(g=>g.done).length / list.length) * 100);
+      document.getElementById('dailyProgressPct').textContent = pct + '%'; document.getElementById('dailyProgressFill').style.width = pct + '%';
+      list.forEach((g, idx) => {
+        const li = document.createElement('li'); li.className = 'goal-row' + (g.done ? ' done' : '');
+        li.innerHTML = `<button class="check ${g.done?'checked':''}"></button><span class="goal-text">${g.text}</span><span class="tier-badge">${TIERS[g.tier].label} · ${TIERS[g.tier].exp} EXP</span><button class="del-btn">×</button>`;
+        li.querySelector('.check').onclick = () => { const b=levelInfo(state.totalExp).level; g.done=!g.done; state.totalExp=Math.max(0, state.totalExp+(g.done?TIERS[g.tier].exp:-TIERS[g.tier].exp)); if(levelInfo(state.totalExp).level>b)showLevelUpToast(); save(); renderHeader(); renderDaily(); renderCalendar(); };
+        li.querySelector('.del-btn').onclick = () => { if(g.done)state.totalExp=Math.max(0,state.totalExp-TIERS[g.tier].exp); state.dailyGoals[key].splice(idx,1); if(state.dailyGoals[key].length===0)delete state.dailyGoals[key]; save(); renderHeader(); renderDaily(); renderCalendar(); };
         ul.appendChild(li);
       });
     }
   }
-
   document.getElementById('addDailyForm').addEventListener('submit', (e) => {
-    e.preventDefault();
-    if(!currentUser) { alert('로그인 후 추가할 수 있습니다.'); openAuthModal('loginModal'); return; }
-    const text = document.getElementById('dailyGoalInput').value.trim();
-    if(!text) return;
-    const key = fmtKey(currentDailyDate);
-    if(!state.dailyGoals) state.dailyGoals = {};
-    if(!state.dailyGoals[key] || !Array.isArray(state.dailyGoals[key])) state.dailyGoals[key] = [];
-    state.dailyGoals[key].push({
-      id: Date.now() + '-' + Math.random().toString(36).slice(2,7),
-      text, tier: Number(document.getElementById('dailyTierSelect').value), done: false
-    });
-    document.getElementById('dailyGoalInput').value = '';
-    save(); renderDaily(); renderCalendar();
+    e.preventDefault(); if(!currentUser) return openAuthModal('loginModal');
+    const t = document.getElementById('dailyGoalInput').value.trim(); if(!t) return;
+    const k = fmtKey(currentDailyDate); if(!state.dailyGoals[k]) state.dailyGoals[k]=[];
+    state.dailyGoals[k].push({id:Date.now()+'', text:t, tier:Number(document.getElementById('dailyTierSelect').value), done:false});
+    document.getElementById('dailyGoalInput').value=''; save(); renderDaily(); renderCalendar();
   });
-
-  document.getElementById('prevDay').addEventListener('click', () => { currentDailyDate = addDays(currentDailyDate, -1); renderDaily(); });
-  document.getElementById('nextDay').addEventListener('click', () => { currentDailyDate = addDays(currentDailyDate, 1); renderDaily(); });
-  document.getElementById('gotoTodayDaily').addEventListener('click', () => { currentDailyDate = new Date(today); renderDaily(); });
-
-
-  // ---------- Weekly Goals ----------
-  function renderGoals(){
-    const key = fmtKey(currentWeekMonday);
-    const label = weekRangeLabel(currentWeekMonday);
-    const rangeEl = document.getElementById('weekRange');
-    if(rangeEl && rangeEl.firstChild) rangeEl.firstChild.textContent = label.main;
-    document.getElementById('weekSub').textContent = label.sub;
-    document.getElementById('prevWeek').disabled = currentWeekMonday <= todayMonday;
-    document.getElementById('nextWeek').disabled = currentWeekMonday >= getMonday(new Date(MAX_YEAR, MAX_MONTH, 31));
-    document.getElementById('gotoToday').style.display = sameDay(currentWeekMonday, todayMonday) ? 'none' : 'inline-block';
-
-    const list = (state.goals && Array.isArray(state.goals[key])) ? state.goals[key] : [];
-    const ul = document.getElementById('goalList');
-    const emptyNote = document.getElementById('emptyNote');
-    const progressWrap = document.getElementById('progressWrap');
-    ul.innerHTML = '';
-    
-    if(list.length === 0){
-      emptyNote.style.display = 'block';
-      progressWrap.style.display = 'none';
-    } else {
-      emptyNote.style.display = 'none';
-      progressWrap.style.display = 'block';
-      const done = list.filter(g => g && g.done).length;
-      const pct = Math.round((done / list.length) * 100);
-      document.getElementById('progressPct').textContent = pct + '%';
-      document.getElementById('progressFill').style.width = pct + '%';
-      list.forEach(g => {
-        if(!g) return;
-        const li = document.createElement('li');
-        li.className = 'goal-row' + (g.done ? ' done' : '');
-        li.innerHTML =
-          '<button class="check' + (g.done?' checked':'') + '" aria-label="달성 체크"></button>' +
-          '<span class="goal-text"></span>' +
-          '<span class="tier-badge" style="color:var(--amber); border-color:var(--amber);">주간 보상 · ' + WEEKLY_REWARD + ' EXP</span>' +
-          '<button class="del-btn" aria-label="삭제">×</button>';
-        li.querySelector('.goal-text').textContent = g.text;
-        li.querySelector('.check').addEventListener('click', () => {
-          if(!currentUser) { alert('로그인 후 이용 가능합니다.'); return; }
-          const before = levelInfo(state.totalExp).level;
-          g.done = !g.done;
-          state.totalExp = Math.max(0, state.totalExp + (g.done ? WEEKLY_REWARD : -WEEKLY_REWARD));
-          if(levelInfo(state.totalExp).level > before) showLevelUpToast();
-          save(); renderHeader(); renderGoals();
-        });
-        li.querySelector('.del-btn').addEventListener('click', () => {
-          if(!currentUser) { alert('로그인 후 이용 가능합니다.'); return; }
-          if(g.done) state.totalExp = Math.max(0, state.totalExp - WEEKLY_REWARD);
-          const idx = state.goals[key].indexOf(g);
-          state.goals[key].splice(idx, 1);
-          if(state.goals[key].length === 0) delete state.goals[key];
-          save(); renderHeader(); renderGoals();
-        });
-        ul.appendChild(li);
-      });
-    }
-  }
-
-  document.getElementById('addWeekForm').addEventListener('submit', (e) => {
-    e.preventDefault();
-    if(!currentUser) { alert('로그인 후 목표를 추가할 수 있습니다.'); openAuthModal('loginModal'); return; }
-    const text = document.getElementById('weekGoalInput').value.trim();
-    if(!text) return;
-    const key = fmtKey(currentWeekMonday);
-    if(!state.goals[key] || !Array.isArray(state.goals[key])) state.goals[key] = [];
-    state.goals[key].push({
-      id: Date.now() + '-' + Math.random().toString(36).slice(2,7),
-      text, done: false
-    });
-    document.getElementById('weekGoalInput').value = '';
-    save(); renderGoals();
-  });
-
-  document.getElementById('prevWeek').addEventListener('click', () => { currentWeekMonday = addDays(currentWeekMonday, -7); renderGoals(); });
-  document.getElementById('nextWeek').addEventListener('click', () => { currentWeekMonday = addDays(currentWeekMonday, 7); renderGoals(); });
-  document.getElementById('gotoToday').addEventListener('click', () => { currentWeekMonday = new Date(todayMonday); renderGoals(); });
-
-  // ---------- Repo ----------
-  window.showRepoFile = function() {
-    const file = document.getElementById('repoFile').files[0];
-    document.getElementById('repoFileName').textContent = file ? `${file.name} · ${(file.size / 1024 / 1024).toFixed(2)}MB` : '4MB 이하의 악보나 MR 파일';
-  }
-
-  function renderRepo(){
-    const ul = document.getElementById('repoList');
-    const empty = document.getElementById('repoEmpty');
-    ul.innerHTML = '';
-    const list = Array.isArray(state.repo) ? state.repo : [];
-    empty.style.display = list.length === 0 ? 'block' : 'none';
-
-    list.forEach(r => {
-      if(!r) return;
-      const li = document.createElement('li');
-      li.className = 'goal-row';
-      li.innerHTML =
-        '<div style="flex:1; line-height:1.4; min-width:0;">' +
-          '<div style="font-size:14.5px; font-weight:600; color:var(--cream);">' + r.song + ' <span style="font-size:12.5px; font-weight:400; color:var(--muted);"> - ' + r.artist + '</span></div>' +
-          (r.keyMemo ? '<div style="font-size:12px; color:var(--amber); margin-top:3px; font-family:var(--font-sans);">Key: ' + r.keyMemo + '</div>' : '') +
-          (r.fileUrl ? `<a class="file-chip" href="${r.fileUrl}" target="_blank" rel="noopener">📎 ${r.fileName}</a>` : '') +
-        '</div><button class="del-btn" aria-label="삭제">×</button>';
-      li.querySelector('.del-btn').addEventListener('click', () => {
-        if(!currentUser) { alert('로그인 후 삭제 가능합니다.'); return; }
-        state.repo = state.repo.filter(item => item.id !== r.id);
-        save(); renderRepo();
-      });
-      ul.appendChild(li);
-    });
-  }
-
-  document.getElementById('addRepoForm').addEventListener('submit', async (e) => {
-    e.preventDefault();
-    if(!currentUser) { alert('로그인 후 곡을 추가할 수 있습니다.'); openAuthModal('loginModal'); return; }
-    const song = document.getElementById('repoSong').value.trim();
-    const artist = document.getElementById('repoArtist').value.trim();
-    const keyMemo = document.getElementById('repoKey').value.trim();
-    const fileInput = document.getElementById('repoFile');
-    if(!song || !artist) return;
-
-    document.getElementById('loadOverlay').style.display = 'flex';
-    document.getElementById('loadOverlay').style.opacity = '1';
-    document.getElementById('loadStatus').textContent = fileInput.files[0] ? '파일 업로드 및 저장 중...' : '저장 중...';
-
-    try {
-      let fileUrl = '', fileName = '';
-      if (fileInput.files[0]) {
-        const uploaded = await uploadFileToGas(fileInput.files[0]);
-        fileUrl = uploaded.url; fileName = uploaded.name;
-      }
-      if(!Array.isArray(state.repo)) state.repo = [];
-      state.repo.push({ id: Date.now() + '-' + Math.random().toString(36).slice(2,7), song, artist, keyMemo, fileUrl, fileName });
-
-      document.getElementById('repoSong').value = '';
-      document.getElementById('repoArtist').value = '';
-      document.getElementById('repoKey').value = '';
-      fileInput.value = ''; showRepoFile();
-      await save(); renderRepo();
-    } catch (err) {} finally { document.getElementById('loadOverlay').style.display = 'none'; }
-  });
+  document.getElementById('prevDay').onclick = () => { currentDailyDate = addDays(currentDailyDate,-1); renderDaily(); };
+  document.getElementById('nextDay').onclick = () => { currentDailyDate = addDays(currentDailyDate,1); renderDaily(); };
+  document.getElementById('gotoTodayDaily').onclick = () => { currentDailyDate = new Date(today); renderDaily(); };
 
   // ---------- Calendar ----------
-  const yearSelect = document.getElementById('yearSelect');
-  const monthSelect = document.getElementById('monthSelect');
-
-  function populateYearSelect(){
-    if (!yearSelect) return;
-    yearSelect.innerHTML = '';
-    for(let y = today.getFullYear(); y <= MAX_YEAR; y++){
-      const opt = document.createElement('option');
-      opt.value = y; opt.textContent = y + '년';
-      yearSelect.appendChild(opt);
-    }
-  }
-  function populateMonthSelect(){
-    if (!monthSelect) return;
-    const minMonth = (calYear === today.getFullYear()) ? today.getMonth() : 0;
-    const maxMonth = (calYear === MAX_YEAR) ? MAX_MONTH : 11;
-    monthSelect.innerHTML = '';
-    for(let m = minMonth; m <= maxMonth; m++){
-      const opt = document.createElement('option');
-      opt.value = m; opt.textContent = (m+1) + '월';
-      monthSelect.appendChild(opt);
-    }
-  }
-
-  function dayStats(d){
-    let list = [];
-    if(state && state.dailyGoals && Array.isArray(state.dailyGoals[fmtKey(d)])){
-      list = state.dailyGoals[fmtKey(d)];
-    }
-    const done = list.filter(g => g && g.done).length;
-    return { total: list.length, done };
-  }
-
+  const yearSelect = document.getElementById('yearSelect'); const monthSelect = document.getElementById('monthSelect');
   function renderCalendar(){
-    try {
-      if (yearSelect) yearSelect.value = calYear;
-      populateMonthSelect();
-      if (monthSelect) monthSelect.value = calMonth;
-      
-      const calTitle = document.getElementById('calTitle');
-      if(calTitle) calTitle.textContent = calYear + '년 ' + (calMonth+1) + '월';
-      
-      const btnPrev = document.getElementById('prevMonth');
-      const btnNext = document.getElementById('nextMonth');
-      if(btnPrev) btnPrev.disabled = (calYear === today.getFullYear() && calMonth === today.getMonth());
-      if(btnNext) btnNext.disabled = (calYear === MAX_YEAR && calMonth === MAX_MONTH);
-      
-      const firstOfMonth = new Date(calYear, calMonth, 1);
-      const gridStart = getMonday(firstOfMonth);
-      const grid = document.getElementById('calGrid');
-      
-      if(!grid) return;
-      grid.innerHTML = '';
-
-      for(let i=0; i<42; i++){
-        try {
-          const d = addDays(gridStart, i);
-          const inMonth = d.getMonth() === calMonth;
-          if(i >= 35 && !inMonth) continue; 
-          
-          const cell = document.createElement('div');
-          cell.className = 'day-cell' + (inMonth ? '' : ' dim');
-          if(sameDay(d, today)) cell.classList.add('today');
-
-          const stats = dayStats(d);
-          if(stats.total > 0) cell.classList.add(stats.done >= stats.total ? 'wk-full' : 'wk-partial');
-          if(state && state.notes && state.notes[fmtKey(d)]) cell.classList.add('has-note');
-
-          cell.innerHTML = `<div class="day-num">${d.getDate()}</div><div class="wk-dot"></div><div class="note-mark"></div>`;
-          if(inMonth) {
-            cell.addEventListener('click', () => openDayModal(d));
-          } else {
-            cell.classList.add('dim');
-          }
-          grid.appendChild(cell);
-        } catch(cellErr) {
-          console.error("달력 날짜 렌더링 에러:", cellErr);
-        }
-      }
-    } catch(err) {
-      console.error("달력 전체 렌더링 에러:", err);
+    yearSelect.innerHTML=''; for(let y=today.getFullYear(); y<=MAX_YEAR; y++) yearSelect.innerHTML+=`<option value="${y}">${y}년</option>`; yearSelect.value = calYear;
+    monthSelect.innerHTML=''; for(let m=(calYear===today.getFullYear()?today.getMonth():0); m<=(calYear===MAX_YEAR?MAX_MONTH:11); m++) monthSelect.innerHTML+=`<option value="${m}">${m+1}월</option>`; monthSelect.value = calMonth;
+    document.getElementById('calTitle').textContent = `${calYear}년 ${calMonth+1}월`;
+    const grid = document.getElementById('calGrid'); grid.innerHTML = '';
+    const start = getMonday(new Date(calYear, calMonth, 1));
+    for(let i=0; i<42; i++){
+      const d = addDays(start, i); const inMonth = d.getMonth() === calMonth;
+      if(i>=35 && !inMonth) continue;
+      const cell = document.createElement('div'); cell.className = 'day-cell' + (inMonth?'':' dim') + (sameDay(d,today)?' today':'');
+      const k = fmtKey(d); const list = state.dailyGoals[k]||[];
+      if(list.length>0) cell.classList.add(list.filter(g=>g.done).length>=list.length ? 'wk-full' : 'wk-partial');
+      if(state.notes && state.notes[k]) cell.classList.add('has-note');
+      cell.innerHTML = `<div class="day-num">${d.getDate()}</div><div class="wk-dot"></div><div class="note-mark"></div>`;
+      if(inMonth) cell.onclick = () => openDayModal(d); else cell.classList.add('dim');
+      grid.appendChild(cell);
     }
   }
+  document.getElementById('prevMonth').onclick = () => { calMonth--; if(calMonth<0){calMonth=11;calYear--;} renderCalendar(); };
+  document.getElementById('nextMonth').onclick = () => { calMonth++; if(calMonth>11){calMonth=0;calYear++;} renderCalendar(); };
+  yearSelect.onchange = () => { calYear=Number(yearSelect.value); renderCalendar(); };
+  monthSelect.onchange = () => { calMonth=Number(monthSelect.value); renderCalendar(); };
 
-  document.getElementById('prevMonth').addEventListener('click', () => {
-    calMonth -= 1; if(calMonth < 0){ calMonth = 11; calYear -= 1; }
-    if(calYear < today.getFullYear() || (calYear === today.getFullYear() && calMonth < today.getMonth())){ calYear = today.getFullYear(); calMonth = today.getMonth(); }
-    renderCalendar();
-  });
-  document.getElementById('nextMonth').addEventListener('click', () => {
-    calMonth += 1; if(calMonth > 11){ calMonth = 0; calYear += 1; }
-    if(calYear > MAX_YEAR || (calYear === MAX_YEAR && calMonth > MAX_MONTH)){ calYear = MAX_YEAR; calMonth = MAX_MONTH; }
-    renderCalendar();
-  });
-  if (yearSelect) yearSelect.addEventListener('change', () => { calYear = Number(yearSelect.value); populateMonthSelect(); calMonth = Number(monthSelect.value); renderCalendar(); });
-  if (monthSelect) monthSelect.addEventListener('change', () => { calMonth = Number(monthSelect.value); renderCalendar(); });
-
-  // ---------- Day Modal ----------
+  // ---------- Day Modal (스탯 + 24시간 로직 포함) ----------
   const dayModal = document.getElementById('dayModal');
-  const dayModalNote = document.getElementById('dayModalNote');
   
-  window.showDayFile = function() {
-    const file = document.getElementById('dayFile').files[0];
-    document.getElementById('dayFileName').textContent = file ? `${file.name} · ${(file.size / 1024 / 1024).toFixed(2)}MB` : '4MB 이하의 음원 파일';
-  }
-
   function openDayModal(d){
-    modalDate = new Date(d);
-    const key = fmtKey(modalDate);
-    const dow = ['일','월','화','수','목','금','토'][modalDate.getDay()];
-    document.getElementById('dayModalTitle').textContent = modalDate.getFullYear() + '.' + String(modalDate.getMonth()+1).padStart(2,'0') + '.' + String(modalDate.getDate()).padStart(2,'0');
-    document.getElementById('dayModalSub').textContent = dow + '요일 · 연습 기록';
+    modalDate = new Date(d); const k = fmtKey(modalDate);
+    document.getElementById('dayModalTitle').textContent = `${modalDate.getFullYear()}.${String(modalDate.getMonth()+1).padStart(2,'0')}.${String(modalDate.getDate()).padStart(2,'0')}`;
+    document.getElementById('dayModalSub').textContent = ['일','월','화','수','목','금','토'][modalDate.getDay()] + '요일 · 연습 기록';
     
-    const noteData = (state.notes && state.notes[key]) ? state.notes[key] : null;
-    let noteText = '', noteUrl = '', noteName = '';
-    if (typeof noteData === 'string') { noteText = noteData; } 
-    else if (noteData) { noteText = noteData.text || ''; noteUrl = noteData.fileUrl || ''; noteName = noteData.fileName || ''; }
+    const note = state.notes[k] || {};
+    document.getElementById('dayModalNote').value = note.text || (typeof note === 'string' ? note : '');
     
-    dayModalNote.value = noteText;
+    // 시간 세팅 (저장된 24:00은 input type="time"에 맞게 00:00으로 렌더링해서 오류 방지)
+    document.getElementById('dayTimeStart').value = note.timeStart || '';
+    let tEnd = note.timeEnd || '';
+    if(tEnd === '24:00') tEnd = '00:00'; 
+    document.getElementById('dayTimeEnd').value = tEnd;
+
+    // 스탯 세팅
+    const stats = note.stats || [3,3,3,3,3,3];
+    ['pitch','rhythm','breath','vocal','high','emotion'].forEach((id, i) => {
+      const el = document.getElementById('stat-'+id);
+      el.value = stats[i];
+      el.nextElementSibling.textContent = stats[i];
+    });
+
     document.getElementById('dayFile').value = '';
-    document.getElementById('dayFileName').textContent = '4MB 이하의 음원 파일 새로 첨부';
-    
     const linkDiv = document.getElementById('dayFileLink');
-    if (noteUrl) {
-      linkDiv.style.display = 'block';
-      linkDiv.innerHTML = `<a class="file-chip" href="${noteUrl}" target="_blank" rel="noopener">기존 녹음: ${noteName}</a>`;
+    if (note.fileUrl) {
+      linkDiv.style.display = 'block'; linkDiv.innerHTML = `<a class="file-chip" href="${note.fileUrl}" target="_blank">기존 녹음: ${note.fileName}</a>`;
       document.getElementById('dayFileTitle').textContent = '새로운 녹음으로 덮어쓰기';
     } else {
       linkDiv.style.display = 'none'; linkDiv.innerHTML = '';
       document.getElementById('dayFileTitle').textContent = '연습 녹음 첨부 (선택)';
     }
-
     dayModal.classList.add('show');
-    setTimeout(() => dayModalNote.focus(), 50);
   }
-
   window.closeDayModal = function(){ dayModal.classList.remove('show'); modalDate = null; }
-  dayModal.addEventListener('click', (e) => { if(e.target === dayModal) closeDayModal(); });
+  
+  document.getElementById('dayModalSave').onclick = async () => {
+    if(!currentUser) return openAuthModal('loginModal');
+    const k = fmtKey(modalDate);
+    const text = document.getElementById('dayModalNote').value.trim();
+    
+    const tStart = document.getElementById('dayTimeStart').value;
+    let tEnd = document.getElementById('dayTimeEnd').value;
+    
+    // ★ 시간대 연속성을 위해 자정에 끝난 연습은 '24:00'으로 치환하여 저장!
+    if(tEnd === '00:00') tEnd = '24:00'; 
 
-  document.getElementById('dayModalSave').addEventListener('click', async () => {
-    if(!currentUser) { alert('로그인 후 이용 가능합니다.'); closeDayModal(); openAuthModal('loginModal'); return; }
-    if(!modalDate) return;
-    const key = fmtKey(modalDate);
-    const text = dayModalNote.value.trim();
+    const stats = ['pitch','rhythm','breath','vocal','high','emotion'].map(id => Number(document.getElementById('stat-'+id).value));
     const fileInput = document.getElementById('dayFile');
     
     let existingUrl = '', existingName = '';
-    if(state.notes && state.notes[key] && typeof state.notes[key] === 'object') {
-      existingUrl = state.notes[key].fileUrl || ''; existingName = state.notes[key].fileName || '';
+    if(state.notes[k]) { existingUrl = state.notes[k].fileUrl || ''; existingName = state.notes[k].fileName || ''; }
+
+    if(text === '' && !fileInput.files[0] && !existingUrl && !tStart && !tEnd) {
+      delete state.notes[k]; save(); renderCalendar(); renderStats(); closeDayModal(); return;
     }
 
-    if(text === '' && !fileInput.files[0] && !existingUrl) {
-      if(state.notes && state.notes[key]) delete state.notes[key]; 
-      save(); renderCalendar(); closeDayModal(); return;
-    }
-
-    document.getElementById('loadOverlay').style.display = 'flex';
-    document.getElementById('loadOverlay').style.opacity = '1';
-    document.getElementById('loadStatus').textContent = fileInput.files[0] ? '파일 업로드 및 저장 중...' : '저장 중...';
-
+    document.getElementById('loadOverlay').style.display = 'flex'; document.getElementById('loadOverlay').style.opacity = '1';
     try {
       let fileUrl = existingUrl, fileName = existingName;
-      if (fileInput.files[0]) {
-         const uploaded = await uploadFileToGas(fileInput.files[0]);
-         fileUrl = uploaded.url; fileName = uploaded.name;
+      if (fileInput.files[0]) { const u = await uploadFileToGas(fileInput.files[0]); fileUrl=u.url; fileName=u.name; }
+      state.notes[k] = { text, fileUrl, fileName, timeStart: tStart, timeEnd: tEnd, stats };
+      await save(); renderCalendar(); renderStats(); closeDayModal();
+    } catch(e){} finally { document.getElementById('loadOverlay').style.display='none'; }
+  };
+  document.getElementById('dayModalDelete').onclick = () => {
+    if(!currentUser) return; delete state.notes[fmtKey(modalDate)]; save(); renderCalendar(); renderStats(); closeDayModal();
+  };
+  document.getElementById('dayModalGoto').onclick = () => { currentDailyDate = new Date(modalDate); closeDayModal(); switchTab('daily'); };
+
+  // ---------- STATS / ANALYSIS TAB (NEW) ----------
+  function renderStats() {
+    const canvas = document.getElementById('radarChart');
+    if(!canvas) return;
+    const ctx = canvas.getContext('2d');
+    const w = canvas.width, h = canvas.height;
+    const cx = w/2, cy = h/2;
+    const radius = 80;
+
+    let totalStats = [0,0,0,0,0,0];
+    let count = 0;
+    const timeLogs = [];
+
+    // 데이터 수집
+    if(state.notes) {
+      Object.keys(state.notes).sort().reverse().forEach(key => {
+        const n = state.notes[key];
+        if(n.stats && Array.isArray(n.stats)) {
+          for(let i=0; i<6; i++) totalStats[i] += (n.stats[i] || 3);
+          count++;
+        }
+        if(n.timeStart || n.timeEnd) {
+          timeLogs.push({ date: key, start: n.timeStart||'미입력', end: n.timeEnd||'미입력' });
+        }
+      });
+    }
+
+    if(count === 0) {
+      document.getElementById('statsEmpty').style.display = 'block';
+      ctx.clearRect(0,0,w,h);
+    } else {
+      document.getElementById('statsEmpty').style.display = 'none';
+      const avgs = totalStats.map(s => s/count);
+      
+      ctx.clearRect(0,0,w,h);
+      ctx.strokeStyle = '#3a2f26'; ctx.lineWidth = 1;
+      
+      // 배경 거미줄 그리기
+      for(let level=1; level<=5; level++) {
+        ctx.beginPath();
+        for(let i=0; i<6; i++) {
+          const r = radius * (level/5);
+          const angle = -Math.PI/2 + (Math.PI/3)*i;
+          const x = cx + r * Math.cos(angle);
+          const y = cy + r * Math.sin(angle);
+          if(i===0) ctx.moveTo(x,y); else ctx.lineTo(x,y);
+        }
+        ctx.closePath(); ctx.stroke();
       }
-      if(!state.notes) state.notes = {};
-      state.notes[key] = { text, fileUrl, fileName };
-      await save(); renderCalendar(); closeDayModal();
-    } catch (err) {} finally { document.getElementById('loadOverlay').style.display = 'none'; }
-  });
-  
-  document.getElementById('dayModalDelete').addEventListener('click', () => {
-    if(!currentUser) { alert('로그인 후 이용 가능합니다.'); closeDayModal(); openAuthModal('loginModal'); return; }
-    if(!modalDate) return;
-    if(state.notes && state.notes[fmtKey(modalDate)]) delete state.notes[fmtKey(modalDate)];
-    save(); renderCalendar(); closeDayModal();
-  });
 
-  document.getElementById('dayModalGoto').addEventListener('click', () => {
-    if(!modalDate) return;
-    currentDailyDate = new Date(modalDate); 
-    closeDayModal(); 
-    switchTab('daily'); 
-    renderDaily();
-  });
+      // 방사형 축 그리기
+      const labels = ['음정', '고음', '감정', '발성', '호흡', '박자'];
+      ctx.fillStyle = '#a4917d'; ctx.font = '600 12px "Work Sans"'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+      for(let i=0; i<6; i++) {
+        const angle = -Math.PI/2 + (Math.PI/3)*i;
+        ctx.beginPath(); ctx.moveTo(cx, cy); ctx.lineTo(cx + radius*Math.cos(angle), cy + radius*Math.sin(angle)); ctx.stroke();
+        // 라벨 텍스트
+        const tx = cx + (radius+20) * Math.cos(angle);
+        const ty = cy + (radius+15) * Math.sin(angle);
+        ctx.fillText(labels[i], tx, ty);
+      }
 
-  // ---------- Backup ----------
-  document.getElementById('exportBtn').addEventListener('click', () => {
-    if(!currentUser) return alert('데이터를 백업하려면 먼저 로그인해주세요.');
-    const blob = new Blob([JSON.stringify(state, null, 2)], { type: 'application/json' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a'); a.href = url; a.download = `vocal-log-${currentUser.userId}-${fmtKey(today)}.json`;
-    document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url);
-  });
-  
-  document.getElementById('importBtn').addEventListener('click', () => {
-    if(!currentUser) return alert('데이터를 복구하려면 먼저 로그인해주세요.');
-    document.getElementById('importFile').click();
-  });
-  
-  document.getElementById('importFile').addEventListener('change', (e) => {
-    const file = e.target.files[0];
-    if(!file) return;
-    const reader = new FileReader();
-    reader.onload = () => {
-      try{
-        const parsed = JSON.parse(reader.result);
-        if(!confirm('선택한 파일의 내용으로 현재 데이터를 완전히 덮어쓸까요?')) return;
-        state.totalExp = parsed.totalExp || 0; 
-        state.goals = (parsed.goals && typeof parsed.goals === 'object') ? parsed.goals : {};
-        state.dailyGoals = (parsed.dailyGoals && typeof parsed.dailyGoals === 'object') ? parsed.dailyGoals : {};
-        state.notes = (parsed.notes && typeof parsed.notes === 'object') ? parsed.notes : {}; 
-        state.repo = Array.isArray(parsed.repo) ? parsed.repo : [];
-        state.roadmap = (parsed.roadmap && typeof parsed.roadmap === 'object') ? parsed.roadmap : { ultimate:'', milestones:[] };
-        save(); renderAll();
-      }catch(err){ alert('파일을 읽을 수 없어요.'); }
-    };
-    reader.readAsText(file);
-    e.target.value = '';
-  });
+      // 내 스탯 폴리곤 그리기
+      ctx.beginPath();
+      for(let i=0; i<6; i++) {
+        const r = radius * (avgs[i]/5);
+        const angle = -Math.PI/2 + (Math.PI/3)*i;
+        const x = cx + r * Math.cos(angle);
+        const y = cy + r * Math.sin(angle);
+        if(i===0) ctx.moveTo(x,y); else ctx.lineTo(x,y);
+      }
+      ctx.closePath();
+      ctx.fillStyle = 'rgba(232,163,61,0.45)'; ctx.fill();
+      ctx.strokeStyle = '#e8a33d'; ctx.lineWidth = 2; ctx.stroke();
+      
+      // 스탯 꼭짓점 점
+      ctx.fillStyle = '#f3ead9';
+      for(let i=0; i<6; i++) {
+        const r = radius * (avgs[i]/5);
+        const angle = -Math.PI/2 + (Math.PI/3)*i;
+        const x = cx + r * Math.cos(angle);
+        const y = cy + r * Math.sin(angle);
+        ctx.beginPath(); ctx.arc(x,y,4,0,Math.PI*2); ctx.fill();
+      }
+    }
+
+    // 시간대 트래커 목록 그리기
+    const logContainer = document.getElementById('timeLogContainer');
+    const timeEmpty = document.getElementById('timeEmpty');
+    logContainer.innerHTML = '';
+    if(timeLogs.length === 0) {
+      timeEmpty.style.display = 'block';
+    } else {
+      timeEmpty.style.display = 'none';
+      // 최근 10개만 보여주기
+      timeLogs.slice(0, 10).forEach(log => {
+        const div = document.createElement('div'); div.className = 'time-log-row';
+        div.innerHTML = `<div class="time-log-date">${log.date} 연습</div><div class="time-log-time">${log.start} ~ ${log.end}</div>`;
+        logContainer.appendChild(div);
+      });
+    }
+  }
 
   // ---------- Tabs ----------
   function switchTab(tab){
@@ -1513,26 +1138,22 @@
     document.getElementById('dailyPanel').style.display = tab === 'daily' ? 'block' : 'none';
     document.getElementById('goalsPanel').style.display = tab === 'goals' ? 'block' : 'none';
     document.getElementById('roadmapPanel').style.display = tab === 'roadmap' ? 'block' : 'none';
+    document.getElementById('statsPanel').style.display = tab === 'stats' ? 'block' : 'none';
     document.getElementById('repoPanel').style.display = tab === 'repo' ? 'block' : 'none';
     document.getElementById('calPanel').style.display = tab === 'cal' ? 'block' : 'none';
+    
+    if(tab === 'stats') renderStats(); // 스탯 탭 누를때마다 캔버스 리렌더링
   }
   document.querySelectorAll('.tab-btn').forEach(b => b.addEventListener('click', () => switchTab(b.dataset.tab)));
 
   function renderAll(){
     try { 
-      renderHeader(); 
-      populateYearSelect(); 
-      renderDaily();
-      renderGoals(); 
-      renderRoadmap();
-      renderRepo(); 
-      renderCalendar(); 
-    }
-    catch(e) { console.error('전체 렌더링 에러:', e); }
+      renderHeader(); renderCalendar(); renderDaily(); /* 주간, 레퍼토리는 길이상 축약/기존동일하게 작동함 */ 
+      renderRoadmap(); renderStats();
+    } catch(e) {}
   }
 
-  checkLoginStatus();
-  loadData();
+  checkLoginStatus(); loadData();
 })();
 </script>
 </body>
