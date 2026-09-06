@@ -222,7 +222,7 @@
   }
   .file-chip:hover { background: rgba(232,163,61,0.22); }
 
-  /* ---------- Roadmap Map Styles (NEW) ---------- */
+  /* ---------- Roadmap Map Styles ---------- */
   .roadmap-map { position: relative; padding-left: 50px; margin-top: 24px; padding-bottom: 20px; }
   .map-line { position: absolute; left: 24px; top: 20px; bottom: 20px; width: 4px; background: var(--bg-panel-2); border: 1px solid var(--line); border-radius: 4px; }
   .map-line-fill { position: absolute; left: 25px; top: 20px; width: 4px; background: linear-gradient(180deg, var(--amber-dim), var(--amber)); border-radius: 4px; transition: height 0.6s cubic-bezier(0.34, 1.56, 0.64, 1); height: 0; z-index: 1; }
@@ -391,7 +391,7 @@
     <button class="tab-btn" data-tab="cal">달력</button>
   </div>
 
-  <!-- ROADMAP TAB (콘서트 투어 맵 테마) -->
+  <!-- ROADMAP TAB -->
   <div class="panel" id="roadmapPanel" style="display:none;">
     <div class="cal-head">
       <div class="cal-title">나만의 라이브 투어 로드맵</div>
@@ -1036,6 +1036,27 @@
     state.roadmap.milestones.splice(idx, 1);
     save(); renderHeader(); renderRoadmap();
   };
+
+  // ★★★ 아까 빼먹었던 '무대 추가' 버튼 이벤트 리스너 (여기가 핵심!) ★★★
+  document.getElementById('addMilestoneForm').addEventListener('submit', (e) => {
+    e.preventDefault();
+    if(!currentUser) { alert('로그인 후 추가할 수 있습니다.'); openAuthModal('loginModal'); return; }
+    const text = document.getElementById('milestoneInput').value.trim();
+    if(!text) return;
+    
+    if(!state.roadmap) state.roadmap = { ultimate:'', milestones:[] };
+    if(!Array.isArray(state.roadmap.milestones)) state.roadmap.milestones = [];
+    
+    state.roadmap.milestones.push({
+      id: Date.now() + '-' + Math.random().toString(36).slice(2,7),
+      text: text,
+      done: false
+    });
+    
+    document.getElementById('milestoneInput').value = '';
+    save(); 
+    renderRoadmap();
+  });
 
 
   // ---------- Daily Goals ----------
