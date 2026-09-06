@@ -237,11 +237,10 @@
   .avatar { position: absolute; top: -30px; font-size: 32px; animation: bounce 1s infinite; z-index: 10; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.4)); }
   @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
 
-  /* ---------- Game / Pet / Gacha / Dungeon Styles (NEW) ---------- */
+  /* ---------- Game / Pet / Gacha / Dungeon Styles ---------- */
   .game-section { background:var(--bg-panel-2); border-radius:14px; border:1px solid var(--amber-dim); padding:18px; margin-bottom:18px; }
   .game-section-title { font-family:'Fraunces', serif; font-size:16px; color:var(--amber); margin-bottom:12px; display:flex; justify-content:space-between; align-items:center; }
   
-  /* Pet Info */
   .pet-info-box { display:flex; align-items:center; gap:16px; margin-bottom:14px; }
   .pet-avatar { font-size: 60px; animation: float 2s ease-in-out infinite; }
   @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
@@ -252,7 +251,6 @@
   .feed-btn:hover:not(:disabled) { filter:brightness(1.1); }
   .feed-btn:disabled { background:var(--bg-panel); color:var(--muted); border:1px solid var(--line); cursor:not-allowed; }
 
-  /* Gacha */
   .gacha-btn { width:100%; background:linear-gradient(45deg, #d9b23c, #e8a33d); color:#20160a; padding:12px; font-size:15px; font-weight:700; border:none; border-radius:10px; cursor:pointer; margin-bottom:12px; font-family:'Work Sans'; box-shadow:0 4px 12px rgba(232,163,61,0.2); }
   .gacha-btn:hover { transform:translateY(-2px); box-shadow:0 6px 16px rgba(232,163,61,0.3); }
   .gacha-result { text-align:center; font-size:14px; font-weight:700; padding:10px; border-radius:8px; margin-bottom:12px; display:none; animation: popIn 0.3s ease; }
@@ -265,7 +263,6 @@
   .inv-item-name { font-size:13px; font-weight:600; }
   .inv-item-atk { font-family:'JetBrains Mono', monospace; font-size:11px; color:var(--muted); }
 
-  /* Dungeon */
   .boss-area { text-align:center; padding:10px 0; }
   .boss-emoji { font-size:70px; animation: shake 2s infinite; margin-bottom:10px; }
   @keyframes shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-4px) rotate(-5deg); } 75% { transform: translateX(4px) rotate(5deg); } }
@@ -419,7 +416,6 @@
       </div>
     </div>
     
-    <!-- 레벨업 뱃지 & 코인 뱃지 -->
     <div style="display:flex; justify-content:space-between; align-items:center;">
       <div class="level-badge"><span class="dot"></span><span class="lv-num" id="lvNum">Lv.1</span><span class="total-done" id="totalDoneDisplay">(총 달성: 0회)</span></div>
       <div class="level-badge" style="background:var(--bg-panel-2); border-color:var(--amber-dim); padding-left:14px;">
@@ -435,17 +431,15 @@
   <div class="tabs">
     <button class="tab-btn active" data-tab="daily">일일</button>
     <button class="tab-btn" data-tab="goals">주간</button>
-    <button class="tab-btn" data-tab="game">미니게임 🎮</button> <!-- NEW GAME TAB -->
+    <button class="tab-btn" data-tab="game">미니게임 🎮</button>
     <button class="tab-btn" data-tab="roadmap">로드맵 🗺️</button>
     <button class="tab-btn" data-tab="stats">분석 📊</button>
     <button class="tab-btn" data-tab="repo">레퍼토리</button>
     <button class="tab-btn" data-tab="cal">달력</button>
   </div>
 
-  <!-- GAME TAB (Pet + Gacha + Dungeon) -->
+  <!-- GAME TAB -->
   <div class="panel" id="gamePanel" style="display:none;">
-    
-    <!-- 1. 캐릭터 정보 (Pet) -->
     <div class="game-section">
       <div class="game-section-title">내 보컬 아바타 🧑‍🎤</div>
       <div class="pet-info-box">
@@ -466,7 +460,6 @@
       </div>
     </div>
 
-    <!-- 2. 가챠 상점 -->
     <div class="game-section">
       <div class="game-section-title">신비한 보컬 장비 뽑기 🎰</div>
       <button class="gacha-btn" onclick="drawGacha()">장비 상자 열기 (100 🪙)</button>
@@ -478,7 +471,6 @@
       </div>
     </div>
 
-    <!-- 3. 보컬 던전 -->
     <div class="game-section" style="margin-bottom:0; border-color:var(--burgundy);">
       <div class="game-section-title" style="color:var(--burgundy);">보컬 마왕의 던전 ⚔️</div>
       <div class="boss-area">
@@ -494,7 +486,6 @@
       </div>
       <div style="text-align:center; font-size:11px; color:var(--muted); margin-top:10px;">보스를 처치하면 대량의 EXP와 코인이 쏟아집니다!</div>
     </div>
-
   </div>
 
   <!-- ROADMAP TAB -->
@@ -541,7 +532,7 @@
       <div class="nav-btns">
         <button class="nav-btn" id="prevDay">‹</button>
       </div>
-      <div class="range" id="dailyRange" style="text-align:center;">- <small id="dailySub"></small></div>
+      <div class="range" style="text-align:center;"><span id="dailyMain">-</span> <small id="dailySub"></small></div>
       <div class="nav-btns">
         <button class="today-chip" id="gotoTodayDaily">오늘</button>
         <button class="nav-btn" id="nextDay">›</button>
@@ -570,7 +561,7 @@
       <div class="nav-btns">
         <button class="nav-btn" id="prevWeek">‹</button>
       </div>
-      <div class="range" id="weekRange">-<small id="weekSub"></small></div>
+      <div class="range" style="text-align:center;"><span id="weekMain">-</span><small id="weekSub"></small></div>
       <div class="nav-btns">
         <button class="today-chip" id="gotoToday">이번주</button>
         <button class="nav-btn" id="nextWeek">›</button>
@@ -738,7 +729,6 @@
   const ROADMAP_REWARD = 200; 
   const MAX_YEAR = 2050, MAX_MONTH = 11;
 
-  // 아바타 진화 트리
   const PET_STAGES = [
     { min: 0, emoji: '🥚', name: '알', desc: '아직은 조용한 알입니다. 연습의 기운이 필요해요.', baseAtk: 10 },
     { min: 100, emoji: '🐥', name: '옹알이 병아리', desc: '삐약! 드디어 소리를 내기 시작했어요.', baseAtk: 30 },
@@ -747,7 +737,6 @@
     { min: 1000, emoji: '👑', name: '전설의 메인보컬', desc: '모든 무대를 장악할 준비가 된 완벽한 보컬!', baseAtk: 500 }
   ];
 
-  // 가챠 확률 및 아이템 DB
   const GACHA_ITEMS = [
     { rank: '윈터', prob: 0.001, atk: 99999, name: '❄️ 윈터의 마스터 마이크', color: '#00ffff' },
     { rank: '불가능', prob: 0.01, atk: 10000, name: '🌌 시공간을 가르는 앰프', color: '#ff00ff' },
@@ -759,14 +748,12 @@
     { rank: '일반', prob: 48.889, atk: 5, name: '💧 미지근한 생수', color: '#a4917d' }
   ];
 
-  // 던전 보스
   const BOSS_NAMES = ['음정파괴 고블린 👺', '박자무시 오크 👹', '성대결절 마왕 🧛‍♂️', '불협화음 드래곤 🐉'];
 
   const today = new Date(); today.setHours(0,0,0,0);
   const todayMonday = getMonday(today);
 
   let currentUser = null;
-  // ★ state에 가챠(gacha)와 던전(dungeon) 데이터 추가
   let state = { 
     totalExp:0, coins:0, petExp:0, 
     goals:{}, dailyGoals:{}, notes:{}, repo:[], roadmap:{ ultimate:'', milestones:[] },
@@ -900,6 +887,16 @@
     try{ await apiPost({ action: 'append', sheet: 'vocal_log', row: JSON.stringify([ currentUser.userId, JSON.stringify(state), new Date().toLocaleString() ]) }); }catch(e){}
   }
 
+  // ---------- File Upload ----------
+  function fileToBase64(file) { return new Promise((res, rej) => { const r = new FileReader(); r.onload = () => res(String(r.result).split(',')[1]); r.onerror = rej; r.readAsDataURL(file); }); }
+  async function uploadFileToGas(file) {
+    if (!file) return { url: '', name: '' };
+    if (file.size > 4*1024*1024) { alert('4MB 이하만 가능합니다.'); throw new Error('용량 초과'); }
+    const base64 = await fileToBase64(file);
+    const res = await apiPost({ action: 'uploadFile', fileName: file.name, mimeType: file.type || 'application/octet-stream', base64: base64 });
+    return { url: res.url || res.fileUrl || '', name: res.name || file.name };
+  }
+
   // ---------- Helpers ----------
   function getMonday(d){ const nd = new Date(d); const day = nd.getDay(); const diff = day===0 ? -6 : 1-day; nd.setDate(nd.getDate()+diff); nd.setHours(0,0,0,0); return nd; }
   function fmtKey(d){ return d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0'); }
@@ -915,14 +912,12 @@
   function handleExpAndCoin(expAmount) {
     const beforeLevel = levelInfo(state.totalExp).level;
     state.totalExp = Math.max(0, state.totalExp + expAmount);
-    
     if(!state.coins) state.coins = 0;
     state.coins = Math.max(0, state.coins + expAmount); 
-
     const afterLevel = levelInfo(state.totalExp).level;
     if (afterLevel > beforeLevel) {
       showLevelUpToast();
-      state.coins += (afterLevel - beforeLevel) * 100; // 레벨업 100 코인 잭팟!
+      state.coins += (afterLevel - beforeLevel) * 100;
     }
   }
 
@@ -949,7 +944,7 @@
   function showLevelUpToast(){ const t = document.getElementById('toast'); t.classList.add('show'); setTimeout(()=> t.classList.remove('show'), 2000); }
 
 
-  // ---------- Game Tab (Pet + Gacha + Dungeon) ----------
+  // ---------- Game Tab ----------
   function getPetCurrentStage() {
     let current = PET_STAGES[0];
     for(let i=PET_STAGES.length-1; i>=0; i--) {
@@ -957,14 +952,12 @@
     }
     return current;
   }
-  
   function getEquippedItem() {
     if(!state.gacha || !state.gacha.equippedId) return null;
     return state.gacha.inventory.find(i => i.id === state.gacha.equippedId) || null;
   }
 
   function renderGame() {
-    // 1. 아바타 (Pet)
     const petExp = state.petExp || 0;
     const coins = state.coins || 0;
     
@@ -1000,14 +993,12 @@
       document.getElementById('gamePetProgressFill').style.width = '100%';
     }
 
-    // 2. 가챠 인벤토리 렌더링
     const invContainer = document.getElementById('inventoryList');
     invContainer.innerHTML = '';
     const inv = state.gacha.inventory || [];
     if(inv.length === 0) {
       invContainer.innerHTML = '<div class="empty-note" style="padding:10px;">아직 뽑은 장비가 없습니다.<br>상자를 열어보세요!</div>';
     } else {
-      // 최신 획득순 정렬
       [...inv].reverse().forEach(item => {
         const isEquipped = item.id === state.gacha.equippedId;
         const div = document.createElement('div');
@@ -1020,16 +1011,12 @@
           ${isEquipped ? '<div style="font-size:11px; font-weight:700; color:var(--amber);">장착됨 ✓</div>' : '<button class="nav-btn" style="width:auto; padding:0 8px; height:26px; font-size:11px;">장착</button>'}
         `;
         if(!isEquipped) {
-          div.querySelector('button').onclick = () => {
-            state.gacha.equippedId = item.id;
-            save(); renderGame();
-          };
+          div.querySelector('button').onclick = () => { state.gacha.equippedId = item.id; save(); renderGame(); };
         }
         invContainer.appendChild(div);
       });
     }
 
-    // 3. 던전 렌더링
     if(!state.dungeon) state.dungeon = { level: 1, hp: 100, maxHp: 100 };
     const bossNameIndex = (state.dungeon.level - 1) % BOSS_NAMES.length;
     const bossFullName = BOSS_NAMES[bossNameIndex];
@@ -1047,25 +1034,20 @@
   window.feedPet = function() {
     if(!currentUser) return;
     if((state.coins||0) < 50) return;
-    state.coins -= 50;
-    state.petExp = (state.petExp||0) + 50;
+    state.coins -= 50; state.petExp = (state.petExp||0) + 50;
     save(); renderHeader(); renderGame();
-    
     const emoji = document.getElementById('gamePetEmoji');
-    emoji.style.transform = 'scale(1.4)';
-    setTimeout(() => emoji.style.transform = 'scale(1)', 200);
+    emoji.style.transform = 'scale(1.4)'; setTimeout(() => emoji.style.transform = 'scale(1)', 200);
   }
 
   window.drawGacha = function() {
     if(!currentUser) return;
     if((state.coins||0) < 100) return alert('상자를 열려면 100 코인이 필요합니다!');
-    
     state.coins -= 100;
 
-    // 가챠 확률 로직
     const rand = Math.random() * 100; 
     let cumulative = 0;
-    let drawnItem = GACHA_ITEMS[GACHA_ITEMS.length - 1]; // 기본 일반
+    let drawnItem = GACHA_ITEMS[GACHA_ITEMS.length - 1];
     for (const item of GACHA_ITEMS) {
         cumulative += item.prob;
         if (rand <= cumulative) { drawnItem = item; break; }
@@ -1074,18 +1056,14 @@
     const newItem = { id: Date.now(), ...drawnItem };
     if(!state.gacha) state.gacha = { inventory: [], equippedId: null };
     state.gacha.inventory.push(newItem);
-    
-    // 첫 장비면 자동 장착
     if(!state.gacha.equippedId) state.gacha.equippedId = newItem.id;
 
     save(); renderHeader(); renderGame();
-
     const msgBox = document.getElementById('gachaResultMsg');
     msgBox.style.display = 'block';
     msgBox.style.background = `linear-gradient(45deg, var(--bg-panel), ${drawnItem.color}33)`;
     msgBox.style.border = `1px solid ${drawnItem.color}`;
     msgBox.innerHTML = `<span style="color:var(--muted); font-size:11px;">[${drawnItem.rank}]</span><br><span style="color:${drawnItem.color}; font-size:16px;">${drawnItem.name} 획득!</span>`;
-    
     setTimeout(() => { msgBox.style.display = 'none'; }, 4000);
   }
 
@@ -1097,30 +1075,23 @@
     const pet = getPetCurrentStage();
     const equipped = getEquippedItem();
     const totalAtk = pet.baseAtk + (equipped ? equipped.atk : 0);
-
-    // 공격 데미지에 약간의 랜덤성 (80% ~ 120%) 부여
     const dmg = Math.floor(totalAtk * (0.8 + Math.random() * 0.4));
     
     state.dungeon.hp -= dmg;
     
-    // 타격 이펙트 (보스 이모지 흔들기 강화)
     const bEmoji = document.getElementById('bossEmoji');
     bEmoji.style.transform = 'scale(0.8) rotate(-15deg)';
     bEmoji.style.filter = 'drop-shadow(0 0 10px red)';
     setTimeout(() => { bEmoji.style.transform = 'none'; bEmoji.style.filter = 'none'; }, 150);
 
     if(state.dungeon.hp <= 0) {
-      // 보스 처치!
-      const reward = state.dungeon.level * 150; // 던전 레벨 * 150의 파격적인 경험치/코인 보상
+      const reward = state.dungeon.level * 150;
       alert(`🎉 보스 처치 성공!\n보상으로 ${reward} EXP 와 코인을 획득했습니다!`);
-      
       handleExpAndCoin(reward);
-
       state.dungeon.level += 1;
       state.dungeon.maxHp = Math.floor(state.dungeon.maxHp * 1.6);
       state.dungeon.hp = state.dungeon.maxHp;
     }
-    
     save(); renderHeader(); renderGame();
   }
 
@@ -1191,7 +1162,7 @@
   // ---------- Daily Logic ----------
   function renderDaily(){
     const key = fmtKey(currentDailyDate);
-    document.getElementById('dailyRange').firstChild.textContent = `${currentDailyDate.getFullYear()}년 ${currentDailyDate.getMonth()+1}월 ${currentDailyDate.getDate()}일 `;
+    document.getElementById('dailyMain').textContent = `${currentDailyDate.getFullYear()}년 ${currentDailyDate.getMonth()+1}월 ${currentDailyDate.getDate()}일`;
     document.getElementById('dailySub').textContent = ['일','월','화','수','목','금','토'][currentDailyDate.getDay()] + '요일';
     document.getElementById('gotoTodayDaily').style.display = sameDay(currentDailyDate, today) ? 'none' : 'inline-block';
     
@@ -1205,15 +1176,18 @@
       document.getElementById('dailyProgressPct').textContent = pct + '%'; document.getElementById('dailyProgressFill').style.width = pct + '%';
       
       list.forEach((g, idx) => {
+        if(!g) return;
         const li = document.createElement('li'); li.className = 'goal-row' + (g.done ? ' done' : '');
-        li.innerHTML = `<button class="check ${g.done?'checked':''}"></button><span class="goal-text">${g.text}</span><span class="tier-badge">${TIERS[g.tier].label} · ${TIERS[g.tier].exp} EXP</span><button class="del-btn">×</button>`;
+        // ★ 에러 방어: 과거 데이터에 tier 값이 없어도 기본값[1](보통) 적용!
+        const tierObj = TIERS[g.tier] || TIERS[1]; 
+        li.innerHTML = `<button class="check ${g.done?'checked':''}"></button><span class="goal-text">${g.text}</span><span class="tier-badge">${tierObj.label} · ${tierObj.exp} EXP</span><button class="del-btn">×</button>`;
         li.querySelector('.check').onclick = () => { 
           if(!currentUser) return; g.done=!g.done; 
-          handleExpAndCoin(g.done ? TIERS[g.tier].exp : -TIERS[g.tier].exp);
+          handleExpAndCoin(g.done ? tierObj.exp : -tierObj.exp);
           save(); renderHeader(); renderDaily(); renderCalendar();
         };
         li.querySelector('.del-btn').onclick = () => { 
-          if(!currentUser) return; if(g.done) handleExpAndCoin(-TIERS[g.tier].exp);
+          if(!currentUser) return; if(g.done) handleExpAndCoin(-tierObj.exp);
           state.dailyGoals[key].splice(idx,1); if(state.dailyGoals[key].length===0) delete state.dailyGoals[key]; 
           save(); renderHeader(); renderDaily(); renderCalendar(); 
         };
@@ -1236,7 +1210,7 @@
   function renderGoals(){
     const key = fmtKey(currentWeekMonday);
     const label = weekRangeLabel(currentWeekMonday);
-    document.getElementById('weekRange').firstChild.textContent = label.main;
+    document.getElementById('weekMain').textContent = label.main;
     document.getElementById('weekSub').textContent = label.sub;
     document.getElementById('prevWeek').disabled = currentWeekMonday <= todayMonday;
     document.getElementById('nextWeek').disabled = currentWeekMonday >= getMonday(new Date(MAX_YEAR, MAX_MONTH, 31));
@@ -1357,8 +1331,10 @@
     const note = state.notes[k] || {};
     document.getElementById('dayModalNote').value = note.text || (typeof note === 'string' ? note : '');
     
+    // 24시간 표기 변환 처리
     document.getElementById('dayTimeStart').value = note.timeStart || '';
-    let tEnd = note.timeEnd || ''; if(tEnd === '24:00') tEnd = '00:00'; 
+    let tEnd = note.timeEnd || ''; 
+    if(tEnd === '24:00') tEnd = '00:00'; 
     document.getElementById('dayTimeEnd').value = tEnd;
 
     const stats = note.stats || [3,3,3,3,3,3];
@@ -1374,8 +1350,12 @@
   document.getElementById('dayModalSave').onclick = async () => {
     if(!currentUser) return openAuthModal('loginModal');
     const k = fmtKey(modalDate); const text = document.getElementById('dayModalNote').value.trim();
-    const tStart = document.getElementById('dayTimeStart').value; let tEnd = document.getElementById('dayTimeEnd').value;
+    const tStart = document.getElementById('dayTimeStart').value; 
+    let tEnd = document.getElementById('dayTimeEnd').value;
+    
+    // 시간 연속성을 위해 자정을 24:00으로 강제 저장
     if(tEnd === '00:00') tEnd = '24:00'; 
+
     const stats = ['pitch','rhythm','breath','vocal','high','emotion'].map(id => Number(document.getElementById('stat-'+id).value));
     const fileInput = document.getElementById('dayFile');
     
@@ -1455,11 +1435,17 @@
   }
   document.querySelectorAll('.tab-btn').forEach(b => b.addEventListener('click', () => switchTab(b.dataset.tab)));
 
+  // ★★★ 에러 방화벽 구조 (하나가 뻗어도 다른 화면은 정상 출력됨) ★★★
   function renderAll(){
-    try { 
-      renderHeader(); populateYearSelect(); renderDaily(); renderGoals(); 
-      renderGame(); renderRepo(); renderRoadmap(); renderStats(); renderCalendar();
-    } catch(e) { console.error('전체 렌더링 에러:', e); }
+    try { renderHeader(); } catch(e){ console.error('Header 렌더링 에러:', e); }
+    try { populateYearSelect(); } catch(e){ console.error('Select 설정 에러:', e); }
+    try { renderDaily(); } catch(e){ console.error('Daily 렌더링 에러:', e); }
+    try { renderGoals(); } catch(e){ console.error('Goals 렌더링 에러:', e); }
+    try { renderGame(); } catch(e){ console.error('Game 렌더링 에러:', e); }
+    try { renderRepo(); } catch(e){ console.error('Repo 렌더링 에러:', e); }
+    try { renderRoadmap(); } catch(e){ console.error('Roadmap 렌더링 에러:', e); }
+    try { renderStats(); } catch(e){ console.error('Stats 렌더링 에러:', e); }
+    try { renderCalendar(); } catch(e){ console.error('Calendar 렌더링 에러:', e); }
   }
 
   checkLoginStatus(); loadData();
