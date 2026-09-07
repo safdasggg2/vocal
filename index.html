@@ -84,6 +84,14 @@
   }
   .toast.show{transform:translateX(-50%) translateY(0);}
 
+  /* ★ 복구된 로딩 오버레이 CSS! */
+  .load-overlay {
+    position: fixed; inset: 0; background: rgba(10,8,6,0.92); z-index: 9999;
+    display: none; align-items: center; justify-content: center; flex-direction: column; gap: 10px;
+    color: var(--amber); font-family: 'JetBrains Mono', monospace; font-size: 15px; font-weight: 800; letter-spacing: 0.05em;
+    transition: opacity 0.3s ease;
+  }
+
   /* ---------- Tabs ---------- */
   .tabs{ display:flex; gap:8px; margin:24px 0 16px; overflow-x:auto; padding-bottom:6px; scrollbar-width: none; }
   .tabs::-webkit-scrollbar { display: none; }
@@ -152,7 +160,7 @@
   .equip-name { font-size:11px; font-weight:700; color:var(--muted); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
   .equip-slot.filled .equip-name { text-shadow: 0 0 5px currentColor; }
 
-  /* 부위별 가챠 그리드 */
+  /* 16개 상자 매트릭스 UI */
   .gacha-matrix { display:grid; grid-template-columns: 40px 1fr 1fr 1fr 1fr; gap:4px; margin-bottom:16px; align-items:center; }
   .gacha-matrix-header { display:grid; grid-template-columns: 40px 1fr 1fr 1fr 1fr; gap:4px; margin-bottom:4px; text-align:center; font-family:'JetBrains Mono', monospace; font-size:10px; color:var(--muted); font-weight:800; }
   .g-row-lbl { font-family:'JetBrains Mono', monospace; font-size:10px; color:var(--muted); font-weight:800; writing-mode:vertical-rl; text-align:center; transform:rotate(180deg); margin:0 auto; }
@@ -174,8 +182,6 @@
   .boss-visual { margin-bottom:16px; position:relative; display:inline-flex; align-items:center; justify-content:center; width:100px; height:100px; }
   .boss-radar { width:100px; height:100px; border-radius:50%; border:1px dashed var(--burgundy); display:flex; align-items:center; justify-content:center; font-family:'JetBrains Mono', monospace; font-size:30px; color:var(--burgundy); letter-spacing:2px; animation:spin 10s linear infinite; position:absolute; inset:0; margin:auto; z-index:1; }
   @keyframes spin { 100% { transform:rotate(360deg); } }
-  
-  /* ★ 엑스박스 방어용 이미지 태그! 권한 막히면 onerror 발동 */
   .boss-img { width:100px; height:100px; border-radius:50%; border:2px solid var(--burgundy); position:relative; z-index:2; box-shadow:0 0 20px rgba(161,43,53,0.3); object-fit:cover; display:none; }
   
   .boss-info .rank { font-family:'JetBrains Mono', monospace; font-size:10px; color:var(--muted); letter-spacing:2px; margin-bottom:4px; }
@@ -298,6 +304,7 @@
   </div>
 </div>
 
+<!-- ★ 로딩 오버레이 (디자인 복원 완료) -->
 <div class="load-overlay" id="loadOverlay">
   <div style="font-weight:800;">SYNCING DATA...</div>
 </div>
@@ -414,9 +421,7 @@
         
         <div class="boss-visual">
           <div class="boss-radar" id="bossEmoji">🎯</div>
-          <!-- ★ 구글 보안 대응 방어 코드 적용 <img> -->
-          <img id="bossImg" class="boss-img" src="" alt="Boss" referrerpolicy="no-referrer" 
-               onerror="this.style.display='none'; const e=document.getElementById('bossEmoji'); e.style.display='flex'; e.innerHTML='🔒<br>LOCKED<br>(DRIVE)'; e.style.color='var(--burgundy)'; e.style.animation='none';">
+          <img id="bossImg" class="boss-img" src="" alt="Boss" referrerpolicy="no-referrer" onerror="this.style.display='none'; const e=document.getElementById('bossEmoji'); e.style.display='flex'; e.innerHTML='🔒<br>LOCKED'; e.style.color='var(--burgundy)'; e.style.animation='none';">
         </div>
         
         <div class="boss-info">
@@ -593,6 +598,12 @@
       <div class="stat-row"><div class="stat-label">EMOTION</div><input type="range" class="stat-slider" id="stat-emotion" min="1" max="5" value="3" oninput="this.nextElementSibling.textContent=this.value"><div class="stat-val">3</div></div>
     </div>
 
+    <label class="upload-box" for="dayFile" style="margin-bottom:12px;">
+      <input type="file" id="dayFile" onchange="showDayFile()">
+      <span id="dayFileTitle">ATTACH AUDIO RECORDING</span>
+    </label>
+    <div id="dayFileLink" style="display:none; margin-bottom:16px;"></div>
+
     <textarea id="dayModalNote" maxlength="500" placeholder="Enter log notes..."></textarea>
     <div style="display:flex; gap:8px;">
       <button class="btn-primary" style="background:var(--bg-panel-2); color:var(--cream); border:1px solid var(--line);" id="dayModalGoto">GO TO DIRECTIVES</button>
@@ -679,12 +690,19 @@
     { type: 'skill', rank: '윈터', effect:{type:'winter', val:0}, name: '[SKL] 윈터의 윙크 (15배딜+풀피)', color: '#00ffff' }
   ];
 
-  // ★ 구글 원본 링크를 직접 표출용 주소로 번역해주는 함수! (엑스박스 절대 방어)
+  const GACHA_BOXES = {
+    normal: { rates: [ { rank: '일반', prob: 60.0 }, { rank: '희귀', prob: 30.0 }, { rank: '초희귀', prob: 8.0 }, { rank: '에픽', prob: 1.9 }, { rank: '신화', prob: 0.1 } ] },
+    rare: { rates: [ { rank: '희귀', prob: 50.0 }, { rank: '초희귀', prob: 35.0 }, { rank: '에픽', prob: 12.0 }, { rank: '신화', prob: 2.5 }, { rank: '전설', prob: 0.4 }, { rank: '불가능', prob: 0.09 }, { rank: '윈터', prob: 0.01 } ] },
+    epic: { rates: [ { rank: '초희귀', prob: 40.0 }, { rank: '에픽', prob: 40.0 }, { rank: '신화', prob: 15.0 }, { rank: '전설', prob: 4.0 }, { rank: '불가능', prob: 0.8 }, { rank: '윈터', prob: 0.2 } ] },
+    legend: { rates: [ { rank: '에픽', prob: 30.0 }, { rank: '신화', prob: 40.0 }, { rank: '전설', prob: 20.0 }, { rank: '불가능', prob: 8.0 }, { rank: '윈터', prob: 2.0 } ] }
+  };
+
+  // ★ 구글 썸네일 전용 직통 우회 컨버터 (가장 확실한 방법)
   function getDisplayUrl(url) {
       if(!url) return '';
       const match = url.match(/\/d\/([a-zA-Z0-9_-]+)/);
       if(match && match[1]) {
-          return `https://drive.google.com/uc?export=view&id=${match[1]}`;
+          return `https://drive.google.com/thumbnail?id=${match[1]}&sz=w300`;
       }
       return url;
   }
@@ -806,38 +824,156 @@
   let activeTab = 'daily';
   let modalDate = null;
 
+  async function api(params) {
+    const qs = Object.entries(params).map(([k,v]) => `${k}=${encodeURIComponent(v)}`).join('&');
+    const res = await fetch(`${API}?${qs}`);
+    const text = await res.text();
+    try { return JSON.parse(text); } catch (e) { return { ok:false, error:'API ERROR' }; }
+  }
+
+  async function apiPost(params) {
+    const form = new URLSearchParams();
+    Object.entries(params).forEach(([k, v]) => form.append(k, v == null ? '' : String(v)));
+    const res = await fetch(API, { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8' }, body: form.toString() });
+    const text = await res.text();
+    try { return JSON.parse(text); } catch (e) { return { ok:false, error: 'API ERROR' }; }
+  }
+
+  function checkLoginStatus() {
+    try {
+      const saved = localStorage.getItem(LOGIN_KEY);
+      if(saved) currentUser = JSON.parse(saved);
+    } catch(e){}
+    const nameDisplay = document.getElementById('userNameDisplay');
+    const loginBtn = document.getElementById('loginBtn');
+    const logoutBtn = document.getElementById('logoutBtn');
+    if(currentUser && currentUser.userId) {
+      if(nameDisplay) nameDisplay.textContent = (currentUser.name || currentUser.userId);
+      if(loginBtn) loginBtn.style.display = 'none';
+      if(logoutBtn) logoutBtn.style.display = 'inline-block';
+    } else {
+      if(nameDisplay) nameDisplay.textContent = 'GUEST';
+      if(loginBtn) loginBtn.style.display = 'inline-block';
+      if(logoutBtn) logoutBtn.style.display = 'none';
+    }
+  }
+
+  window.openAuthModal = function(id) { const m=document.getElementById(id); if(m) m.classList.add('show'); }
+  window.closeAuthModal = function(id) { const m=document.getElementById(id); if(m) m.classList.remove('show'); }
+  
+  window.doLogin = async function() {
+    const userId = document.getElementById('login-id').value.trim();
+    const password = document.getElementById('login-pw').value;
+    if(!userId || !password) return alert('Enter credentials.');
+    const overlay = document.getElementById('loadOverlay'); if(overlay) {overlay.style.display = 'flex'; overlay.style.opacity = '1';}
+    try {
+      const result = await apiPost({ action:'login', userId, password });
+      if(!result.ok) { if(overlay) overlay.style.display = 'none'; return alert(result.error); }
+      currentUser = { userId: result.user.userId || userId, name: result.user.name || result.user.userId || userId };
+      localStorage.setItem(LOGIN_KEY, JSON.stringify(currentUser));
+      closeAuthModal('loginModal'); checkLoginStatus(); await loadData();
+    } catch(e) { if(overlay) overlay.style.display = 'none'; alert('Error.'); }
+  }
+  
+  window.doSignup = async function() {
+    const userId = document.getElementById('su-id').value.trim();
+    const password = document.getElementById('su-pw').value;
+    const name = document.getElementById('su-name').value.trim();
+    if(!userId || !password || !name) return alert('Fill all fields.');
+    const overlay = document.getElementById('loadOverlay'); if(overlay) {overlay.style.display = 'flex'; overlay.style.opacity = '1';}
+    try {
+      const result = await apiPost({ action:'signup', userId, password, name, role: '보컬' });
+      if(!result.ok) { if(overlay) overlay.style.display = 'none'; return alert(result.error); }
+      currentUser = { userId, name };
+      localStorage.setItem(LOGIN_KEY, JSON.stringify(currentUser));
+      closeAuthModal('signupModal'); checkLoginStatus(); await loadData();
+    } catch(e) { if(overlay) overlay.style.display = 'none'; alert('Error.'); }
+  }
+  
+  window.logout = function() {
+    localStorage.removeItem(LOGIN_KEY); currentUser = null;
+    state = { totalExp:0, coins:0, petExp:0, playerHp: 500, goals:{}, dailyGoals:{}, notes:{}, repo:[], roadmap:{ ultimate:'', milestones:[] }, gacha:{inventory:[], equipped:{weapon:null, sub:null, armor:null, skills:[]}}, dungeon:{level:1, hp:200, maxHp:200, bossImageUrl:'', stunnedDate:''} };
+    checkLoginStatus(); renderAll();
+  }
+
+  // ★ 초강력 에러 방어벽 (절대 다운되지 않음)
   function normalizeState() {
-      if(!state.totalExp) state.totalExp = 0;
-      if(!state.coins) state.coins = 0;
-      if(!state.petExp) state.petExp = 0;
-      if(!state.playerHp || isNaN(state.playerHp)) state.playerHp = 500;
+      if(!state || typeof state !== 'object') state = {};
+      state.totalExp = Number(state.totalExp) || 0;
+      state.coins = Number(state.coins) || 0;
+      state.petExp = Number(state.petExp) || 0;
+      state.playerHp = Number(state.playerHp) || 500;
       if(!state.goals) state.goals = {};
       if(!state.dailyGoals) state.dailyGoals = {};
       if(!state.notes) state.notes = {};
-      if(!state.repo) state.repo = [];
+      if(!state.repo || !Array.isArray(state.repo)) state.repo = [];
       if(!state.roadmap) state.roadmap = { ultimate:'', milestones:[] };
-      if(!state.gacha) state.gacha = { inventory: [], equipped: { weapon:null, sub:null, armor:null, skills:[] } };
-      if(!state.gacha.equipped) state.gacha.equipped = { weapon:null, sub:null, armor:null, skills:[] };
+      
+      if(!state.gacha || typeof state.gacha !== 'object') state.gacha = { inventory: [], equipped: { weapon:null, sub:null, armor:null, skills:[] } };
+      if(!state.gacha.equipped || typeof state.gacha.equipped !== 'object') state.gacha.equipped = { weapon:null, sub:null, armor:null, skills:[] };
       if(!Array.isArray(state.gacha.equipped.skills)) state.gacha.equipped.skills = [];
       if(!Array.isArray(state.gacha.inventory)) state.gacha.inventory = [];
-      if(!state.dungeon) state.dungeon = { level: 1, hp: 200, maxHp: 200, bossImageUrl: '', stunnedDate: '' };
       
+      if(!state.dungeon || typeof state.dungeon !== 'object') state.dungeon = { level: 1, hp: 200, maxHp: 200, bossImageUrl: '', stunnedDate: '' };
+      state.dungeon.level = Number(state.dungeon.level) || 1;
+      
+      if(state.gacha.equippedId && !state.gacha.equipped.weapon) state.gacha.equipped.weapon = state.gacha.equippedId;
       if(state.dungeon.maxHp < 500 && state.dungeon.level > 1) {
           state.dungeon.maxHp = calcMaxHp(state.dungeon.level);
           state.dungeon.hp = state.dungeon.maxHp;
       }
   }
 
-  async function loadData(){
-    const local = localStorage.getItem('vocal-log-local-state');
-    if(local) { try { state = JSON.parse(local); } catch(e) {} }
-    normalizeState();
-    try { renderAll(); } catch(e){}
-    document.getElementById('loadOverlay').style.display = 'none';
+  // ★ 로딩 프로세스 완벽 복구
+  async function loadData() {
+      const overlay = document.getElementById('loadOverlay');
+      if (overlay) { overlay.style.display = 'flex'; overlay.style.opacity = '1'; }
+      
+      const failsafe = setTimeout(() => { 
+          if(overlay) overlay.style.display = 'none'; 
+      }, 3500);
+
+      try {
+          if (!currentUser) {
+              const local = localStorage.getItem('vocal-log-local-state');
+              if (local) {
+                  try { state = JSON.parse(local); } catch(e) {}
+              }
+          } else {
+              const res = await api({ action: 'read', sheet: 'vocal_log' });
+              const rows = res.data || [];
+              const myRows = rows.filter(r => r[0] === currentUser.userId);
+              if (myRows.length > 0) {
+                  state = JSON.parse(myRows[myRows.length - 1][1]);
+              }
+          }
+      } catch (err) {
+          console.error(err);
+      }
+
+      normalizeState();
+
+      try { renderAll(); } catch(e){ console.error(e); }
+      
+      clearTimeout(failsafe);
+      if (overlay) overlay.style.display = 'none';
   }
   
   async function save(){
-    localStorage.setItem('vocal-log-local-state', JSON.stringify(state));
+    if(!currentUser) {
+        localStorage.setItem('vocal-log-local-state', JSON.stringify(state));
+        return;
+    }
+    try{ await apiPost({ action: 'append', sheet: 'vocal_log', row: JSON.stringify([ currentUser.userId, JSON.stringify(state), new Date().toLocaleString() ]) }); }catch(e){}
+  }
+
+  function fileToBase64(file) { return new Promise((res, rej) => { const r = new FileReader(); r.onload = () => res(String(r.result).split(',')[1]); r.onerror = rej; r.readAsDataURL(file); }); }
+  async function uploadFileToGas(file) {
+    if (!file) return { url: '', name: '' };
+    if (file.size > 4*1024*1024) { alert('4MB LIMIT EXCEEDED.'); throw new Error('용량 초과'); }
+    const base64 = await fileToBase64(file);
+    const res = await apiPost({ action: 'uploadFile', fileName: file.name, mimeType: file.type || 'application/octet-stream', base64: base64 });
+    return { url: res.url || res.fileUrl || '', name: res.name || file.name };
   }
 
   function getMonday(d){ const nd = new Date(d); const day = nd.getDay(); const diff = day===0 ? -6 : 1-day; nd.setDate(nd.getDate()+diff); nd.setHours(0,0,0,0); return nd; }
@@ -882,6 +1018,7 @@
     const info = levelInfo(state.totalExp || 0);
     const lvNum = document.getElementById('lvNum'); if(lvNum) lvNum.textContent = info.level;
     const coinCount = document.getElementById('coinCount'); if(coinCount) coinCount.textContent = Number(state.coins || 0).toLocaleString(); 
+    const totalDone = document.getElementById('totalDoneDisplay'); if(totalDone) totalDone.textContent = `(CMDS: ${getTotalDoneCount()})`;
     const meterLabel = document.getElementById('meterLabel'); if(meterLabel) meterLabel.textContent = info.into + '/' + info.need;
     const meter = document.getElementById('meter');
     if(meter) {
@@ -892,6 +1029,8 @@
   }
   function showLevelUpToast(){ const t = document.getElementById('toast'); if(!t) return; t.classList.add('show'); setTimeout(()=> t.classList.remove('show'), 2000); }
 
+
+  // ---------- Game Tab ----------
   function logCombat(text, typeClass) {
       const log = document.getElementById('combatLog');
       if(!log) return;
@@ -913,8 +1052,6 @@
     
     let eqAtk = 0, eqDef = 0, eqHp = 0;
     const inv = getSafeList(state.gacha.inventory);
-    
-    if(!state.gacha.equipped) state.gacha.equipped = { weapon:null, sub:null, armor:null, skills:[] };
     const eq = state.gacha.equipped;
 
     ['weapon', 'sub', 'armor'].forEach(type => {
@@ -935,27 +1072,24 @@
     return { pet, totalAtk, totalDef, maxHp, eqAtk, eqDef, eqHp };
   }
 
+  // ★ GUEST 막힘 완전 해제! 오프라인도 플레이 가능
   window.equipItem = function(itemType, itemId) {
-      if(!state.gacha) state.gacha = { inventory: [], equipped: { weapon:null, sub:null, armor:null, skills:[] } };
-      if(!state.gacha.equipped) state.gacha.equipped = { weapon:null, sub:null, armor:null, skills:[] };
-      if(!Array.isArray(state.gacha.equipped.skills)) state.gacha.equipped.skills = [];
-      
-      if(itemType === 'skill') {
-          if(state.gacha.equipped.skills.includes(itemId)) {
-              state.gacha.equipped.skills = state.gacha.equipped.skills.filter(id => id !== itemId);
-          } else {
-              if(state.gacha.equipped.skills.length >= 3) state.gacha.equipped.skills.shift();
-              state.gacha.equipped.skills.push(itemId);
-          }
-      } else {
-          state.gacha.equipped[itemType] = itemId;
-      }
-      
+      state.gacha.equipped[itemType] = itemId;
       let pStats = getPlayerStats(); 
       if(isNaN(state.playerHp) || state.playerHp > pStats.maxHp) state.playerHp = pStats.maxHp;
-      
       save(); renderHeader(); renderGame();
   };
+
+  // ★ 스킬 장착 분리!
+  window.equipSkill = function(itemId) {
+      if(state.gacha.equipped.skills.includes(itemId)) {
+          state.gacha.equipped.skills = state.gacha.equipped.skills.filter(id => id !== itemId);
+      } else {
+          if(state.gacha.equipped.skills.length >= 3) state.gacha.equipped.skills.shift();
+          state.gacha.equipped.skills.push(itemId);
+      }
+      save(); renderHeader(); renderGame();
+  }
 
   function renderGame() {
     const petExp = Number(state.petExp || 0);
@@ -1044,60 +1178,70 @@
           if(item.hp) statText.push(`HP +${item.hp.toLocaleString()}`);
           if(item.type === 'skill') statText.push('ACTIVE EFFECT');
           
+          let btnHtml = '';
+          if (item.type === 'skill') {
+              btnHtml = isEquipped 
+                  ? `<button class="nav-btn" style="width:auto; padding:0 12px; height:26px; font-size:11px; font-family:'JetBrains Mono'; border-color:var(--amber); color:var(--amber);" onclick="equipSkill('${item.id}')">UNEQUIP</button>` 
+                  : `<button class="nav-btn" style="width:auto; padding:0 12px; height:26px; font-size:11px; font-family:'JetBrains Mono';" onclick="equipSkill('${item.id}')">EQUIP</button>`;
+          } else {
+              btnHtml = isEquipped 
+                  ? `<div style="font-size:11px; font-weight:800; color:var(--amber);">EQUIPPED</div>` 
+                  : `<button class="nav-btn" style="width:auto; padding:0 12px; height:26px; font-size:11px; font-family:'JetBrains Mono';" onclick="equipItem('${item.type}', '${item.id}')">EQUIP</button>`;
+          }
+
           div.innerHTML = `
             <div style="flex:1;">
               <div class="inv-item-name" style="color:${item.color}">${item.name}</div>
               <div class="inv-item-stat">${statText.join(' | ')}</div>
             </div>
-            ${isEquipped ? `<button class="nav-btn" style="width:auto; padding:0 12px; height:26px; font-size:11px; font-family:'JetBrains Mono'; border-color:var(--amber); color:var(--amber);" onclick="equipItem('${item.type}', '${item.id}')">UNEQUIP</button>` : `<button class="nav-btn" style="width:auto; padding:0 12px; height:26px; font-size:11px; font-family:'JetBrains Mono';" onclick="equipItem('${item.type}', '${item.id}')">EQUIP</button>`}
+            ${btnHtml}
           `;
           invContainer.appendChild(div);
         });
       }
     }
 
-    if(!state.dungeon) state.dungeon = { level: 1, hp: 200, maxHp: 200, bossImageUrl: '', stunnedDate: '' };
-    
-    let displayLevel = Number(state.dungeon.level);
+    let displayLevel = Number(state.dungeon.level) || 1;
     const bossNameIndex = Math.max(0, displayLevel - 1) % BOSS_LIST.length;
     const currentBossData = BOSS_LIST[bossNameIndex] || { name: "THE SINGER", img: "" };
     
     let bossFullName = currentBossData.name;
-    if(displayLevel > 70) {
-      bossFullName = "THE FINAL BOSS - " + displayLevel;
-    }
-    
-    const bEmoji = displayLevel >= 70 ? '👑' : '🎯'; 
+    if(displayLevel > 70) bossFullName = "THE FINAL BOSS - " + displayLevel;
 
     const bossE = document.getElementById('bossEmoji'); 
     const bossI = document.getElementById('bossImg');
     
-    // ★ 안전한 URL 획득기 사용
+    // ★ 엑스박스 완벽 차단! 이미지 로딩 실패 시 레이더 화면 유지
     const activeImgUrl = getDisplayUrl(state.dungeon.bossImageUrl || currentBossData.img);
     
-    // 초기화 및 에러 대응을 위해 Emoji 초기 상태 복구
     if(bossE) {
-        bossE.innerHTML = bEmoji;
-        bossE.style.animation = 'spin 10s linear infinite';
+        bossE.style.display = 'flex';
+        bossE.innerHTML = displayLevel >= 70 ? '👑' : '🎯';
         bossE.style.color = 'var(--burgundy)';
+        bossE.style.animation = 'spin 10s linear infinite';
     }
+    if(bossI) { bossI.style.display = 'none'; bossI.src = ''; }
 
     if (activeImgUrl) {
-      if(bossE) bossE.style.display = 'none';
-      if(bossI) { 
-          bossI.style.display = 'block'; 
-          bossI.src = activeImgUrl; 
-      }
-    } else {
-      if(bossE) { bossE.style.display = 'flex'; }
-      if(bossI) bossI.style.display = 'none';
+      const img = new Image();
+      img.onload = () => {
+          if(bossE) bossE.style.display = 'none';
+          if(bossI) { bossI.style.display = 'block'; bossI.style.backgroundImage = `url('${activeImgUrl}')`; }
+      };
+      img.onerror = () => {
+          if(bossE) { bossE.innerHTML = '🔒<br>LOCKED'; bossE.style.animation = 'none'; }
+      };
+      img.src = activeImgUrl;
     }
+
+    const clearBtn = document.getElementById('clearBossBtn');
+    if(clearBtn) clearBtn.style.display = state.dungeon.bossImageUrl ? 'inline-block' : 'none';
 
     const bossR = document.getElementById('bossRank'); if(bossR) bossR.textContent = `[ ${getBossRank(displayLevel)} ]`;
     const bossN = document.getElementById('bossName'); 
     if(bossN) {
       bossN.textContent = `LV.${displayLevel} ${bossFullName.trim()}`;
-      if(displayLevel >= 70) bossN.style.color = '#ffd700'; else bossN.style.color = 'var(--cream)';
+      bossN.style.color = displayLevel >= 70 ? '#ffd700' : 'var(--cream)';
     }
     
     const stats = getBossStats(displayLevel);
@@ -1108,9 +1252,8 @@
     if(document.getElementById('bsFandom')) document.getElementById('bsFandom').textContent = genStars(stats.fandom);
     if(document.getElementById('bsLegacy')) document.getElementById('bsLegacy').textContent = genStars(stats.legacy);
 
-    let dHp = Number(state.dungeon.hp);
-    let dMax = Number(state.dungeon.maxHp);
-    if(isNaN(dHp)) dHp = dMax;
+    let dHp = Number(state.dungeon.hp) || calcMaxHp(displayLevel);
+    let dMax = Number(state.dungeon.maxHp) || calcMaxHp(displayLevel);
     
     const hpPct = Math.max(0, Math.round((dHp / dMax) * 100));
     const hFill = document.getElementById('bossHpFill'); if(hFill) hFill.style.width = hpPct + '%';
@@ -1134,6 +1277,7 @@
         }
     }
 
+    // ★ 기절 상태 확인
     const isStunned = state.dungeon.stunnedDate === fmtKey(new Date());
     const atkBtn = document.getElementById('atkBtn');
     const healBtn = document.getElementById('healBtn');
@@ -1149,6 +1293,31 @@
         castBtns.forEach(b => { b.classList.remove('locked'); });
     }
   }
+
+  window.uploadBossImage = async function(input) {
+    if(!input.files[0]) return;
+    const overlay = document.getElementById('loadOverlay');
+    if(overlay) { overlay.style.display = 'flex'; overlay.style.opacity = '1'; }
+    const statMsg = document.getElementById('loadStatus');
+    if(statMsg) statMsg.textContent = 'OVERRIDING VISUAL...';
+    try {
+      if(!currentUser) {
+          alert("[ SYSTEM ] 이미지 파일 서버 저장은 로그인 후 가능합니다.\n(GUEST 모드 제한)");
+          if(overlay) overlay.style.display = 'none'; 
+          input.value=''; 
+          return;
+      }
+      const u = await uploadFileToGas(input.files[0]);
+      state.dungeon.bossImageUrl = u.url;
+      await save(); renderGame();
+    } catch (err) { alert('FAILED TO UPLOAD.'); }
+    finally { if(overlay) overlay.style.display = 'none'; input.value=''; }
+  };
+
+  window.clearBossImage = function() {
+    state.dungeon.bossImageUrl = '';
+    save(); renderGame();
+  };
 
   window.feedPet = function() {
     if(Number(state.coins || 0) < 50) return;
@@ -1213,9 +1382,6 @@
 
     const processResult = () => {
         const newItem = { id: Date.now() + Math.random().toString(36).slice(2,7), ...drawnItemTemplate };
-        if(!state.gacha) state.gacha = { inventory: [], equipped: { weapon:null, sub:null, armor:null, skills:[] } };
-        if(!Array.isArray(state.gacha.inventory)) state.gacha.inventory = getSafeList(state.gacha.inventory);
-        
         state.gacha.inventory.push(newItem);
         save(); renderHeader(); renderGame();
         
@@ -1229,14 +1395,12 @@
         }
     };
 
-    const isHighTier = ['에픽', '신화', '전설', '불가능', '윈터'].includes(drawnRank);
-    if(isHighTier) {
+    if(['에픽', '신화', '전설', '불가능', '윈터'].includes(drawnRank)) {
         playGachaCutscene(drawnItemTemplate, processResult);
-    } else {
-        processResult();
-    }
+    } else { processResult(); }
   }
 
+  // ★ GUEST 막힘 제거 통합 액션 시스템
   window.executeAction = function(actionType, skillId = null) {
       const todayKey = fmtKey(new Date());
       if(state.dungeon.stunnedDate === todayKey) {
@@ -1296,8 +1460,8 @@
       state.dungeon.hp = (Number(state.dungeon.hp) || state.dungeon.maxHp) - finalDmg;
       logCombat(`> ATK: ${finalDmg.toLocaleString()} DMG! ${actionLog}`, "log-p-dmg");
       
-      const targetEl = document.getElementById('bossImg');
-      if(targetEl && targetEl.style.display !== 'none') {
+      const targetEl = document.getElementById('bossVisualArea');
+      if(targetEl) {
         targetEl.style.transform = 'scale(0.8) rotate(-15deg)';
         targetEl.style.filter = 'drop-shadow(0 0 15px rgba(255,0,0,0.8))';
         setTimeout(() => { targetEl.style.transform = 'none'; targetEl.style.filter = 'none'; }, 150);
@@ -1332,7 +1496,6 @@
             logCombat(`[ CRITICAL ERROR: HP 0. SYSTEM LOCKED UNTIL TOMORROW. ]`, "log-sys");
         }
       }
-
       save(); renderHeader(); renderGame();
   }
 
@@ -1530,7 +1693,7 @@
         li.querySelector('.del-btn').onclick = () => {
           if(g.done) handleExpAndCoin(-WEEKLY_REWARD);
           list.splice(idx, 1); 
-          state.goals[key] = list; // 업데이트
+          state.goals[key] = list; 
           if(state.goals[key].length === 0) delete state.goals[key];
           save(); renderHeader(); renderGoals(); 
         };
@@ -1754,12 +1917,8 @@
     reader.onload = () => {
       try{
         const parsed = JSON.parse(reader.result); if(!confirm('OVERWRITE ALL DATA WITH BACKUP FILE?')) return;
-        state.totalExp = Number(parsed.totalExp || 0); state.coins = Number(parsed.coins || 0); state.petExp = Number(parsed.petExp || 0);
-        state.playerHp = Number(parsed.playerHp || 500);
-        state.goals = parsed.goals || {}; state.dailyGoals = parsed.dailyGoals || {}; state.notes = parsed.notes || {}; 
-        state.repo = Array.isArray(parsed.repo) ? parsed.repo : []; state.roadmap = parsed.roadmap || { ultimate:'', milestones:[] };
-        state.gacha = parsed.gacha || {inventory:[], equipped:{weapon:null, sub:null, armor:null, skills:[]}}; 
-        state.dungeon = parsed.dungeon || {level:1, hp:200, maxHp:200, bossImageUrl:'', stunnedDate:''};
+        state = parsed;
+        normalizeState();
         save(); renderAll();
       }catch(err){ alert('FILE ERROR.'); }
     }; reader.readAsText(file); e.target.value = '';
@@ -1770,10 +1929,8 @@
       if(!confirm("⚠️ WARNING 🚨\nALL PROGRESS WILL BE WIPED.\nPROCEED?")) return;
       if(!confirm("THIS ACTION IS IRREVERSIBLE.")) return;
       
-      state.totalExp = 0; state.coins = 0; state.petExp = 0; state.playerHp = 500;
-      state.gacha = {inventory:[], equipped:{weapon:null, sub:null, armor:null, skills:[]}};
-      state.dungeon = {level:1, hp:200, maxHp:200, bossImageUrl:'', stunnedDate:''};
-      
+      state = {};
+      normalizeState();
       save(); renderAll(); alert("SYSTEM RESET COMPLETED.");
   }
 
