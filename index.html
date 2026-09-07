@@ -152,7 +152,7 @@
   .equip-name { font-size:11px; font-weight:700; color:var(--muted); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
   .equip-slot.filled .equip-name { text-shadow: 0 0 5px currentColor; }
 
-  /* 16개 상자 매트릭스 UI */
+  /* 부위별 가챠 그리드 */
   .gacha-matrix { display:grid; grid-template-columns: 40px 1fr 1fr 1fr 1fr; gap:4px; margin-bottom:16px; align-items:center; }
   .gacha-matrix-header { display:grid; grid-template-columns: 40px 1fr 1fr 1fr 1fr; gap:4px; margin-bottom:4px; text-align:center; font-family:'JetBrains Mono', monospace; font-size:10px; color:var(--muted); font-weight:800; }
   .g-row-lbl { font-family:'JetBrains Mono', monospace; font-size:10px; color:var(--muted); font-weight:800; writing-mode:vertical-rl; text-align:center; transform:rotate(180deg); margin:0 auto; }
@@ -174,7 +174,9 @@
   .boss-visual { margin-bottom:16px; position:relative; display:inline-flex; align-items:center; justify-content:center; width:100px; height:100px; }
   .boss-radar { width:100px; height:100px; border-radius:50%; border:1px dashed var(--burgundy); display:flex; align-items:center; justify-content:center; font-family:'JetBrains Mono', monospace; font-size:30px; color:var(--burgundy); letter-spacing:2px; animation:spin 10s linear infinite; position:absolute; inset:0; margin:auto; z-index:1; }
   @keyframes spin { 100% { transform:rotate(360deg); } }
-  .boss-img { width:100px; height:100px; border-radius:50%; object-fit:cover; border:2px solid var(--burgundy); position:relative; z-index:2; box-shadow:0 0 20px rgba(161,43,53,0.3); display:none; }
+  
+  /* ★ 엑스박스 방어용 이미지 태그! 권한 막히면 onerror 발동 */
+  .boss-img { width:100px; height:100px; border-radius:50%; border:2px solid var(--burgundy); position:relative; z-index:2; box-shadow:0 0 20px rgba(161,43,53,0.3); object-fit:cover; display:none; }
   
   .boss-info .rank { font-family:'JetBrains Mono', monospace; font-size:10px; color:var(--muted); letter-spacing:2px; margin-bottom:4px; }
   .boss-info .name { font-size:22px; font-weight:900; color:var(--cream); letter-spacing:1px; margin-bottom:16px; text-transform:uppercase; }
@@ -412,8 +414,9 @@
         
         <div class="boss-visual">
           <div class="boss-radar" id="bossEmoji">🎯</div>
-          <!-- 엑스박스 뜨면 바로 🎯로 전환되는 완벽 방어형 이미지 태그 -->
-          <img id="bossImg" class="boss-img" src="" alt="Boss" referrerpolicy="no-referrer" onerror="this.style.display='none'; document.getElementById('bossEmoji').style.display='flex';">
+          <!-- ★ 구글 보안 대응 방어 코드 적용 <img> -->
+          <img id="bossImg" class="boss-img" src="" alt="Boss" referrerpolicy="no-referrer" 
+               onerror="this.style.display='none'; const e=document.getElementById('bossEmoji'); e.style.display='flex'; e.innerHTML='🔒<br>LOCKED<br>(DRIVE)'; e.style.color='var(--burgundy)'; e.style.animation='none';">
         </div>
         
         <div class="boss-info">
@@ -437,11 +440,19 @@
         <div class="skill-tray" id="activeSkillTray"></div>
 
         <div class="action-btns">
-          <button class="action-btn btn-atk" id="atkBtn" onclick="executeAction('attack')">ENGAGE (10C)</button>
-          <button class="action-btn btn-heal" id="healBtn" onclick="executeAction('heal')">RECOVER (10C)</button>
+          <button class="action-btn btn-atk" id="atkBtn" onclick="executeAction('attack')">ENGAGE / 10C</button>
+          <button class="action-btn btn-heal" id="healBtn" onclick="executeAction('heal')">RECOVER / 10C</button>
         </div>
         
         <div class="combat-log" id="combatLog">AWAITING ENGAGEMENT...</div>
+      </div>
+      
+      <div style="margin-top:14px;">
+        <label class="upload-box" style="margin-bottom:0; padding:10px;">
+          <input type="file" id="bossFile" accept="image/*" style="display:none;" onchange="uploadBossImage(this)">
+          [ OVERRIDE BOSS VISUAL ]
+        </label>
+        <div style="text-align:center;"><button id="clearBossBtn" style="display:none; background:none; border:none; color:var(--muted); font-size:10px; font-family:'JetBrains Mono', monospace; text-decoration:underline; cursor:pointer; margin-top:8px;" onclick="clearBossImage()">RESET VISUAL OVERRIDE</button></div>
       </div>
     </div>
   </div>
@@ -505,6 +516,10 @@
         <input type="text" id="repoArtist" placeholder="ARTIST" required style="flex:1.5;">
         <input type="text" id="repoKey" placeholder="KEY" style="flex:1;">
       </div>
+      <label class="upload-box" for="repoFile" style="margin:0;">
+        <input type="file" id="repoFile" onchange="showRepoFile()">
+        <span id="repoFileName">ATTACH FILE (MAX 4MB)</span>
+      </label>
       <button type="submit" class="add-btn" style="padding:12px;">SAVE RECORD</button>
     </form>
   </div>
@@ -664,7 +679,16 @@
     { type: 'skill', rank: '윈터', effect:{type:'winter', val:0}, name: '[SKL] 윈터의 윙크 (15배딜+풀피)', color: '#00ffff' }
   ];
 
-  // ★ 네가 준 순수 원본 링크 65개 (1%의 가공도 없음!)
+  // ★ 구글 원본 링크를 직접 표출용 주소로 번역해주는 함수! (엑스박스 절대 방어)
+  function getDisplayUrl(url) {
+      if(!url) return '';
+      const match = url.match(/\/d\/([a-zA-Z0-9_-]+)/);
+      if(match && match[1]) {
+          return `https://drive.google.com/uc?export=view&id=${match[1]}`;
+      }
+      return url;
+  }
+
   const BOSS_LIST = [
     { name: "10CM", img: "https://drive.google.com/file/d/1SpqRzUg-2tHvXzN1XaWRUtcmz4cHuwbY/view?usp=drive_link" },
     { name: "최유리", img: "https://drive.google.com/file/d/13PFcFL_ly5MStsJwmN9ImmlVDSUMMYjL/view?usp=drive_link" },
@@ -733,16 +757,6 @@
     { name: "Elvis Presley", img: "https://drive.google.com/file/d/1b1PBaoS__jW7hHZXL-WOVZzcCdTounX3/view?usp=drive_link" },
     { name: "The Beatles", img: "" }, { name: "BTS", img: "" }, { name: "Taylor Swift", img: "" }, { name: "Michael Jackson", img: "" }, { name: "MY self", img: "" }
   ];
-
-  // ★ 브라우저가 원본 링크를 뱉어내지 못하게 하는 '자동 통역기' (이게 핵심!)
-  function getDisplayUrl(url) {
-      if(!url) return '';
-      const match = url.match(/\/d\/([a-zA-Z0-9_-]+)/);
-      if(match && match[1]) {
-          return `https://drive.google.com/thumbnail?id=${match[1]}&sz=w300`;
-      }
-      return url;
-  }
 
   function getBossRank(level) {
     if(level <= 15) return "BEGINNER";
@@ -1058,10 +1072,16 @@
     const bossE = document.getElementById('bossEmoji'); 
     const bossI = document.getElementById('bossImg');
     
-    // ★ 여기서 자동 통역기(getDisplayUrl) 발동! 원본 링크를 무적 썸네일로 바꿔줌.
+    // ★ 안전한 URL 획득기 사용
     const activeImgUrl = getDisplayUrl(state.dungeon.bossImageUrl || currentBossData.img);
     
-    // img 태그로 엑스박스 시 에러 처리를 지원
+    // 초기화 및 에러 대응을 위해 Emoji 초기 상태 복구
+    if(bossE) {
+        bossE.innerHTML = bEmoji;
+        bossE.style.animation = 'spin 10s linear infinite';
+        bossE.style.color = 'var(--burgundy)';
+    }
+
     if (activeImgUrl) {
       if(bossE) bossE.style.display = 'none';
       if(bossI) { 
@@ -1069,7 +1089,7 @@
           bossI.src = activeImgUrl; 
       }
     } else {
-      if(bossE) { bossE.style.display = 'flex'; bossE.innerHTML = bEmoji; }
+      if(bossE) { bossE.style.display = 'flex'; }
       if(bossI) bossI.style.display = 'none';
     }
 
@@ -1510,7 +1530,7 @@
         li.querySelector('.del-btn').onclick = () => {
           if(g.done) handleExpAndCoin(-WEEKLY_REWARD);
           list.splice(idx, 1); 
-          state.goals[key] = list; 
+          state.goals[key] = list; // 업데이트
           if(state.goals[key].length === 0) delete state.goals[key];
           save(); renderHeader(); renderGoals(); 
         };
@@ -1578,7 +1598,7 @@
       
       const overlay = document.getElementById('loadOverlay');
       if(fileInput.files[0] && !currentUser) {
-          alert("[ SYSTEM ] 음원/악보 파일 직접 업로드는 로그인 후 가능합니다.");
+          alert("[ SYSTEM ] 음원/악보 파일 직접 업로드는 서버 권한이 필요합니다.\n로그인 후 이용해주세요.");
           return;
       }
 
@@ -1672,7 +1692,7 @@
     const fileInput = document.getElementById('dayFile');
     
     if(fileInput.files[0] && !currentUser) {
-        alert("[ SYSTEM ] 오디오 파일 직접 첨부는 로그인 후 가능합니다.");
+        alert("[ SYSTEM ] 오디오 파일 직접 첨부는 서버 권한이 필요합니다.\n로그인 후 이용해주세요.");
         return;
     }
 
