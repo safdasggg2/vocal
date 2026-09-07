@@ -251,7 +251,6 @@
   .feed-btn:hover:not(:disabled) { filter:brightness(1.1); }
   .feed-btn:disabled { background:var(--bg-panel); color:var(--muted); border:1px solid var(--line); cursor:not-allowed; }
 
-  /* Gacha Buttons Grid */
   .gacha-grid { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-bottom:12px; }
   .gacha-box-btn { 
     padding:12px; font-size:13px; font-weight:700; border-radius:10px; cursor:pointer; font-family:'Work Sans'; 
@@ -273,14 +272,24 @@
   .inv-item-name { font-size:13px; font-weight:600; }
   .inv-item-atk { font-family:'JetBrains Mono', monospace; font-size:11px; color:var(--muted); }
 
+  /* Boss & Upload Styles */
   .boss-area { text-align:center; padding:10px 0; }
   .boss-emoji { font-size:70px; animation: shake 2s infinite; margin-bottom:10px; }
+  .boss-img { width:100px; height:100px; border-radius:50%; object-fit:cover; border:2px solid var(--burgundy); margin:0 auto 10px; animation: shake 2s infinite; display:none; box-shadow:0 0 15px rgba(138,67,72,0.4); }
   @keyframes shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-4px) rotate(-5deg); } 75% { transform: translateX(4px) rotate(5deg); } }
-  .boss-name { font-family:'Fraunces', serif; font-size:18px; font-weight:700; color:var(--burgundy); margin-bottom:10px; }
-  .boss-hp-track { height:16px; background:var(--bg-stage); border-radius:8px; margin:0 auto 16px; width:90%; overflow:hidden; border:1px solid var(--line); position:relative; }
-  .boss-hp-fill { height:100%; background:var(--burgundy); transition:width 0.2s; }
-  .boss-hp-text { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; font-family:'JetBrains Mono', monospace; font-size:10px; font-weight:700; color:var(--cream); text-shadow:0 1px 2px rgba(0,0,0,0.8); }
-  .atk-btn { background:var(--burgundy); color:var(--cream); padding:12px 24px; font-size:14px; font-weight:700; border:none; border-radius:999px; cursor:pointer; font-family:'Work Sans'; box-shadow:0 4px 12px rgba(138,67,72,0.3); }
+  
+  .boss-name-wrap { display:inline-block; position:relative; margin-bottom:14px; }
+  .boss-name { font-family:'Fraunces', serif; font-size:20px; font-weight:900; color:var(--burgundy); letter-spacing:-0.5px; text-shadow:0 2px 4px rgba(0,0,0,0.5); }
+  .boss-rank { font-family:'JetBrains Mono', monospace; font-size:10px; color:var(--amber); letter-spacing:1px; margin-bottom:2px; font-weight:700;}
+
+  .boss-stats { display:grid; grid-template-columns:1fr 1fr; gap:8px; font-size:11px; font-weight:700; text-align:left; background:rgba(0,0,0,0.25); padding:12px; border-radius:10px; border:1px dashed rgba(138,67,72,0.5); margin:0 auto 16px; width:90%; color:var(--muted); font-family:'JetBrains Mono', monospace;}
+  .boss-stats div { display:flex; justify-content:space-between; }
+  .boss-stats span { color:var(--amber); letter-spacing:2px; }
+
+  .boss-hp-track { height:20px; background:var(--bg-stage); border-radius:10px; margin:0 auto 16px; width:90%; overflow:hidden; border:1px solid var(--line); position:relative; box-shadow:inset 0 2px 4px rgba(0,0,0,0.5); }
+  .boss-hp-fill { height:100%; background:linear-gradient(90deg, #8a4348, #ff4500); transition:width 0.2s; }
+  .boss-hp-text { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; font-family:'JetBrains Mono', monospace; font-size:11px; font-weight:700; color:var(--cream); text-shadow:0 1px 2px rgba(0,0,0,1); }
+  .atk-btn { background:var(--burgundy); color:var(--cream); padding:14px 28px; font-size:15px; font-weight:700; border:none; border-radius:999px; cursor:pointer; font-family:'Work Sans'; box-shadow:0 4px 12px rgba(138,67,72,0.4); margin-top:8px;}
   .atk-btn:hover { background:#a14e54; transform:scale(1.05); }
 
   /* ---------- Calendar view ---------- */
@@ -391,22 +400,6 @@
   .modal-goto{background:none; color:var(--amber); border-color:var(--amber-dim); flex:1;}
   .modal-goto:hover{border-color:var(--amber);}
 
-  /* ---------- Stats & Sliders ---------- */
-  .stat-sliders { margin-bottom:12px; background:rgba(232,163,61,0.03); border:1px solid var(--line); border-radius:8px; padding:12px; }
-  .stat-row { display:flex; align-items:center; gap:10px; margin-bottom:8px; }
-  .stat-row:last-child { margin-bottom:0; }
-  .stat-label { width:36px; font-size:12px; color:var(--muted); font-weight:600; }
-  .stat-slider { flex:1; -webkit-appearance:none; background:var(--bg-stage); height:4px; border-radius:2px; outline:none; }
-  .stat-slider::-webkit-slider-thumb { -webkit-appearance:none; width:14px; height:14px; border-radius:50%; background:var(--amber); cursor:pointer; border:2px solid var(--bg-panel-2); box-shadow:0 0 4px rgba(0,0,0,0.5); }
-  .stat-val { width:16px; font-family:'JetBrains Mono', monospace; font-size:12px; color:var(--amber); text-align:right; }
-  .time-inputs { display:flex; gap:10px; margin-bottom:12px; }
-  .time-col { flex:1; display:flex; flex-direction:column; gap:4px; }
-  .time-col label { font-size:11px; color:var(--muted); font-weight:600; }
-  
-  .time-log-row { background:var(--bg-panel-2); border:1px solid var(--line); border-radius:8px; padding:10px; margin-bottom:8px; display:flex; justify-content:space-between; align-items:center; }
-  .time-log-date { font-size:13px; font-weight:600; color:var(--cream); }
-  .time-log-time { font-family:'JetBrains Mono', monospace; font-size:12px; color:var(--amber); background:rgba(232,163,61,0.1); padding:4px 8px; border-radius:6px; border:1px solid var(--amber-dim); }
-
 </style>
 </head>
 <body>
@@ -473,27 +466,18 @@
     <div class="game-section">
       <div class="game-section-title">신비한 보컬 장비 뽑기 🎰</div>
       
-      <!-- ★ NEW: 등급별 가챠 박스 컨테이너 -->
       <div class="gacha-grid">
         <button class="gacha-box-btn normal" onclick="drawGacha('normal')">
-          <span style="font-size:18px;">📦</span>
-          <span>일반 상자</span>
-          <span style="font-size:11px; font-weight:400;">100 🪙</span>
+          <span style="font-size:18px;">📦</span><span>일반 상자</span><span style="font-size:11px; font-weight:400;">100 🪙</span>
         </button>
         <button class="gacha-box-btn epic" onclick="drawGacha('epic')">
-          <span style="font-size:18px;">💎</span>
-          <span>에픽 상자</span>
-          <span style="font-size:11px; font-weight:400;">500 🪙</span>
+          <span style="font-size:18px;">💎</span><span>에픽 상자</span><span style="font-size:11px; font-weight:400;">500 🪙</span>
         </button>
         <button class="gacha-box-btn legend" onclick="drawGacha('legend')">
-          <span style="font-size:18px;">👑</span>
-          <span>전설 상자</span>
-          <span style="font-size:11px; font-weight:400;">2,000 🪙</span>
+          <span style="font-size:18px;">👑</span><span>전설 상자</span><span style="font-size:11px; font-weight:400;">2,000 🪙</span>
         </button>
         <button class="gacha-box-btn winter" onclick="drawGacha('winter')">
-          <span style="font-size:18px;">❄️</span>
-          <span>윈터의 상자</span>
-          <span style="font-size:11px; font-weight:400;">10,000 🪙</span>
+          <span style="font-size:18px;">❄️</span><span>윈터의 상자</span><span style="font-size:11px; font-weight:400;">10,000 🪙</span>
         </button>
       </div>
       
@@ -506,11 +490,34 @@
     </div>
 
     <div class="game-section" style="margin-bottom:0; border-color:var(--burgundy);">
-      <div class="game-section-title" style="color:var(--burgundy);">보컬 마왕의 던전 ⚔️</div>
+      <div class="game-section-title" style="color:var(--burgundy);">보컬 도장깨기 ⚔️</div>
       <div class="boss-area">
-        <div class="boss-emoji" id="bossEmoji">👺</div>
-        <div class="boss-name" id="bossName">Lv.1 삑사리 고블린</div>
+        <div id="bossVisualArea">
+          <div class="boss-emoji" id="bossEmoji">👺</div>
+          <img id="bossImg" class="boss-img" src="" alt="Boss Image">
+        </div>
         
+        <div class="boss-name-wrap">
+          <div class="boss-rank" id="bossRank">BEGINNER</div>
+          <div class="boss-name" id="bossName">Lv.1 10CM</div>
+        </div>
+        
+        <div class="boss-stats" id="bossStatsBoard">
+            <div>VOCAL <span id="bsVocal">★★☆☆☆</span></div>
+            <div>SONG <span id="bsSong">★★★☆☆</span></div>
+            <div>STAGE <span id="bsStage">★★☆☆☆</span></div>
+            <div>FANDOM <span id="bsFandom">★★★☆☆</span></div>
+            <div style="grid-column: span 2;">LEGACY <span id="bsLegacy">★☆☆☆☆</span></div>
+        </div>
+
+        <div style="display:flex; justify-content:center; gap:6px; margin-bottom:14px;">
+          <label style="cursor:pointer; background:var(--bg-panel); border:1px solid var(--burgundy); color:var(--cream); padding:5px 12px; border-radius:6px; font-size:11px; font-weight:600; transition:all 0.2s;">
+            <input type="file" id="bossFile" accept="image/*" style="display:none;" onchange="uploadBossImage(this)">
+            📸 스킨(사진) 덮어쓰기
+          </label>
+          <button id="clearBossBtn" style="display:none; background:none; border:1px solid var(--line); color:var(--muted); padding:5px 12px; border-radius:6px; font-size:11px; cursor:pointer;" onclick="clearBossImage()">초기화</button>
+        </div>
+
         <div class="boss-hp-track">
           <div class="boss-hp-fill" id="bossHpFill" style="width:100%;"></div>
           <div class="boss-hp-text" id="bossHpText">100 / 100</div>
@@ -518,7 +525,9 @@
         
         <button class="atk-btn" onclick="attackBoss()">🔥 공격하기 (10 🪙)</button>
       </div>
-      <div style="text-align:center; font-size:11px; color:var(--muted); margin-top:10px;">보스를 처치하면 대량의 EXP와 코인이 쏟아집니다!</div>
+      <div style="text-align:center; font-size:11px; color:var(--muted); margin-top:14px; line-height:1.4;">
+        보스 레벨에 따라 피통이 기하급수적으로 늘어납니다!<br>가챠로 스펙을 올려 세계 최고의 마왕들을 쓰러뜨리세요.
+      </div>
     </div>
   </div>
 
@@ -577,7 +586,7 @@
       <div class="progress-track"><div class="progress-fill" id="dailyProgressFill" style="width:0%;"></div></div>
     </div>
     <ul class="goal-list" id="dailyList"></ul>
-    <div class="empty-note" id="dailyEmptyNote" style="display:none;">이 날의 일일 목표가 없습니다. 아래에서 내일의 목표도 미리 추가해보세요.</div>
+    <div class="empty-note" id="dailyEmptyNote">이 날의 일일 목표가 없습니다. 아래에서 내일의 목표도 미리 추가해보세요.</div>
     <form class="add-form" id="addDailyForm">
       <input type="text" id="dailyGoalInput" placeholder="예: 스케일 연습 10분" maxlength="60" required>
       <select id="dailyTierSelect">
@@ -606,7 +615,7 @@
       <div class="progress-track"><div class="progress-fill" id="progressFill" style="width:0%;"></div></div>
     </div>
     <ul class="goal-list" id="goalList"></ul>
-    <div class="empty-note" id="emptyNote" style="display:none;">이번 주 목표가 아직 없어요. 주간 퀘스트를 추가해보세요.</div>
+    <div class="empty-note" id="emptyNote">이번 주 목표가 아직 없어요. 주간 퀘스트를 추가해보세요.</div>
     <form class="add-form" id="addWeekForm">
       <input type="text" id="weekGoalInput" placeholder="예: 일주일간 매일 발성 30분 달성하기" maxlength="60" required>
       <button type="submit" class="add-btn">퀘스트 추가</button>
@@ -782,39 +791,113 @@
     { rank: '일반', atk: 5, name: '💧 미지근한 생수', color: '#a4917d' }
   ];
 
-  // ★ NEW: 상자 등급별 확률표
   const GACHA_BOXES = {
-    normal: {
-      cost: 100, name: '일반 상자',
-      rates: [
-        { rank: '일반', prob: 60.0 }, { rank: '희귀', prob: 30.0 }, { rank: '초희귀', prob: 8.0 },
-        { rank: '에픽', prob: 1.9 }, { rank: '신화', prob: 0.1 }
-      ]
-    },
-    epic: {
-      cost: 500, name: '에픽 상자',
-      rates: [
-        { rank: '희귀', prob: 50.0 }, { rank: '초희귀', prob: 35.0 }, { rank: '에픽', prob: 12.0 },
-        { rank: '신화', prob: 2.5 }, { rank: '전설', prob: 0.4 }, { rank: '불가능', prob: 0.09 }, { rank: '윈터', prob: 0.01 }
-      ]
-    },
-    legend: {
-      cost: 2000, name: '전설 상자',
-      rates: [
-        { rank: '초희귀', prob: 40.0 }, { rank: '에픽', prob: 40.0 }, { rank: '신화', prob: 15.0 },
-        { rank: '전설', prob: 4.0 }, { rank: '불가능', prob: 0.8 }, { rank: '윈터', prob: 0.2 }
-      ]
-    },
-    winter: {
-      cost: 10000, name: '윈터의 상자',
-      rates: [
-        { rank: '에픽', prob: 30.0 }, { rank: '신화', prob: 40.0 }, { rank: '전설', prob: 20.0 },
-        { rank: '불가능', prob: 8.0 }, { rank: '윈터', prob: 2.0 } // 윈터 뽑기 확률 2%로 초대폭 상승!
-      ]
-    }
+    normal: { cost: 100, name: '일반 상자', rates: [ { rank: '일반', prob: 60.0 }, { rank: '희귀', prob: 30.0 }, { rank: '초희귀', prob: 8.0 }, { rank: '에픽', prob: 1.9 }, { rank: '신화', prob: 0.1 } ] },
+    epic: { cost: 500, name: '에픽 상자', rates: [ { rank: '희귀', prob: 50.0 }, { rank: '초희귀', prob: 35.0 }, { rank: '에픽', prob: 12.0 }, { rank: '신화', prob: 2.5 }, { rank: '전설', prob: 0.4 }, { rank: '불가능', prob: 0.09 }, { rank: '윈터', prob: 0.01 } ] },
+    legend: { cost: 2000, name: '전설 상자', rates: [ { rank: '초희귀', prob: 40.0 }, { rank: '에픽', prob: 40.0 }, { rank: '신화', prob: 15.0 }, { rank: '전설', prob: 4.0 }, { rank: '불가능', prob: 0.8 }, { rank: '윈터', prob: 0.2 } ] },
+    winter: { cost: 10000, name: '윈터의 상자', rates: [ { rank: '에픽', prob: 30.0 }, { rank: '신화', prob: 40.0 }, { rank: '전설', prob: 20.0 }, { rank: '불가능', prob: 8.0 }, { rank: '윈터', prob: 2.0 } ] }
   };
 
-  const BOSS_NAMES = ['음정파괴 고블린 👺', '박자무시 오크 👹', '성대결절 마왕 🧛‍♂️', '불협화음 드래곤 🐉'];
+  // ★ 70단계 정예 보스 & 네가 준 구글 드라이브 65개 링크 완벽 매핑
+  const BOSS_LIST = [
+    { name: "10CM", img: "https://drive.google.com/uc?export=view&id=1SpqRzUg-2tHvXzN1XaWRUtcmz4cHuwbY" }, 
+    { name: "최유리", img: "https://drive.google.com/uc?export=view&id=13PFcFL_ly5MStsJwmN9ImmlVDSUMMYjL" }, 
+    { name: "폴킴", img: "https://drive.google.com/uc?export=view&id=1SoRCBRqNS5ZKff5yvznIlk2qjMzZMWf6" }, 
+    { name: "적재", img: "https://drive.google.com/uc?export=view&id=1mW8UHN2ODkYFNqN1IGb0M65BufbJXcnP" }, 
+    { name: "정승환", img: "https://drive.google.com/uc?export=view&id=1Dxe58awVF_ToXKpuA1bk_qtyigzAnxS-" },
+    { name: "이무진", img: "https://drive.google.com/uc?export=view&id=10bZ0Emq5R_2NipE2dT0W0P1fn38mprb8" }, 
+    { name: "AKMU", img: "https://drive.google.com/uc?export=view&id=1qs5prO0S4CJirpE3QPrdQc0JwSsEdZLu" }, 
+    { name: "잔나비", img: "https://drive.google.com/uc?export=view&id=1mqnFNesX4hm1zdJ_KcFK3U8VLJC25Crh" }, 
+    { name: "DAY6", img: "https://drive.google.com/uc?export=view&id=1L_ULhi0J3_0AjmZ2MVYmxId4KiBNNdXs" }, 
+    { name: "WOODZ", img: "https://drive.google.com/uc?export=view&id=1xhcv2tfdJBeomtOzaUrVDAzn9jaEpegL" },
+    { name: "성시경", img: "https://drive.google.com/uc?export=view&id=1d6vfmskF4ahM29e6vivbpYIjCrJ2LXm9" }, 
+    { name: "윤하", img: "https://drive.google.com/uc?export=view&id=1NK1L-I5vIXaN4KDDL4CIqS9YaALhxkR6" }, 
+    { name: "규현", img: "https://drive.google.com/uc?export=view&id=13h8BJtPzlcr-65-AvlOjXo91CDwJ9sri" }, 
+    { name: "이승윤", img: "https://drive.google.com/uc?export=view&id=1_IXmzEP_CF2SI5_htkghRATeuso55CNL" }, 
+    { name: "김필", img: "https://drive.google.com/uc?export=view&id=1u7pucj9YpR6FRlOZyWIOGUt1sYknxYML" },
+    { name: "D.O.", img: "https://drive.google.com/uc?export=view&id=1APZ4C8JSZyYey3RhYeh2n3I9gJQhxpp6" }, 
+    { name: "WINTER", img: "https://drive.google.com/uc?export=view&id=1LnKpnEAnUde7Og8d8fCN2GIxyz7dNFMr" }, 
+    { name: "태연", img: "https://drive.google.com/uc?export=view&id=16z1joV-wAdVR3Og7kYS_cUYrRYFW1qIw" }, 
+    { name: "정국", img: "https://drive.google.com/uc?export=view&id=1QG7CWtJazUoLQpQW4icPzhMO2hLw-DrT" }, 
+    { name: "아이유", img: "https://drive.google.com/uc?export=view&id=1VinvalifbqRAROADEqMtwbuob8_WhwDV" },
+    { name: "에일리", img: "https://drive.google.com/uc?export=view&id=1tWdLCV4fKC1YhvMIqcZFIVsLUhL7kKQD" }, 
+    { name: "거미", img: "https://drive.google.com/uc?export=view&id=17DOqNH-N2F7dLC3lhbNnYdst7EhC1rIA" }, 
+    { name: "K.Will", img: "https://drive.google.com/uc?export=view&id=1IzhuIozRR7u0aoeCf46VfXYpDY7VI0wx" }, 
+    { name: "하현우", img: "https://drive.google.com/uc?export=view&id=10KbNArPrVCmhQlKgg2bDEfmwAR8u6Pe7" }, 
+    { name: "박정현", img: "https://drive.google.com/uc?export=view&id=1p4e-ghxZ8HbovVHsh06E2xnCKK8AoaDp" },
+    { name: "나얼", img: "https://drive.google.com/uc?export=view&id=1vCMuy2gTkdS0VdnL0T6LgVmYGwJhNT8_" }, 
+    { name: "김범수", img: "https://drive.google.com/uc?export=view&id=1nWA6bFSba5TiIWRLJyA0TumXXjTFj0G0" }, 
+    { name: "이수", img: "https://drive.google.com/uc?export=view&id=1q6hHBPtd2uMpUXCiubHzErjoSL-cQBwr" }, 
+    { name: "박효신", img: "https://drive.google.com/uc?export=view&id=1fiWiVMZ9T82BdM0_xl6yi0WonIcnCo3_" }, 
+    { name: "이승철", img: "https://drive.google.com/uc?export=view&id=1gadRw7tTwQArG1GNYubXlouXPNl3sUou" },
+    { name: "김경호", img: "https://drive.google.com/uc?export=view&id=1ZOvLYcbm7-yCa6CHJ-6-Iai80DuzXac3" }, 
+    { name: "박완규", img: "https://drive.google.com/uc?export=view&id=1oD5JagCCDvrUb2FGR01Thb4pLrLeW0gf" }, 
+    { name: "임재범", img: "https://drive.google.com/uc?export=view&id=1jz29-_ArV7vo80iHVnGXaDNOUKOzt4NL" }, 
+    { name: "이선희", img: "https://drive.google.com/uc?export=view&id=1X7ntYHMUemkFhg5ZOkAKoNhH89jrcyr_" }, 
+    { name: "조용필", img: "https://drive.google.com/uc?export=view&id=1W1lXRG6AHHmsYStpJhhmMCjJmmijJHKm" },
+    { name: "신승훈", img: "https://drive.google.com/uc?export=view&id=1pZXou5q8IRoWZj2AK6agJSESY_MzPfcs" }, 
+    { name: "김건모", img: "https://drive.google.com/uc?export=view&id=129Go3z8G4aZk05-wRo9asG2uOy5P2140" }, 
+    { name: "싸이", img: "https://drive.google.com/uc?export=view&id=1cZfG4WIsfuQds1_q7n0mMmUR1ixtFdYR" }, 
+    { name: "BIGBANG", img: "https://drive.google.com/uc?export=view&id=1FOKdzkyKvfGA3HLYrO7qFu3SUDN7g7ts" }, 
+    { name: "EXO", img: "https://drive.google.com/uc?export=view&id=1sZdFj3tqzFEgs3jz4IlIfybi2gubKR2a" },
+    { name: "TWICE", img: "https://drive.google.com/uc?export=view&id=1UBz7ZHW3ns09sKwyebDFmJWIIXdd5xJK" }, 
+    { name: "SEVENTEEN", img: "https://drive.google.com/uc?export=view&id=1pu92ag5NzGf_T6LTGd0ZjZ6S_ncfz-cf" }, 
+    { name: "aespa", img: "https://drive.google.com/uc?export=view&id=1vP9LDiZKBfn8vrQSH7m-U_FmaYUJSehz" }, 
+    { name: "BLACKPINK", img: "https://drive.google.com/uc?export=view&id=1leEBk5KglL_sKzgG0WaFhjH-KZJygUgo" }, 
+    { name: "임영웅", img: "https://drive.google.com/uc?export=view&id=1VKDpIe_Sy3d4XwcoY5s7WlMQdeulC1fa" },
+    { name: "X JAPAN", img: "https://drive.google.com/uc?export=view&id=1O_3Syx1NMz-3EUAcpnOJiAIosaskNagw" }, 
+    { name: "L'Arc-en-Ciel", img: "https://drive.google.com/uc?export=view&id=1kewqX33PgxDCFTg8FIo22CtQgzTvExwS" }, 
+    { name: "GLAY", img: "https://drive.google.com/uc?export=view&id=1uHHYN6T_gxWFOfuxgzxRWmhJ4zCGqW83" }, 
+    { name: "LUNA SEA", img: "https://drive.google.com/uc?export=view&id=1tpGJHsoY_9r6S1DRlLllAbSS6x0Wnvfa" }, 
+    { name: "Mrs. GREEN APPLE", img: "https://drive.google.com/uc?export=view&id=1B9-EJMVlSHadEG25X2DMyFpMKxR77PV0" },
+    { name: "Rihanna", img: "https://drive.google.com/uc?export=view&id=1Ca8pOI7kjwafds-D6xC5iZh7we-1ZrRc" }, 
+    { name: "Lady Gaga", img: "https://drive.google.com/uc?export=view&id=1i5dmdVwO3p6tfIrIrxa97cJyRkIB6tp3" }, 
+    { name: "Bruno Mars", img: "https://drive.google.com/uc?export=view&id=1oKdZ1sncRo043tQkmvM5Bcr9NoeYVm3o" }, 
+    { name: "Justin Bieber", img: "https://drive.google.com/uc?export=view&id=1ti5DYFqed6WfRNdCdZDYHHymopjEA7g_" }, 
+    { name: "Ariana Grande", img: "https://drive.google.com/uc?export=view&id=1UBvN5ihDFZYPa2OM1X4wh3NPzRvP-TR5" },
+    { name: "Adele", img: "https://drive.google.com/uc?export=view&id=1h1p-GUkj-6OCEG9xIMpB7Mvjh46P4AKg" }, 
+    { name: "Ed Sheeran", img: "https://drive.google.com/uc?export=view&id=1Qsu-xIc60h9Sv2xeYxXqoHPMbggtFXdJ" }, 
+    { name: "Beyoncé", img: "https://drive.google.com/uc?export=view&id=18SThYc_3UWgBtre0BFMyhxGoIfX4iRA2" }, 
+    { name: "Celine Dion", img: "https://drive.google.com/uc?export=view&id=1dZNm839qNOtIFp7dIu1Fmt4kEhsWQDB-" }, 
+    { name: "Stevie Wonder", img: "https://drive.google.com/uc?export=view&id=1cp_YgqnfeVLc9BLo9QD6ynf-tdDF-eo0" },
+    { name: "Freddie Mercury", img: "https://drive.google.com/uc?export=view&id=1dQA_Cy5mN6lVsf-Im6nwI3DVqP-vrEbx" }, 
+    { name: "Mariah Carey", img: "https://drive.google.com/uc?export=view&id=1Pi2p2w22Z9f28hgphf5lqUCPfKR0MXMI" }, 
+    { name: "Whitney Houston", img: "https://drive.google.com/uc?export=view&id=1kM_9g5uIATDoEN4-43lVUjfnS4RO10jO" }, 
+    { name: "Madonna", img: "https://drive.google.com/uc?export=view&id=1h_1LSqe8kScsDco-ezJMkK6YFEJtGoLr" }, 
+    { name: "Elvis Presley", img: "https://drive.google.com/uc?export=view&id=1b1PBaoS__jW7hHZXL-WOVZzcCdTounX3" },
+    { name: "The Beatles", img: "" }, 
+    { name: "BTS", img: "" }, 
+    { name: "Taylor Swift", img: "" }, 
+    { name: "Michael Jackson", img: "" }, 
+    { name: "MY self", img: "" }
+  ];
+
+  function getBossRank(level) {
+    if(level <= 15) return "BEGINNER";
+    if(level <= 30) return "HARD";
+    if(level <= 45) return "EXTREME";
+    if(level <= 60) return "LEGEND";
+    if(level <= 69) return "MYTHIC";
+    return "GOD TIER";
+  }
+
+  // ★ 70레벨 스케일링
+  function calcMaxHp(level) {
+    if (level >= 70) return 999999999;
+    return Math.floor(200 * Math.pow(level, 2.6));
+  }
+
+  // ★ 70레벨 맞춤형 스탯 부여 (7레벨당 1성씩 베이스 상승, 최대 10성)
+  function getBossStats(level) {
+    let base = Math.ceil(level / 7);
+    return {
+      vocal: Math.min(10, base + Math.floor(Math.random() * 3)),
+      song: Math.min(10, base + Math.floor(Math.random() * 3)),
+      stage: Math.min(10, base + Math.floor(Math.random() * 3)),
+      fandom: Math.min(10, base + Math.floor(Math.random() * 3)),
+      legacy: Math.min(10, base + Math.floor(Math.random() * 3))
+    };
+  }
 
   const today = new Date(); today.setHours(0,0,0,0);
   const todayMonday = getMonday(today);
@@ -824,7 +907,7 @@
     totalExp:0, coins:0, petExp:0, 
     goals:{}, dailyGoals:{}, notes:{}, repo:[], roadmap:{ ultimate:'', milestones:[] },
     gacha: { inventory: [], equippedId: null },
-    dungeon: { level: 1, hp: 100, maxHp: 100 }
+    dungeon: { level: 1, hp: 200, maxHp: 200, bossImageUrl: '' } 
   };
   
   let currentDailyDate = new Date(today);
@@ -905,7 +988,7 @@
   
   window.logout = function() {
     localStorage.removeItem(LOGIN_KEY); currentUser = null;
-    state = { totalExp:0, coins:0, petExp:0, goals:{}, dailyGoals:{}, notes:{}, repo:[], roadmap:{ ultimate:'', milestones:[] }, gacha:{inventory:[], equippedId:null}, dungeon:{level:1, hp:100, maxHp:100} };
+    state = { totalExp:0, coins:0, petExp:0, goals:{}, dailyGoals:{}, notes:{}, repo:[], roadmap:{ ultimate:'', milestones:[] }, gacha:{inventory:[], equippedId:null}, dungeon:{level:1, hp:200, maxHp:200, bossImageUrl:''} };
     checkLoginStatus(); renderAll();
   }
 
@@ -915,7 +998,7 @@
     const failsafe = setTimeout(() => { if(overlay){overlay.style.opacity = '0'; setTimeout(() => { overlay.style.display = 'none'; }, 300);} }, 3500);
 
     if(!currentUser) {
-      state = { totalExp:0, coins:0, petExp:0, goals:{}, dailyGoals:{}, notes:{}, repo:[], roadmap:{ ultimate:'', milestones:[] }, gacha:{inventory:[], equippedId:null}, dungeon:{level:1, hp:100, maxHp:100} };
+      state = { totalExp:0, coins:0, petExp:0, goals:{}, dailyGoals:{}, notes:{}, repo:[], roadmap:{ ultimate:'', milestones:[] }, gacha:{inventory:[], equippedId:null}, dungeon:{level:1, hp:200, maxHp:200, bossImageUrl:''} };
       try { renderAll(); } catch(e){}
       clearTimeout(failsafe); if(overlay){overlay.style.opacity = '0'; setTimeout(() => { overlay.style.display = 'none'; }, 300);}
       return;
@@ -938,10 +1021,15 @@
           repo: Array.isArray(parsed.repo) ? parsed.repo : [],
           roadmap: parsed.roadmap || { ultimate:'', milestones:[] },
           gacha: parsed.gacha || { inventory: [], equippedId: null },
-          dungeon: parsed.dungeon || { level: 1, hp: 100, maxHp: 100 }
+          dungeon: parsed.dungeon || { level: 1, hp: 200, maxHp: 200, bossImageUrl: '' }
         };
+        if(state.dungeon.maxHp < 500 && state.dungeon.level > 1) {
+            state.dungeon.maxHp = calcMaxHp(state.dungeon.level);
+            state.dungeon.hp = state.dungeon.maxHp;
+        }
+
       } else {
-        state = { totalExp:0, coins:0, petExp:0, goals:{}, dailyGoals:{}, notes:{}, repo:[], roadmap:{ ultimate:'', milestones:[] }, gacha:{inventory:[], equippedId:null}, dungeon:{level:1, hp:100, maxHp:100} };
+        state = { totalExp:0, coins:0, petExp:0, goals:{}, dailyGoals:{}, notes:{}, repo:[], roadmap:{ ultimate:'', milestones:[] }, gacha:{inventory:[], equippedId:null}, dungeon:{level:1, hp:200, maxHp:200, bossImageUrl:''} };
       }
     } catch(e) {}
     try { renderAll(); } catch(e) {}
@@ -986,13 +1074,14 @@
 
   function getSafeList(sourceList) {
     if (!sourceList) return [];
-    if (Array.isArray(sourceList)) return sourceList;
-    if (typeof sourceList === 'object') return Object.values(sourceList);
+    if (Array.isArray(sourceList)) return sourceList.filter(item => item !== null && item !== undefined);
+    if (typeof sourceList === 'object') return Object.values(sourceList).filter(item => item !== null && item !== undefined);
     return [];
   }
 
   // ---------- Header ----------
   function levelInfo(totalExp){ let level = 1, remaining = Number(totalExp||0), need = 100; while(remaining >= need){ remaining -= need; level += 1; need += 50; } return { level, into: remaining, need }; }
+  
   function getTotalDoneCount(){
     let count = 0;
     if(state.goals) Object.values(state.goals).forEach(list => count += getSafeList(list).filter(g=>g&&g.done).length);
@@ -1000,6 +1089,7 @@
     if(state.roadmap && state.roadmap.milestones) count += getSafeList(state.roadmap.milestones).filter(g=>g&&g.done).length;
     return count;
   }
+  
   function renderHeader(){
     const info = levelInfo(state.totalExp || 0);
     const lvNum = document.getElementById('lvNum'); if(lvNum) lvNum.textContent = `Lv.${info.level}`;
@@ -1099,21 +1189,85 @@
       }
     }
 
-    if(!state.dungeon) state.dungeon = { level: 1, hp: 100, maxHp: 100 };
-    const bossNameIndex = (Number(state.dungeon.level) - 1) % BOSS_NAMES.length;
-    const bossFullName = BOSS_NAMES[bossNameIndex];
+    if(!state.dungeon) state.dungeon = { level: 1, hp: 200, maxHp: 200, bossImageUrl: '' };
+    
+    let displayLevel = Number(state.dungeon.level);
+    const bossNameIndex = (displayLevel - 1) % BOSS_LIST.length;
+    const currentBossData = BOSS_LIST[bossNameIndex] || { name: "THE SINGER", img: "" };
+    
+    let bossFullName = currentBossData.name;
+    if(displayLevel > 70) {
+      bossFullName = "THE FINAL BOSS - " + displayLevel;
+    }
+    
     const emojiMatch = bossFullName.match(/[\uD800-\uDBFF][\uDC00-\uDFFF]|\p{Emoji_Presentation}/gu);
-    const bEmoji = emojiMatch ? emojiMatch[0] : '👺';
+    const bEmoji = emojiMatch ? emojiMatch[0] : (displayLevel >= 70 ? '👑' : '👺');
+
+    const bossE = document.getElementById('bossEmoji'); 
+    const bossI = document.getElementById('bossImg');
+    const clearBtn = document.getElementById('clearBossBtn');
     
-    const bossE = document.getElementById('bossEmoji'); if(bossE) bossE.textContent = bEmoji;
-    const bossN = document.getElementById('bossName'); if(bossN) bossN.textContent = `Lv.${state.dungeon.level} ${bossFullName.replace(bEmoji, '').trim()}`;
+    const activeImgUrl = state.dungeon.bossImageUrl || currentBossData.img;
     
+    if (activeImgUrl) {
+      if(bossE) bossE.style.display = 'none';
+      if(bossI) { bossI.style.display = 'block'; bossI.src = activeImgUrl; }
+    } else {
+      if(bossE) { bossE.style.display = 'block'; bossE.textContent = bEmoji; }
+      if(bossI) bossI.style.display = 'none';
+    }
+
+    if (state.dungeon.bossImageUrl && clearBtn) {
+      clearBtn.style.display = 'inline-block';
+    } else if(clearBtn) {
+      clearBtn.style.display = 'none';
+    }
+
+    const bossR = document.getElementById('bossRank'); if(bossR) bossR.textContent = getBossRank(displayLevel);
+    const bossN = document.getElementById('bossName'); 
+    if(bossN) {
+      bossN.textContent = `Lv.${displayLevel} ${bossFullName.replace(bEmoji, '').trim()}`;
+      if(displayLevel >= 70) bossN.style.color = '#ffd700'; else bossN.style.color = 'var(--burgundy)';
+    }
+    
+    // 5대 스탯 렌더링
+    const stats = getBossStats(displayLevel);
+    const genStars = (n) => '★'.repeat(n) + '☆'.repeat(10-n);
+    if(document.getElementById('bsVocal')) document.getElementById('bsVocal').textContent = genStars(stats.vocal);
+    if(document.getElementById('bsSong')) document.getElementById('bsSong').textContent = genStars(stats.song);
+    if(document.getElementById('bsStage')) document.getElementById('bsStage').textContent = genStars(stats.stage);
+    if(document.getElementById('bsFandom')) document.getElementById('bsFandom').textContent = genStars(stats.fandom);
+    if(document.getElementById('bsLegacy')) document.getElementById('bsLegacy').textContent = genStars(stats.legacy);
+
     const hpPct = Math.max(0, Math.round((Number(state.dungeon.hp) / Number(state.dungeon.maxHp)) * 100));
     const hFill = document.getElementById('bossHpFill'); if(hFill) hFill.style.width = hpPct + '%';
-    const hText = document.getElementById('bossHpText'); if(hText) hText.textContent = `${state.dungeon.hp} / ${state.dungeon.maxHp}`;
+    const hText = document.getElementById('bossHpText'); 
+    
+    if(hText) hText.textContent = `${Number(state.dungeon.hp).toLocaleString()} / ${Number(state.dungeon.maxHp).toLocaleString()}`;
   }
 
-  // ★ 버그 픽스: 인식 오류(글자로 더해짐) 방지 Number() 처리
+  window.uploadBossImage = async function(input) {
+    if(!currentUser) { alert('로그인 후 이용 가능합니다.'); input.value=''; return; }
+    if(!input.files[0]) return;
+    const overlay = document.getElementById('loadOverlay');
+    if(overlay) { overlay.style.display = 'flex'; overlay.style.opacity = '1'; }
+    const statMsg = document.getElementById('loadStatus');
+    if(statMsg) statMsg.textContent = '보스 스킨 적용 중...';
+    try {
+      const u = await uploadFileToGas(input.files[0]);
+      if(!state.dungeon) state.dungeon = { level: 1, hp: 200, maxHp: 200, bossImageUrl: '' };
+      state.dungeon.bossImageUrl = u.url;
+      await save(); renderGame();
+    } catch (err) { alert('업로드에 실패했습니다.'); }
+    finally { if(overlay) overlay.style.display = 'none'; input.value=''; }
+  };
+
+  window.clearBossImage = function() {
+    if(!currentUser || !state.dungeon) return;
+    state.dungeon.bossImageUrl = '';
+    save(); renderGame();
+  };
+
   window.feedPet = function() {
     if(!currentUser) return;
     if(Number(state.coins || 0) < 50) return;
@@ -1124,14 +1278,13 @@
     if(emoji) { emoji.style.transform = 'scale(1.4)'; setTimeout(() => emoji.style.transform = 'scale(1)', 200); }
   }
 
-  // ★ NEW: 상자 등급별 가챠 로직 적용
   window.drawGacha = function(boxType) {
     if(!currentUser) return;
     const box = GACHA_BOXES[boxType];
     if(!box) return;
     
     if(Number(state.coins || 0) < box.cost) {
-      return alert(`${box.name}를 열려면 ${box.cost} 코인이 필요합니다!`);
+      return alert(`${box.name}를 열려면 ${box.cost.toLocaleString()} 코인이 필요합니다!`);
     }
     
     state.coins = Number(state.coins || 0) - box.cost;
@@ -1176,19 +1329,29 @@
     
     state.dungeon.hp = Number(state.dungeon.hp) - dmg;
     
-    const bEmoji = document.getElementById('bossEmoji');
-    if(bEmoji) {
-      bEmoji.style.transform = 'scale(0.8) rotate(-15deg)';
-      bEmoji.style.filter = 'drop-shadow(0 0 10px red)';
-      setTimeout(() => { bEmoji.style.transform = 'none'; bEmoji.style.filter = 'none'; }, 150);
+    const bossLevel = Number(state.dungeon.level);
+    const bossNameIndex = (bossLevel - 1) % BOSS_LIST.length;
+    const preMappedImg = BOSS_LIST[bossNameIndex] ? BOSS_LIST[bossNameIndex].img : '';
+    
+    const targetEl = (state.dungeon.bossImageUrl || preMappedImg) ? document.getElementById('bossImg') : document.getElementById('bossEmoji');
+    if(targetEl) {
+      targetEl.style.transform = 'scale(0.8) rotate(-15deg)';
+      targetEl.style.filter = 'drop-shadow(0 0 10px red)';
+      setTimeout(() => { targetEl.style.transform = 'none'; targetEl.style.filter = 'none'; }, 150);
     }
 
     if(state.dungeon.hp <= 0) {
-      const reward = Number(state.dungeon.level) * 150;
-      alert(`🎉 보스 처치 성공!\n보상으로 ${reward} EXP 와 코인을 획득했습니다!`);
-      handleExpAndCoin(reward);
+      if(state.dungeon.level >= 70) {
+        alert(`👑 마침내 과거의 자신을 뛰어넘어 궁극의 SINGER 가 되었습니다.\n\n"노래는 끝이 없지만, 당신의 성장은 전설로 남을 것입니다."\n\n(엔딩 보상: 50,000 EXP & COIN)`);
+        handleExpAndCoin(50000);
+      } else {
+        const reward = Number(state.dungeon.level) * 150;
+        alert(`🎉 보스 처치 성공!\n보상으로 ${reward.toLocaleString()} EXP 와 코인을 획득했습니다!`);
+        handleExpAndCoin(reward);
+      }
+      
       state.dungeon.level = Number(state.dungeon.level) + 1;
-      state.dungeon.maxHp = Math.floor(Number(state.dungeon.maxHp) * 1.6);
+      state.dungeon.maxHp = calcMaxHp(state.dungeon.level);
       state.dungeon.hp = state.dungeon.maxHp;
     }
     save(); renderHeader(); renderGame();
@@ -1199,6 +1362,7 @@
   window.saveUltimateGoal = function(val) { if(!currentUser) return; state.roadmap.ultimate = val; save(); }
   
   function renderRoadmap() {
+    if(!state.roadmap) state.roadmap = { ultimate:'', milestones:[] };
     const ul = document.getElementById('ultimateGoalInput'); if(ul) ul.value = state.roadmap.ultimate || '';
     const list = getSafeList(state.roadmap.milestones);
     const container = document.getElementById('roadmapMapContainer');
@@ -1247,6 +1411,7 @@
   
   window.toggleRoadmap = function(idx) {
     if(!currentUser) return; 
+    if(!state.roadmap) state.roadmap = { ultimate:'', milestones:[] };
     let list = getSafeList(state.roadmap.milestones);
     const m = list[idx]; if(!m) return;
     m.done = !m.done; handleExpAndCoin(m.done ? ROADMAP_REWARD : -ROADMAP_REWARD);
@@ -1255,6 +1420,7 @@
   
   window.deleteRoadmap = function(idx) {
     if(!currentUser) return; 
+    if(!state.roadmap) state.roadmap = { ultimate:'', milestones:[] };
     let list = getSafeList(state.roadmap.milestones);
     const m = list[idx]; if(!m) return;
     if(m.done) handleExpAndCoin(-ROADMAP_REWARD);
@@ -1284,6 +1450,7 @@
     const gotoToday = document.getElementById('gotoTodayDaily');
     if(gotoToday) gotoToday.style.display = sameDay(currentDailyDate, today) ? 'none' : 'inline-block';
     
+    if(!state.dailyGoals) state.dailyGoals = {};
     let list = getSafeList(state.dailyGoals[key]);
     
     const ul = document.getElementById('dailyList'); if(!ul) return;
@@ -1330,6 +1497,7 @@
     e.preventDefault(); if(!currentUser) return openAuthModal('loginModal');
     const t = document.getElementById('dailyGoalInput').value.trim(); if(!t) return;
     const k = fmtKey(currentDailyDate); 
+    if(!state.dailyGoals) state.dailyGoals = {};
     let list = getSafeList(state.dailyGoals[k]);
     list.push({id:Date.now()+'', text:t, tier:Number(document.getElementById('dailyTierSelect').value), done:false});
     state.dailyGoals[k] = list;
@@ -1354,6 +1522,7 @@
     
     const gt = document.getElementById('gotoToday'); if(gt) gt.style.display = sameDay(currentWeekMonday, todayMonday) ? 'none' : 'inline-block';
 
+    if(!state.goals) state.goals = {};
     let list = getSafeList(state.goals[key]);
 
     const ul = document.getElementById('goalList'); if(!ul) return;
@@ -1385,7 +1554,7 @@
         li.querySelector('.del-btn').onclick = () => {
           if(!currentUser) return; if(g.done) handleExpAndCoin(-WEEKLY_REWARD);
           list.splice(idx, 1); 
-          state.goals[key] = list; // 업데이트
+          state.goals[key] = list; 
           if(state.goals[key].length === 0) delete state.goals[key];
           save(); renderHeader(); renderGoals(); 
         };
@@ -1400,6 +1569,7 @@
       e.preventDefault(); if(!currentUser) { openAuthModal('loginModal'); return; }
       const text = document.getElementById('weekGoalInput').value.trim(); if(!text) return;
       const key = fmtKey(currentWeekMonday); 
+      if(!state.goals) state.goals = {};
       let list = getSafeList(state.goals[key]);
       list.push({ id: Date.now() + '', text, done: false });
       state.goals[key] = list;
@@ -1421,6 +1591,7 @@
     const ul = document.getElementById('repoList'); const empty = document.getElementById('repoEmpty'); 
     if(!ul) return; ul.innerHTML = '';
     
+    if(!state.repo) state.repo = [];
     const list = getSafeList(state.repo);
     
     if(empty) empty.style.display = list.length === 0 ? 'block' : 'none';
@@ -1457,6 +1628,7 @@
         let fileUrl = '', fileName = '';
         if (fileInput.files[0]) { const u = await uploadFileToGas(fileInput.files[0]); fileUrl=u.url; fileName=u.name; }
         
+        if(!state.repo) state.repo = [];
         let list = getSafeList(state.repo);
         list.push({ id: Date.now() + '', song, artist, keyMemo, fileUrl, fileName });
         state.repo = list;
@@ -1482,6 +1654,7 @@
     const grid = document.getElementById('calGrid'); if(!grid) return;
     grid.innerHTML = '';
     
+    if(!state.dailyGoals) state.dailyGoals = {};
     const start = getMonday(new Date(calYear, calMonth, 1));
     for(let i=0; i<42; i++){
       const d = addDays(start, i); const inMonth = d.getMonth() === calMonth;
@@ -1510,6 +1683,7 @@
     const mTitle = document.getElementById('dayModalTitle'); if(mTitle) mTitle.textContent = `${modalDate.getFullYear()}.${String(modalDate.getMonth()+1).padStart(2,'0')}.${String(modalDate.getDate()).padStart(2,'0')}`;
     const mSub = document.getElementById('dayModalSub'); if(mSub) mSub.textContent = ['일','월','화','수','목','금','토'][modalDate.getDay()] + '요일 · 연습 기록';
     
+    if(!state.notes) state.notes = {};
     const note = state.notes[k] || {};
     const dNote = document.getElementById('dayModalNote'); if(dNote) dNote.value = note.text || (typeof note === 'string' ? note : '');
     
@@ -1537,6 +1711,7 @@
     const stats = ['pitch','rhythm','breath','vocal','high','emotion'].map(id => Number(document.getElementById('stat-'+id).value));
     const fileInput = document.getElementById('dayFile');
     
+    if(!state.notes) state.notes = {};
     let existingUrl = '', existingName = ''; if(state.notes[k]) { existingUrl = state.notes[k].fileUrl || ''; existingName = state.notes[k].fileName || ''; }
     if(text === '' && !fileInput.files[0] && !existingUrl && !tStart && !tEnd) { delete state.notes[k]; save(); renderCalendar(); renderStats(); closeDayModal(); return; }
     const overlay = document.getElementById('loadOverlay');
@@ -1547,7 +1722,7 @@
       await save(); renderCalendar(); renderStats(); closeDayModal();
     } catch(e){} finally { if(overlay) overlay.style.display='none'; }
   };
-  const dmDel = document.getElementById('dayModalDelete'); if(dmDel) dmDel.onclick = () => { if(!currentUser) return; delete state.notes[fmtKey(modalDate)]; save(); renderCalendar(); renderStats(); closeDayModal(); };
+  const dmDel = document.getElementById('dayModalDelete'); if(dmDel) dmDel.onclick = () => { if(!currentUser) return; if(!state.notes) state.notes = {}; delete state.notes[fmtKey(modalDate)]; save(); renderCalendar(); renderStats(); closeDayModal(); };
   const dmGo = document.getElementById('dayModalGoto'); if(dmGo) dmGo.onclick = () => { currentDailyDate = new Date(modalDate); closeDayModal(); switchTab('daily'); renderDaily(); };
 
   // ---------- STATS / ANALYSIS TAB ----------
@@ -1598,7 +1773,7 @@
         state.totalExp = Number(parsed.totalExp || 0); state.coins = Number(parsed.coins || 0); state.petExp = Number(parsed.petExp || 0);
         state.goals = parsed.goals || {}; state.dailyGoals = parsed.dailyGoals || {}; state.notes = parsed.notes || {}; 
         state.repo = Array.isArray(parsed.repo) ? parsed.repo : []; state.roadmap = parsed.roadmap || { ultimate:'', milestones:[] };
-        state.gacha = parsed.gacha || {inventory:[], equippedId:null}; state.dungeon = parsed.dungeon || {level:1, hp:100, maxHp:100};
+        state.gacha = parsed.gacha || {inventory:[], equippedId:null}; state.dungeon = parsed.dungeon || {level:1, hp:200, maxHp:200, bossImageUrl:''};
         save(); renderAll();
       }catch(err){ alert('파일을 읽을 수 없어요.'); }
     }; reader.readAsText(file); e.target.value = '';
