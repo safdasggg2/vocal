@@ -492,9 +492,10 @@
     <div class="game-section" style="margin-bottom:0; border-color:var(--burgundy);">
       <div class="game-section-title" style="color:var(--burgundy);">보컬 도장깨기 ⚔️</div>
       <div class="boss-area">
+        
         <div id="bossVisualArea">
           <div class="boss-emoji" id="bossEmoji">👺</div>
-          <img id="bossImg" class="boss-img" src="" alt="Boss Image">
+          <img id="bossImg" class="boss-img" src="" alt="Boss Image" referrerpolicy="no-referrer">
         </div>
         
         <div class="boss-name-wrap">
@@ -798,73 +799,73 @@
     winter: { cost: 10000, name: '윈터의 상자', rates: [ { rank: '에픽', prob: 30.0 }, { rank: '신화', prob: 40.0 }, { rank: '전설', prob: 20.0 }, { rank: '불가능', prob: 8.0 }, { rank: '윈터', prob: 2.0 } ] }
   };
 
-  // ★ 70단계 정예 보스 & 네가 준 구글 드라이브 65개 링크 완벽 매핑
+  // ★ 썸네일 우회 주소로 전면 개조 완료 (방화벽 통과용)
   const BOSS_LIST = [
-    { name: "10CM", img: "https://drive.google.com/uc?export=view&id=1SpqRzUg-2tHvXzN1XaWRUtcmz4cHuwbY" }, 
-    { name: "최유리", img: "https://drive.google.com/uc?export=view&id=13PFcFL_ly5MStsJwmN9ImmlVDSUMMYjL" }, 
-    { name: "폴킴", img: "https://drive.google.com/uc?export=view&id=1SoRCBRqNS5ZKff5yvznIlk2qjMzZMWf6" }, 
-    { name: "적재", img: "https://drive.google.com/uc?export=view&id=1mW8UHN2ODkYFNqN1IGb0M65BufbJXcnP" }, 
-    { name: "정승환", img: "https://drive.google.com/uc?export=view&id=1Dxe58awVF_ToXKpuA1bk_qtyigzAnxS-" },
-    { name: "이무진", img: "https://drive.google.com/uc?export=view&id=10bZ0Emq5R_2NipE2dT0W0P1fn38mprb8" }, 
-    { name: "AKMU", img: "https://drive.google.com/uc?export=view&id=1qs5prO0S4CJirpE3QPrdQc0JwSsEdZLu" }, 
-    { name: "잔나비", img: "https://drive.google.com/uc?export=view&id=1mqnFNesX4hm1zdJ_KcFK3U8VLJC25Crh" }, 
-    { name: "DAY6", img: "https://drive.google.com/uc?export=view&id=1L_ULhi0J3_0AjmZ2MVYmxId4KiBNNdXs" }, 
-    { name: "WOODZ", img: "https://drive.google.com/uc?export=view&id=1xhcv2tfdJBeomtOzaUrVDAzn9jaEpegL" },
-    { name: "성시경", img: "https://drive.google.com/uc?export=view&id=1d6vfmskF4ahM29e6vivbpYIjCrJ2LXm9" }, 
-    { name: "윤하", img: "https://drive.google.com/uc?export=view&id=1NK1L-I5vIXaN4KDDL4CIqS9YaALhxkR6" }, 
-    { name: "규현", img: "https://drive.google.com/uc?export=view&id=13h8BJtPzlcr-65-AvlOjXo91CDwJ9sri" }, 
-    { name: "이승윤", img: "https://drive.google.com/uc?export=view&id=1_IXmzEP_CF2SI5_htkghRATeuso55CNL" }, 
-    { name: "김필", img: "https://drive.google.com/uc?export=view&id=1u7pucj9YpR6FRlOZyWIOGUt1sYknxYML" },
-    { name: "D.O.", img: "https://drive.google.com/uc?export=view&id=1APZ4C8JSZyYey3RhYeh2n3I9gJQhxpp6" }, 
-    { name: "WINTER", img: "https://drive.google.com/uc?export=view&id=1LnKpnEAnUde7Og8d8fCN2GIxyz7dNFMr" }, 
-    { name: "태연", img: "https://drive.google.com/uc?export=view&id=16z1joV-wAdVR3Og7kYS_cUYrRYFW1qIw" }, 
-    { name: "정국", img: "https://drive.google.com/uc?export=view&id=1QG7CWtJazUoLQpQW4icPzhMO2hLw-DrT" }, 
-    { name: "아이유", img: "https://drive.google.com/uc?export=view&id=1VinvalifbqRAROADEqMtwbuob8_WhwDV" },
-    { name: "에일리", img: "https://drive.google.com/uc?export=view&id=1tWdLCV4fKC1YhvMIqcZFIVsLUhL7kKQD" }, 
-    { name: "거미", img: "https://drive.google.com/uc?export=view&id=17DOqNH-N2F7dLC3lhbNnYdst7EhC1rIA" }, 
-    { name: "K.Will", img: "https://drive.google.com/uc?export=view&id=1IzhuIozRR7u0aoeCf46VfXYpDY7VI0wx" }, 
-    { name: "하현우", img: "https://drive.google.com/uc?export=view&id=10KbNArPrVCmhQlKgg2bDEfmwAR8u6Pe7" }, 
-    { name: "박정현", img: "https://drive.google.com/uc?export=view&id=1p4e-ghxZ8HbovVHsh06E2xnCKK8AoaDp" },
-    { name: "나얼", img: "https://drive.google.com/uc?export=view&id=1vCMuy2gTkdS0VdnL0T6LgVmYGwJhNT8_" }, 
-    { name: "김범수", img: "https://drive.google.com/uc?export=view&id=1nWA6bFSba5TiIWRLJyA0TumXXjTFj0G0" }, 
-    { name: "이수", img: "https://drive.google.com/uc?export=view&id=1q6hHBPtd2uMpUXCiubHzErjoSL-cQBwr" }, 
-    { name: "박효신", img: "https://drive.google.com/uc?export=view&id=1fiWiVMZ9T82BdM0_xl6yi0WonIcnCo3_" }, 
-    { name: "이승철", img: "https://drive.google.com/uc?export=view&id=1gadRw7tTwQArG1GNYubXlouXPNl3sUou" },
-    { name: "김경호", img: "https://drive.google.com/uc?export=view&id=1ZOvLYcbm7-yCa6CHJ-6-Iai80DuzXac3" }, 
-    { name: "박완규", img: "https://drive.google.com/uc?export=view&id=1oD5JagCCDvrUb2FGR01Thb4pLrLeW0gf" }, 
-    { name: "임재범", img: "https://drive.google.com/uc?export=view&id=1jz29-_ArV7vo80iHVnGXaDNOUKOzt4NL" }, 
-    { name: "이선희", img: "https://drive.google.com/uc?export=view&id=1X7ntYHMUemkFhg5ZOkAKoNhH89jrcyr_" }, 
-    { name: "조용필", img: "https://drive.google.com/uc?export=view&id=1W1lXRG6AHHmsYStpJhhmMCjJmmijJHKm" },
-    { name: "신승훈", img: "https://drive.google.com/uc?export=view&id=1pZXou5q8IRoWZj2AK6agJSESY_MzPfcs" }, 
-    { name: "김건모", img: "https://drive.google.com/uc?export=view&id=129Go3z8G4aZk05-wRo9asG2uOy5P2140" }, 
-    { name: "싸이", img: "https://drive.google.com/uc?export=view&id=1cZfG4WIsfuQds1_q7n0mMmUR1ixtFdYR" }, 
-    { name: "BIGBANG", img: "https://drive.google.com/uc?export=view&id=1FOKdzkyKvfGA3HLYrO7qFu3SUDN7g7ts" }, 
-    { name: "EXO", img: "https://drive.google.com/uc?export=view&id=1sZdFj3tqzFEgs3jz4IlIfybi2gubKR2a" },
-    { name: "TWICE", img: "https://drive.google.com/uc?export=view&id=1UBz7ZHW3ns09sKwyebDFmJWIIXdd5xJK" }, 
-    { name: "SEVENTEEN", img: "https://drive.google.com/uc?export=view&id=1pu92ag5NzGf_T6LTGd0ZjZ6S_ncfz-cf" }, 
-    { name: "aespa", img: "https://drive.google.com/uc?export=view&id=1vP9LDiZKBfn8vrQSH7m-U_FmaYUJSehz" }, 
-    { name: "BLACKPINK", img: "https://drive.google.com/uc?export=view&id=1leEBk5KglL_sKzgG0WaFhjH-KZJygUgo" }, 
-    { name: "임영웅", img: "https://drive.google.com/uc?export=view&id=1VKDpIe_Sy3d4XwcoY5s7WlMQdeulC1fa" },
-    { name: "X JAPAN", img: "https://drive.google.com/uc?export=view&id=1O_3Syx1NMz-3EUAcpnOJiAIosaskNagw" }, 
-    { name: "L'Arc-en-Ciel", img: "https://drive.google.com/uc?export=view&id=1kewqX33PgxDCFTg8FIo22CtQgzTvExwS" }, 
-    { name: "GLAY", img: "https://drive.google.com/uc?export=view&id=1uHHYN6T_gxWFOfuxgzxRWmhJ4zCGqW83" }, 
-    { name: "LUNA SEA", img: "https://drive.google.com/uc?export=view&id=1tpGJHsoY_9r6S1DRlLllAbSS6x0Wnvfa" }, 
-    { name: "Mrs. GREEN APPLE", img: "https://drive.google.com/uc?export=view&id=1B9-EJMVlSHadEG25X2DMyFpMKxR77PV0" },
-    { name: "Rihanna", img: "https://drive.google.com/uc?export=view&id=1Ca8pOI7kjwafds-D6xC5iZh7we-1ZrRc" }, 
-    { name: "Lady Gaga", img: "https://drive.google.com/uc?export=view&id=1i5dmdVwO3p6tfIrIrxa97cJyRkIB6tp3" }, 
-    { name: "Bruno Mars", img: "https://drive.google.com/uc?export=view&id=1oKdZ1sncRo043tQkmvM5Bcr9NoeYVm3o" }, 
-    { name: "Justin Bieber", img: "https://drive.google.com/uc?export=view&id=1ti5DYFqed6WfRNdCdZDYHHymopjEA7g_" }, 
-    { name: "Ariana Grande", img: "https://drive.google.com/uc?export=view&id=1UBvN5ihDFZYPa2OM1X4wh3NPzRvP-TR5" },
-    { name: "Adele", img: "https://drive.google.com/uc?export=view&id=1h1p-GUkj-6OCEG9xIMpB7Mvjh46P4AKg" }, 
-    { name: "Ed Sheeran", img: "https://drive.google.com/uc?export=view&id=1Qsu-xIc60h9Sv2xeYxXqoHPMbggtFXdJ" }, 
-    { name: "Beyoncé", img: "https://drive.google.com/uc?export=view&id=18SThYc_3UWgBtre0BFMyhxGoIfX4iRA2" }, 
-    { name: "Celine Dion", img: "https://drive.google.com/uc?export=view&id=1dZNm839qNOtIFp7dIu1Fmt4kEhsWQDB-" }, 
-    { name: "Stevie Wonder", img: "https://drive.google.com/uc?export=view&id=1cp_YgqnfeVLc9BLo9QD6ynf-tdDF-eo0" },
-    { name: "Freddie Mercury", img: "https://drive.google.com/uc?export=view&id=1dQA_Cy5mN6lVsf-Im6nwI3DVqP-vrEbx" }, 
-    { name: "Mariah Carey", img: "https://drive.google.com/uc?export=view&id=1Pi2p2w22Z9f28hgphf5lqUCPfKR0MXMI" }, 
-    { name: "Whitney Houston", img: "https://drive.google.com/uc?export=view&id=1kM_9g5uIATDoEN4-43lVUjfnS4RO10jO" }, 
-    { name: "Madonna", img: "https://drive.google.com/uc?export=view&id=1h_1LSqe8kScsDco-ezJMkK6YFEJtGoLr" }, 
-    { name: "Elvis Presley", img: "https://drive.google.com/uc?export=view&id=1b1PBaoS__jW7hHZXL-WOVZzcCdTounX3" },
+    { name: "10CM", img: "https://drive.google.com/thumbnail?id=1SpqRzUg-2tHvXzN1XaWRUtcmz4cHuwbY&sz=w300" }, 
+    { name: "최유리", img: "https://drive.google.com/thumbnail?id=13PFcFL_ly5MStsJwmN9ImmlVDSUMMYjL&sz=w300" }, 
+    { name: "폴킴", img: "https://drive.google.com/thumbnail?id=1SoRCBRqNS5ZKff5yvznIlk2qjMzZMWf6&sz=w300" }, 
+    { name: "적재", img: "https://drive.google.com/thumbnail?id=1mW8UHN2ODkYFNqN1IGb0M65BufbJXcnP&sz=w300" }, 
+    { name: "정승환", img: "https://drive.google.com/thumbnail?id=1Dxe58awVF_ToXKpuA1bk_qtyigzAnxS-&sz=w300" },
+    { name: "이무진", img: "https://drive.google.com/thumbnail?id=10bZ0Emq5R_2NipE2dT0W0P1fn38mprb8&sz=w300" }, 
+    { name: "AKMU", img: "https://drive.google.com/thumbnail?id=1qs5prO0S4CJirpE3QPrdQc0JwSsEdZLu&sz=w300" }, 
+    { name: "잔나비", img: "https://drive.google.com/thumbnail?id=1mqnFNesX4hm1zdJ_KcFK3U8VLJC25Crh&sz=w300" }, 
+    { name: "DAY6", img: "https://drive.google.com/thumbnail?id=1L_ULhi0J3_0AjmZ2MVYmxId4KiBNNdXs&sz=w300" }, 
+    { name: "WOODZ", img: "https://drive.google.com/thumbnail?id=1xhcv2tfdJBeomtOzaUrVDAzn9jaEpegL&sz=w300" },
+    { name: "성시경", img: "https://drive.google.com/thumbnail?id=1d6vfmskF4ahM29e6vivbpYIjCrJ2LXm9&sz=w300" }, 
+    { name: "윤하", img: "https://drive.google.com/thumbnail?id=1NK1L-I5vIXaN4KDDL4CIqS9YaALhxkR6&sz=w300" }, 
+    { name: "규현", img: "https://drive.google.com/thumbnail?id=13h8BJtPzlcr-65-AvlOjXo91CDwJ9sri&sz=w300" }, 
+    { name: "이승윤", img: "https://drive.google.com/thumbnail?id=1_IXmzEP_CF2SI5_htkghRATeuso55CNL&sz=w300" }, 
+    { name: "김필", img: "https://drive.google.com/thumbnail?id=1u7pucj9YpR6FRlOZyWIOGUt1sYknxYML&sz=w300" },
+    { name: "D.O.", img: "https://drive.google.com/thumbnail?id=1APZ4C8JSZyYey3RhYeh2n3I9gJQhxpp6&sz=w300" }, 
+    { name: "WINTER", img: "https://drive.google.com/thumbnail?id=1LnKpnEAnUde7Og8d8fCN2GIxyz7dNFMr&sz=w300" }, 
+    { name: "태연", img: "https://drive.google.com/thumbnail?id=16z1joV-wAdVR3Og7kYS_cUYrRYFW1qIw&sz=w300" }, 
+    { name: "정국", img: "https://drive.google.com/thumbnail?id=1QG7CWtJazUoLQpQW4icPzhMO2hLw-DrT&sz=w300" }, 
+    { name: "아이유", img: "https://drive.google.com/thumbnail?id=1VinvalifbqRAROADEqMtwbuob8_WhwDV&sz=w300" },
+    { name: "에일리", img: "https://drive.google.com/thumbnail?id=1tWdLCV4fKC1YhvMIqcZFIVsLUhL7kKQD&sz=w300" }, 
+    { name: "거미", img: "https://drive.google.com/thumbnail?id=17DOqNH-N2F7dLC3lhbNnYdst7EhC1rIA&sz=w300" }, 
+    { name: "K.Will", img: "https://drive.google.com/thumbnail?id=1IzhuIozRR7u0aoeCf46VfXYpDY7VI0wx&sz=w300" }, 
+    { name: "하현우", img: "https://drive.google.com/thumbnail?id=10KbNArPrVCmhQlKgg2bDEfmwAR8u6Pe7&sz=w300" }, 
+    { name: "박정현", img: "https://drive.google.com/thumbnail?id=1p4e-ghxZ8HbovVHsh06E2xnCKK8AoaDp&sz=w300" },
+    { name: "나얼", img: "https://drive.google.com/thumbnail?id=1vCMuy2gTkdS0VdnL0T6LgVmYGwJhNT8_&sz=w300" }, 
+    { name: "김범수", img: "https://drive.google.com/thumbnail?id=1nWA6bFSba5TiIWRLJyA0TumXXjTFj0G0&sz=w300" }, 
+    { name: "이수", img: "https://drive.google.com/thumbnail?id=1q6hHBPtd2uMpUXCiubHzErjoSL-cQBwr&sz=w300" }, 
+    { name: "박효신", img: "https://drive.google.com/thumbnail?id=1fiWiVMZ9T82BdM0_xl6yi0WonIcnCo3_&sz=w300" }, 
+    { name: "이승철", img: "https://drive.google.com/thumbnail?id=1gadRw7tTwQArG1GNYubXlouXPNl3sUou&sz=w300" },
+    { name: "김경호", img: "https://drive.google.com/thumbnail?id=1ZOvLYcbm7-yCa6CHJ-6-Iai80DuzXac3&sz=w300" }, 
+    { name: "박완규", img: "https://drive.google.com/thumbnail?id=1oD5JagCCDvrUb2FGR01Thb4pLrLeW0gf&sz=w300" }, 
+    { name: "임재범", img: "https://drive.google.com/thumbnail?id=1jz29-_ArV7vo80iHVnGXaDNOUKOzt4NL&sz=w300" }, 
+    { name: "이선희", img: "https://drive.google.com/thumbnail?id=1X7ntYHMUemkFhg5ZOkAKoNhH89jrcyr_&sz=w300" }, 
+    { name: "조용필", img: "https://drive.google.com/thumbnail?id=1W1lXRG6AHHmsYStpJhhmMCjJmmijJHKm&sz=w300" },
+    { name: "신승훈", img: "https://drive.google.com/thumbnail?id=1pZXou5q8IRoWZj2AK6agJSESY_MzPfcs&sz=w300" }, 
+    { name: "김건모", img: "https://drive.google.com/thumbnail?id=129Go3z8G4aZk05-wRo9asG2uOy5P2140&sz=w300" }, 
+    { name: "싸이", img: "https://drive.google.com/thumbnail?id=1cZfG4WIsfuQds1_q7n0mMmUR1ixtFdYR&sz=w300" }, 
+    { name: "BIGBANG", img: "https://drive.google.com/thumbnail?id=1FOKdzkyKvfGA3HLYrO7qFu3SUDN7g7ts&sz=w300" }, 
+    { name: "EXO", img: "https://drive.google.com/thumbnail?id=1sZdFj3tqzFEgs3jz4IlIfybi2gubKR2a&sz=w300" },
+    { name: "TWICE", img: "https://drive.google.com/thumbnail?id=1UBz7ZHW3ns09sKwyebDFmJWIIXdd5xJK&sz=w300" }, 
+    { name: "SEVENTEEN", img: "https://drive.google.com/thumbnail?id=1pu92ag5NzGf_T6LTGd0ZjZ6S_ncfz-cf&sz=w300" }, 
+    { name: "aespa", img: "https://drive.google.com/thumbnail?id=1vP9LDiZKBfn8vrQSH7m-U_FmaYUJSehz&sz=w300" }, 
+    { name: "BLACKPINK", img: "https://drive.google.com/thumbnail?id=1leEBk5KglL_sKzgG0WaFhjH-KZJygUgo&sz=w300" }, 
+    { name: "임영웅", img: "https://drive.google.com/thumbnail?id=1VKDpIe_Sy3d4XwcoY5s7WlMQdeulC1fa&sz=w300" },
+    { name: "X JAPAN", img: "https://drive.google.com/thumbnail?id=1O_3Syx1NMz-3EUAcpnOJiAIosaskNagw&sz=w300" }, 
+    { name: "L'Arc-en-Ciel", img: "https://drive.google.com/thumbnail?id=1kewqX33PgxDCFTg8FIo22CtQgzTvExwS&sz=w300" }, 
+    { name: "GLAY", img: "https://drive.google.com/thumbnail?id=1uHHYN6T_gxWFOfuxgzxRWmhJ4zCGqW83&sz=w300" }, 
+    { name: "LUNA SEA", img: "https://drive.google.com/thumbnail?id=1tpGJHsoY_9r6S1DRlLllAbSS6x0Wnvfa&sz=w300" }, 
+    { name: "Mrs. GREEN APPLE", img: "https://drive.google.com/thumbnail?id=1B9-EJMVlSHadEG25X2DMyFpMKxR77PV0&sz=w300" },
+    { name: "Rihanna", img: "https://drive.google.com/thumbnail?id=1Ca8pOI7kjwafds-D6xC5iZh7we-1ZrRc&sz=w300" }, 
+    { name: "Lady Gaga", img: "https://drive.google.com/thumbnail?id=1i5dmdVwO3p6tfIrIrxa97cJyRkIB6tp3&sz=w300" }, 
+    { name: "Bruno Mars", img: "https://drive.google.com/thumbnail?id=1oKdZ1sncRo043tQkmvM5Bcr9NoeYVm3o&sz=w300" }, 
+    { name: "Justin Bieber", img: "https://drive.google.com/thumbnail?id=1ti5DYFqed6WfRNdCdZDYHHymopjEA7g_&sz=w300" }, 
+    { name: "Ariana Grande", img: "https://drive.google.com/thumbnail?id=1UBvN5ihDFZYPa2OM1X4wh3NPzRvP-TR5&sz=w300" },
+    { name: "Adele", img: "https://drive.google.com/thumbnail?id=1h1p-GUkj-6OCEG9xIMpB7Mvjh46P4AKg&sz=w300" }, 
+    { name: "Ed Sheeran", img: "https://drive.google.com/thumbnail?id=1Qsu-xIc60h9Sv2xeYxXqoHPMbggtFXdJ&sz=w300" }, 
+    { name: "Beyoncé", img: "https://drive.google.com/thumbnail?id=18SThYc_3UWgBtre0BFMyhxGoIfX4iRA2&sz=w300" }, 
+    { name: "Celine Dion", img: "https://drive.google.com/thumbnail?id=1dZNm839qNOtIFp7dIu1Fmt4kEhsWQDB-&sz=w300" }, 
+    { name: "Stevie Wonder", img: "https://drive.google.com/thumbnail?id=1cp_YgqnfeVLc9BLo9QD6ynf-tdDF-eo0&sz=w300" },
+    { name: "Freddie Mercury", img: "https://drive.google.com/thumbnail?id=1dQA_Cy5mN6lVsf-Im6nwI3DVqP-vrEbx&sz=w300" }, 
+    { name: "Mariah Carey", img: "https://drive.google.com/thumbnail?id=1Pi2p2w22Z9f28hgphf5lqUCPfKR0MXMI&sz=w300" }, 
+    { name: "Whitney Houston", img: "https://drive.google.com/thumbnail?id=1kM_9g5uIATDoEN4-43lVUjfnS4RO10jO&sz=w300" }, 
+    { name: "Madonna", img: "https://drive.google.com/thumbnail?id=1h_1LSqe8kScsDco-ezJMkK6YFEJtGoLr&sz=w300" }, 
+    { name: "Elvis Presley", img: "https://drive.google.com/thumbnail?id=1b1PBaoS__jW7hHZXL-WOVZzcCdTounX3&sz=w300" },
     { name: "The Beatles", img: "" }, 
     { name: "BTS", img: "" }, 
     { name: "Taylor Swift", img: "" }, 
@@ -881,13 +882,11 @@
     return "GOD TIER";
   }
 
-  // ★ 70레벨 스케일링
   function calcMaxHp(level) {
     if (level >= 70) return 999999999;
     return Math.floor(200 * Math.pow(level, 2.6));
   }
 
-  // ★ 70레벨 맞춤형 스탯 부여 (7레벨당 1성씩 베이스 상승, 최대 10성)
   function getBossStats(level) {
     let base = Math.ceil(level / 7);
     return {
