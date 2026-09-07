@@ -3,30 +3,29 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>VOCAL LOG</title>
+<title>VOCAL LOG: PROJECT STAGE</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700;9..144,900&family=Work+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700;9..144,900&family=Work+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700;800&display=swap" rel="stylesheet">
 <style>
   :root{
-    --bg-stage:#15110d;
-    --bg-panel:#201a15;
-    --bg-panel-2:#2a221b;
-    --line:#3a2f26;
-    --amber:#e8a33d;
-    --amber-dim:#7a5423;
-    --amber-glow:rgba(232,163,61,0.35);
-    --cream:#f3ead9;
-    --muted:#a4917d;
-    --burgundy:#8a4348;
-    --sage:#8ca07d;
-    --gold:#d9b23c;
+    --bg-stage: #0a0a0a;
+    --bg-panel: #141414;
+    --bg-panel-2: #1e1e1e;
+    --line: #333333;
+    --amber: #e8a33d;
+    --amber-dim: #7a5423;
+    --amber-glow: rgba(232,163,61,0.35);
+    --cream: #e0e0e0;
+    --muted: #888888;
+    --burgundy: #a12b35;
+    --sage: #4caf50;
+    --gold: #ffd700;
+    --neon-blue: #00f3ff;
   }
   *{box-sizing:border-box;}
   html,body{margin:0;padding:0;}
   body{
-    background:
-      radial-gradient(ellipse 900px 500px at 50% -10%, rgba(232,163,61,0.10), transparent 60%),
-      var(--bg-stage);
+    background: radial-gradient(ellipse 900px 500px at 50% -10%, rgba(232,163,61,0.05), transparent 60%), var(--bg-stage);
     color:var(--cream);
     font-family:'Work Sans', sans-serif;
     min-height:100vh;
@@ -34,473 +33,351 @@
   }
   .app{max-width:640px;margin:0 auto;}
 
-  /* ---------- Header / marquee ---------- */
+  /* ---------- Header ---------- */
   .marquee{
     background:linear-gradient(180deg, var(--bg-panel-2), var(--bg-panel));
     border:1px solid var(--line);
-    border-radius:14px;
+    border-radius:12px;
     padding:20px 20px 18px;
     position:relative;
     overflow:hidden;
-  }
-  .marquee::before{
-    content:"";
-    position:absolute; inset:0;
-    background:repeating-linear-gradient(90deg, rgba(232,163,61,0.05) 0 2px, transparent 2px 26px);
-    pointer-events:none;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
   }
   .marquee-top{display:flex;align-items:center;justify-content:space-between;gap:12px; margin-bottom:14px;}
   .brand{
-    font-family:'Fraunces', serif;
-    font-weight:700;
-    font-size:22px;
-    letter-spacing:0.02em;
-    color:var(--cream);
+    font-family:'JetBrains Mono', monospace; font-weight:800; font-size:22px;
+    letter-spacing:0.05em; color:var(--cream);
   }
   .brand span{color:var(--amber);}
   
   .auth-area { display:flex; align-items:center; gap:10px; z-index:10; }
-  .user-name { font-size:13px; color:var(--muted); font-weight:600; }
+  .user-name { font-size:12px; color:var(--muted); font-family:'JetBrains Mono', monospace; font-weight:700; }
   .auth-btn { 
-    background:var(--amber); border:none; color:#20160a; font-weight:700;
-    border-radius:6px; padding:6px 12px; cursor:pointer; font-family:'Work Sans'; font-size:12px;
+    background:var(--bg-panel); border:1px solid var(--amber-dim); color:var(--amber); font-weight:700;
+    border-radius:4px; padding:6px 12px; cursor:pointer; font-family:'JetBrains Mono', monospace; font-size:11px;
+    transition: 0.2s;
   }
-  .auth-btn.logout { background:var(--bg-panel-2); color:var(--muted); border:1px solid var(--line); }
-  .auth-btn:hover { filter:brightness(1.08); }
+  .auth-btn:hover { background:var(--amber-dim); color:var(--cream); }
+  .auth-btn.logout { border-color:var(--line); color:var(--muted); }
 
   .level-badge{
     display:flex; align-items:center; gap:8px;
-    background:radial-gradient(circle at 35% 30%, var(--amber-glow), transparent 70%), var(--bg-stage);
-    border:1px solid var(--amber-dim);
-    border-radius:999px;
-    padding:6px 14px 6px 10px;
-    font-family:'Fraunces', serif;
-    font-weight:600;
+    background:var(--bg-panel); border:1px solid var(--line);
+    border-radius:6px; padding:6px 14px;
+    font-family:'JetBrains Mono', monospace; font-weight:700;
   }
-  .level-badge .dot{
-    width:10px;height:10px;border-radius:50%;
-    background:var(--amber);
-    box-shadow:0 0 10px 2px var(--amber-glow);
-  }
-  .level-badge .lv-num{font-size:17px;color:var(--amber);}
-  .total-done { font-family:'JetBrains Mono', monospace; font-size:11px; color:var(--muted); font-weight:400; margin-left:4px; }
+  .level-badge .lv-num{font-size:15px; color:var(--cream);}
+  .total-done { font-size:10px; color:var(--muted); margin-left:4px; }
 
-  .meter-row{display:flex; align-items:center; gap:10px; margin-top:10px;}
-  .meter{ flex:1; display:flex; gap:3px; height:16px; }
-  .meter i{
-    flex:1; border-radius:2px; background:var(--bg-stage);
-    border:1px solid var(--line);
-    transition:background .25s, box-shadow .25s;
-  }
-  .meter i.on{
-    background:var(--amber); border-color:var(--amber);
-    box-shadow:0 0 8px 1px var(--amber-glow);
-  }
-  .meter-label{
-    font-family:'JetBrains Mono', monospace; font-size:12px; color:var(--muted); white-space:nowrap;
-  }
+  .meter-row{display:flex; align-items:center; gap:10px; margin-top:12px;}
+  .meter{ flex:1; display:flex; gap:2px; height:8px; }
+  .meter i{ flex:1; background:var(--bg-stage); transition:0.3s; }
+  .meter i.on{ background:var(--amber); box-shadow:0 0 5px var(--amber-glow); }
+  .meter-label{ font-family:'JetBrains Mono', monospace; font-size:11px; color:var(--muted); }
 
   .toast{
     position:fixed; top:18px; left:50%; transform:translateX(-50%) translateY(-140%);
-    background:var(--amber); color:#20160a;
-    font-family:'Fraunces', serif; font-weight:700;
-    padding:10px 22px; border-radius:999px;
-    box-shadow:0 8px 24px rgba(0,0,0,0.4);
+    background:var(--cream); color:#000;
+    font-family:'JetBrains Mono', monospace; font-weight:800;
+    padding:10px 22px; border-radius:4px;
+    box-shadow:0 0 15px rgba(255,255,255,0.2);
     transition:transform .35s cubic-bezier(.2,.9,.3,1.3);
-    z-index:50; font-size:14px; letter-spacing:.02em;
+    z-index:50; font-size:13px; letter-spacing:.05em;
   }
   .toast.show{transform:translateX(-50%) translateY(0);}
 
   /* ---------- Tabs ---------- */
   .tabs{ 
-    display:flex; gap:6px; margin:18px 0 14px; 
+    display:flex; gap:8px; margin:24px 0 16px; 
     overflow-x:auto; padding-bottom:6px; scrollbar-width: none;
   }
   .tabs::-webkit-scrollbar { display: none; }
   .tab-btn{
-    flex:none; padding:10px 14px; background:var(--bg-panel); border:1px solid var(--line);
-    color:var(--muted); font-family:'Work Sans', sans-serif; font-weight:600; font-size:13px;
-    border-radius:10px; cursor:pointer; transition:all .2s; white-space:nowrap;
+    flex:none; padding:10px 16px; background:transparent; border:none; border-bottom:2px solid transparent;
+    color:var(--muted); font-family:'JetBrains Mono', monospace; font-weight:700; font-size:12px;
+    cursor:pointer; transition:all .2s; letter-spacing:1px;
   }
-  .tab-btn.active{ color:var(--bg-stage); background:var(--amber); border-color:var(--amber); }
+  .tab-btn.active{ color:var(--amber); border-bottom-color:var(--amber); }
 
-  .panel{
-    background:var(--bg-panel); border:1px solid var(--line);
-    border-radius:14px; padding:18px;
-  }
+  .panel{ background:var(--bg-panel); border:1px solid var(--line); border-radius:12px; padding:20px; }
 
-  /* ---------- Shared List Styles ---------- */
+  /* ---------- Standard UI ---------- */
   .goal-list{list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:8px;}
   .goal-row{
-    display:flex; align-items:center; gap:10px;
-    background:var(--bg-panel-2); border:1px solid var(--line);
-    border-radius:10px; padding:10px 12px;
+    display:flex; align-items:center; gap:12px; background:var(--bg-panel-2); 
+    border-left:3px solid var(--line); padding:12px 14px; transition:0.2s;
   }
-  .goal-row.done{border-color:var(--sage); background:linear-gradient(90deg, rgba(140,160,125,0.12), transparent);}
+  .goal-row.done{border-color:var(--sage); opacity:0.6;}
   .check{
-    width:22px; height:22px; border-radius:6px; border:2px solid var(--amber-dim);
-    background:transparent; flex:none; cursor:pointer; position:relative;
+    width:18px; height:18px; border:2px solid var(--muted); background:transparent; 
+    flex:none; cursor:pointer; position:relative; transition:0.2s;
   }
-  .check.checked{background:var(--sage); border-color:var(--sage);}
-  .check.checked::after{
-    content:"✓"; position:absolute; inset:0; display:flex; align-items:center; justify-content:center;
-    color:#16210f; font-size:14px; font-weight:700;
-  }
-  .goal-text{flex:1; font-size:14px; line-height:1.4;}
-  .goal-row.done .goal-text{color:var(--muted); text-decoration:line-through;}
-  .tier-badge{
-    font-family:'JetBrains Mono', monospace; font-size:11px;
-    color:var(--gold); border:1px solid var(--amber-dim); border-radius:6px;
-    padding:2px 6px; white-space:nowrap;
-  }
-  .del-btn{
-    background:none; border:none; color:var(--muted); cursor:pointer;
-    font-size:16px; padding:2px 4px; line-height:1;
-  }
+  .check.checked{border-color:var(--sage); background:var(--sage);}
+  .goal-text{flex:1; font-size:13px; font-weight:500;}
+  .goal-row.done .goal-text{text-decoration:line-through;}
+  .tier-badge{ font-family:'JetBrains Mono', monospace; font-size:10px; color:var(--gold); padding:2px 6px; border:1px solid var(--line); }
+  .del-btn{ background:none; border:none; color:var(--muted); cursor:pointer; font-size:16px; }
   .del-btn:hover{color:var(--burgundy);}
-  .empty-note{
-    color:var(--muted); font-size:13px; text-align:center; padding:22px 10px;
-    border:1px dashed var(--line); border-radius:10px; line-height:1.5;
-  }
+  
+  .empty-note{ color:var(--muted); font-size:12px; font-family:'JetBrains Mono', monospace; text-align:center; padding:30px 10px; border:1px dashed var(--line); }
 
-  /* ---------- UI Elements ---------- */
-  .week-nav{ display:flex; align-items:center; justify-content:space-between; margin-bottom:14px; }
-  .week-nav .range{ font-family:'Fraunces', serif; font-weight:600; font-size:17px; text-align:center; }
-  .week-nav .range small{ display:block; font-family:'JetBrains Mono', monospace; font-weight:400; font-size:11px; color:var(--muted); margin-top:2px; }
-  .nav-btn{
-    background:var(--bg-panel-2); border:1px solid var(--line); color:var(--cream);
-    width:32px; height:32px; border-radius:8px; cursor:pointer; font-size:15px; line-height:1;
-  }
+  .week-nav{ display:flex; align-items:center; justify-content:space-between; margin-bottom:18px; font-family:'JetBrains Mono', monospace; }
+  .week-nav .range{ font-weight:700; font-size:14px; text-align:center; color:var(--cream); }
+  .week-nav .range small{ display:block; font-weight:400; font-size:10px; color:var(--muted); margin-top:4px; }
+  .nav-btn{ background:transparent; border:1px solid var(--line); color:var(--cream); width:30px; height:30px; cursor:pointer; transition:0.2s; }
+  .nav-btn:hover:not(:disabled){ background:var(--line); }
   .nav-btn:disabled{opacity:.3; cursor:not-allowed;}
-  .nav-btns{display:flex; gap:6px; align-items:center;}
-  .today-chip{
-    font-family:'JetBrains Mono', monospace; font-size:11px;
-    background:transparent; border:1px solid var(--amber-dim); color:var(--amber);
-    border-radius:999px; padding:5px 10px; cursor:pointer;
-  }
-  .add-form{ display:flex; gap:8px; margin-top:14px; flex-wrap:wrap; }
-  .add-form input[type=text], .add-form select, .add-form input[type=time]{
+  .today-chip{ background:var(--line); border:none; color:var(--cream); font-size:10px; font-weight:700; padding:6px 12px; cursor:pointer; font-family:'JetBrains Mono', monospace; }
+
+  .add-form{ display:flex; gap:8px; margin-top:16px; }
+  .add-form input[type=text], .add-form select{
     background:var(--bg-stage); border:1px solid var(--line); color:var(--cream);
-    border-radius:8px; padding:9px 10px; font-family:'Work Sans'; font-size:14px; outline:none;
+    padding:10px; font-family:'Work Sans'; font-size:13px; flex:1; outline:none;
   }
-  .add-form input[type=text]:focus, .add-form select:focus, .add-form input[type=time]:focus { border-color:var(--amber); }
-  .add-form input[type=text]{ flex:1; min-width:100px; }
-  .add-btn{
-    background:var(--amber); border:none; color:#20160a; font-weight:700;
-    border-radius:8px; padding:9px 16px; cursor:pointer; font-family:'Work Sans'; white-space:nowrap;
-  }
-  .add-btn:hover{filter:brightness(1.08);}
+  .add-form input[type=text]:focus { border-color:var(--amber); }
+  .add-btn{ background:var(--amber); border:none; color:#000; font-weight:800; padding:0 16px; cursor:pointer; font-family:'JetBrains Mono', monospace; font-size:12px; }
 
-  /* ---------- File Upload Styles ---------- */
-  .upload-box {
-    position: relative; border: 1px dashed rgba(232,163,61,0.3);
-    background: rgba(232,163,61,0.03); border-radius: 8px;
-    padding: 10px 12px; display: flex; align-items: center; gap: 10px;
-    cursor: pointer; transition: .16s ease; width: 100%; margin-bottom: 8px; box-sizing:border-box;
-  }
-  .upload-box:hover { background: rgba(232,163,61,0.08); border-color: var(--amber); }
-  .upload-box input { position: absolute; inset: 0; opacity: 0; cursor: pointer; }
-  .upload-icon {
-    width: 32px; height: 32px; border-radius: 8px;
-    display: flex; align-items: center; justify-content: center;
-    background: var(--bg-panel-2); color: var(--amber); flex-shrink: 0;
-    font-size: 16px; box-shadow: inset 0 0 0 1px var(--line);
-  }
-  .upload-text { min-width: 0; display:flex; flex-direction:column; }
-  .upload-title { font-size: 13px; font-weight: 700; color: var(--cream); margin-bottom:2px; }
-  .upload-name { font-size: 11px; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 260px; }
+  /* ---------- Game Tab (Sleek Redesign) ---------- */
+  .game-section { border-top:1px solid var(--line); padding:20px 0; }
+  .game-section:first-child { border-top:none; padding-top:0; }
+  .game-section-title { font-family:'JetBrains Mono', monospace; font-size:12px; font-weight:800; color:var(--muted); letter-spacing:2px; margin-bottom:16px; text-transform:uppercase; }
   
-  .file-chip {
-    display: inline-flex; align-items: center; gap: 5px;
-    margin-top: 6px; padding: 5px 10px; border-radius: 999px;
-    background: rgba(232,163,61,0.12); color: var(--amber); border:1px solid rgba(232,163,61,0.3);
-    font-size: 11px; font-weight: 700; text-decoration: none; font-family: var(--font-sans);
+  .player-status-box { display:flex; gap:20px; align-items:center; }
+  .player-rank-circle { 
+    width:70px; height:70px; border-radius:50%; display:flex; align-items:center; justify-content:center;
+    background:radial-gradient(circle, var(--line), var(--bg-stage)); border:2px solid var(--amber-dim);
+    font-family:'JetBrains Mono', monospace; font-weight:800; font-size:10px; color:var(--amber);
+    box-shadow: 0 0 15px rgba(232,163,61,0.1); text-align:center; line-height:1.2;
   }
-  .file-chip:hover { background: rgba(232,163,61,0.22); }
+  .player-details { flex:1; }
+  .stat-line { font-family:'JetBrains Mono', monospace; font-size:11px; margin-bottom:6px; display:flex; justify-content:space-between; border-bottom:1px solid var(--line); padding-bottom:4px; }
+  .stat-line span.val { color:var(--cream); font-weight:700; }
+  .stat-line span.hl { color:var(--amber); }
 
-  /* ---------- Roadmap Map Styles ---------- */
-  .roadmap-map { position: relative; padding-left: 50px; margin-top: 24px; padding-bottom: 20px; }
-  .map-line { position: absolute; left: 24px; top: 20px; bottom: 20px; width: 4px; background: var(--bg-panel-2); border: 1px solid var(--line); border-radius: 4px; }
-  .map-line-fill { position: absolute; left: 25px; top: 20px; width: 4px; background: linear-gradient(180deg, var(--amber-dim), var(--amber)); border-radius: 4px; transition: height 0.6s cubic-bezier(0.34, 1.56, 0.64, 1); height: 0; z-index: 1; }
-  .map-node-wrapper { position: relative; z-index: 2; margin-bottom: 24px; }
-  .map-node { display: flex; align-items: center; opacity: 0.5; transition: all 0.3s ease; }
-  .map-node.done { opacity: 1; }
-  .map-node.active { opacity: 1; transform: scale(1.02); }
-  .stage-icon { position: absolute; left: -50px; width: 48px; height: 48px; border-radius: 50%; background: var(--bg-panel); border: 2px solid var(--line); display: flex; align-items: center; justify-content: center; font-size: 22px; z-index: 3; transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1); }
-  .map-node.done .stage-icon { background: var(--amber-dim); border-color: var(--amber); }
-  .map-node.active .stage-icon { background: var(--amber); border-color: var(--cream); box-shadow: 0 0 15px var(--amber-glow); font-size: 26px; }
-  .stage-name { font-size: 11px; color: var(--amber); margin-bottom: 6px; font-weight: 700; font-family: 'JetBrains Mono', monospace; }
-  .node-card { background: var(--bg-panel-2); border: 1px solid var(--line); border-radius: 12px; padding: 14px; flex: 1; display: flex; align-items: center; gap: 10px; transition: border-color 0.3s; }
-  .map-node.done .node-card { border-color: var(--amber-dim); background: linear-gradient(90deg, rgba(232,163,61,0.08), transparent); }
-  .map-node.active .node-card { border-color: var(--amber); box-shadow: 0 4px 12px rgba(232,163,61,0.1); }
-  
-  .avatar { position: absolute; top: -30px; font-size: 32px; animation: bounce 1s infinite; z-index: 10; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.4)); }
-  @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+  .hp-bar-container { background:var(--bg-stage); height:12px; width:100%; border:1px solid var(--line); position:relative; margin-top:10px; }
+  .hp-bar-fill { background:var(--sage); height:100%; transition:width 0.3s; }
+  .hp-bar-text { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; font-family:'JetBrains Mono', monospace; font-size:9px; font-weight:800; color:#fff; text-shadow:0 0 2px #000; }
 
-  /* ---------- Game / Pet / Gacha / Dungeon Styles ---------- */
-  .game-section { background:var(--bg-panel-2); border-radius:14px; border:1px solid var(--amber-dim); padding:18px; margin-bottom:18px; }
-  .game-section-title { font-family:'Fraunces', serif; font-size:16px; color:var(--amber); margin-bottom:12px; display:flex; justify-content:space-between; align-items:center; }
-  
-  .pet-info-box { display:flex; align-items:center; gap:16px; margin-bottom:14px; }
-  .pet-avatar { font-size: 60px; animation: float 2s ease-in-out infinite; }
-  @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
-  .pet-details { flex:1; }
-  .pet-name { font-family:'Fraunces', serif; font-size:18px; color:var(--cream); font-weight:700; margin-bottom:4px; }
-  .pet-stat-row { font-size:12px; color:var(--muted); font-family:'JetBrains Mono', monospace; margin-bottom:4px; }
-  .feed-btn { background:var(--amber); color:#20160a; padding:6px 12px; font-size:12px; font-weight:700; border:none; border-radius:8px; cursor:pointer; transition:all 0.2s; }
-  .feed-btn:hover:not(:disabled) { filter:brightness(1.1); }
-  .feed-btn:disabled { background:var(--bg-panel); color:var(--muted); border:1px solid var(--line); cursor:not-allowed; }
+  .equip-grid { display:grid; grid-template-columns:1fr 1fr; gap:1px; background:var(--line); margin-top:16px; border:1px solid var(--line); }
+  .equip-slot { background:var(--bg-panel); padding:12px; text-align:center; }
+  .equip-label { font-family:'JetBrains Mono', monospace; font-size:9px; color:var(--muted); letter-spacing:1px; margin-bottom:6px; }
+  .equip-name { font-size:12px; font-weight:700; color:var(--muted); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .equip-slot.filled .equip-name { text-shadow: 0 0 5px currentColor; }
 
-  .gacha-grid { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-bottom:12px; }
+  .gacha-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:16px; }
   .gacha-box-btn { 
-    padding:12px; font-size:13px; font-weight:700; border-radius:10px; cursor:pointer; font-family:'Work Sans'; 
-    display:flex; flex-direction:column; align-items:center; justify-content:center; gap:4px; transition:transform 0.2s; 
+    background:var(--bg-stage); border:1px solid var(--line); padding:16px 10px; cursor:pointer; transition:0.2s;
+    display:flex; flex-direction:column; align-items:center; gap:6px;
   }
-  .gacha-box-btn:hover { transform:translateY(-2px); }
-  .gacha-box-btn.normal { background:var(--bg-panel); border:1px solid #a4917d; color:#a4917d; }
-  .gacha-box-btn.epic { background:var(--bg-panel); border:1px solid #8a2be2; color:#8a2be2; }
-  .gacha-box-btn.legend { background:var(--bg-panel); border:1px solid #ffd700; color:#ffd700; }
-  .gacha-box-btn.winter { background:linear-gradient(135deg, #00ffff, #0088ff); border:none; color:#fff; text-shadow:0 1px 3px rgba(0,0,0,0.5); box-shadow:0 0 10px rgba(0,255,255,0.3); }
-
-  .gacha-result { text-align:center; font-size:14px; font-weight:700; padding:10px; border-radius:8px; margin-bottom:12px; display:none; animation: popIn 0.3s ease; }
-  @keyframes popIn { 0% { transform:scale(0.8); opacity:0; } 100% { transform:scale(1); opacity:1; } }
+  .gacha-box-btn:hover { background:var(--bg-panel-2); border-color:var(--amber-dim); }
+  .gacha-box-btn .t { font-family:'JetBrains Mono', monospace; font-weight:800; font-size:12px; }
+  .gacha-box-btn .c { font-family:'JetBrains Mono', monospace; font-size:10px; color:var(--muted); }
+  .gacha-box-btn.winter { border-color:var(--neon-blue); box-shadow:inset 0 0 10px rgba(0,243,255,0.1); }
   
-  .inv-container { max-height:160px; overflow-y:auto; background:var(--bg-stage); padding:10px; border-radius:8px; border:1px solid var(--line); display:flex; flex-direction:column; gap:6px; }
-  .inv-item { display:flex; justify-content:space-between; align-items:center; padding:8px 10px; background:var(--bg-panel); border:1px solid var(--line); border-radius:6px; cursor:pointer; transition:all 0.2s; }
-  .inv-item:hover { border-color:var(--amber-dim); }
-  .inv-item.equipped { border-color:var(--amber); box-shadow:0 0 8px rgba(232,163,61,0.2); background:linear-gradient(90deg, rgba(232,163,61,0.05), transparent); }
-  .inv-item-name { font-size:13px; font-weight:600; }
-  .inv-item-atk { font-family:'JetBrains Mono', monospace; font-size:11px; color:var(--muted); }
+  .inv-container { max-height:180px; overflow-y:auto; background:var(--bg-stage); padding:10px; border:1px solid var(--line); display:flex; flex-direction:column; gap:4px; }
+  .inv-item { display:flex; justify-content:space-between; align-items:center; padding:10px; background:var(--bg-panel); border-left:2px solid var(--line); }
+  .inv-item.equipped { border-color:var(--amber); background:rgba(232,163,61,0.05); }
+  .inv-item-name { font-size:12px; font-weight:700; margin-bottom:4px; }
+  .inv-item-stat { font-family:'JetBrains Mono', monospace; font-size:9px; color:var(--muted); }
 
-  /* Boss & Upload Styles */
-  .boss-area { text-align:center; padding:10px 0; }
-  .boss-emoji { font-size:70px; animation: shake 2s infinite; margin-bottom:10px; }
-  .boss-img { width:100px; height:100px; border-radius:50%; object-fit:cover; border:2px solid var(--burgundy); margin:0 auto 10px; animation: shake 2s infinite; display:none; box-shadow:0 0 15px rgba(138,67,72,0.4); }
-  @keyframes shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-4px) rotate(-5deg); } 75% { transform: translateX(4px) rotate(5deg); } }
+  .boss-card { background:var(--bg-stage); border:1px solid var(--line); padding:20px; text-align:center; position:relative; overflow:hidden; }
+  .boss-visual { margin-bottom:16px; position:relative; display:inline-block; }
+  .boss-radar { width:100px; height:100px; border-radius:50%; border:1px dashed var(--burgundy); display:flex; align-items:center; justify-content:center; font-family:'JetBrains Mono', monospace; font-size:10px; color:var(--burgundy); letter-spacing:2px; animation:spin 10s linear infinite; margin:0 auto; }
+  @keyframes spin { 100% { transform:rotate(360deg); } }
+  .boss-img { width:100px; height:100px; border-radius:50%; object-fit:cover; border:2px solid var(--burgundy); margin:0 auto; box-shadow:0 0 20px rgba(161,43,53,0.3); }
   
-  .boss-name-wrap { display:inline-block; position:relative; margin-bottom:14px; }
-  .boss-name { font-family:'Fraunces', serif; font-size:20px; font-weight:900; color:var(--burgundy); letter-spacing:-0.5px; text-shadow:0 2px 4px rgba(0,0,0,0.5); }
-  .boss-rank { font-family:'JetBrains Mono', monospace; font-size:10px; color:var(--amber); letter-spacing:1px; margin-bottom:2px; font-weight:700;}
-
-  .boss-stats { display:grid; grid-template-columns:1fr 1fr; gap:8px; font-size:11px; font-weight:700; text-align:left; background:rgba(0,0,0,0.25); padding:12px; border-radius:10px; border:1px dashed rgba(138,67,72,0.5); margin:0 auto 16px; width:90%; color:var(--muted); font-family:'JetBrains Mono', monospace;}
+  .boss-info .rank { font-family:'JetBrains Mono', monospace; font-size:10px; color:var(--muted); letter-spacing:2px; margin-bottom:4px; }
+  .boss-info .name { font-size:22px; font-weight:900; color:var(--cream); letter-spacing:1px; margin-bottom:16px; text-transform:uppercase; }
+  
+  .boss-stats { display:grid; grid-template-columns:1fr 1fr; gap:10px; font-family:'JetBrains Mono', monospace; font-size:10px; color:var(--muted); text-align:left; background:var(--bg-panel); padding:14px; border:1px solid var(--line); margin-bottom:16px; }
   .boss-stats div { display:flex; justify-content:space-between; }
-  .boss-stats span { color:var(--amber); letter-spacing:2px; }
+  .boss-stats span { color:var(--amber); }
 
-  .boss-hp-track { height:20px; background:var(--bg-stage); border-radius:10px; margin:0 auto 16px; width:90%; overflow:hidden; border:1px solid var(--line); position:relative; box-shadow:inset 0 2px 4px rgba(0,0,0,0.5); }
-  .boss-hp-fill { height:100%; background:linear-gradient(90deg, #8a4348, #ff4500); transition:width 0.2s; }
-  .boss-hp-text { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; font-family:'JetBrains Mono', monospace; font-size:11px; font-weight:700; color:var(--cream); text-shadow:0 1px 2px rgba(0,0,0,1); }
-  .atk-btn { background:var(--burgundy); color:var(--cream); padding:14px 28px; font-size:15px; font-weight:700; border:none; border-radius:999px; cursor:pointer; font-family:'Work Sans'; box-shadow:0 4px 12px rgba(138,67,72,0.4); margin-top:8px;}
-  .atk-btn:hover { background:#a14e54; transform:scale(1.05); }
+  .boss-hp-bar { background:var(--bg-panel-2); height:16px; border:1px solid var(--burgundy); position:relative; margin-bottom:20px; }
+  .boss-hp-fill { background:var(--burgundy); height:100%; transition:0.2s; }
+  .boss-hp-text { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; font-family:'JetBrains Mono', monospace; font-size:10px; font-weight:800; color:#fff; }
 
-  /* ---------- Calendar view ---------- */
-  .cal-head{display:flex; align-items:center; justify-content:space-between; gap:8px; margin-bottom:14px; flex-wrap:wrap;}
-  .cal-title{font-family:'Fraunces', serif; font-weight:600; font-size:17px;}
-  .cal-jump{display:flex; gap:6px;}
-  .cal-jump select{
-    background:var(--bg-panel-2); border:1px solid var(--line); color:var(--cream);
-    border-radius:8px; padding:6px 8px; font-family:'JetBrains Mono', monospace; font-size:12px;
-  }
-  .dow-row, .cal-grid{ display:grid; grid-template-columns:repeat(7, 1fr); gap:4px; }
-  .dow-row{margin-bottom:6px;}
-  .dow{
-    text-align:center; font-family:'JetBrains Mono', monospace; font-size:11px;
-    color:var(--muted); padding-bottom:4px;
-  }
-  .day-cell{
-    aspect-ratio:1/1; border-radius:8px; border:1px solid var(--line);
-    background:var(--bg-panel-2);
-    display:flex; flex-direction:column; align-items:center; justify-content:center;
-    cursor:pointer; position:relative; transition:transform .12s;
-  }
-  .day-cell:hover{transform:translateY(-2px);}
-  .day-cell.dim{opacity:.32; cursor:default;}
-  .day-cell.dim:hover{transform:none;}
-  .day-num{font-family:'JetBrains Mono', monospace; font-size:12px;}
-  .day-cell.today{border-color:var(--amber); box-shadow:0 0 0 1px var(--amber) inset;}
-  .day-cell.today .day-num{color:var(--amber); font-weight:700;}
-  .wk-dot{ width:5px; height:5px; border-radius:50%; margin-top:3px; background:transparent; }
-  .day-cell.wk-partial{background:linear-gradient(180deg, rgba(232,163,61,0.12), var(--bg-panel-2));}
-  .day-cell.wk-partial .wk-dot{background:var(--amber-dim);}
-  .day-cell.wk-full{background:linear-gradient(180deg, rgba(140,160,125,0.18), var(--bg-panel-2)); border-color:var(--sage);}
-  .day-cell.wk-full .wk-dot{background:var(--sage); box-shadow:0 0 6px 1px rgba(140,160,125,0.6);}
-  .legend{display:flex; gap:16px; margin-top:14px; flex-wrap:wrap;}
-  .legend-item{display:flex; align-items:center; gap:6px; font-size:11px; color:var(--muted); font-family:'JetBrains Mono', monospace;}
-  .legend-dot{width:8px; height:8px; border-radius:50%;}
+  .action-btns { display:flex; gap:10px; }
+  .action-btn { flex:1; padding:16px 0; font-family:'JetBrains Mono', monospace; font-size:14px; font-weight:800; border:none; cursor:pointer; transition:0.2s; letter-spacing:1px; }
+  .btn-atk { background:var(--cream); color:#000; }
+  .btn-atk:hover:not(:disabled) { background:#fff; transform:scale(1.02); box-shadow:0 0 15px rgba(255,255,255,0.3); }
+  .btn-heal { background:var(--bg-panel-2); color:var(--cream); border:1px solid var(--line); }
+  .btn-heal:hover:not(:disabled) { border-color:var(--sage); color:var(--sage); }
+  
+  .action-btn.locked { background:#111 !important; color:#444 !important; border-color:#222 !important; cursor:not-allowed !important; pointer-events:none; }
 
-  .footnote{
-    text-align:center; color:var(--muted); font-size:11px; margin-top:20px;
-    font-family:'JetBrains Mono', monospace;
+  .combat-log { font-family:'JetBrains Mono', monospace; font-size:10px; color:var(--muted); margin-top:16px; min-height:45px; background:var(--bg-panel); padding:12px; border:1px solid var(--line); line-height:1.6; }
+  .log-p-dmg { color:var(--cream); }
+  .log-b-dmg { color:var(--burgundy); }
+  .log-skill { color:var(--neon-blue); }
+  .log-sys { color:var(--amber); font-weight:700; }
+
+  /* ---------- Gacha Cutscene Overlay ---------- */
+  #gachaCutscene {
+    position: fixed; inset: 0; background: rgba(10,8,6,0.98); z-index: 9999;
+    display: none; align-items: center; justify-content: center; flex-direction: column; overflow: hidden;
+  }
+  .cs-flash { position: absolute; inset: 0; background: #fff; opacity: 0; pointer-events: none; }
+  .cs-flash.run { animation: flashAnim 3s cubic-bezier(0.1, 0.8, 0.3, 1) forwards; }
+  @keyframes flashAnim { 0% { opacity: 1; } 10% { opacity: 1; } 100% { opacity: 0; } }
+  
+  .cs-content { position: relative; z-index: 10; text-align: center; }
+  .cs-rank { font-family: 'JetBrains Mono', monospace; font-size: 16px; letter-spacing: 6px; margin-bottom: 12px; opacity: 0; }
+  .cs-item { font-family: 'Work Sans', sans-serif; font-size: 38px; font-weight: 900; opacity: 0; transform: scale(0.8); }
+  
+  .cs-content.run .cs-rank { animation: itemReveal 2s 0.2s cubic-bezier(0.1, 0.8, 0.3, 1) forwards; }
+  .cs-content.run .cs-item { animation: itemReveal 2.5s 0.5s cubic-bezier(0.1, 0.8, 0.3, 1) forwards; }
+  
+  @keyframes itemReveal {
+    0% { opacity: 0; transform: scale(0.8); text-shadow: 0 0 50px currentColor; filter:blur(4px); }
+    100% { opacity: 1; transform: scale(1); text-shadow: 0 0 15px currentColor; filter:blur(0); }
   }
 
-  .backup-row{display:flex; gap:10px; justify-content:center; margin-top:10px;}
-  .backup-btn{
-    background:none; border:1px solid var(--line); color:var(--muted);
-    font-family:'JetBrains Mono', monospace; font-size:11px;
-    border-radius:8px; padding:6px 12px; cursor:pointer; transition:all 0.2s;
-  }
-  .backup-btn:hover{border-color:var(--amber-dim); color:var(--amber); background:rgba(232,163,61,0.05);}
-
-  .load-overlay{
-    position:fixed; inset:0; background:var(--bg-stage);
-    display:flex; align-items:center; justify-content:center; flex-direction:column; gap:10px;
-    z-index:100; transition:opacity .3s ease;
-    font-family:'JetBrains Mono', monospace; color:var(--amber); font-size:13px; letter-spacing:.04em;
-  }
-  .load-overlay.hidden{opacity:0; pointer-events:none;}
-
-  .progress-wrap{margin-bottom:12px;}
-  .progress-top{display:flex; justify-content:space-between; align-items:baseline; margin-bottom:6px;}
-  .progress-top .pct{font-family:'JetBrains Mono', monospace; font-size:12px; color:var(--amber);}
-  .progress-track{height:6px; border-radius:999px; background:var(--bg-panel-2); border:1px solid var(--line); overflow:hidden;}
-  .progress-fill{height:100%; background:linear-gradient(90deg, var(--amber-dim), var(--amber)); border-radius:999px; transition:width .3s ease;}
-
-  .day-cell .note-mark{
-    position:absolute; top:4px; right:5px;
-    width:5px; height:5px; border-radius:50%;
-    background:var(--burgundy);
-    box-shadow:0 0 4px 1px rgba(138,67,72,0.6);
-    display:none;
-  }
-  .day-cell.has-note .note-mark{display:block;}
+  /* Shared Utilities */
+  .upload-box { border:1px dashed var(--line); padding:14px; text-align:center; font-family:'JetBrains Mono', monospace; font-size:11px; cursor:pointer; color:var(--muted); transition:0.2s; display:block; margin-bottom:10px; }
+  .upload-box:hover { border-color:var(--amber); color:var(--amber); background:rgba(232,163,61,0.05); }
+  .file-chip { display:inline-block; padding:4px 8px; background:var(--bg-panel-2); font-family:'JetBrains Mono', monospace; font-size:10px; color:var(--cream); border:1px solid var(--line); text-decoration:none; margin-top:6px; }
 
   /* ---------- Modals ---------- */
-  .modal-overlay{
-    position:fixed; inset:0; background:rgba(10,8,6,0.72);
-    display:none; align-items:center; justify-content:center;
-    padding:20px; z-index:80;
-  }
+  .modal-overlay{ position:fixed; inset:0; background:rgba(10,8,6,0.85); display:none; align-items:center; justify-content:center; padding:20px; z-index:80; }
   .modal-overlay.show{display:flex;}
-  .modal-box{
-    width:100%; max-width:400px; max-height:90vh; overflow-y:auto;
-    background:linear-gradient(180deg, var(--bg-panel-2), var(--bg-panel));
-    border:1px solid var(--line); border-radius:14px;
-    padding:20px;
-  }
-  .modal-head{display:flex; align-items:center; justify-content:space-between; margin-bottom:4px;}
-  .modal-title{font-family:'Fraunces', serif; font-weight:600; font-size:18px;}
-  .modal-close{background:none; border:none; color:var(--muted); font-size:20px; cursor:pointer; line-height:1; padding:2px 4px;}
-  .modal-close:hover{color:var(--cream);}
-  .modal-sub{font-family:'JetBrains Mono', monospace; font-size:11px; color:var(--muted); margin-bottom:14px;}
-  .modal-box textarea, .modal-box input {
-    width:100%; background:var(--bg-stage); border:1px solid var(--line); color:var(--cream);
-    border-radius:8px; padding:10px; font-family:'Work Sans'; font-size:14px; outline:none; box-sizing:border-box;
-  }
-  .modal-box textarea:focus, .modal-box input:focus { border-color:var(--amber); }
-  .modal-box textarea { min-height:80px; resize:vertical; line-height:1.5; }
-  
-  .modal-actions{display:flex; gap:8px; margin-top:12px; flex-wrap:wrap;}
-  .modal-actions button{
-    font-family:'Work Sans'; font-weight:600; font-size:13px;
-    border-radius:8px; padding:9px 14px; cursor:pointer; border:1px solid var(--line);
-  }
-  .modal-save{background:var(--amber); border-color:var(--amber); color:#20160a; flex:1;}
-  .modal-save:hover{filter:brightness(1.08);}
-  .modal-delete{background:none; color:var(--burgundy); border-color:var(--line);}
-  .modal-delete:hover{border-color:var(--burgundy);}
-  .modal-goto{background:none; color:var(--amber); border-color:var(--amber-dim); flex:1;}
-  .modal-goto:hover{border-color:var(--amber);}
+  .modal-box{ width:100%; max-width:400px; max-height:90vh; overflow-y:auto; background:var(--bg-panel); border:1px solid var(--line); padding:24px; }
+  .modal-title{font-family:'JetBrains Mono', monospace; font-weight:800; font-size:18px; color:var(--cream); margin-bottom:16px;}
+  .modal-box input, .modal-box textarea { width:100%; background:var(--bg-stage); border:1px solid var(--line); color:var(--cream); padding:12px; font-family:'Work Sans'; font-size:13px; outline:none; margin-bottom:12px; }
+  .modal-box input:focus, .modal-box textarea:focus { border-color:var(--amber); }
+  .modal-box textarea { min-height:100px; resize:vertical; }
+  .modal-actions { display:flex; gap:10px; margin-top:10px; }
+  .btn-primary { background:var(--cream); color:#000; padding:12px; border:none; font-family:'JetBrains Mono', monospace; font-weight:800; font-size:13px; cursor:pointer; flex:1; transition:0.2s; }
+  .btn-primary:hover { background:#fff; }
+  .btn-text { background:none; border:none; color:var(--muted); font-family:'JetBrains Mono', monospace; font-size:11px; cursor:pointer; text-decoration:underline; }
 
+  .stat-sliders { margin-bottom:16px; background:var(--bg-stage); padding:16px; border:1px solid var(--line); }
+  .stat-row { display:flex; align-items:center; gap:12px; margin-bottom:12px; }
+  .stat-row:last-child { margin-bottom:0; }
+  .stat-label { width:45px; font-size:10px; color:var(--muted); font-family:'JetBrains Mono', monospace; }
+  .stat-slider { flex:1; -webkit-appearance:none; background:var(--bg-panel); height:2px; outline:none; }
+  .stat-slider::-webkit-slider-thumb { -webkit-appearance:none; width:12px; height:12px; border-radius:0; background:var(--amber); cursor:pointer; }
+  .stat-val { width:16px; font-family:'JetBrains Mono', monospace; font-size:11px; color:var(--cream); text-align:right; }
+
+  /* Calendar */
+  .cal-grid { display:grid; grid-template-columns:repeat(7, 1fr); gap:1px; background:var(--line); border:1px solid var(--line); }
+  .dow-row { display:grid; grid-template-columns:repeat(7, 1fr); gap:1px; margin-bottom:1px; }
+  .dow { text-align:center; font-family:'JetBrains Mono', monospace; font-size:10px; color:var(--muted); padding:8px 0; background:var(--bg-panel); }
+  .day-cell { aspect-ratio:1/1; background:var(--bg-stage); display:flex; flex-direction:column; align-items:center; justify-content:center; cursor:pointer; position:relative; }
+  .day-cell:hover { background:var(--bg-panel-2); }
+  .day-cell.dim { opacity:0.3; pointer-events:none; }
+  .day-num { font-family:'JetBrains Mono', monospace; font-size:11px; color:var(--muted); }
+  .day-cell.today .day-num { color:var(--amber); font-weight:800; }
+  .wk-dot { width:4px; height:4px; margin-top:4px; background:transparent; }
+  .day-cell.wk-partial .wk-dot { background:var(--amber-dim); }
+  .day-cell.wk-full .wk-dot { background:var(--sage); }
+  .day-cell .note-mark { position:absolute; top:4px; right:4px; width:4px; height:4px; background:var(--burgundy); display:none; }
+  .day-cell.has-note .note-mark { display:block; }
 </style>
 </head>
 <body>
-<div class="load-overlay" id="loadOverlay">
-  <div id="loadStatus">데이터 확인 중…</div>
-</div>
-<div class="toast" id="toast">LEVEL UP + 100🪙!</div>
-<div class="app">
 
+<!-- GACHA CUTSCENE OVERLAY -->
+<div id="gachaCutscene">
+  <div class="cs-flash" id="csFlash"></div>
+  <div class="cs-content" id="csContent">
+    <div class="cs-rank" id="csRank">[ RANK ]</div>
+    <div class="cs-item" id="csItemName">ITEM NAME</div>
+  </div>
+</div>
+
+<div class="load-overlay" id="loadOverlay">
+  <div style="font-weight:800;">SYNCING DATA...</div>
+</div>
+<div class="toast" id="toast">LEVEL UP!</div>
+
+<div class="app">
   <div class="marquee">
     <div class="marquee-top">
-      <div class="brand">VOCAL <span>LOG</span></div>
+      <div class="brand">PROJECT <span>STAGE</span></div>
       <div class="auth-area">
-        <span class="user-name" id="userNameDisplay">로그인 필요</span>
-        <button class="auth-btn" id="loginBtn" onclick="openAuthModal('loginModal')">로그인</button>
-        <button class="auth-btn logout" id="logoutBtn" onclick="logout()" style="display:none;">로그아웃</button>
+        <span class="user-name" id="userNameDisplay">GUEST</span>
+        <button class="auth-btn" id="loginBtn" onclick="openAuthModal('loginModal')">LOGIN</button>
+        <button class="auth-btn logout" id="logoutBtn" onclick="logout()" style="display:none;">LOGOUT</button>
       </div>
     </div>
-    
-    <div style="display:flex; justify-content:space-between; align-items:center;">
-      <div class="level-badge"><span class="dot"></span><span class="lv-num" id="lvNum">Lv.1</span><span class="total-done" id="totalDoneDisplay">(총 달성: 0회)</span></div>
-      <div class="level-badge" style="background:var(--bg-panel-2); border-color:var(--amber-dim); padding-left:14px;">
-        <span style="font-size:16px;">🪙</span> <span class="lv-num" id="coinCount" style="margin-left:6px;">0</span>
-      </div>
+    <div style="display:flex; justify-content:space-between; align-items:flex-end;">
+      <div class="level-badge">LV <span class="lv-num" id="lvNum">1</span></div>
+      <div class="level-badge" style="border-color:var(--amber-dim); color:var(--amber);">CRD <span class="lv-num" id="coinCount" style="margin-left:8px;">0</span></div>
     </div>
     <div class="meter-row">
+      <div class="meter-label">EXP</div>
       <div class="meter" id="meter"></div>
-      <div class="meter-label" id="meterLabel">0 / 100</div>
+      <div class="meter-label" id="meterLabel" style="width:50px; text-align:right;">0/100</div>
     </div>
   </div>
 
   <div class="tabs">
-    <button class="tab-btn active" data-tab="daily">일일</button>
-    <button class="tab-btn" data-tab="goals">주간</button>
-    <button class="tab-btn" data-tab="game">미니게임 🎮</button>
-    <button class="tab-btn" data-tab="roadmap">로드맵 🗺️</button>
-    <button class="tab-btn" data-tab="stats">분석 📊</button>
-    <button class="tab-btn" data-tab="repo">레퍼토리</button>
-    <button class="tab-btn" data-tab="cal">달력</button>
+    <button class="tab-btn active" data-tab="daily">DAILY</button>
+    <button class="tab-btn" data-tab="goals">WEEKLY</button>
+    <button class="tab-btn" data-tab="game">SYSTEM</button>
+    <button class="tab-btn" data-tab="roadmap">ROADMAP</button>
+    <button class="tab-btn" data-tab="repo">REPERTOIRE</button>
+    <button class="tab-btn" data-tab="cal">LOGS</button>
   </div>
 
   <!-- GAME TAB -->
-  <div class="panel" id="gamePanel" style="display:none;">
-    <div class="game-section">
-      <div class="game-section-title">내 보컬 아바타 🧑‍🎤</div>
-      <div class="pet-info-box">
-        <div class="pet-avatar" id="gamePetEmoji">🥚</div>
-        <div class="pet-details">
-          <div class="pet-name" id="gamePetName">알</div>
-          <div class="pet-stat-row">아바타 기본 ATK: <span id="gamePetAtk" style="color:var(--cream); font-weight:700;">10</span></div>
-          <div class="pet-stat-row">장착 장비 ATK: <span id="gameEquipAtk" style="color:var(--amber); font-weight:700;">+0</span></div>
-          <div class="pet-stat-row" style="margin-top:6px; color:var(--sage);">총 전투력(ATK): <strong id="gameTotalAtk" style="font-size:14px;">10</strong></div>
+  <div class="panel" id="gamePanel" style="display:none; padding:0;">
+    
+    <!-- 1. Player Status -->
+    <div class="game-section" style="padding:20px;">
+      <div class="game-section-title">PLAYER STATUS</div>
+      <div class="player-status-box">
+        <div class="player-rank-circle">
+          <div>RANK<br><span id="gamePetName" style="font-size:12px; color:var(--cream);">TRN</span></div>
+        </div>
+        <div class="player-details">
+          <div class="stat-line"><span>ATK (TOTAL)</span> <span class="val"><span class="hl" id="gameTotalAtk">10</span></span></div>
+          <div class="stat-line"><span>DEF (TOTAL)</span> <span class="val"><span class="hl" id="gameTotalDef" style="color:var(--neon-blue);">5</span></span></div>
+          <div class="hp-bar-container">
+            <div class="hp-bar-fill" id="playerHpFill" style="width:100%;"></div>
+            <div class="hp-bar-text" id="playerHpText">500 / 500</div>
+          </div>
         </div>
       </div>
-      <div style="display:flex; gap:10px; align-items:center;">
-        <div class="progress-wrap" style="flex:1; margin-bottom:0;">
-          <div class="progress-top" style="margin-bottom:2px;"><span class="meter-label" style="font-size:10px;">성장치</span><span class="pct" id="gamePetProgressPct" style="font-size:10px;">0 / 100</span></div>
-          <div class="progress-track" style="height:6px;"><div class="progress-fill" id="gamePetProgressFill" style="width:0%; background:linear-gradient(90deg, #8ca07d, var(--amber));"></div></div>
-        </div>
-        <button class="feed-btn" id="gameFeedBtn" onclick="feedPet()">트레이닝 (50 🪙)</button>
+      
+      <div class="equip-grid">
+        <div class="equip-slot" id="slot-weapon"><div class="equip-label">[ WEAPON ]</div><div class="equip-name">EMPTY</div></div>
+        <div class="equip-slot" id="slot-sub"><div class="equip-label">[ SUB ]</div><div class="equip-name">EMPTY</div></div>
+        <div class="equip-slot" id="slot-armor"><div class="equip-label">[ ARMOR ]</div><div class="equip-name">EMPTY</div></div>
+        <div class="equip-slot" id="slot-skill"><div class="equip-label">[ SKILL ]</div><div class="equip-name">EMPTY</div></div>
       </div>
     </div>
 
-    <div class="game-section">
-      <div class="game-section-title">신비한 보컬 장비 뽑기 🎰</div>
-      
+    <!-- 2. Gacha Cache -->
+    <div class="game-section" style="padding:0 20px 20px;">
+      <div class="game-section-title">EQUIPMENT CACHE</div>
       <div class="gacha-grid">
-        <button class="gacha-box-btn normal" onclick="drawGacha('normal')">
-          <span style="font-size:18px;">📦</span><span>일반 상자</span><span style="font-size:11px; font-weight:400;">100 🪙</span>
-        </button>
-        <button class="gacha-box-btn epic" onclick="drawGacha('epic')">
-          <span style="font-size:18px;">💎</span><span>에픽 상자</span><span style="font-size:11px; font-weight:400;">500 🪙</span>
-        </button>
-        <button class="gacha-box-btn legend" onclick="drawGacha('legend')">
-          <span style="font-size:18px;">👑</span><span>전설 상자</span><span style="font-size:11px; font-weight:400;">2,000 🪙</span>
-        </button>
-        <button class="gacha-box-btn winter" onclick="drawGacha('winter')">
-          <span style="font-size:18px;">❄️</span><span>윈터의 상자</span><span style="font-size:11px; font-weight:400;">10,000 🪙</span>
-        </button>
+        <button class="gacha-box-btn normal" onclick="drawGacha('normal')"><span class="t">NORMAL CACHE</span><span class="c">100 CRD</span></button>
+        <button class="gacha-box-btn epic" onclick="drawGacha('epic')"><span class="t">EPIC CACHE</span><span class="c">500 CRD</span></button>
+        <button class="gacha-box-btn legend" onclick="drawGacha('legend')"><span class="t">LEGEND CACHE</span><span class="c">2,000 CRD</span></button>
+        <button class="gacha-box-btn winter" onclick="drawGacha('winter')"><span class="t">WINTER CACHE</span><span class="c">10,000 CRD</span></button>
       </div>
       
-      <div id="gachaResultMsg" class="gacha-result"></div>
-      
-      <div style="font-size:12px; color:var(--muted); font-weight:600; margin-bottom:6px;">장비 인벤토리 (클릭하여 장착)</div>
-      <div class="inv-container" id="inventoryList">
-        <div class="empty-note" style="padding:10px;">보유한 장비가 없습니다.</div>
-      </div>
+      <div class="game-section-title" style="margin-top:20px;">INVENTORY (CLICK TO EQUIP)</div>
+      <div class="inv-container" id="inventoryList"></div>
     </div>
 
-    <div class="game-section" style="margin-bottom:0; border-color:var(--burgundy);">
-      <div class="game-section-title" style="color:var(--burgundy);">보컬 도장깨기 ⚔️</div>
-      <div class="boss-area">
+    <!-- 3. Dungeon Raid -->
+    <div class="game-section" style="padding:0 20px 20px; border-bottom:none;">
+      <div class="game-section-title" style="color:var(--burgundy);">VOCAL DUNGEON</div>
+      <div class="boss-card">
         
-        <div id="bossVisualArea">
-          <div class="boss-emoji" id="bossEmoji">👺</div>
-          <img id="bossImg" class="boss-img" src="" alt="Boss Image" referrerpolicy="no-referrer">
+        <div class="boss-visual">
+          <!-- Radar shown when no image -->
+          <div class="boss-radar" id="bossEmoji">UNKNOWN<br>ENTITY</div>
+          <!-- Image shown when matched -->
+          <img id="bossImg" class="boss-img" src="" alt="Boss" referrerpolicy="no-referrer">
         </div>
         
-        <div class="boss-name-wrap">
-          <div class="boss-rank" id="bossRank">BEGINNER</div>
-          <div class="boss-name" id="bossName">Lv.1 10CM</div>
+        <div class="boss-info">
+          <div class="rank" id="bossRank">[ BEGINNER ]</div>
+          <div class="name" id="bossName">LV.1 10CM</div>
         </div>
         
         <div class="boss-stats" id="bossStatsBoard">
@@ -511,255 +388,198 @@
             <div style="grid-column: span 2;">LEGACY <span id="bsLegacy">★☆☆☆☆</span></div>
         </div>
 
-        <div style="display:flex; justify-content:center; gap:6px; margin-bottom:14px;">
-          <label style="cursor:pointer; background:var(--bg-panel); border:1px solid var(--burgundy); color:var(--cream); padding:5px 12px; border-radius:6px; font-size:11px; font-weight:600; transition:all 0.2s;">
-            <input type="file" id="bossFile" accept="image/*" style="display:none;" onchange="uploadBossImage(this)">
-            📸 스킨(사진) 덮어쓰기
-          </label>
-          <button id="clearBossBtn" style="display:none; background:none; border:1px solid var(--line); color:var(--muted); padding:5px 12px; border-radius:6px; font-size:11px; cursor:pointer;" onclick="clearBossImage()">초기화</button>
-        </div>
-
-        <div class="boss-hp-track">
+        <div class="boss-hp-bar">
           <div class="boss-hp-fill" id="bossHpFill" style="width:100%;"></div>
           <div class="boss-hp-text" id="bossHpText">100 / 100</div>
         </div>
         
-        <button class="atk-btn" onclick="attackBoss()">🔥 공격하기 (10 🪙)</button>
+        <div class="action-btns">
+          <button class="action-btn btn-atk" id="atkBtn" onclick="attackBoss()">ENGAGE / 10C</button>
+          <button class="action-btn btn-heal" id="healBtn" onclick="healPlayer()">RECOVER / 10C</button>
+        </div>
+        
+        <div class="combat-log" id="combatLog">AWAITING ENGAGEMENT...</div>
       </div>
-      <div style="text-align:center; font-size:11px; color:var(--muted); margin-top:14px; line-height:1.4;">
-        보스 레벨에 따라 피통이 기하급수적으로 늘어납니다!<br>가챠로 스펙을 올려 세계 최고의 마왕들을 쓰러뜨리세요.
+      
+      <div style="margin-top:14px;">
+        <label class="upload-box" style="margin-bottom:0; padding:10px;">
+          <input type="file" id="bossFile" accept="image/*" style="display:none;" onchange="uploadBossImage(this)">
+          [ OVERRIDE BOSS VISUAL ]
+        </label>
+        <div style="text-align:center;"><button id="clearBossBtn" style="display:none; background:none; border:none; color:var(--muted); font-size:10px; font-family:'JetBrains Mono', monospace; text-decoration:underline; cursor:pointer; margin-top:8px;" onclick="clearBossImage()">RESET VISUAL OVERRIDE</button></div>
       </div>
     </div>
-  </div>
-
-  <!-- ROADMAP TAB -->
-  <div class="panel" id="roadmapPanel" style="display:none;">
-    <div class="cal-head">
-      <div class="cal-title">나만의 라이브 투어 로드맵</div>
-    </div>
-    <div style="background:var(--bg-panel-2); padding:14px; border-radius:10px; border:1px solid var(--amber-dim); margin-bottom:10px;">
-      <div style="font-size:12px; color:var(--amber); margin-bottom:6px; font-weight:700;">최종 목표 (Ultimate Goal)</div>
-      <textarea id="ultimateGoalInput" placeholder="예: 2045년까지 장르 불문 자유로운 발성 완성하기" style="width:100%; background:transparent; border:none; color:var(--cream); font-family:'Work Sans'; font-size:14px; line-height:1.4; resize:none; outline:none; height:48px;" onchange="saveUltimateGoal(this.value)"></textarea>
-    </div>
-    <div id="roadmapMapContainer"></div>
-    <div class="empty-note" id="roadmapEmptyNote" style="display:none;">최종 목표로 가기 위한 큰 단계(마일스톤)를 쪼개서 추가해보세요. 스크롤을 내릴수록 더 큰 무대가 펼쳐집니다!</div>
-    <form class="add-form" id="addMilestoneForm">
-      <input type="text" id="milestoneInput" placeholder="예: 1단계 - 흉성구 피치 브레이크 극복" maxlength="60" required>
-      <button type="submit" class="add-btn">무대 추가</button>
-    </form>
-    <div class="footnote" style="margin-top:14px;">무대를 클리어 할 때마다 200 EXP + 200 🪙 가 터집니다 🔥</div>
-  </div>
-
-  <!-- STATS / ANALYSIS TAB -->
-  <div class="panel" id="statsPanel" style="display:none;">
-    <div class="cal-head">
-      <div class="cal-title">내 보컬 스탯 분석 📊</div>
-    </div>
-    <div style="text-align:center; margin-bottom:20px; font-size:12px; color:var(--muted);">
-      달력에서 연습 기록을 남길 때 평가한 스탯의 <strong style="color:var(--amber);">전체 평균</strong>입니다.
-    </div>
-    <div style="background:var(--bg-stage); padding:20px; border-radius:50%; border:1px dashed var(--line); width:280px; height:280px; margin:0 auto 20px; display:flex; align-items:center; justify-content:center;">
-      <canvas id="radarChart" width="240" height="240"></canvas>
-    </div>
-    <div class="empty-note" id="statsEmpty" style="display:none;">아직 평가된 스탯이 없습니다.<br>달력에서 날짜를 누르고 연습 기록을 남겨보세요!</div>
-
-    <div class="cal-head" style="margin-top:30px;">
-      <div class="cal-title" style="font-size:15px;">최근 연습 시간대 🕒</div>
-    </div>
-    <div id="timeLogContainer"></div>
-    <div class="empty-note" id="timeEmpty" style="display:none; margin-top:0;">기록된 연습 시간이 없습니다.</div>
   </div>
 
   <!-- DAILY GOALS TAB -->
   <div class="panel" id="dailyPanel">
     <div class="week-nav">
-      <div class="nav-btns">
-        <button class="nav-btn" id="prevDay">‹</button>
-      </div>
-      <div class="range" style="text-align:center;"><span id="dailyMain"></span> <small id="dailySub"></small></div>
-      <div class="nav-btns">
-        <button class="today-chip" id="gotoTodayDaily">오늘</button>
-        <button class="nav-btn" id="nextDay">›</button>
-      </div>
-    </div>
-    <div class="progress-wrap" id="dailyProgressWrap" style="display:none;">
-      <div class="progress-top"><span class="meter-label">일일 달성률</span><span class="pct" id="dailyProgressPct">0%</span></div>
-      <div class="progress-track"><div class="progress-fill" id="dailyProgressFill" style="width:0%;"></div></div>
+      <button class="nav-btn" id="prevDay">‹</button>
+      <div class="range"><span id="dailyMain"></span><small id="dailySub"></small></div>
+      <div style="display:flex; gap:6px;"><button class="today-chip" id="gotoTodayDaily">TODAY</button><button class="nav-btn" id="nextDay">›</button></div>
     </div>
     <ul class="goal-list" id="dailyList"></ul>
-    <div class="empty-note" id="dailyEmptyNote">이 날의 일일 목표가 없습니다. 아래에서 내일의 목표도 미리 추가해보세요.</div>
+    <div class="empty-note" id="dailyEmptyNote">NO ACTIVE DIRECTIVES.</div>
     <form class="add-form" id="addDailyForm">
-      <input type="text" id="dailyGoalInput" placeholder="예: 스케일 연습 10분" maxlength="60" required>
-      <select id="dailyTierSelect">
-        <option value="0">쉬움 · 10 EXP</option>
-        <option value="1" selected>보통 · 20 EXP</option>
-        <option value="2">도전 · 40 EXP</option>
+      <input type="text" id="dailyGoalInput" placeholder="ENTER NEW DIRECTIVE..." maxlength="60" required>
+      <select id="dailyTierSelect" style="flex:none; width:90px;">
+        <option value="0">LOW</option>
+        <option value="1" selected>MID</option>
+        <option value="2">HIGH</option>
       </select>
-      <button type="submit" class="add-btn">추가</button>
+      <button type="submit" class="add-btn">ADD</button>
     </form>
   </div>
 
   <!-- WEEKLY GOALS TAB -->
   <div class="panel" id="goalsPanel" style="display:none;">
     <div class="week-nav">
-      <div class="nav-btns">
-        <button class="nav-btn" id="prevWeek">‹</button>
-      </div>
-      <div class="range" style="text-align:center;"><span id="weekMain"></span><small id="weekSub"></small></div>
-      <div class="nav-btns">
-        <button class="today-chip" id="gotoToday">이번주</button>
-        <button class="nav-btn" id="nextWeek">›</button>
-      </div>
-    </div>
-    <div class="progress-wrap" id="progressWrap" style="display:none;">
-      <div class="progress-top"><span class="meter-label">주간 달성률</span><span class="pct" id="progressPct">0%</span></div>
-      <div class="progress-track"><div class="progress-fill" id="progressFill" style="width:0%;"></div></div>
+      <button class="nav-btn" id="prevWeek">‹</button>
+      <div class="range"><span id="weekMain"></span><small id="weekSub"></small></div>
+      <div style="display:flex; gap:6px;"><button class="today-chip" id="gotoToday">THIS WK</button><button class="nav-btn" id="nextWeek">›</button></div>
     </div>
     <ul class="goal-list" id="goalList"></ul>
-    <div class="empty-note" id="emptyNote">이번 주 목표가 아직 없어요. 주간 퀘스트를 추가해보세요.</div>
+    <div class="empty-note" id="emptyNote">NO WEEKLY DIRECTIVES.</div>
     <form class="add-form" id="addWeekForm">
-      <input type="text" id="weekGoalInput" placeholder="예: 일주일간 매일 발성 30분 달성하기" maxlength="60" required>
-      <button type="submit" class="add-btn">퀘스트 추가</button>
+      <input type="text" id="weekGoalInput" placeholder="ENTER WEEKLY DIRECTIVE..." maxlength="60" required>
+      <button type="submit" class="add-btn">ADD</button>
+    </form>
+  </div>
+
+  <!-- ROADMAP TAB -->
+  <div class="panel" id="roadmapPanel" style="display:none;">
+    <div style="margin-bottom:20px;">
+      <div style="font-family:'JetBrains Mono', monospace; font-size:10px; color:var(--muted); margin-bottom:6px;">[ ULTIMATE OBJECTIVE ]</div>
+      <textarea id="ultimateGoalInput" placeholder="Define your ultimate end-goal..." style="width:100%; background:var(--bg-stage); border:1px solid var(--line); color:var(--cream); font-family:'Work Sans'; font-size:13px; padding:10px; resize:none; outline:none; height:60px;" onchange="saveUltimateGoal(this.value)"></textarea>
+    </div>
+    <div id="roadmapMapContainer"></div>
+    <div class="empty-note" id="roadmapEmptyNote">NO MILESTONES DEFINED.</div>
+    <form class="add-form" id="addMilestoneForm">
+      <input type="text" id="milestoneInput" placeholder="Enter milestone..." maxlength="60" required>
+      <button type="submit" class="add-btn">ADD</button>
     </form>
   </div>
 
   <!-- REPERTOIRE TAB -->
   <div class="panel" id="repoPanel" style="display:none;">
-    <div class="cal-head">
-      <div class="cal-title">내 애창곡 / 연습 곡 리스트</div>
-    </div>
     <ul class="goal-list" id="repoList"></ul>
-    <div class="empty-note" id="repoEmpty" style="display:none;">
-      노래방 18번이나 연습 중인 곡을 적어두세요.<br>악보나 MR 파일을 올려두면 아주 유용해요!
-    </div>
-    <form class="add-form" id="addRepoForm" style="flex-direction:column;">
-      <div style="display:flex; gap:8px; width:100%;">
-        <input type="text" id="repoSong" placeholder="곡명 (예: 밤편지)" required style="flex:1.5;">
-        <input type="text" id="repoArtist" placeholder="가수 (예: 아이유)" required style="flex:1;">
-        <input type="text" id="repoKey" placeholder="키(예:-1)" style="flex:0.7;">
+    <div class="empty-note" id="repoEmpty">NO REPERTOIRE DATA.</div>
+    <form class="add-form" id="addRepoForm" style="flex-direction:column; margin-top:20px; border-top:1px solid var(--line); padding-top:20px;">
+      <div style="display:flex; gap:8px;">
+        <input type="text" id="repoSong" placeholder="TITLE" required style="flex:2;">
+        <input type="text" id="repoArtist" placeholder="ARTIST" required style="flex:1.5;">
+        <input type="text" id="repoKey" placeholder="KEY" style="flex:1;">
       </div>
-      <label class="upload-box" for="repoFile">
+      <label class="upload-box" for="repoFile" style="margin:0;">
         <input type="file" id="repoFile" onchange="showRepoFile()">
-        <span class="upload-icon">📎</span>
-        <span class="upload-text">
-          <span class="upload-title">악보 / MR 파일 첨부 (선택)</span>
-          <span class="upload-name" id="repoFileName">4MB 이하의 파일만 업로드 가능해요</span>
-        </span>
+        <span id="repoFileName">ATTACH FILE (MAX 4MB)</span>
       </label>
-      <button type="submit" class="add-btn" style="width:100%;">저장하기</button>
+      <button type="submit" class="add-btn" style="padding:12px;">SAVE RECORD</button>
     </form>
   </div>
 
   <!-- CALENDAR TAB -->
   <div class="panel" id="calPanel" style="display:none;">
     <div class="cal-head">
-      <div class="cal-jump">
-        <select id="yearSelect"></select>
-        <select id="monthSelect"></select>
-      </div>
-      <div class="nav-btns">
-        <button class="nav-btn" id="prevMonth">‹</button>
-        <button class="nav-btn" id="nextMonth">›</button>
+      <div class="cal-title" id="calTitle" style="font-family:'JetBrains Mono', monospace; font-size:16px;"></div>
+      <div style="display:flex; gap:6px;">
+        <select id="yearSelect" style="background:var(--bg-stage); border:1px solid var(--line); color:var(--cream); font-family:'JetBrains Mono'; font-size:11px; padding:4px; outline:none;"></select>
+        <select id="monthSelect" style="background:var(--bg-stage); border:1px solid var(--line); color:var(--cream); font-family:'JetBrains Mono'; font-size:11px; padding:4px; outline:none;"></select>
+        <button class="nav-btn" id="prevMonth" style="width:24px; height:24px;">‹</button>
+        <button class="nav-btn" id="nextMonth" style="width:24px; height:24px;">›</button>
       </div>
     </div>
-    <div class="cal-title" id="calTitle"></div>
     <div class="dow-row">
-      <div class="dow">월</div><div class="dow">화</div><div class="dow">수</div>
-      <div class="dow">목</div><div class="dow">금</div><div class="dow">토</div><div class="dow">일</div>
+      <div class="dow">MON</div><div class="dow">TUE</div><div class="dow">WED</div>
+      <div class="dow">THU</div><div class="dow">FRI</div><div class="dow">SAT</div><div class="dow">SUN</div>
     </div>
     <div class="cal-grid" id="calGrid"></div>
-    <div class="legend">
-      <div class="legend-item"><span class="legend-dot" style="background:var(--sage)"></span>일일 목표 달성</div>
-      <div class="legend-item"><span class="legend-dot" style="background:var(--amber-dim)"></span>일일 진행 중</div>
-      <div class="legend-item"><span class="legend-dot" style="background:var(--amber); box-shadow:0 0 0 2px var(--bg-panel), 0 0 0 3px var(--amber);"></span>오늘</div>
-      <div class="legend-item"><span class="legend-dot" style="background:var(--burgundy)"></span>메모 있음</div>
-    </div>
-    <div class="footnote" style="margin-top:12px;">날짜를 클릭하면 그날의 연습 녹음을 남기거나 목표로 이동할 수 있어요</div>
   </div>
 
-  <div class="footnote">퀘스트를 달성하면 EXP와 코인(🪙)이 쌓여요 · 2026 – 2050</div>
+  <!-- STATS / ANALYSIS TAB -->
+  <div class="panel" id="statsPanel" style="display:none;">
+    <div style="font-family:'JetBrains Mono', monospace; font-size:12px; color:var(--muted); text-align:center; margin-bottom:20px; letter-spacing:2px;">[ RADAR ANALYSIS ]</div>
+    <div style="background:var(--bg-stage); padding:20px; border-radius:50%; border:1px solid var(--line); width:280px; height:280px; margin:0 auto 20px; display:flex; align-items:center; justify-content:center;">
+      <canvas id="radarChart" width="240" height="240"></canvas>
+    </div>
+    <div class="empty-note" id="statsEmpty" style="display:none;">INSUFFICIENT DATA.</div>
+    <div style="font-family:'JetBrains Mono', monospace; font-size:12px; color:var(--muted); text-align:center; margin:30px 0 16px; letter-spacing:2px;">[ TIME LOGS ]</div>
+    <div id="timeLogContainer" style="display:flex; flex-direction:column; gap:8px;"></div>
+  </div>
   
-  <div class="backup-row">
-    <button class="backup-btn" id="exportBtn">내 데이터 백업</button>
-    <button class="backup-btn" id="importBtn">데이터 복구</button>
+  <div style="display:flex; gap:10px; justify-content:center; margin-top:20px;">
+    <button class="auth-btn logout" id="exportBtn">EXPORT</button>
+    <button class="auth-btn logout" id="importBtn">IMPORT</button>
+    <button class="auth-btn logout" id="resetBtn" style="color:var(--burgundy); border-color:var(--burgundy);">SYSTEM RESET</button>
     <input type="file" id="importFile" accept="application/json" style="display:none;">
   </div>
 </div>
 
-<!-- 메모 작성 모달 -->
+<!-- DAY MODAL -->
 <div class="modal-overlay" id="dayModal">
   <div class="modal-box">
-    <div class="modal-head">
-      <div class="modal-title" id="dayModalTitle">날짜</div>
-      <button class="modal-close" onclick="closeDayModal()">×</button>
-    </div>
-    <div class="modal-sub" id="dayModalSub"></div>
-    
-    <div class="time-inputs">
-      <div class="time-col">
-        <label>연습 시작 시간</label>
-        <input type="time" id="dayTimeStart">
+    <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:20px;">
+      <div>
+        <div class="modal-title" id="dayModalTitle">DATE</div>
+        <div style="font-family:'JetBrains Mono'; font-size:10px; color:var(--muted);" id="dayModalSub">DAY</div>
       </div>
-      <div class="time-col">
-        <label>연습 종료 시간</label>
-        <input type="time" id="dayTimeEnd">
+      <button class="del-btn" onclick="closeDayModal()">✕</button>
+    </div>
+    
+    <div style="display:flex; gap:10px; margin-bottom:20px;">
+      <div style="flex:1;">
+        <div style="font-family:'JetBrains Mono'; font-size:9px; color:var(--muted); margin-bottom:4px;">START</div>
+        <input type="time" id="dayTimeStart" style="margin:0;">
+      </div>
+      <div style="flex:1;">
+        <div style="font-family:'JetBrains Mono'; font-size:9px; color:var(--muted); margin-bottom:4px;">END</div>
+        <input type="time" id="dayTimeEnd" style="margin:0;">
       </div>
     </div>
 
     <div class="stat-sliders">
-      <div style="font-size:11px; color:var(--amber); margin-bottom:10px; font-weight:700;">오늘 연습은 어땠나요? (1~5점)</div>
-      <div class="stat-row"><div class="stat-label">음정</div><input type="range" class="stat-slider" id="stat-pitch" min="1" max="5" value="3" oninput="this.nextElementSibling.textContent=this.value"><div class="stat-val">3</div></div>
-      <div class="stat-row"><div class="stat-label">박자</div><input type="range" class="stat-slider" id="stat-rhythm" min="1" max="5" value="3" oninput="this.nextElementSibling.textContent=this.value"><div class="stat-val">3</div></div>
-      <div class="stat-row"><div class="stat-label">호흡</div><input type="range" class="stat-slider" id="stat-breath" min="1" max="5" value="3" oninput="this.nextElementSibling.textContent=this.value"><div class="stat-val">3</div></div>
-      <div class="stat-row"><div class="stat-label">발성</div><input type="range" class="stat-slider" id="stat-vocal" min="1" max="5" value="3" oninput="this.nextElementSibling.textContent=this.value"><div class="stat-val">3</div></div>
-      <div class="stat-row"><div class="stat-label">고음</div><input type="range" class="stat-slider" id="stat-high" min="1" max="5" value="3" oninput="this.nextElementSibling.textContent=this.value"><div class="stat-val">3</div></div>
-      <div class="stat-row"><div class="stat-label">감정</div><input type="range" class="stat-slider" id="stat-emotion" min="1" max="5" value="3" oninput="this.nextElementSibling.textContent=this.value"><div class="stat-val">3</div></div>
+      <div style="font-family:'JetBrains Mono'; font-size:10px; color:var(--amber); margin-bottom:14px; letter-spacing:1px;">[ METRICS EVALUATION ]</div>
+      <div class="stat-row"><div class="stat-label">PITCH</div><input type="range" class="stat-slider" id="stat-pitch" min="1" max="5" value="3" oninput="this.nextElementSibling.textContent=this.value"><div class="stat-val">3</div></div>
+      <div class="stat-row"><div class="stat-label">RHYTHM</div><input type="range" class="stat-slider" id="stat-rhythm" min="1" max="5" value="3" oninput="this.nextElementSibling.textContent=this.value"><div class="stat-val">3</div></div>
+      <div class="stat-row"><div class="stat-label">BREATH</div><input type="range" class="stat-slider" id="stat-breath" min="1" max="5" value="3" oninput="this.nextElementSibling.textContent=this.value"><div class="stat-val">3</div></div>
+      <div class="stat-row"><div class="stat-label">VOCAL</div><input type="range" class="stat-slider" id="stat-vocal" min="1" max="5" value="3" oninput="this.nextElementSibling.textContent=this.value"><div class="stat-val">3</div></div>
+      <div class="stat-row"><div class="stat-label">HIGH</div><input type="range" class="stat-slider" id="stat-high" min="1" max="5" value="3" oninput="this.nextElementSibling.textContent=this.value"><div class="stat-val">3</div></div>
+      <div class="stat-row"><div class="stat-label">EMOTION</div><input type="range" class="stat-slider" id="stat-emotion" min="1" max="5" value="3" oninput="this.nextElementSibling.textContent=this.value"><div class="stat-val">3</div></div>
     </div>
 
-    <label class="upload-box" for="dayFile" style="margin-top:0; margin-bottom:12px;">
+    <label class="upload-box" for="dayFile" style="margin-bottom:12px;">
       <input type="file" id="dayFile" onchange="showDayFile()">
-      <span class="upload-icon">🎙️</span>
-      <span class="upload-text">
-        <span class="upload-title" id="dayFileTitle">연습 녹음 첨부 (선택)</span>
-        <span class="upload-name" id="dayFileName">4MB 이하의 음원 파일</span>
-      </span>
+      <span id="dayFileTitle">ATTACH AUDIO RECORDING</span>
     </label>
-    <div id="dayFileLink" style="display:none; margin-bottom:12px;"></div>
+    <div id="dayFileLink" style="display:none; margin-bottom:16px;"></div>
 
-    <textarea id="dayModalNote" maxlength="500" placeholder="이 날의 연습 메모를 남겨보세요…"></textarea>
-    <div class="modal-actions">
-      <button class="modal-goto" id="dayModalGoto">이 날의 목표 보기</button>
-      <button class="modal-delete" id="dayModalDelete">메모 삭제</button>
+    <textarea id="dayModalNote" maxlength="500" placeholder="Enter log notes..."></textarea>
+    <div style="display:flex; gap:8px;">
+      <button class="btn-primary" style="background:var(--bg-panel-2); color:var(--cream); border:1px solid var(--line);" id="dayModalGoto">GO TO DIRECTIVES</button>
+      <button class="btn-primary" style="background:var(--amber);" id="dayModalSave">SAVE LOG</button>
     </div>
-    <div class="modal-actions">
-      <button class="modal-save" id="dayModalSave">저장하기</button>
-    </div>
+    <div style="text-align:right; margin-top:10px;"><button class="btn-text" style="color:var(--burgundy);" id="dayModalDelete">DELETE LOG</button></div>
   </div>
 </div>
 
-<!-- 로그인 모달 -->
+<!-- AUTH MODALS -->
 <div class="modal-overlay" id="loginModal">
   <div class="modal-box">
-    <div class="modal-head"><div class="modal-title">로그인</div><button class="modal-close" onclick="closeAuthModal('loginModal')">×</button></div>
-    <div style="display:flex; flex-direction:column; gap:10px; margin-top:10px;">
-      <input type="text" id="login-id" placeholder="아이디">
-      <input type="password" id="login-pw" placeholder="비밀번호">
-      <button class="add-btn" style="width:100%; margin-top:10px;" onclick="doLogin()">로그인</button>
-      <button class="add-btn" style="width:100%; background:var(--bg-panel-2); color:var(--muted); border:1px solid var(--line);" onclick="closeAuthModal('loginModal'); openAuthModal('signupModal');">회원가입 하기</button>
-    </div>
+    <div class="modal-title" style="display:flex; justify-content:space-between;"><span>SYSTEM LOGIN</span><button class="del-btn" onclick="closeAuthModal('loginModal')">✕</button></div>
+    <input type="text" id="login-id" placeholder="USER ID">
+    <input type="password" id="login-pw" placeholder="PASSWORD">
+    <button class="btn-primary" style="background:var(--amber); width:100%; margin:10px 0;" onclick="doLogin()">AUTHENTICATE</button>
+    <button class="btn-text" onclick="closeAuthModal('loginModal'); openAuthModal('signupModal');">REGISTER NEW USER</button>
   </div>
 </div>
 
-<!-- 회원가입 모달 -->
 <div class="modal-overlay" id="signupModal">
   <div class="modal-box">
-    <div class="modal-head"><div class="modal-title">회원가입</div><button class="modal-close" onclick="closeAuthModal('signupModal')">×</button></div>
-    <div style="display:flex; flex-direction:column; gap:10px; margin-top:10px;">
-      <input type="text" id="su-id" placeholder="사용할 아이디 (영문/숫자)">
-      <input type="password" id="su-pw" placeholder="비밀번호 (4자 이상)">
-      <input type="text" id="su-name" placeholder="이름 또는 닉네임">
-      <button class="add-btn" style="width:100%; margin-top:10px;" onclick="doSignup()">가입하기</button>
-    </div>
+    <div class="modal-title" style="display:flex; justify-content:space-between;"><span>NEW REGISTRATION</span><button class="del-btn" onclick="closeAuthModal('signupModal')">✕</button></div>
+    <input type="text" id="su-id" placeholder="USER ID (Alphanumeric)">
+    <input type="password" id="su-pw" placeholder="PASSWORD (Min 4 chars)">
+    <input type="text" id="su-name" placeholder="ALIAS">
+    <button class="btn-primary" style="background:var(--amber); width:100%; margin-top:10px;" onclick="doSignup()">REGISTER</button>
   </div>
 </div>
 
@@ -768,38 +588,64 @@
   const API = 'https://script.google.com/macros/s/AKfycbwnJWD2jZxLMRCVTUDr7IDL5TzQVMlmIAy7jwQUBd7jjqVBvvLk9KUR-9dNM33CCHXf/exec';
   const LOGIN_KEY = 'vocal-log-current-user';
 
-  const TIERS = [ {label:'쉬움', exp:10}, {label:'보통', exp:20}, {label:'도전', exp:40} ];
+  const TIERS = [ {label:'LOW', exp:10}, {label:'MID', exp:20}, {label:'HIGH', exp:40} ];
   const WEEKLY_REWARD = 80;
   const ROADMAP_REWARD = 200; 
   const MAX_YEAR = 2050, MAX_MONTH = 11; 
 
   const PET_STAGES = [
-    { min: 0, emoji: '🥚', name: '알', desc: '아직은 조용한 알입니다. 연습의 기운이 필요해요.', baseAtk: 10 },
-    { min: 100, emoji: '🐥', name: '옹알이 병아리', desc: '삐약! 드디어 소리를 내기 시작했어요.', baseAtk: 30 },
-    { min: 300, emoji: '🎤', name: '마이크 슬라임', desc: '마이크와 한 몸이 되어버린 귀여운 슬라임!', baseAtk: 80 },
-    { min: 600, emoji: '🧑‍🎤', name: '방구석 락스타', desc: '제법 그럴싸한 발성을 구사하는 락스타입니다.', baseAtk: 200 },
-    { min: 1000, emoji: '👑', name: '전설의 메인보컬', desc: '모든 무대를 장악할 준비가 된 완벽한 보컬!', baseAtk: 500 }
+    { min: 0, name: 'TRAINEE', baseAtk: 10, baseHp: 500, baseDef: 5 },
+    { min: 100, name: 'ROOKIE', baseAtk: 30, baseHp: 1500, baseDef: 20 },
+    { min: 300, name: 'LEAD VOCAL', baseAtk: 80, baseHp: 5000, baseDef: 100 },
+    { min: 600, name: 'MAIN VOCAL', baseAtk: 250, baseHp: 20000, baseDef: 400 },
+    { min: 1000, name: 'MASTER', baseAtk: 800, baseHp: 100000, baseDef: 1500 }
   ];
 
   const GACHA_ITEMS = [
-    { rank: '윈터', atk: 99999, name: '❄️ 윈터의 마스터 마이크', color: '#00ffff' },
-    { rank: '불가능', atk: 10000, name: '🌌 시공간을 가르는 앰프', color: '#ff00ff' },
-    { rank: '전설', atk: 2000, name: '👑 전설의 황금 성대', color: '#ffd700' },
-    { rank: '신화', atk: 500, name: '🪶 세이렌의 눈물', color: '#ff4500' },
-    { rank: '에픽', atk: 150, name: '📘 마스터의 발성 교본', color: '#8a2be2' },
-    { rank: '초희귀', atk: 50, name: '💎 빛나는 튜닝 포크', color: '#00bfff' },
-    { rank: '희귀', atk: 20, name: '🍬 꿀맛 목캔디 세트', color: '#32cd32' },
-    { rank: '일반', atk: 5, name: '💧 미지근한 생수', color: '#a4917d' }
+    { type: 'weapon', rank: '일반', atk: 15, name: '[WPN] 낡은 마이크', color: '#a4917d' },
+    { type: 'weapon', rank: '희귀', atk: 50, name: '[WPN] 다이나믹 마이크', color: '#32cd32' },
+    { type: 'weapon', rank: '초희귀', atk: 150, name: '[WPN] 콘덴서 마이크', color: '#00bfff' },
+    { type: 'weapon', rank: '에픽', atk: 500, name: '[WPN] 스튜디오 마이크', color: '#8a2be2' },
+    { type: 'weapon', rank: '신화', atk: 2500, name: '[WPN] 세이렌의 잃어버린 성대', color: '#ff4500' },
+    { type: 'weapon', rank: '전설', atk: 10000, name: '[WPN] 절대음감의 황금 마이크', color: '#ffd700' },
+    { type: 'weapon', rank: '불가능', atk: 50000, name: '[WPN] 시공간을 찢는 샤우팅', color: '#ff00ff' },
+    { type: 'weapon', rank: '윈터', atk: 300000, name: '[WPN] 윈터의 서리가 내린 마이크', color: '#00ffff' },
+
+    { type: 'sub', rank: '일반', atk: 5, def: 2, name: '[SUB] 낡은 메트로놈', color: '#a4917d' },
+    { type: 'sub', rank: '희귀', atk: 20, def: 10, name: '[SUB] 은빛 메트로놈', color: '#32cd32' },
+    { type: 'sub', rank: '초희귀', atk: 80, def: 40, name: '[SUB] 리듬의 지휘봉', color: '#00bfff' },
+    { type: 'sub', rank: '에픽', atk: 300, def: 150, name: '[SUB] 마스터의 튜닝 포크', color: '#8a2be2' },
+    { type: 'sub', rank: '신화', atk: 1200, def: 600, name: '[SUB] 영혼을 울리는 탬버린', color: '#ff4500' },
+    { type: 'sub', rank: '전설', atk: 5000, def: 2500, name: '[SUB] 뮤즈의 하프', color: '#ffd700' },
+    { type: 'sub', rank: '불가능', atk: 25000, def: 12000, name: '[SUB] 신들의 화음 반지', color: '#ff00ff' },
+    { type: 'sub', rank: '윈터', atk: 150000, def: 80000, name: '[SUB] 윈터의 눈꽃 귀걸이', color: '#00ffff' },
+
+    { type: 'armor', rank: '일반', hp: 500, def: 10, name: '[AMR] 따뜻한 넥워머', color: '#a4917d' },
+    { type: 'armor', rank: '희귀', hp: 2000, def: 50, name: '[AMR] 복식호흡 코르셋', color: '#32cd32' },
+    { type: 'armor', rank: '초희귀', hp: 8000, def: 200, name: '[AMR] 강철의 흉곽', color: '#00bfff' },
+    { type: 'armor', rank: '에픽', hp: 30000, def: 800, name: '[AMR] 무대용 수트', color: '#8a2be2' },
+    { type: 'armor', rank: '신화', hp: 150000, def: 4000, name: '[AMR] 불사조의 성대 보호막', color: '#ff4500' },
+    { type: 'armor', rank: '전설', hp: 800000, def: 20000, name: '[AMR] 황제 팬덤의 함성 방패', color: '#ffd700' },
+    { type: 'armor', rank: '불가능', hp: 4000000, def: 100000, name: '[AMR] 시대를 초월한 방어구', color: '#ff00ff' },
+    { type: 'armor', rank: '윈터', hp: 20000000, def: 500000, name: '[AMR] 윈터의 절대영도 방벽', color: '#00ffff' },
+
+    { type: 'skill', rank: '일반', effect:{type:'heal', val:5}, name: '[SKL] 물 마시기 (매턴 5% 회복)', color: '#a4917d' },
+    { type: 'skill', rank: '희귀', effect:{type:'dmg', val:1.2}, name: '[SKL] 목풀기 완료 (데미지 1.2배)', color: '#32cd32' },
+    { type: 'skill', rank: '초희귀', effect:{type:'heal', val:15}, name: '[SKL] 관객 호응 (매턴 15% 회복)', color: '#00bfff' },
+    { type: 'skill', rank: '에픽', effect:{type:'dmg', val:2.0}, name: '[SKL] 두성 폭발 (데미지 2배)', color: '#8a2be2' },
+    { type: 'skill', rank: '신화', effect:{type:'vamp', val:50}, name: '[SKL] 피의 샤우팅 (50% 흡혈)', color: '#ff4500' },
+    { type: 'skill', rank: '전설', effect:{type:'dmg', val:4.0}, name: '[SKL] 전설의 3단 고음 (데미지 4배)', color: '#ffd700' },
+    { type: 'skill', rank: '불가능', effect:{type:'god', val:0}, name: '[SKL] 신의 무대 (5배 딜 + 100% 흡혈)', color: '#ff00ff' },
+    { type: 'skill', rank: '윈터', effect:{type:'winter', val:0}, name: '[SKL] 윈터의 윙크 (10배 딜 + 풀피)', color: '#00ffff' }
   ];
 
   const GACHA_BOXES = {
-    normal: { cost: 100, name: '일반 상자', rates: [ { rank: '일반', prob: 60.0 }, { rank: '희귀', prob: 30.0 }, { rank: '초희귀', prob: 8.0 }, { rank: '에픽', prob: 1.9 }, { rank: '신화', prob: 0.1 } ] },
-    epic: { cost: 500, name: '에픽 상자', rates: [ { rank: '희귀', prob: 50.0 }, { rank: '초희귀', prob: 35.0 }, { rank: '에픽', prob: 12.0 }, { rank: '신화', prob: 2.5 }, { rank: '전설', prob: 0.4 }, { rank: '불가능', prob: 0.09 }, { rank: '윈터', prob: 0.01 } ] },
-    legend: { cost: 2000, name: '전설 상자', rates: [ { rank: '초희귀', prob: 40.0 }, { rank: '에픽', prob: 40.0 }, { rank: '신화', prob: 15.0 }, { rank: '전설', prob: 4.0 }, { rank: '불가능', prob: 0.8 }, { rank: '윈터', prob: 0.2 } ] },
-    winter: { cost: 10000, name: '윈터의 상자', rates: [ { rank: '에픽', prob: 30.0 }, { rank: '신화', prob: 40.0 }, { rank: '전설', prob: 20.0 }, { rank: '불가능', prob: 8.0 }, { rank: '윈터', prob: 2.0 } ] }
+    normal: { cost: 100, rates: [ { rank: '일반', prob: 60.0 }, { rank: '희귀', prob: 30.0 }, { rank: '초희귀', prob: 8.0 }, { rank: '에픽', prob: 1.9 }, { rank: '신화', prob: 0.1 } ] },
+    epic: { cost: 500, rates: [ { rank: '희귀', prob: 50.0 }, { rank: '초희귀', prob: 35.0 }, { rank: '에픽', prob: 12.0 }, { rank: '신화', prob: 2.5 }, { rank: '전설', prob: 0.4 }, { rank: '불가능', prob: 0.09 }, { rank: '윈터', prob: 0.01 } ] },
+    legend: { cost: 2000, rates: [ { rank: '초희귀', prob: 40.0 }, { rank: '에픽', prob: 40.0 }, { rank: '신화', prob: 15.0 }, { rank: '전설', prob: 4.0 }, { rank: '불가능', prob: 0.8 }, { rank: '윈터', prob: 0.2 } ] },
+    winter: { cost: 10000, rates: [ { rank: '에픽', prob: 30.0 }, { rank: '신화', prob: 40.0 }, { rank: '전설', prob: 20.0 }, { rank: '불가능', prob: 8.0 }, { rank: '윈터', prob: 2.0 } ] }
   };
 
-  // ★ 썸네일 우회 주소로 전면 개조 완료 (방화벽 통과용)
   const BOSS_LIST = [
     { name: "10CM", img: "https://drive.google.com/thumbnail?id=1SpqRzUg-2tHvXzN1XaWRUtcmz4cHuwbY&sz=w300" }, 
     { name: "최유리", img: "https://drive.google.com/thumbnail?id=13PFcFL_ly5MStsJwmN9ImmlVDSUMMYjL&sz=w300" }, 
@@ -886,6 +732,11 @@
     if (level >= 70) return 999999999;
     return Math.floor(200 * Math.pow(level, 2.6));
   }
+  
+  function calcBossAtk(level) {
+    if (level >= 70) return 10000000;
+    return Math.floor(20 * Math.pow(level, 2.2));
+  }
 
   function getBossStats(level) {
     let base = Math.ceil(level / 7);
@@ -904,9 +755,10 @@
   let currentUser = null;
   let state = { 
     totalExp:0, coins:0, petExp:0, 
+    playerHp: 500,
     goals:{}, dailyGoals:{}, notes:{}, repo:[], roadmap:{ ultimate:'', milestones:[] },
-    gacha: { inventory: [], equippedId: null },
-    dungeon: { level: 1, hp: 200, maxHp: 200, bossImageUrl: '' } 
+    gacha: { inventory: [], equipped: { weapon:null, sub:null, armor:null, skill:null } },
+    dungeon: { level: 1, hp: 200, maxHp: 200, bossImageUrl: '', stunnedDate: '' } // ★ 기절 날짜 속성 추가
   };
   
   let currentDailyDate = new Date(today);
@@ -921,7 +773,7 @@
     const qs = Object.entries(params).map(([k,v]) => `${k}=${encodeURIComponent(v)}`).join('&');
     const res = await fetch(`${API}?${qs}`);
     const text = await res.text();
-    try { return JSON.parse(text); } catch (e) { return { ok:false, error:'서버가 잘못된 응답을 보냈습니다.' }; }
+    try { return JSON.parse(text); } catch (e) { return { ok:false, error:'API ERROR' }; }
   }
 
   async function apiPost(params) {
@@ -929,7 +781,7 @@
     Object.entries(params).forEach(([k, v]) => form.append(k, v == null ? '' : String(v)));
     const res = await fetch(API, { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8' }, body: form.toString() });
     const text = await res.text();
-    try { return JSON.parse(text); } catch (e) { return { ok:false, error: '서버 응답 오류!' }; }
+    try { return JSON.parse(text); } catch (e) { return { ok:false, error: 'API ERROR' }; }
   }
 
   function checkLoginStatus() {
@@ -937,17 +789,15 @@
       const saved = localStorage.getItem(LOGIN_KEY);
       if(saved) currentUser = JSON.parse(saved);
     } catch(e){}
-
     const nameDisplay = document.getElementById('userNameDisplay');
     const loginBtn = document.getElementById('loginBtn');
     const logoutBtn = document.getElementById('logoutBtn');
-
     if(currentUser && currentUser.userId) {
-      if(nameDisplay) nameDisplay.textContent = (currentUser.name || currentUser.userId) + '님';
+      if(nameDisplay) nameDisplay.textContent = (currentUser.name || currentUser.userId);
       if(loginBtn) loginBtn.style.display = 'none';
       if(logoutBtn) logoutBtn.style.display = 'inline-block';
     } else {
-      if(nameDisplay) nameDisplay.textContent = '로그인 필요';
+      if(nameDisplay) nameDisplay.textContent = 'GUEST';
       if(loginBtn) loginBtn.style.display = 'inline-block';
       if(logoutBtn) logoutBtn.style.display = 'none';
     }
@@ -959,7 +809,7 @@
   window.doLogin = async function() {
     const userId = document.getElementById('login-id').value.trim();
     const password = document.getElementById('login-pw').value;
-    if(!userId || !password) return alert('아이디와 비밀번호를 입력해주세요.');
+    if(!userId || !password) return alert('Enter credentials.');
     const overlay = document.getElementById('loadOverlay'); if(overlay) {overlay.style.display = 'flex'; overlay.style.opacity = '1';}
     try {
       const result = await apiPost({ action:'login', userId, password });
@@ -967,14 +817,14 @@
       currentUser = { userId: result.user.userId || userId, name: result.user.name || result.user.userId || userId };
       localStorage.setItem(LOGIN_KEY, JSON.stringify(currentUser));
       closeAuthModal('loginModal'); checkLoginStatus(); await loadData();
-    } catch(e) { if(overlay) overlay.style.display = 'none'; alert('오류가 발생했습니다.'); }
+    } catch(e) { if(overlay) overlay.style.display = 'none'; alert('Error.'); }
   }
   
   window.doSignup = async function() {
     const userId = document.getElementById('su-id').value.trim();
     const password = document.getElementById('su-pw').value;
     const name = document.getElementById('su-name').value.trim();
-    if(!userId || !password || !name) return alert('모든 칸을 입력해주세요.');
+    if(!userId || !password || !name) return alert('Fill all fields.');
     const overlay = document.getElementById('loadOverlay'); if(overlay) {overlay.style.display = 'flex'; overlay.style.opacity = '1';}
     try {
       const result = await apiPost({ action:'signup', userId, password, name, role: '보컬' });
@@ -982,12 +832,12 @@
       currentUser = { userId, name };
       localStorage.setItem(LOGIN_KEY, JSON.stringify(currentUser));
       closeAuthModal('signupModal'); checkLoginStatus(); await loadData();
-    } catch(e) { if(overlay) overlay.style.display = 'none'; alert('오류가 발생했습니다.'); }
+    } catch(e) { if(overlay) overlay.style.display = 'none'; alert('Error.'); }
   }
   
   window.logout = function() {
     localStorage.removeItem(LOGIN_KEY); currentUser = null;
-    state = { totalExp:0, coins:0, petExp:0, goals:{}, dailyGoals:{}, notes:{}, repo:[], roadmap:{ ultimate:'', milestones:[] }, gacha:{inventory:[], equippedId:null}, dungeon:{level:1, hp:200, maxHp:200, bossImageUrl:''} };
+    state = { totalExp:0, coins:0, petExp:0, playerHp: 500, goals:{}, dailyGoals:{}, notes:{}, repo:[], roadmap:{ ultimate:'', milestones:[] }, gacha:{inventory:[], equipped:{weapon:null, sub:null, armor:null, skill:null}}, dungeon:{level:1, hp:200, maxHp:200, bossImageUrl:'', stunnedDate:''} };
     checkLoginStatus(); renderAll();
   }
 
@@ -997,7 +847,7 @@
     const failsafe = setTimeout(() => { if(overlay){overlay.style.opacity = '0'; setTimeout(() => { overlay.style.display = 'none'; }, 300);} }, 3500);
 
     if(!currentUser) {
-      state = { totalExp:0, coins:0, petExp:0, goals:{}, dailyGoals:{}, notes:{}, repo:[], roadmap:{ ultimate:'', milestones:[] }, gacha:{inventory:[], equippedId:null}, dungeon:{level:1, hp:200, maxHp:200, bossImageUrl:''} };
+      state = { totalExp:0, coins:0, petExp:0, playerHp: 500, goals:{}, dailyGoals:{}, notes:{}, repo:[], roadmap:{ ultimate:'', milestones:[] }, gacha:{inventory:[], equipped:{weapon:null, sub:null, armor:null, skill:null}}, dungeon:{level:1, hp:200, maxHp:200, bossImageUrl:'', stunnedDate:''} };
       try { renderAll(); } catch(e){}
       clearTimeout(failsafe); if(overlay){overlay.style.opacity = '0'; setTimeout(() => { overlay.style.display = 'none'; }, 300);}
       return;
@@ -1014,21 +864,23 @@
           totalExp: Number(parsed.totalExp || 0),
           coins: Number(parsed.coins || 0),
           petExp: Number(parsed.petExp || 0),
+          playerHp: Number(parsed.playerHp || 500),
           goals: parsed.goals || {},
           dailyGoals: parsed.dailyGoals || {},
           notes: parsed.notes || {},
           repo: Array.isArray(parsed.repo) ? parsed.repo : [],
           roadmap: parsed.roadmap || { ultimate:'', milestones:[] },
-          gacha: parsed.gacha || { inventory: [], equippedId: null },
-          dungeon: parsed.dungeon || { level: 1, hp: 200, maxHp: 200, bossImageUrl: '' }
+          gacha: parsed.gacha || { inventory: [], equipped: {weapon:null, sub:null, armor:null, skill:null} },
+          dungeon: parsed.dungeon || { level: 1, hp: 200, maxHp: 200, bossImageUrl: '', stunnedDate: '' }
         };
+        
+        if(state.gacha.equippedId && !state.gacha.equipped.weapon) state.gacha.equipped.weapon = state.gacha.equippedId;
         if(state.dungeon.maxHp < 500 && state.dungeon.level > 1) {
             state.dungeon.maxHp = calcMaxHp(state.dungeon.level);
             state.dungeon.hp = state.dungeon.maxHp;
         }
-
       } else {
-        state = { totalExp:0, coins:0, petExp:0, goals:{}, dailyGoals:{}, notes:{}, repo:[], roadmap:{ ultimate:'', milestones:[] }, gacha:{inventory:[], equippedId:null}, dungeon:{level:1, hp:200, maxHp:200, bossImageUrl:''} };
+        state = { totalExp:0, coins:0, petExp:0, playerHp: 500, goals:{}, dailyGoals:{}, notes:{}, repo:[], roadmap:{ ultimate:'', milestones:[] }, gacha:{inventory:[], equipped:{weapon:null, sub:null, armor:null, skill:null}}, dungeon:{level:1, hp:200, maxHp:200, bossImageUrl:'', stunnedDate:''} };
       }
     } catch(e) {}
     try { renderAll(); } catch(e) {}
@@ -1040,11 +892,10 @@
     try{ await apiPost({ action: 'append', sheet: 'vocal_log', row: JSON.stringify([ currentUser.userId, JSON.stringify(state), new Date().toLocaleString() ]) }); }catch(e){}
   }
 
-  // ---------- Helpers ----------
   function fileToBase64(file) { return new Promise((res, rej) => { const r = new FileReader(); r.onload = () => res(String(r.result).split(',')[1]); r.onerror = rej; r.readAsDataURL(file); }); }
   async function uploadFileToGas(file) {
     if (!file) return { url: '', name: '' };
-    if (file.size > 4*1024*1024) { alert('4MB 이하만 가능합니다.'); throw new Error('용량 초과'); }
+    if (file.size > 4*1024*1024) { alert('4MB LIMIT EXCEEDED.'); throw new Error('용량 초과'); }
     const base64 = await fileToBase64(file);
     const res = await apiPost({ action: 'uploadFile', fileName: file.name, mimeType: file.type || 'application/octet-stream', base64: base64 });
     return { url: res.url || res.fileUrl || '', name: res.name || file.name };
@@ -1057,7 +908,7 @@
   function weekRangeLabel(monday){
     const sunday = addDays(monday, 6); const sameMonth = monday.getMonth() === sunday.getMonth();
     const l = (monday.getMonth()+1) + '.' + monday.getDate(); const r = (sameMonth ? '' : (sunday.getMonth()+1)+'.') + sunday.getDate();
-    return { main: monday.getFullYear() + '년 ' + (monday.getMonth()+1) + '월', sub: l + ' – ' + r };
+    return { main: monday.getFullYear() + '.' + String(monday.getMonth()+1).padStart(2,'0'), sub: l + ' – ' + r };
   }
 
   function handleExpAndCoin(expAmount) {
@@ -1091,10 +942,10 @@
   
   function renderHeader(){
     const info = levelInfo(state.totalExp || 0);
-    const lvNum = document.getElementById('lvNum'); if(lvNum) lvNum.textContent = `Lv.${info.level}`;
-    const coinCount = document.getElementById('coinCount'); if(coinCount) coinCount.textContent = Number(state.coins || 0); 
-    const totalDone = document.getElementById('totalDoneDisplay'); if(totalDone) totalDone.textContent = `(총 달성: ${getTotalDoneCount()}회)`;
-    const meterLabel = document.getElementById('meterLabel'); if(meterLabel) meterLabel.textContent = info.into + ' / ' + info.need;
+    const lvNum = document.getElementById('lvNum'); if(lvNum) lvNum.textContent = info.level;
+    const coinCount = document.getElementById('coinCount'); if(coinCount) coinCount.textContent = Number(state.coins || 0).toLocaleString(); 
+    const totalDone = document.getElementById('totalDoneDisplay'); if(totalDone) totalDone.textContent = `(CMDS: ${getTotalDoneCount()})`;
+    const meterLabel = document.getElementById('meterLabel'); if(meterLabel) meterLabel.textContent = info.into + '/' + info.need;
     const meter = document.getElementById('meter');
     if(meter) {
       const filled = Math.round((info.into / info.need) * 12);
@@ -1106,89 +957,157 @@
 
 
   // ---------- Game Tab ----------
-  function getPetCurrentStage() {
-    let current = PET_STAGES[0];
+  function logCombat(text, typeClass) {
+      const log = document.getElementById('combatLog');
+      if(!log) return;
+      log.innerHTML = `<span class="${typeClass}">${text}</span><br>` + log.innerHTML;
+      const lines = log.innerHTML.split('<br>');
+      if(lines.length > 5) log.innerHTML = lines.slice(0, 5).join('<br>');
+  }
+
+  function getPlayerStats() {
+    let pet = PET_STAGES[0];
     const petExp = Number(state.petExp || 0);
     for(let i=PET_STAGES.length-1; i>=0; i--) {
-      if(petExp >= PET_STAGES[i].min) { current = PET_STAGES[i]; break; }
+      if(petExp >= PET_STAGES[i].min) { pet = PET_STAGES[i]; break; }
     }
-    return current;
-  }
-  function getEquippedItem() {
-    if(!state.gacha || !state.gacha.equippedId) return null;
-    return getSafeList(state.gacha.inventory).find(i => i && i.id === state.gacha.equippedId) || null;
+
+    let totalAtk = pet.baseAtk;
+    let totalDef = pet.baseDef;
+    let maxHp = pet.baseHp;
+    
+    let eqAtk = 0, eqDef = 0, eqHp = 0;
+    const inv = getSafeList(state.gacha.inventory);
+    const eq = state.gacha.equipped;
+    
+    let activeSkill = null;
+
+    ['weapon', 'sub', 'armor', 'skill'].forEach(type => {
+       if(eq[type]) {
+           const item = inv.find(i => i.id === eq[type]);
+           if(item) {
+               if(item.atk) eqAtk += item.atk;
+               if(item.def) eqDef += item.def;
+               if(item.hp) eqHp += item.hp;
+               if(item.type === 'skill') activeSkill = item;
+           }
+       }
+    });
+
+    totalAtk += eqAtk;
+    totalDef += eqDef;
+    maxHp += eqHp;
+
+    return { pet, totalAtk, totalDef, maxHp, eqAtk, eqDef, eqHp, activeSkill };
   }
 
   function renderGame() {
     const petExp = Number(state.petExp || 0);
     const coins = Number(state.coins || 0);
+    const pStats = getPlayerStats();
     
-    let currentStage = getPetCurrentStage();
-    let nextStage = PET_STAGES.find(s => s.min > petExp) || null;
+    if(state.playerHp > pStats.maxHp) state.playerHp = pStats.maxHp;
+
+    const petName = document.getElementById('gamePetName'); if(petName) petName.textContent = pStats.pet.name;
+    const petAtk = document.getElementById('gamePetAtk'); if(petAtk) petAtk.textContent = pStats.pet.baseAtk.toLocaleString();
+    const petDef = document.getElementById('gamePetDef'); if(petDef) petDef.textContent = pStats.pet.baseDef.toLocaleString();
     
-    const petEmoji = document.getElementById('gamePetEmoji'); if(petEmoji) petEmoji.textContent = currentStage.emoji;
-    const petName = document.getElementById('gamePetName'); if(petName) petName.textContent = currentStage.name;
-    const petAtk = document.getElementById('gamePetAtk'); if(petAtk) petAtk.textContent = currentStage.baseAtk;
+    const gEqAtk = document.getElementById('gameEquipAtk'); if(gEqAtk) gEqAtk.textContent = '+' + pStats.eqAtk.toLocaleString();
+    const gTotAtk = document.getElementById('gameTotalAtk'); if(gTotAtk) gTotAtk.textContent = pStats.totalAtk.toLocaleString();
+    const gEqDef = document.getElementById('gameEquipDef'); if(gEqDef) gEqDef.textContent = '+' + pStats.eqDef.toLocaleString();
+    const gTotDef = document.getElementById('gameTotalDef'); if(gTotDef) gTotDef.textContent = pStats.totalDef.toLocaleString();
     
-    const equipped = getEquippedItem();
-    const equipAtk = equipped ? equipped.atk : 0;
-    const gEqAtk = document.getElementById('gameEquipAtk'); if(gEqAtk) gEqAtk.textContent = '+' + equipAtk;
-    const gTotAtk = document.getElementById('gameTotalAtk'); if(gTotAtk) gTotAtk.textContent = currentStage.baseAtk + equipAtk;
-    
+    // Player HP
+    const pFill = document.getElementById('playerHpFill'); 
+    if(pFill) pFill.style.width = Math.max(0, Math.round((state.playerHp / pStats.maxHp) * 100)) + '%';
+    const pText = document.getElementById('playerHpText'); 
+    if(pText) pText.textContent = `${Math.floor(state.playerHp).toLocaleString()} / ${pStats.maxHp.toLocaleString()}`;
+
+    // Equip Slots
+    const eq = state.gacha.equipped;
+    const inv = getSafeList(state.gacha.inventory);
+    ['weapon', 'sub', 'armor', 'skill'].forEach(type => {
+        const slot = document.getElementById('slot-' + type);
+        if(!slot) return;
+        if(eq[type]) {
+            const item = inv.find(i => i.id === eq[type]);
+            if(item) {
+                slot.classList.add('filled');
+                slot.querySelector('.equip-name').textContent = item.name.substring(item.name.indexOf(' ') + 1);
+                slot.querySelector('.equip-name').style.color = item.color;
+            } else {
+                slot.classList.remove('filled');
+                slot.querySelector('.equip-name').textContent = 'EMPTY';
+                slot.querySelector('.equip-name').style.color = 'var(--muted)';
+            }
+        } else {
+            slot.classList.remove('filled');
+            slot.querySelector('.equip-name').textContent = 'EMPTY';
+            slot.querySelector('.equip-name').style.color = 'var(--muted)';
+        }
+    });
+
     const feedBtn = document.getElementById('gameFeedBtn');
+    let nextStage = PET_STAGES.find(s => s.min > petExp) || null;
     if(feedBtn) {
-      if (coins >= 50 && nextStage) {
-        feedBtn.disabled = false; feedBtn.textContent = '트레이닝 (50 🪙)';
-      } else if (!nextStage) {
-        feedBtn.disabled = true; feedBtn.textContent = '최대 레벨 도달!';
-      } else {
-        feedBtn.disabled = true; feedBtn.textContent = '코인 부족 (50🪙)';
-      }
+      if (coins >= 50 && nextStage) { feedBtn.disabled = false; feedBtn.textContent = 'TRAIN / 50C'; }
+      else if (!nextStage) { feedBtn.disabled = true; feedBtn.textContent = 'MAX LEVEL'; }
+      else { feedBtn.disabled = true; feedBtn.textContent = 'NO FUNDS'; }
     }
     
     const petPct = document.getElementById('gamePetProgressPct');
-    const petFill = document.getElementById('gamePetProgressFill');
-    if(petPct && petFill) {
+    const petProgressFill = document.getElementById('gamePetProgressFill');
+    if(petPct && petProgressFill) {
       if(nextStage) {
-        const range = nextStage.min - currentStage.min;
-        const into = petExp - currentStage.min;
+        const range = nextStage.min - pStats.pet.min;
+        const into = petExp - pStats.pet.min;
         const pct = Math.round((into/range)*100);
         petPct.textContent = `${petExp} / ${nextStage.min}`;
-        petFill.style.width = pct + '%';
+        petProgressFill.style.width = pct + '%';
       } else {
-        petPct.textContent = 'MAX LEVEL';
-        petFill.style.width = '100%';
+        petPct.textContent = 'MAX';
+        petProgressFill.style.width = '100%';
       }
     }
 
     const invContainer = document.getElementById('inventoryList');
     if(invContainer) {
       invContainer.innerHTML = '';
-      const inv = state.gacha ? getSafeList(state.gacha.inventory) : [];
       if(inv.length === 0) {
-        invContainer.innerHTML = '<div class="empty-note" style="padding:10px;">아직 뽑은 장비가 없습니다.<br>상자를 열어보세요!</div>';
+        invContainer.innerHTML = '<div class="empty-note" style="padding:10px;">CACHE EMPTY</div>';
       } else {
         [...inv].reverse().forEach(item => {
           if(!item) return;
-          const isEquipped = item.id === state.gacha.equippedId;
+          const isEquipped = eq[item.type] === item.id;
           const div = document.createElement('div');
           div.className = 'inv-item' + (isEquipped ? ' equipped' : '');
+          
+          let statText = [];
+          if(item.atk) statText.push(`ATK +${item.atk.toLocaleString()}`);
+          if(item.def) statText.push(`DEF +${item.def.toLocaleString()}`);
+          if(item.hp) statText.push(`HP +${item.hp.toLocaleString()}`);
+          if(item.type === 'skill') statText.push('PASSIVE INSTALLED');
+          
           div.innerHTML = `
             <div style="flex:1;">
               <div class="inv-item-name" style="color:${item.color}">${item.name}</div>
-              <div class="inv-item-atk">공격력: +${item.atk}</div>
+              <div class="inv-item-stat">${statText.join(' | ')}</div>
             </div>
-            ${isEquipped ? '<div style="font-size:11px; font-weight:700; color:var(--amber);">장착됨 ✓</div>' : '<button class="nav-btn" style="width:auto; padding:0 8px; height:26px; font-size:11px;">장착</button>'}
+            ${isEquipped ? '<div style="font-size:11px; font-weight:800; color:var(--amber);">EQUIPPED</div>' : '<button class="nav-btn" style="width:auto; padding:0 12px; height:26px; font-size:11px; font-family:\'JetBrains Mono\';">EQUIP</button>'}
           `;
           if(!isEquipped) {
-            div.querySelector('button').onclick = () => { state.gacha.equippedId = item.id; save(); renderGame(); };
+            div.querySelector('button').onclick = () => { 
+                if(!state.gacha.equipped) state.gacha.equipped = { weapon:null, sub:null, armor:null, skill:null };
+                state.gacha.equipped[item.type] = item.id; 
+                save(); renderGame(); 
+            };
           }
           invContainer.appendChild(div);
         });
       }
     }
 
-    if(!state.dungeon) state.dungeon = { level: 1, hp: 200, maxHp: 200, bossImageUrl: '' };
+    if(!state.dungeon) state.dungeon = { level: 1, hp: 200, maxHp: 200, bossImageUrl: '', stunnedDate: '' };
     
     let displayLevel = Number(state.dungeon.level);
     const bossNameIndex = (displayLevel - 1) % BOSS_LIST.length;
@@ -1199,8 +1118,7 @@
       bossFullName = "THE FINAL BOSS - " + displayLevel;
     }
     
-    const emojiMatch = bossFullName.match(/[\uD800-\uDBFF][\uDC00-\uDFFF]|\p{Emoji_Presentation}/gu);
-    const bEmoji = emojiMatch ? emojiMatch[0] : (displayLevel >= 70 ? '👑' : '👺');
+    const bEmoji = displayLevel >= 70 ? 'CROWN' : 'TARGET';
 
     const bossE = document.getElementById('bossEmoji'); 
     const bossI = document.getElementById('bossImg');
@@ -1212,7 +1130,7 @@
       if(bossE) bossE.style.display = 'none';
       if(bossI) { bossI.style.display = 'block'; bossI.src = activeImgUrl; }
     } else {
-      if(bossE) { bossE.style.display = 'block'; bossE.textContent = bEmoji; }
+      if(bossE) { bossE.style.display = 'flex'; bossE.innerHTML = bEmoji; }
       if(bossI) bossI.style.display = 'none';
     }
 
@@ -1222,14 +1140,13 @@
       clearBtn.style.display = 'none';
     }
 
-    const bossR = document.getElementById('bossRank'); if(bossR) bossR.textContent = getBossRank(displayLevel);
+    const bossR = document.getElementById('bossRank'); if(bossR) bossR.textContent = `[ ${getBossRank(displayLevel)} ]`;
     const bossN = document.getElementById('bossName'); 
     if(bossN) {
-      bossN.textContent = `Lv.${displayLevel} ${bossFullName.replace(bEmoji, '').trim()}`;
-      if(displayLevel >= 70) bossN.style.color = '#ffd700'; else bossN.style.color = 'var(--burgundy)';
+      bossN.textContent = `LV.${displayLevel} ${bossFullName.trim()}`;
+      if(displayLevel >= 70) bossN.style.color = '#ffd700'; else bossN.style.color = 'var(--cream)';
     }
     
-    // 5대 스탯 렌더링
     const stats = getBossStats(displayLevel);
     const genStars = (n) => '★'.repeat(n) + '☆'.repeat(10-n);
     if(document.getElementById('bsVocal')) document.getElementById('bsVocal').textContent = genStars(stats.vocal);
@@ -1241,23 +1158,35 @@
     const hpPct = Math.max(0, Math.round((Number(state.dungeon.hp) / Number(state.dungeon.maxHp)) * 100));
     const hFill = document.getElementById('bossHpFill'); if(hFill) hFill.style.width = hpPct + '%';
     const hText = document.getElementById('bossHpText'); 
-    
     if(hText) hText.textContent = `${Number(state.dungeon.hp).toLocaleString()} / ${Number(state.dungeon.maxHp).toLocaleString()}`;
+
+    // ★ 기절 상태 확인 및 버튼 UI 반영
+    const isStunned = state.dungeon.stunnedDate === fmtKey(new Date());
+    const atkBtn = document.getElementById('atkBtn');
+    const healBtn = document.getElementById('healBtn');
+    
+    if(isStunned) {
+        if(atkBtn) { atkBtn.textContent = 'SYSTEM LOCKED'; atkBtn.classList.add('locked'); }
+        if(healBtn) { healBtn.textContent = 'UNAVAILABLE'; healBtn.classList.add('locked'); }
+    } else {
+        if(atkBtn) { atkBtn.textContent = 'ENGAGE / 10C'; atkBtn.classList.remove('locked'); }
+        if(healBtn) { healBtn.textContent = 'RECOVER / 10C'; healBtn.classList.remove('locked'); }
+    }
   }
 
   window.uploadBossImage = async function(input) {
-    if(!currentUser) { alert('로그인 후 이용 가능합니다.'); input.value=''; return; }
+    if(!currentUser) { alert('LOGIN REQUIRED.'); input.value=''; return; }
     if(!input.files[0]) return;
     const overlay = document.getElementById('loadOverlay');
     if(overlay) { overlay.style.display = 'flex'; overlay.style.opacity = '1'; }
     const statMsg = document.getElementById('loadStatus');
-    if(statMsg) statMsg.textContent = '보스 스킨 적용 중...';
+    if(statMsg) statMsg.textContent = 'OVERRIDING VISUAL...';
     try {
       const u = await uploadFileToGas(input.files[0]);
-      if(!state.dungeon) state.dungeon = { level: 1, hp: 200, maxHp: 200, bossImageUrl: '' };
+      if(!state.dungeon) state.dungeon = { level: 1, hp: 200, maxHp: 200, bossImageUrl: '', stunnedDate:'' };
       state.dungeon.bossImageUrl = u.url;
       await save(); renderGame();
-    } catch (err) { alert('업로드에 실패했습니다.'); }
+    } catch (err) { alert('FAILED TO UPLOAD.'); }
     finally { if(overlay) overlay.style.display = 'none'; input.value=''; }
   };
 
@@ -1272,19 +1201,45 @@
     if(Number(state.coins || 0) < 50) return;
     state.coins = Number(state.coins || 0) - 50;
     state.petExp = Number(state.petExp || 0) + 50;
+    let pStats = getPlayerStats();
+    state.playerHp = pStats.maxHp; 
     save(); renderHeader(); renderGame();
-    const emoji = document.getElementById('gamePetEmoji');
-    if(emoji) { emoji.style.transform = 'scale(1.4)'; setTimeout(() => emoji.style.transform = 'scale(1)', 200); }
+  }
+
+  // ★ 컷씬 호출기
+  function playGachaCutscene(item, callback) {
+      const cs = document.getElementById('gachaCutscene');
+      const flash = document.getElementById('csFlash');
+      const content = document.getElementById('csContent');
+      const rank = document.getElementById('csRank');
+      const name = document.getElementById('csItemName');
+
+      rank.textContent = `[ ${item.rank} ]`;
+      rank.style.color = item.color;
+      name.textContent = item.name;
+      name.style.color = item.color;
+
+      cs.style.display = 'flex';
+      
+      // Trigger reflow
+      void cs.offsetWidth;
+
+      flash.classList.add('run');
+      content.classList.add('run');
+
+      setTimeout(() => {
+          cs.style.display = 'none';
+          flash.classList.remove('run');
+          content.classList.remove('run');
+          callback();
+      }, 3500);
   }
 
   window.drawGacha = function(boxType) {
     if(!currentUser) return;
     const box = GACHA_BOXES[boxType];
     if(!box) return;
-    
-    if(Number(state.coins || 0) < box.cost) {
-      return alert(`${box.name}를 열려면 ${box.cost.toLocaleString()} 코인이 필요합니다!`);
-    }
+    if(Number(state.coins || 0) < box.cost) return alert(`REQUIRES ${box.cost.toLocaleString()} CRD.`);
     
     state.coins = Number(state.coins || 0) - box.cost;
 
@@ -1296,37 +1251,94 @@
         if (rand <= cumulative) { drawnRank = rate.rank; break; }
     }
     
-    const drawnItemTemplate = GACHA_ITEMS.find(i => i.rank === drawnRank);
+    const candidates = GACHA_ITEMS.filter(i => i.rank === drawnRank);
+    const drawnItemTemplate = candidates[Math.floor(Math.random() * candidates.length)];
 
-    const newItem = { id: Date.now() + Math.random().toString(36).slice(2,7), ...drawnItemTemplate };
-    if(!state.gacha) state.gacha = { inventory: [], equippedId: null };
-    if(!Array.isArray(state.gacha.inventory)) state.gacha.inventory = getSafeList(state.gacha.inventory);
-    
-    state.gacha.inventory.push(newItem);
-    if(!state.gacha.equippedId) state.gacha.equippedId = newItem.id;
+    const processResult = () => {
+        const newItem = { id: Date.now() + Math.random().toString(36).slice(2,7), ...drawnItemTemplate };
+        if(!state.gacha) state.gacha = { inventory: [], equipped: { weapon:null, sub:null, armor:null, skill:null } };
+        if(!Array.isArray(state.gacha.inventory)) state.gacha.inventory = getSafeList(state.gacha.inventory);
+        
+        state.gacha.inventory.push(newItem);
+        save(); renderHeader(); renderGame();
+        
+        const msgBox = document.getElementById('gachaResultMsg');
+        if(msgBox) {
+          msgBox.style.display = 'block';
+          msgBox.style.background = `linear-gradient(45deg, var(--bg-panel), ${drawnItemTemplate.color}33)`;
+          msgBox.style.border = `1px solid ${drawnItemTemplate.color}`;
+          msgBox.innerHTML = `<span style="color:var(--muted); font-size:11px;">[${drawnItemTemplate.rank}]</span><br><span style="color:${drawnItemTemplate.color}; font-size:16px;">${drawnItemTemplate.name} 획득!</span>`;
+          setTimeout(() => { msgBox.style.display = 'none'; }, 4000);
+        }
+    };
 
-    save(); renderHeader(); renderGame();
-    const msgBox = document.getElementById('gachaResultMsg');
-    if(msgBox) {
-      msgBox.style.display = 'block';
-      msgBox.style.background = `linear-gradient(45deg, var(--bg-panel), ${drawnItemTemplate.color}33)`;
-      msgBox.style.border = `1px solid ${drawnItemTemplate.color}`;
-      msgBox.innerHTML = `<span style="color:var(--muted); font-size:11px;">[${drawnItemTemplate.rank}]</span><br><span style="color:${drawnItemTemplate.color}; font-size:16px;">${drawnItemTemplate.name} 획득!</span>`;
-      setTimeout(() => { msgBox.style.display = 'none'; }, 4000);
+    // ★ 상위 10% 장비 컷씬 발동 조건
+    const isHighTier = ['에픽', '신화', '전설', '불가능', '윈터'].includes(drawnRank);
+    if(isHighTier) {
+        playGachaCutscene(drawnItemTemplate, processResult);
+    } else {
+        processResult();
     }
+  }
+
+  window.healPlayer = function() {
+      if(!currentUser) return;
+      const todayKey = fmtKey(new Date());
+      if(state.dungeon.stunnedDate === todayKey) return; // 기절시 동작불가
+
+      if(Number(state.coins || 0) < 10) return alert('REQUIRES 10 CRD.');
+      const pStats = getPlayerStats();
+      if(state.playerHp >= pStats.maxHp) return alert('HP ALREADY AT MAXIMUM.');
+      
+      state.coins = Number(state.coins || 0) - 10;
+      state.playerHp = pStats.maxHp;
+      logCombat("SYSTEM: HP RECOVERED 100%", "log-skill");
+      save(); renderHeader(); renderGame();
   }
 
   window.attackBoss = function() {
     if(!currentUser) return;
-    if(Number(state.coins || 0) < 10) return alert('공격하려면 10 코인이 필요합니다!');
+    
+    const todayKey = fmtKey(new Date());
+    if(state.dungeon.stunnedDate === todayKey) return alert('SYSTEM LOCKED. 명일 다시 접속하십시오.');
+
+    if(state.playerHp <= 0) return alert('HP IS ZERO. MUST RECOVER.');
+    if(Number(state.coins || 0) < 10) return alert('REQUIRES 10 CRD TO ENGAGE.');
+    
     state.coins = Number(state.coins || 0) - 10;
 
-    const pet = getPetCurrentStage();
-    const equipped = getEquippedItem();
-    const totalAtk = pet.baseAtk + (equipped ? equipped.atk : 0);
-    const dmg = Math.floor(totalAtk * (0.8 + Math.random() * 0.4));
+    const pStats = getPlayerStats();
+    let totalAtk = pStats.totalAtk;
+    let finalDmg = Math.floor(totalAtk * (0.8 + Math.random() * 0.4));
     
-    state.dungeon.hp = Number(state.dungeon.hp) - dmg;
+    // ★ 스킬 발동 로직
+    let skillText = '';
+    if(pStats.activeSkill && pStats.activeSkill.effect) {
+        const ef = pStats.activeSkill.effect;
+        if(ef.type === 'dmg') {
+            finalDmg = Math.floor(finalDmg * ef.val);
+            skillText = ` [PASSIVE: DMG x${ef.val}]`;
+        } else if(ef.type === 'heal') {
+            const healAmt = Math.floor(pStats.maxHp * (ef.val / 100));
+            state.playerHp = Math.min(pStats.maxHp, state.playerHp + healAmt);
+            skillText = ` [PASSIVE: HEAL +${healAmt}]`;
+        } else if(ef.type === 'vamp') {
+            const vampAmt = Math.floor(finalDmg * (ef.val / 100));
+            state.playerHp = Math.min(pStats.maxHp, state.playerHp + vampAmt);
+            skillText = ` [PASSIVE: VAMP +${vampAmt}]`;
+        } else if(ef.type === 'god') {
+            finalDmg = finalDmg * 5;
+            state.playerHp = pStats.maxHp;
+            skillText = ` [PASSIVE: GOD MODE (DMG x5, FULL HP)]`;
+        } else if(ef.type === 'winter') {
+            finalDmg = finalDmg * 10;
+            state.playerHp = pStats.maxHp;
+            skillText = ` [PASSIVE: WINTER (DMG x10, FULL HP)]`;
+        }
+    }
+    
+    state.dungeon.hp = Number(state.dungeon.hp) - finalDmg;
+    logCombat(`> ATK: ${finalDmg.toLocaleString()} DMG!${skillText}`, "log-p-dmg");
     
     const bossLevel = Number(state.dungeon.level);
     const bossNameIndex = (bossLevel - 1) % BOSS_LIST.length;
@@ -1335,24 +1347,41 @@
     const targetEl = (state.dungeon.bossImageUrl || preMappedImg) ? document.getElementById('bossImg') : document.getElementById('bossEmoji');
     if(targetEl) {
       targetEl.style.transform = 'scale(0.8) rotate(-15deg)';
-      targetEl.style.filter = 'drop-shadow(0 0 10px red)';
+      targetEl.style.filter = 'drop-shadow(0 0 15px rgba(255,0,0,0.8))';
       setTimeout(() => { targetEl.style.transform = 'none'; targetEl.style.filter = 'none'; }, 150);
     }
 
     if(state.dungeon.hp <= 0) {
       if(state.dungeon.level >= 70) {
-        alert(`👑 마침내 과거의 자신을 뛰어넘어 궁극의 SINGER 가 되었습니다.\n\n"노래는 끝이 없지만, 당신의 성장은 전설로 남을 것입니다."\n\n(엔딩 보상: 50,000 EXP & COIN)`);
+        alert(`[ MISSION ACCOMPLISHED ]\n\n과거의 자신을 뛰어넘어 궁극의 영역에 도달했습니다.\n(엔딩 보상: 50,000 EXP / CRD)`);
         handleExpAndCoin(50000);
       } else {
         const reward = Number(state.dungeon.level) * 150;
-        alert(`🎉 보스 처치 성공!\n보상으로 ${reward.toLocaleString()} EXP 와 코인을 획득했습니다!`);
+        alert(`[ TARGET DESTROYED ]\nREWARD: ${reward.toLocaleString()} EXP / CRD`);
         handleExpAndCoin(reward);
       }
       
+      state.playerHp = pStats.maxHp; 
       state.dungeon.level = Number(state.dungeon.level) + 1;
       state.dungeon.maxHp = calcMaxHp(state.dungeon.level);
       state.dungeon.hp = state.dungeon.maxHp;
+      document.getElementById('combatLog').innerHTML = 'AWAITING ENGAGEMENT...'; 
+    } else {
+      // ★ 보스 반격 & 기절 로직
+      const bossAtk = calcBossAtk(bossLevel);
+      const bossDmg = Math.floor(bossAtk * (0.8 + Math.random() * 0.4));
+      const dmgToPlayer = Math.max(1, bossDmg - pStats.totalDef);
+      
+      state.playerHp -= dmgToPlayer;
+      logCombat(`< ENEMY: ${dmgToPlayer.toLocaleString()} DMG TAKEN!`, "log-b-dmg");
+      
+      if(state.playerHp <= 0) {
+          state.playerHp = 0;
+          state.dungeon.stunnedDate = todayKey; // 기절 낙인!
+          logCombat(`[ CRITICAL ERROR: HP 0. SYSTEM LOCKED UNTIL TOMORROW. ]`, "log-sys");
+      }
     }
+
     save(); renderHeader(); renderGame();
   }
 
@@ -1371,8 +1400,8 @@
     if(list.length === 0) { container.style.display = 'none'; emptyNote.style.display = 'block'; return; }
     container.style.display = 'block'; emptyNote.style.display = 'none';
     
-    const STAGE_EMOJIS = ['🎧', '🎸', '🎪', '🏟️', '👑'];
-    const STAGE_NAMES = ['방구석 연습', '소규모 공연', '대형 콘서트홀', '스타디움 투어', '전설의 무대'];
+    const STAGE_EMOJIS = ['Ⅰ', 'Ⅱ', 'Ⅲ', 'Ⅳ', 'Ⅴ'];
+    const STAGE_NAMES = ['STAGE 1', 'STAGE 2', 'STAGE 3', 'STAGE 4', 'STAGE 5'];
     
     let activeIdx = 0;
     for(let i=0; i<list.length; i++) { if(list[i] && list[i].done) activeIdx = i + 1; else break; }
@@ -1387,7 +1416,7 @@
       html += `
         <div class="map-node-wrapper">
           <div class="map-node ${isDone ? 'done' : ''} ${isActive ? 'active' : ''}">
-            <div class="stage-icon">${isActive ? '<div class="avatar">🧑‍🎤</div>' : ''}${STAGE_EMOJIS[tier]}</div>
+            <div class="stage-icon">${isActive ? '<div class="avatar" style="font-size:16px;">[ V ]</div>' : STAGE_EMOJIS[tier]}</div>
             <div class="node-card">
               <div style="flex:1;">
                 <div class="stage-name">${STAGE_NAMES[tier]}</div>
@@ -1442,9 +1471,9 @@
   function renderDaily(){
     const key = fmtKey(currentDailyDate);
     const dm = document.getElementById('dailyMain');
-    if(dm) dm.textContent = `${currentDailyDate.getFullYear()}년 ${currentDailyDate.getMonth()+1}월 ${currentDailyDate.getDate()}일`;
+    if(dm) dm.textContent = `${currentDailyDate.getFullYear()}.${String(currentDailyDate.getMonth()+1).padStart(2,'0')}.${String(currentDailyDate.getDate()).padStart(2,'0')}`;
     const ds = document.getElementById('dailySub');
-    if(ds) ds.textContent = ['일','월','화','수','목','금','토'][currentDailyDate.getDay()] + '요일';
+    if(ds) ds.textContent = ['SUN','MON','TUE','WED','THU','FRI','SAT'][currentDailyDate.getDay()];
     
     const gotoToday = document.getElementById('gotoTodayDaily');
     if(gotoToday) gotoToday.style.display = sameDay(currentDailyDate, today) ? 'none' : 'inline-block';
@@ -1544,7 +1573,7 @@
       list.forEach((g, idx) => {
         if(!g) return;
         const li = document.createElement('li'); li.className = 'goal-row' + (g.done ? ' done' : '');
-        li.innerHTML = `<button class="check ${g.done?'checked':''}"></button><span class="goal-text">${g.text}</span><span class="tier-badge" style="color:var(--amber); border-color:var(--amber);">주간 보상 · ${WEEKLY_REWARD} EXP</span><button class="del-btn">×</button>`;
+        li.innerHTML = `<button class="check ${g.done?'checked':''}"></button><span class="goal-text">${g.text}</span><span class="tier-badge" style="color:var(--amber); border-color:var(--amber);">WK REWARD · ${WEEKLY_REWARD} EXP</span><button class="del-btn">×</button>`;
         li.querySelector('.check').onclick = () => {
           if(!currentUser) return; g.done = !g.done;
           handleExpAndCoin(g.done ? WEEKLY_REWARD : -WEEKLY_REWARD);
@@ -1553,7 +1582,7 @@
         li.querySelector('.del-btn').onclick = () => {
           if(!currentUser) return; if(g.done) handleExpAndCoin(-WEEKLY_REWARD);
           list.splice(idx, 1); 
-          state.goals[key] = list; 
+          state.goals[key] = list; // 업데이트
           if(state.goals[key].length === 0) delete state.goals[key];
           save(); renderHeader(); renderGoals(); 
         };
@@ -1584,7 +1613,7 @@
   window.showRepoFile = function() {
     const file = document.getElementById('repoFile').files[0];
     const n = document.getElementById('repoFileName');
-    if(n) n.textContent = file ? `${file.name} · ${(file.size / 1024 / 1024).toFixed(2)}MB` : '4MB 이하의 악보나 MR 파일';
+    if(n) n.textContent = file ? `${file.name} · ${(file.size / 1024 / 1024).toFixed(2)}MB` : 'ATTACH FILE (MAX 4MB)';
   }
   function renderRepo(){
     const ul = document.getElementById('repoList'); const empty = document.getElementById('repoEmpty'); 
@@ -1601,7 +1630,7 @@
         `<div style="flex:1; line-height:1.4; min-width:0;">` +
           `<div style="font-size:14.5px; font-weight:600; color:var(--cream);">${r.song} <span style="font-size:12.5px; font-weight:400; color:var(--muted);"> - ${r.artist}</span></div>` +
           (r.keyMemo ? `<div style="font-size:12px; color:var(--amber); margin-top:3px; font-family:var(--font-sans);">Key: ${r.keyMemo}</div>` : '') +
-          (r.fileUrl ? `<a class="file-chip" href="${r.fileUrl}" target="_blank" rel="noopener">📎 ${r.fileName}</a>` : '') +
+          (r.fileUrl ? `<a class="file-chip" href="${r.fileUrl}" target="_blank" rel="noopener">VIEW ATTACHMENT</a>` : '') +
         `</div><button class="del-btn">×</button>`;
       li.querySelector('.del-btn').onclick = () => { 
         if(!currentUser) return; 
@@ -1622,7 +1651,7 @@
       const overlay = document.getElementById('loadOverlay');
       if(overlay) { overlay.style.display = 'flex'; overlay.style.opacity = '1'; }
       const statMsg = document.getElementById('loadStatus');
-      if(statMsg) statMsg.textContent = fileInput.files[0] ? '파일 업로드 및 저장 중...' : '저장 중...';
+      if(statMsg) statMsg.textContent = fileInput.files[0] ? 'UPLOADING...' : 'SAVING...';
       try {
         let fileUrl = '', fileName = '';
         if (fileInput.files[0]) { const u = await uploadFileToGas(fileInput.files[0]); fileUrl=u.url; fileName=u.name; }
@@ -1642,14 +1671,14 @@
   const yearSelect = document.getElementById('yearSelect'); const monthSelect = document.getElementById('monthSelect');
   function populateYearSelect(){
     if(!yearSelect || !monthSelect) return;
-    yearSelect.innerHTML=''; for(let y=2024; y<=MAX_YEAR; y++) yearSelect.innerHTML+=`<option value="${y}">${y}년</option>`; yearSelect.value = calYear;
-    monthSelect.innerHTML=''; for(let m=0; m<=11; m++) monthSelect.innerHTML+=`<option value="${m}">${m+1}월</option>`; monthSelect.value = calMonth;
+    yearSelect.innerHTML=''; for(let y=2024; y<=MAX_YEAR; y++) yearSelect.innerHTML+=`<option value="${y}">${y}</option>`; yearSelect.value = calYear;
+    monthSelect.innerHTML=''; for(let m=0; m<=11; m++) monthSelect.innerHTML+=`<option value="${m}">${String(m+1).padStart(2,'0')}</option>`; monthSelect.value = calMonth;
   }
   
   function renderCalendar(){
     if(!yearSelect || !monthSelect) return;
     yearSelect.value = calYear; monthSelect.value = calMonth;
-    const cTitle = document.getElementById('calTitle'); if(cTitle) cTitle.textContent = `${calYear}년 ${calMonth+1}월`;
+    const cTitle = document.getElementById('calTitle'); if(cTitle) cTitle.textContent = `${calYear}.${String(calMonth+1).padStart(2,'0')}`;
     const grid = document.getElementById('calGrid'); if(!grid) return;
     grid.innerHTML = '';
     
@@ -1680,12 +1709,13 @@
   function openDayModal(d){
     modalDate = new Date(d); const k = fmtKey(modalDate);
     const mTitle = document.getElementById('dayModalTitle'); if(mTitle) mTitle.textContent = `${modalDate.getFullYear()}.${String(modalDate.getMonth()+1).padStart(2,'0')}.${String(modalDate.getDate()).padStart(2,'0')}`;
-    const mSub = document.getElementById('dayModalSub'); if(mSub) mSub.textContent = ['일','월','화','수','목','금','토'][modalDate.getDay()] + '요일 · 연습 기록';
+    const mSub = document.getElementById('dayModalSub'); if(mSub) mSub.textContent = ['SUN','MON','TUE','WED','THU','FRI','SAT'][modalDate.getDay()];
     
     if(!state.notes) state.notes = {};
     const note = state.notes[k] || {};
     const dNote = document.getElementById('dayModalNote'); if(dNote) dNote.value = note.text || (typeof note === 'string' ? note : '');
     
+    // 00:00 -> 24:00 User Correction preserved logically
     const ts = document.getElementById('dayTimeStart'); if(ts) ts.value = note.timeStart || '';
     let tEnd = note.timeEnd || ''; if(tEnd === '24:00') tEnd = '00:00'; 
     const te = document.getElementById('dayTimeEnd'); if(te) te.value = tEnd;
@@ -1695,8 +1725,8 @@
 
     const df = document.getElementById('dayFile'); if(df) df.value = ''; 
     const linkDiv = document.getElementById('dayFileLink');
-    if (note.fileUrl && linkDiv) { linkDiv.style.display = 'block'; linkDiv.innerHTML = `<a class="file-chip" href="${note.fileUrl}" target="_blank">기존 녹음: ${note.fileName}</a>`; document.getElementById('dayFileTitle').textContent = '새로운 녹음으로 덮어쓰기';
-    } else if(linkDiv) { linkDiv.style.display = 'none'; linkDiv.innerHTML = ''; document.getElementById('dayFileTitle').textContent = '연습 녹음 첨부 (선택)'; }
+    if (note.fileUrl && linkDiv) { linkDiv.style.display = 'block'; linkDiv.innerHTML = `<a class="file-chip" href="${note.fileUrl}" target="_blank">AUDIO STORED</a>`; document.getElementById('dayFileTitle').textContent = 'OVERRIDE RECORDING';
+    } else if(linkDiv) { linkDiv.style.display = 'none'; linkDiv.innerHTML = ''; document.getElementById('dayFileTitle').textContent = 'ATTACH RECORDING'; }
     if(dayModal) dayModal.classList.add('show');
   }
   window.closeDayModal = function(){ if(dayModal) dayModal.classList.remove('show'); modalDate = null; }
@@ -1706,6 +1736,7 @@
     if(!currentUser) return openAuthModal('loginModal');
     const k = fmtKey(modalDate); const text = document.getElementById('dayModalNote').value.trim();
     const tStart = document.getElementById('dayTimeStart').value; let tEnd = document.getElementById('dayTimeEnd').value;
+    // 00:00 -> 24:00 User Correction Logic
     if(tEnd === '00:00') tEnd = '24:00'; 
     const stats = ['pitch','rhythm','breath','vocal','high','emotion'].map(id => Number(document.getElementById('stat-'+id).value));
     const fileInput = document.getElementById('dayFile');
@@ -1734,7 +1765,7 @@
       Object.keys(state.notes).sort().reverse().forEach(key => {
         const n = state.notes[key];
         if(n.stats && Array.isArray(n.stats)) { for(let i=0; i<6; i++) totalStats[i] += (n.stats[i] || 3); count++; }
-        if(n.timeStart || n.timeEnd) { timeLogs.push({ date: key, start: n.timeStart||'미입력', end: n.timeEnd||'미입력' }); }
+        if(n.timeStart || n.timeEnd) { timeLogs.push({ date: key, start: n.timeStart||'--:--', end: n.timeEnd||'--:--' }); }
       });
     }
 
@@ -1744,7 +1775,7 @@
       if(sEmpty) sEmpty.style.display = 'none'; const avgs = totalStats.map(s => s/count);
       ctx.clearRect(0,0,w,h); ctx.strokeStyle = '#3a2f26'; ctx.lineWidth = 1;
       for(let level=1; level<=5; level++) { ctx.beginPath(); for(let i=0; i<6; i++) { const r = radius * (level/5); const angle = -Math.PI/2 + (Math.PI/3)*i; const x = cx + r * Math.cos(angle); const y = cy + r * Math.sin(angle); if(i===0) ctx.moveTo(x,y); else ctx.lineTo(x,y); } ctx.closePath(); ctx.stroke(); }
-      const labels = ['음정', '고음', '감정', '발성', '호흡', '박자']; ctx.fillStyle = '#a4917d'; ctx.font = '600 12px "Work Sans"'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+      const labels = ['PITCH', 'HIGH', 'EMOTION', 'VOCAL', 'BREATH', 'RHYTHM']; ctx.fillStyle = '#a4917d'; ctx.font = '600 10px "JetBrains Mono"'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
       for(let i=0; i<6; i++) { const angle = -Math.PI/2 + (Math.PI/3)*i; ctx.beginPath(); ctx.moveTo(cx, cy); ctx.lineTo(cx + radius*Math.cos(angle), cy + radius*Math.sin(angle)); ctx.stroke(); const tx = cx + (radius+20) * Math.cos(angle); const ty = cy + (radius+15) * Math.sin(angle); ctx.fillText(labels[i], tx, ty); }
       ctx.beginPath(); for(let i=0; i<6; i++) { const r = radius * (avgs[i]/5); const angle = -Math.PI/2 + (Math.PI/3)*i; const x = cx + r * Math.cos(angle); const y = cy + r * Math.sin(angle); if(i===0) ctx.moveTo(x,y); else ctx.lineTo(x,y); } ctx.closePath(); ctx.fillStyle = 'rgba(232,163,61,0.45)'; ctx.fill(); ctx.strokeStyle = '#e8a33d'; ctx.lineWidth = 2; ctx.stroke();
       ctx.fillStyle = '#f3ead9'; for(let i=0; i<6; i++) { const r = radius * (avgs[i]/5); const angle = -Math.PI/2 + (Math.PI/3)*i; const x = cx + r * Math.cos(angle); const y = cy + r * Math.sin(angle); ctx.beginPath(); ctx.arc(x,y,4,0,Math.PI*2); ctx.fill(); }
@@ -1752,31 +1783,46 @@
     const logContainer = document.getElementById('timeLogContainer'); const timeEmpty = document.getElementById('timeEmpty'); 
     if(!logContainer) return; logContainer.innerHTML = '';
     if(timeLogs.length === 0) { if(timeEmpty) timeEmpty.style.display = 'block'; } 
-    else { if(timeEmpty) timeEmpty.style.display = 'none'; timeLogs.slice(0, 10).forEach(log => { const div = document.createElement('div'); div.className = 'time-log-row'; div.innerHTML = `<div class="time-log-date">${log.date} 연습</div><div class="time-log-time">${log.start} ~ ${log.end}</div>`; logContainer.appendChild(div); }); }
+    else { if(timeEmpty) timeEmpty.style.display = 'none'; timeLogs.slice(0, 10).forEach(log => { const div = document.createElement('div'); div.className = 'goal-row'; div.innerHTML = `<div style="flex:1; font-size:12px; font-family:'JetBrains Mono';">${log.date}</div><div style="font-family:'JetBrains Mono'; font-size:11px; color:var(--amber);">${log.start} ~ ${log.end}</div>`; logContainer.appendChild(div); }); }
   }
 
-  // ---------- Backup ----------
+  // ---------- Backup & Reset ----------
   const expBtn = document.getElementById('exportBtn');
   if(expBtn) expBtn.onclick = () => {
-    if(!currentUser) return alert('데이터를 백업하려면 먼저 로그인해주세요.');
+    if(!currentUser) return alert('LOGIN REQUIRED.');
     const blob = new Blob([JSON.stringify(state, null, 2)], { type: 'application/json' }); const url = URL.createObjectURL(blob);
     const a = document.createElement('a'); a.href = url; a.download = `vocal-log-${currentUser.userId}-${fmtKey(today)}.json`; document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url);
   };
-  const impBtn = document.getElementById('importBtn'); if(impBtn) impBtn.onclick = () => { if(!currentUser) return alert('데이터를 복구하려면 먼저 로그인해주세요.'); document.getElementById('importFile').click(); };
+  const impBtn = document.getElementById('importBtn'); if(impBtn) impBtn.onclick = () => { if(!currentUser) return alert('LOGIN REQUIRED.'); document.getElementById('importFile').click(); };
   const impFile = document.getElementById('importFile');
   if(impFile) impFile.onchange = (e) => {
     const file = e.target.files[0]; if(!file) return; const reader = new FileReader();
     reader.onload = () => {
       try{
-        const parsed = JSON.parse(reader.result); if(!confirm('선택한 파일의 내용으로 현재 데이터를 완전히 덮어쓸까요?')) return;
+        const parsed = JSON.parse(reader.result); if(!confirm('OVERWRITE ALL DATA WITH BACKUP FILE?')) return;
         state.totalExp = Number(parsed.totalExp || 0); state.coins = Number(parsed.coins || 0); state.petExp = Number(parsed.petExp || 0);
+        state.playerHp = Number(parsed.playerHp || 500);
         state.goals = parsed.goals || {}; state.dailyGoals = parsed.dailyGoals || {}; state.notes = parsed.notes || {}; 
         state.repo = Array.isArray(parsed.repo) ? parsed.repo : []; state.roadmap = parsed.roadmap || { ultimate:'', milestones:[] };
-        state.gacha = parsed.gacha || {inventory:[], equippedId:null}; state.dungeon = parsed.dungeon || {level:1, hp:200, maxHp:200, bossImageUrl:''};
+        state.gacha = parsed.gacha || {inventory:[], equipped:{weapon:null, sub:null, armor:null, skill:null}}; 
+        state.dungeon = parsed.dungeon || {level:1, hp:200, maxHp:200, bossImageUrl:'', stunnedDate:''};
         save(); renderAll();
-      }catch(err){ alert('파일을 읽을 수 없어요.'); }
+      }catch(err){ alert('FILE ERROR.'); }
     }; reader.readAsText(file); e.target.value = '';
   };
+  
+  const rstBtn = document.getElementById('resetBtn');
+  if(rstBtn) rstBtn.onclick = () => {
+      if(!currentUser) return alert('LOGIN REQUIRED.');
+      if(!confirm("⚠️ WARNING 🚨\nALL PROGRESS WILL BE WIPED.\nPROCEED?")) return;
+      if(!confirm("THIS ACTION IS IRREVERSIBLE.")) return;
+      
+      state.totalExp = 0; state.coins = 0; state.petExp = 0; state.playerHp = 500;
+      state.gacha = {inventory:[], equipped:{weapon:null, sub:null, armor:null, skill:null}};
+      state.dungeon = {level:1, hp:200, maxHp:200, bossImageUrl:'', stunnedDate:''};
+      
+      save(); renderAll(); alert("SYSTEM RESET COMPLETED.");
+  }
 
   // ---------- Tabs & Render All ----------
   function switchTab(tab){
@@ -1789,15 +1835,15 @@
   document.querySelectorAll('.tab-btn').forEach(b => b.addEventListener('click', () => switchTab(b.dataset.tab)));
 
   function renderAll(){
-    try { renderHeader(); } catch(e) { console.error('Header 에러:', e); }
-    try { populateYearSelect(); } catch(e) { console.error('Calendar 옵션 에러:', e); }
-    try { renderDaily(); } catch(e) { console.error('Daily 에러:', e); }
-    try { renderGoals(); } catch(e) { console.error('Goals 에러:', e); }
-    try { renderGame(); } catch(e) { console.error('Game 에러:', e); }
-    try { renderRepo(); } catch(e) { console.error('Repo 에러:', e); }
-    try { renderRoadmap(); } catch(e) { console.error('Roadmap 에러:', e); }
-    try { renderStats(); } catch(e) { console.error('Stats 에러:', e); }
-    try { renderCalendar(); } catch(e) { console.error('Calendar 에러:', e); }
+    try { renderHeader(); } catch(e) { console.error('Header Error:', e); }
+    try { populateYearSelect(); } catch(e) { console.error('Cal Select Error:', e); }
+    try { renderDaily(); } catch(e) { console.error('Daily Error:', e); }
+    try { renderGoals(); } catch(e) { console.error('Goals Error:', e); }
+    try { renderGame(); } catch(e) { console.error('Game Error:', e); }
+    try { renderRepo(); } catch(e) { console.error('Repo Error:', e); }
+    try { renderRoadmap(); } catch(e) { console.error('Roadmap Error:', e); }
+    try { renderStats(); } catch(e) { console.error('Stats Error:', e); }
+    try { renderCalendar(); } catch(e) { console.error('Calendar Error:', e); }
   }
 
   checkLoginStatus(); loadData();
