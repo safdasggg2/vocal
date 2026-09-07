@@ -179,7 +179,8 @@
   /* Boss & Visuals */
   .boss-card { background:var(--bg-stage); border:1px solid var(--line); padding:20px; text-align:center; position:relative; overflow:hidden; }
   .boss-visual { margin-bottom:16px; position:relative; display:inline-flex; align-items:center; justify-content:center; width:100px; height:100px; }
-  .boss-radar { width:100px; height:100px; border-radius:50%; border:1px dashed var(--burgundy); display:flex; flex-direction:column; align-items:center; justify-content:center; font-family:'JetBrains Mono', monospace; font-size:30px; color:var(--burgundy); letter-spacing:2px; position:absolute; inset:0; margin:auto; z-index:1; }
+  .boss-radar { width:100px; height:100px; border-radius:50%; border:1px dashed var(--burgundy); display:flex; flex-direction:column; align-items:center; justify-content:center; font-family:'JetBrains Mono', monospace; font-size:30px; color:var(--burgundy); letter-spacing:2px; animation:spin 10s linear infinite; position:absolute; inset:0; margin:auto; z-index:1; }
+  @keyframes spin { 100% { transform:rotate(360deg); } }
   
   /* ★ 엑스박스를 완전히 방지하는 CSS 배경 이미지 시스템 */
   .boss-img { 
@@ -358,7 +359,7 @@
           <div class="stat-line"><span>DEF (TOTAL)</span> <span class="val"><span class="hl" id="gameTotalDef" style="color:var(--neon-blue);">5</span></span></div>
           <div class="hp-bar-container">
             <div class="hp-bar-fill" id="playerHpFill" style="width:100%;"></div>
-            <div class="hp-bar-text" id="playerHpText">500 / 500</div>
+            <div class="hp-bar-text" id="playerHpText">50 / 50</div>
           </div>
         </div>
       </div>
@@ -425,6 +426,7 @@
         
         <div class="boss-visual">
           <div class="boss-radar" id="bossEmoji">🎯</div>
+          <!-- ★ 이미지 태그를 div background 기법으로 원천 복구! (엑스박스 절대 방지) -->
           <div id="bossImg" class="boss-img"></div>
         </div>
         
@@ -443,7 +445,7 @@
 
         <div class="boss-hp-bar">
           <div class="boss-hp-fill" id="bossHpFill" style="width:100%;"></div>
-          <div class="boss-hp-text" id="bossHpText">100 / 100</div>
+          <div class="boss-hp-text" id="bossHpText">50 / 50</div>
         </div>
         
         <div class="skill-tray" id="activeSkillTray"></div>
@@ -694,16 +696,23 @@
     { type: 'skill', rank: '윈터', effect:{type:'winter', val:0}, name: '[SKL] 윈터의 윙크 (15배딜+풀피)', color: '#00ffff' }
   ];
 
-  // ★ 구글 서버 우회 3단 콤보 생성기 (엑스박스 절대 방어)
+  const GACHA_BOXES = {
+    normal: { rates: [ { rank: '일반', prob: 60.0 }, { rank: '희귀', prob: 30.0 }, { rank: '초희귀', prob: 8.0 }, { rank: '에픽', prob: 1.9 }, { rank: '신화', prob: 0.1 } ] },
+    rare: { rates: [ { rank: '희귀', prob: 50.0 }, { rank: '초희귀', prob: 35.0 }, { rank: '에픽', prob: 12.0 }, { rank: '신화', prob: 2.5 }, { rank: '전설', prob: 0.4 }, { rank: '불가능', prob: 0.09 }, { rank: '윈터', prob: 0.01 } ] },
+    epic: { rates: [ { rank: '초희귀', prob: 40.0 }, { rank: '에픽', prob: 40.0 }, { rank: '신화', prob: 15.0 }, { rank: '전설', prob: 4.0 }, { rank: '불가능', prob: 0.8 }, { rank: '윈터', prob: 0.2 } ] },
+    legend: { rates: [ { rank: '에픽', prob: 30.0 }, { rank: '신화', prob: 40.0 }, { rank: '전설', prob: 20.0 }, { rank: '불가능', prob: 8.0 }, { rank: '윈터', prob: 2.0 } ] }
+  };
+
+  // ★ 엑스박스 완벽 차단을 위한 3단 우회 주소 생성기
   function getDisplayUrls(url) {
       if(!url) return [];
       const match = url.match(/\/d\/([a-zA-Z0-9_-]+)/);
       if(match && match[1]) {
           const id = match[1];
           return [
-              `https://drive.google.com/thumbnail?id=${id}&sz=w500`, // 1순위: 썸네일 전용 API
-              `https://lh3.googleusercontent.com/d/${id}`,           // 2순위: 다이렉트 호스팅
-              `https://wsrv.nl/?url=https://drive.google.com/uc?id=${id}&w=300` // 3순위: 외부 프록시 우회
+              `https://lh3.googleusercontent.com/d/${id}`,           // 1순위: 다이렉트 호스팅 (가장 빠름)
+              `https://drive.google.com/thumbnail?id=${id}&sz=w500`, // 2순위: 썸네일 전용 API
+              `https://wsrv.nl/?url=https://drive.google.com/uc?id=${id}&w=300` // 3순위: 프록시 우회
           ];
       }
       return [url];
@@ -787,9 +796,10 @@
     return "GOD TIER";
   }
 
+  // ★ 1레벨 보스 체력을 50으로 대폭 하향! (초반 진행 가능하게 변경)
   function calcMaxHp(level) {
     if (level >= 70) return 999999999;
-    return Math.floor(200 * Math.pow(level, 2.6));
+    return Math.floor(50 * Math.pow(level, 2.2));
   }
   
   function calcBossAtk(level) {
@@ -812,12 +822,7 @@
   const todayMonday = getMonday(today);
 
   let currentUser = null;
-  let state = { 
-    totalExp:0, coins:0, petExp:0, playerHp: 500,
-    goals:{}, dailyGoals:{}, notes:{}, repo:[], roadmap:{ ultimate:'', milestones:[] },
-    gacha: { inventory: [], equipped: { weapon:null, sub:null, armor:null, skills:[] } },
-    dungeon: { level: 1, hp: 200, maxHp: 200, bossImageUrl: '', stunnedDate: '' }
-  };
+  let state = {};
   
   let currentDailyDate = new Date(today);
   let currentWeekMonday = new Date(todayMonday);
@@ -826,13 +831,19 @@
   let activeTab = 'daily';
   let modalDate = null;
 
-  // ★ 완전 방어형 데이터 정리기 (절대 뻗지 않음)
+  // ★ 완벽 무결점 데이터 복구 및 방어 엔진
   function normalizeState() {
       if(!state || typeof state !== 'object') state = {};
       state.totalExp = Number(state.totalExp) || 0;
       state.coins = Number(state.coins) || 0;
       state.petExp = Number(state.petExp) || 0;
       state.playerHp = Number(state.playerHp) || 500;
+      
+      // ★ 첫 시작 유저를 위한 테스트 자금 2,000 CRD 쾌척! (이거 없으면 1레벨 못깸!)
+      if(state.totalExp === 0 && state.coins === 0 && state.petExp === 0) {
+          state.coins = 2000; 
+      }
+
       if(!state.goals) state.goals = {};
       if(!state.dailyGoals) state.dailyGoals = {};
       if(!state.notes) state.notes = {};
@@ -844,12 +855,12 @@
       if(!Array.isArray(state.gacha.equipped.skills)) state.gacha.equipped.skills = [];
       if(!Array.isArray(state.gacha.inventory)) state.gacha.inventory = [];
       
-      if(!state.dungeon || typeof state.dungeon !== 'object') state.dungeon = { level: 1, hp: 200, maxHp: 200, bossImageUrl: '', stunnedDate: '' };
+      if(!state.dungeon || typeof state.dungeon !== 'object') state.dungeon = { level: 1, hp: 50, maxHp: 50, bossImageUrl: '', stunnedDate: '' };
       state.dungeon.level = Number(state.dungeon.level) || 1;
       
       if(state.gacha.equippedId && !state.gacha.equipped.weapon) state.gacha.equipped.weapon = state.gacha.equippedId;
       
-      if(state.dungeon.maxHp < 500 && state.dungeon.level > 1) {
+      if(state.dungeon.maxHp < 50 || isNaN(state.dungeon.maxHp)) {
           state.dungeon.maxHp = calcMaxHp(state.dungeon.level);
           state.dungeon.hp = state.dungeon.maxHp;
       }
@@ -927,7 +938,6 @@
     checkLoginStatus(); renderAll();
   }
 
-  // ★ GUEST도 완벽하게 데이터 불러옴
   async function loadData(){
     const overlay = document.getElementById('loadOverlay');
     if(overlay) { overlay.style.display = 'flex'; overlay.style.opacity = '1'; }
@@ -950,7 +960,6 @@
     clearTimeout(failsafe); if (overlay) overlay.style.display = 'none';
   }
   
-  // ★ GUEST도 무조건 로컬에 저장
   async function save(){
     if(!currentUser) {
         localStorage.setItem('vocal-log-local-state', JSON.stringify(state));
@@ -1062,6 +1071,7 @@
     return { pet, totalAtk, totalDef, maxHp, eqAtk, eqDef, eqHp };
   }
 
+  // ★ GUEST 막힘 완전 해제! 
   window.equipItem = function(itemType, itemId) {
       if(itemType === 'skill') {
           if(state.gacha.equipped.skills.includes(itemId)) {
@@ -1189,46 +1199,46 @@
     const bossE = document.getElementById('bossEmoji'); 
     const bossI = document.getElementById('bossImg');
     
-    // ★ 3단 우회기 + 엑스박스 완벽 차단!
-    const activeImgUrl = state.dungeon.bossImageUrl || currentBossData.img;
+    // ★ 엑스박스 완벽 차단! 이미지 로딩 실패 시 레이더 화면 유지
+    const activeImgUrl = getDisplayUrls(state.dungeon.bossImageUrl || currentBossData.img)[0];
     
+    if(bossE) {
+        bossE.style.display = 'flex';
+        bossE.innerHTML = displayLevel >= 70 ? '👑' : '🎯';
+        bossE.style.color = 'var(--burgundy)';
+        bossE.style.animation = 'spin 10s linear infinite';
+    }
+    if(bossI) { bossI.style.display = 'none'; bossI.style.backgroundImage = 'none'; }
+
     if (activeImgUrl) {
-      const urls = getDisplayUrls(activeImgUrl);
-      let tryIndex = 0;
-      
-      function tryLoad() {
-          if(tryIndex >= urls.length) {
-              if(bossE) { 
-                  bossE.style.display = 'flex'; 
-                  bossE.innerHTML = '<div style="line-height:1.2; font-size:12px;">🔒<br>DRIVE<br>LOCKED</div>'; 
-                  bossE.style.color = 'var(--burgundy)';
-                  bossE.style.animation = 'none'; 
-              }
-              if(bossI) bossI.style.display = 'none';
-              return;
-          }
+      // 이미지 충돌 로딩 방지
+      if (bossI.dataset.source !== activeImgUrl) {
+          bossI.dataset.source = activeImgUrl;
+          
           const img = new Image();
           img.onload = () => {
-              if(img.width <= 20) { tryIndex++; tryLoad(); return; } // 가짜 성공 1x1 픽셀 차단
-              if(bossE) bossE.style.display = 'none';
-              if(bossI) { 
-                  bossI.style.display = 'block'; 
-                  bossI.style.backgroundImage = `url('${urls[tryIndex]}')`; 
+              if(img.width <= 20) { // 구글 가짜 성공 1x1 픽셀 차단
+                  if(bossE) { bossE.innerHTML = '<div style="line-height:1.2; font-size:12px;">🔒<br>DRIVE<br>LOCKED</div>'; bossE.style.animation = 'none'; }
+                  return; 
               }
+              if(bossI.dataset.source !== activeImgUrl) return; 
+              if(bossE) bossE.style.display = 'none';
+              if(bossI) { bossI.style.display = 'block'; bossI.style.backgroundImage = `url('${activeImgUrl}')`; }
           };
-          img.onerror = () => { tryIndex++; tryLoad(); };
+          img.onerror = () => {
+              if(bossE) { bossE.innerHTML = '<div style="line-height:1.2; font-size:12px;">🔒<br>LOCKED</div>'; bossE.style.animation = 'none'; }
+          };
           img.referrerPolicy = "no-referrer";
-          img.src = urls[tryIndex];
+          img.src = activeImgUrl;
+      } else {
+          // 이미 로딩된 경우 바로 표출
+          if(bossI.style.backgroundImage && bossI.style.backgroundImage !== 'none') {
+              if(bossE) bossE.style.display = 'none';
+              bossI.style.display = 'block';
+          }
       }
-      tryLoad();
     } else {
-      if(bossE) { 
-          bossE.style.display = 'flex'; 
-          bossE.innerHTML = displayLevel >= 70 ? '👑' : '🎯'; 
-          bossE.style.color = 'var(--burgundy)';
-          bossE.style.animation = 'spin 10s linear infinite';
-      }
-      if(bossI) bossI.style.display = 'none';
+        bossI.dataset.source = '';
     }
 
     const clearBtn = document.getElementById('clearBossBtn');
@@ -1275,6 +1285,7 @@
         }
     }
 
+    // ★ 기절 상태 확인
     const isStunned = state.dungeon.stunnedDate === fmtKey(new Date());
     const atkBtn = document.getElementById('atkBtn');
     const healBtn = document.getElementById('healBtn');
@@ -1306,6 +1317,9 @@
       }
       const u = await uploadFileToGas(input.files[0]);
       state.dungeon.bossImageUrl = u.url;
+      // 강제 렌더링 갱신을 위해 데이터소스 초기화
+      const bossI = document.getElementById('bossImg');
+      if(bossI) bossI.dataset.source = '';
       await save(); renderGame();
     } catch (err) { alert('FAILED TO UPLOAD.'); }
     finally { if(overlay) overlay.style.display = 'none'; input.value=''; }
@@ -1313,17 +1327,10 @@
 
   window.clearBossImage = function() {
     state.dungeon.bossImageUrl = '';
+    const bossI = document.getElementById('bossImg');
+    if(bossI) bossI.dataset.source = '';
     save(); renderGame();
   };
-
-  window.feedPet = function() {
-    if(Number(state.coins || 0) < 50) return;
-    state.coins = Number(state.coins || 0) - 50;
-    state.petExp = Number(state.petExp || 0) + 50;
-    let pStats = getPlayerStats();
-    state.playerHp = pStats.maxHp; 
-    save(); renderHeader(); renderGame();
-  }
 
   function playGachaCutscene(item, callback) {
       const cs = document.getElementById('gachaCutscene');
@@ -1379,6 +1386,9 @@
 
     const processResult = () => {
         const newItem = { id: Date.now() + Math.random().toString(36).slice(2,7), ...drawnItemTemplate };
+        if(!state.gacha) state.gacha = { inventory: [], equipped: { weapon:null, sub:null, armor:null, skills:[] } };
+        if(!Array.isArray(state.gacha.inventory)) state.gacha.inventory = getSafeList(state.gacha.inventory);
+        
         state.gacha.inventory.push(newItem);
         save(); renderHeader(); renderGame();
         
@@ -1392,11 +1402,15 @@
         }
     };
 
-    if(['에픽', '신화', '전설', '불가능', '윈터'].includes(drawnRank)) {
+    const isHighTier = ['에픽', '신화', '전설', '불가능', '윈터'].includes(drawnRank);
+    if(isHighTier) {
         playGachaCutscene(drawnItemTemplate, processResult);
-    } else { processResult(); }
+    } else {
+        processResult();
+    }
   }
 
+  // ★ GUEST 막힘 완전 해제! 오류 시 콘솔에 안뜨고 바로 튕겨냄
   window.executeAction = function(actionType, skillId = null) {
       const todayKey = fmtKey(new Date());
       if(state.dungeon.stunnedDate === todayKey) {
@@ -1456,8 +1470,8 @@
       state.dungeon.hp = (Number(state.dungeon.hp) || state.dungeon.maxHp) - finalDmg;
       logCombat(`> ATK: ${finalDmg.toLocaleString()} DMG! ${actionLog}`, "log-p-dmg");
       
-      const targetEl = document.getElementById('bossVisualArea');
-      if(targetEl) {
+      const targetEl = document.getElementById('bossImg');
+      if(targetEl && targetEl.style.display !== 'none') {
         targetEl.style.transform = 'scale(0.8) rotate(-15deg)';
         targetEl.style.filter = 'drop-shadow(0 0 15px rgba(255,0,0,0.8))';
         setTimeout(() => { targetEl.style.transform = 'none'; targetEl.style.filter = 'none'; }, 150);
@@ -1478,6 +1492,10 @@
         state.dungeon.maxHp = calcMaxHp(state.dungeon.level);
         state.dungeon.hp = state.dungeon.maxHp;
         document.getElementById('combatLog').innerHTML = 'AWAITING ENGAGEMENT...'; 
+        
+        // 보스 변경 시 이미지 렌더링 강제 초기화
+        const bossI = document.getElementById('bossImg');
+        if(bossI) bossI.dataset.source = '';
       } else {
         const bossAtk = calcBossAtk(Number(state.dungeon.level));
         const bossDmg = Math.floor(bossAtk * (0.8 + Math.random() * 0.4));
@@ -1492,6 +1510,7 @@
             logCombat(`[ CRITICAL ERROR: HP 0. SYSTEM LOCKED UNTIL TOMORROW. ]`, "log-sys");
         }
       }
+
       save(); renderHeader(); renderGame();
   }
 
@@ -1827,7 +1846,6 @@
     const note = state.notes[k] || {};
     const dNote = document.getElementById('dayModalNote'); if(dNote) dNote.value = note.text || (typeof note === 'string' ? note : '');
     
-    // 00:00 -> 24:00 User Correction Logic
     const ts = document.getElementById('dayTimeStart'); if(ts) ts.value = note.timeStart || '';
     let tEnd = note.timeEnd || ''; if(tEnd === '24:00') tEnd = '00:00'; 
     const te = document.getElementById('dayTimeEnd'); if(te) te.value = tEnd;
