@@ -101,8 +101,12 @@
   .goal-row.done{border-color:var(--sage); opacity:0.6;}
   .check{ width:18px; height:18px; border:2px solid var(--muted); background:transparent; flex:none; cursor:pointer; position:relative; transition:0.2s; }
   .check.checked{border-color:var(--sage); background:var(--sage);}
+  .check.checked::after{
+    content:"✓"; position:absolute; inset:0; display:flex; align-items:center; justify-content:center;
+    color:#16210f; font-size:14px; font-weight:700;
+  }
   .goal-text{flex:1; font-size:13px; font-weight:500;}
-  .goal-row.done .goal-text{text-decoration:line-through;}
+  .goal-row.done .goal-text{color:var(--muted); text-decoration:line-through;}
   .tier-badge{ font-family:'JetBrains Mono', monospace; font-size:10px; color:var(--gold); padding:2px 6px; border:1px solid var(--line); }
   .del-btn{ background:none; border:none; color:var(--muted); cursor:pointer; font-size:16px; }
   .del-btn:hover{color:var(--burgundy);}
@@ -169,11 +173,15 @@
   .inv-item-name { font-size:12px; font-weight:700; margin-bottom:4px; }
   .inv-item-stat { font-family:'JetBrains Mono', monospace; font-size:9px; color:var(--muted); }
 
+  /* Boss & Visuals */
   .boss-card { background:var(--bg-stage); border:1px solid var(--line); padding:20px; text-align:center; position:relative; overflow:hidden; }
-  .boss-visual { margin-bottom:16px; position:relative; display:inline-block; }
-  .boss-radar { width:100px; height:100px; border-radius:50%; border:1px dashed var(--burgundy); display:flex; align-items:center; justify-content:center; font-family:'JetBrains Mono', monospace; font-size:30px; color:var(--burgundy); letter-spacing:2px; animation:spin 10s linear infinite; margin:0 auto; }
+  .boss-visual { margin-bottom:16px; position:relative; display:inline-flex; align-items:center; justify-content:center; width:100px; height:100px; }
+  
+  .boss-radar { width:100px; height:100px; border-radius:50%; border:1px dashed var(--burgundy); display:flex; align-items:center; justify-content:center; font-family:'JetBrains Mono', monospace; font-size:30px; color:var(--burgundy); letter-spacing:2px; animation:spin 10s linear infinite; position:absolute; inset:0; margin:auto; z-index:1; }
   @keyframes spin { 100% { transform:rotate(360deg); } }
-  .boss-img { width:100px; height:100px; border-radius:50%; object-fit:cover; border:2px solid var(--burgundy); margin:0 auto; box-shadow:0 0 20px rgba(161,43,53,0.3); }
+  
+  /* ★ X박스 방지를 위해 img 태그 대신 div + background-image 로 변경 */
+  .boss-img { width:100px; height:100px; border-radius:50%; border:2px solid var(--burgundy); position:relative; z-index:2; box-shadow:0 0 20px rgba(161,43,53,0.3); background-size: cover; background-position: center; background-color: var(--bg-panel); display:none; }
   
   .boss-info .rank { font-family:'JetBrains Mono', monospace; font-size:10px; color:var(--muted); letter-spacing:2px; margin-bottom:4px; }
   .boss-info .name { font-size:22px; font-weight:900; color:var(--cream); letter-spacing:1px; margin-bottom:16px; text-transform:uppercase; }
@@ -193,8 +201,8 @@
   .btn-heal { background:var(--bg-panel-2); color:var(--cream); border:1px solid var(--line); }
   .btn-heal:hover:not(:disabled) { border-color:var(--sage); color:var(--sage); }
   
-  /* 버그 수정: pointer-events 삭제하여 알림창 띄울 수 있게 함 */
-  .action-btn.locked { background:#111 !important; color:#444 !important; border-color:#222 !important; cursor:pointer !important; }
+  /* 잠금 상태 CSS - 클릭은 되게 하되 시각적으로만 어둡게 */
+  .action-btn.locked { background:#111 !important; color:#555 !important; border-color:#222 !important; cursor:not-allowed; }
 
   .combat-log { font-family:'JetBrains Mono', monospace; font-size:10px; color:var(--muted); margin-top:16px; min-height:45px; background:var(--bg-panel); padding:12px; border:1px solid var(--line); line-height:1.6; text-align:left; }
   .log-p-dmg { color:var(--cream); }
@@ -313,7 +321,6 @@
   <!-- GAME TAB -->
   <div class="panel" id="gamePanel" style="display:none; padding:0;">
     
-    <!-- 1. Player Status -->
     <div class="game-section" style="padding:20px;">
       <div class="game-section-title">PLAYER STATUS</div>
       <div class="player-status-box">
@@ -346,7 +353,6 @@
       </div>
     </div>
 
-    <!-- 2. Gacha Cache -->
     <div class="game-section" style="padding:0 20px 20px;">
       <div class="game-section-title">EQUIPMENT CACHE</div>
       <div class="gacha-grid">
@@ -360,16 +366,14 @@
       <div class="inv-container" id="inventoryList"></div>
     </div>
 
-    <!-- 3. Dungeon Raid -->
     <div class="game-section" style="padding:0 20px 20px; border-bottom:none;">
       <div class="game-section-title" style="color:var(--burgundy);">VOCAL DUNGEON</div>
       <div class="boss-card">
         
         <div class="boss-visual">
-          <!-- 이모지 특수기호 버그 방지 - 순수 텍스트로 대체 -->
           <div class="boss-radar" id="bossEmoji">🎯</div>
-          <!-- 이미지 구글 드라이브 안정화된 우회 주소 적용 -->
-          <img id="bossImg" class="boss-img" src="" alt="Boss" referrerpolicy="no-referrer">
+          <!-- ★ X박스 뜨는 <img src> 대신 background-image 가 들어가는 빈 <div>로 교체! -->
+          <div id="bossImg" class="boss-img"></div>
         </div>
         
         <div class="boss-info">
@@ -598,7 +602,6 @@
     { min: 1000, name: 'MASTER', baseAtk: 800, baseHp: 100000, baseDef: 1500 }
   ];
 
-  // ★ 장비 부위별 분리 완료
   const GACHA_ITEMS = [
     { type: 'weapon', rank: '일반', atk: 15, name: '[WPN] 낡은 마이크', color: '#a4917d' },
     { type: 'weapon', rank: '희귀', atk: 50, name: '[WPN] 다이나믹 마이크', color: '#32cd32' },
@@ -637,78 +640,80 @@
     { type: 'skill', rank: '윈터', effect:{type:'winter', val:0}, name: '[SKL] 윈터의 윙크 (10배 딜 + 풀피)', color: '#00ffff' }
   ];
 
-  // ★ 구글 썸네일 안전 주소 완벽 매핑
+  const GACHA_BOXES = {
+    normal: { cost: 100, rates: [ { rank: '일반', prob: 60.0 }, { rank: '희귀', prob: 30.0 }, { rank: '초희귀', prob: 8.0 }, { rank: '에픽', prob: 1.9 }, { rank: '신화', prob: 0.1 } ] },
+    epic: { cost: 500, rates: [ { rank: '희귀', prob: 50.0 }, { rank: '초희귀', prob: 35.0 }, { rank: '에픽', prob: 12.0 }, { rank: '신화', prob: 2.5 }, { rank: '전설', prob: 0.4 }, { rank: '불가능', prob: 0.09 }, { rank: '윈터', prob: 0.01 } ] },
+    legend: { cost: 2000, rates: [ { rank: '초희귀', prob: 40.0 }, { rank: '에픽', prob: 40.0 }, { rank: '신화', prob: 15.0 }, { rank: '전설', prob: 4.0 }, { rank: '불가능', prob: 0.8 }, { rank: '윈터', prob: 0.2 } ] },
+    winter: { cost: 10000, rates: [ { rank: '에픽', prob: 30.0 }, { rank: '신화', prob: 40.0 }, { rank: '전설', prob: 20.0 }, { rank: '불가능', prob: 8.0 }, { rank: '윈터', prob: 2.0 } ] }
+  };
+
   const BOSS_LIST = [
-    { name: "10CM", img: "https://drive.google.com/thumbnail?id=1SpqRzUg-2tHvXzN1XaWRUtcmz4cHuwbY&sz=w300" }, 
-    { name: "최유리", img: "https://drive.google.com/thumbnail?id=13PFcFL_ly5MStsJwmN9ImmlVDSUMMYjL&sz=w300" }, 
-    { name: "폴킴", img: "https://drive.google.com/thumbnail?id=1SoRCBRqNS5ZKff5yvznIlk2qjMzZMWf6&sz=w300" }, 
-    { name: "적재", img: "https://drive.google.com/thumbnail?id=1mW8UHN2ODkYFNqN1IGb0M65BufbJXcnP&sz=w300" }, 
-    { name: "정승환", img: "https://drive.google.com/thumbnail?id=1Dxe58awVF_ToXKpuA1bk_qtyigzAnxS-&sz=w300" },
-    { name: "이무진", img: "https://drive.google.com/thumbnail?id=10bZ0Emq5R_2NipE2dT0W0P1fn38mprb8&sz=w300" }, 
-    { name: "AKMU", img: "https://drive.google.com/thumbnail?id=1qs5prO0S4CJirpE3QPrdQc0JwSsEdZLu&sz=w300" }, 
-    { name: "잔나비", img: "https://drive.google.com/thumbnail?id=1mqnFNesX4hm1zdJ_KcFK3U8VLJC25Crh&sz=w300" }, 
-    { name: "DAY6", img: "https://drive.google.com/thumbnail?id=1L_ULhi0J3_0AjmZ2MVYmxId4KiBNNdXs&sz=w300" }, 
-    { name: "WOODZ", img: "https://drive.google.com/thumbnail?id=1xhcv2tfdJBeomtOzaUrVDAzn9jaEpegL&sz=w300" },
-    { name: "성시경", img: "https://drive.google.com/thumbnail?id=1d6vfmskF4ahM29e6vivbpYIjCrJ2LXm9&sz=w300" }, 
-    { name: "윤하", img: "https://drive.google.com/thumbnail?id=1NK1L-I5vIXaN4KDDL4CIqS9YaALhxkR6&sz=w300" }, 
-    { name: "규현", img: "https://drive.google.com/thumbnail?id=13h8BJtPzlcr-65-AvlOjXo91CDwJ9sri&sz=w300" }, 
-    { name: "이승윤", img: "https://drive.google.com/thumbnail?id=1_IXmzEP_CF2SI5_htkghRATeuso55CNL&sz=w300" }, 
-    { name: "김필", img: "https://drive.google.com/thumbnail?id=1u7pucj9YpR6FRlOZyWIOGUt1sYknxYML&sz=w300" },
-    { name: "D.O.", img: "https://drive.google.com/thumbnail?id=1APZ4C8JSZyYey3RhYeh2n3I9gJQhxpp6&sz=w300" }, 
-    { name: "WINTER", img: "https://drive.google.com/thumbnail?id=1LnKpnEAnUde7Og8d8fCN2GIxyz7dNFMr&sz=w300" }, 
-    { name: "태연", img: "https://drive.google.com/thumbnail?id=16z1joV-wAdVR3Og7kYS_cUYrRYFW1qIw&sz=w300" }, 
-    { name: "정국", img: "https://drive.google.com/thumbnail?id=1QG7CWtJazUoLQpQW4icPzhMO2hLw-DrT&sz=w300" }, 
-    { name: "아이유", img: "https://drive.google.com/thumbnail?id=1VinvalifbqRAROADEqMtwbuob8_WhwDV&sz=w300" },
-    { name: "에일리", img: "https://drive.google.com/thumbnail?id=1tWdLCV4fKC1YhvMIqcZFIVsLUhL7kKQD&sz=w300" }, 
-    { name: "거미", img: "https://drive.google.com/thumbnail?id=17DOqNH-N2F7dLC3lhbNnYdst7EhC1rIA&sz=w300" }, 
-    { name: "K.Will", img: "https://drive.google.com/thumbnail?id=1IzhuIozRR7u0aoeCf46VfXYpDY7VI0wx&sz=w300" }, 
-    { name: "하현우", img: "https://drive.google.com/thumbnail?id=10KbNArPrVCmhQlKgg2bDEfmwAR8u6Pe7&sz=w300" }, 
-    { name: "박정현", img: "https://drive.google.com/thumbnail?id=1p4e-ghxZ8HbovVHsh06E2xnCKK8AoaDp&sz=w300" },
-    { name: "나얼", img: "https://drive.google.com/thumbnail?id=1vCMuy2gTkdS0VdnL0T6LgVmYGwJhNT8_&sz=w300" }, 
-    { name: "김범수", img: "https://drive.google.com/thumbnail?id=1nWA6bFSba5TiIWRLJyA0TumXXjTFj0G0&sz=w300" }, 
-    { name: "이수", img: "https://drive.google.com/thumbnail?id=1q6hHBPtd2uMpUXCiubHzErjoSL-cQBwr&sz=w300" }, 
-    { name: "박효신", img: "https://drive.google.com/thumbnail?id=1fiWiVMZ9T82BdM0_xl6yi0WonIcnCo3_&sz=w300" }, 
-    { name: "이승철", img: "https://drive.google.com/thumbnail?id=1gadRw7tTwQArG1GNYubXlouXPNl3sUou&sz=w300" },
-    { name: "김경호", img: "https://drive.google.com/thumbnail?id=1ZOvLYcbm7-yCa6CHJ-6-Iai80DuzXac3&sz=w300" }, 
-    { name: "박완규", img: "https://drive.google.com/thumbnail?id=1oD5JagCCDvrUb2FGR01Thb4pLrLeW0gf&sz=w300" }, 
-    { name: "임재범", img: "https://drive.google.com/thumbnail?id=1jz29-_ArV7vo80iHVnGXaDNOUKOzt4NL&sz=w300" }, 
-    { name: "이선희", img: "https://drive.google.com/thumbnail?id=1X7ntYHMUemkFhg5ZOkAKoNhH89jrcyr_&sz=w300" }, 
-    { name: "조용필", img: "https://drive.google.com/thumbnail?id=1W1lXRG6AHHmsYStpJhhmMCjJmmijJHKm&sz=w300" },
-    { name: "신승훈", img: "https://drive.google.com/thumbnail?id=1pZXou5q8IRoWZj2AK6agJSESY_MzPfcs&sz=w300" }, 
-    { name: "김건모", img: "https://drive.google.com/thumbnail?id=129Go3z8G4aZk05-wRo9asG2uOy5P2140&sz=w300" }, 
-    { name: "싸이", img: "https://drive.google.com/thumbnail?id=1cZfG4WIsfuQds1_q7n0mMmUR1ixtFdYR&sz=w300" }, 
-    { name: "BIGBANG", img: "https://drive.google.com/thumbnail?id=1FOKdzkyKvfGA3HLYrO7qFu3SUDN7g7ts&sz=w300" }, 
-    { name: "EXO", img: "https://drive.google.com/thumbnail?id=1sZdFj3tqzFEgs3jz4IlIfybi2gubKR2a&sz=w300" },
-    { name: "TWICE", img: "https://drive.google.com/thumbnail?id=1UBz7ZHW3ns09sKwyebDFmJWIIXdd5xJK&sz=w300" }, 
-    { name: "SEVENTEEN", img: "https://drive.google.com/thumbnail?id=1pu92ag5NzGf_T6LTGd0ZjZ6S_ncfz-cf&sz=w300" }, 
-    { name: "aespa", img: "https://drive.google.com/thumbnail?id=1vP9LDiZKBfn8vrQSH7m-U_FmaYUJSehz&sz=w300" }, 
-    { name: "BLACKPINK", img: "https://drive.google.com/thumbnail?id=1leEBk5KglL_sKzgG0WaFhjH-KZJygUgo&sz=w300" }, 
-    { name: "임영웅", img: "https://drive.google.com/thumbnail?id=1VKDpIe_Sy3d4XwcoY5s7WlMQdeulC1fa&sz=w300" },
-    { name: "X JAPAN", img: "https://drive.google.com/thumbnail?id=1O_3Syx1NMz-3EUAcpnOJiAIosaskNagw&sz=w300" }, 
-    { name: "L'Arc-en-Ciel", img: "https://drive.google.com/thumbnail?id=1kewqX33PgxDCFTg8FIo22CtQgzTvExwS&sz=w300" }, 
-    { name: "GLAY", img: "https://drive.google.com/thumbnail?id=1uHHYN6T_gxWFOfuxgzxRWmhJ4zCGqW83&sz=w300" }, 
-    { name: "LUNA SEA", img: "https://drive.google.com/thumbnail?id=1tpGJHsoY_9r6S1DRlLllAbSS6x0Wnvfa&sz=w300" }, 
-    { name: "Mrs. GREEN APPLE", img: "https://drive.google.com/thumbnail?id=1B9-EJMVlSHadEG25X2DMyFpMKxR77PV0&sz=w300" },
-    { name: "Rihanna", img: "https://drive.google.com/thumbnail?id=1Ca8pOI7kjwafds-D6xC5iZh7we-1ZrRc&sz=w300" }, 
-    { name: "Lady Gaga", img: "https://drive.google.com/thumbnail?id=1i5dmdVwO3p6tfIrIrxa97cJyRkIB6tp3&sz=w300" }, 
-    { name: "Bruno Mars", img: "https://drive.google.com/thumbnail?id=1oKdZ1sncRo043tQkmvM5Bcr9NoeYVm3o&sz=w300" }, 
-    { name: "Justin Bieber", img: "https://drive.google.com/thumbnail?id=1ti5DYFqed6WfRNdCdZDYHHymopjEA7g_&sz=w300" }, 
-    { name: "Ariana Grande", img: "https://drive.google.com/thumbnail?id=1UBvN5ihDFZYPa2OM1X4wh3NPzRvP-TR5&sz=w300" },
-    { name: "Adele", img: "https://drive.google.com/thumbnail?id=1h1p-GUkj-6OCEG9xIMpB7Mvjh46P4AKg&sz=w300" }, 
-    { name: "Ed Sheeran", img: "https://drive.google.com/thumbnail?id=1Qsu-xIc60h9Sv2xeYxXqoHPMbggtFXdJ&sz=w300" }, 
-    { name: "Beyoncé", img: "https://drive.google.com/thumbnail?id=18SThYc_3UWgBtre0BFMyhxGoIfX4iRA2&sz=w300" }, 
-    { name: "Celine Dion", img: "https://drive.google.com/thumbnail?id=1dZNm839qNOtIFp7dIu1Fmt4kEhsWQDB-&sz=w300" }, 
-    { name: "Stevie Wonder", img: "https://drive.google.com/thumbnail?id=1cp_YgqnfeVLc9BLo9QD6ynf-tdDF-eo0&sz=w300" },
-    { name: "Freddie Mercury", img: "https://drive.google.com/thumbnail?id=1dQA_Cy5mN6lVsf-Im6nwI3DVqP-vrEbx&sz=w300" }, 
-    { name: "Mariah Carey", img: "https://drive.google.com/thumbnail?id=1Pi2p2w22Z9f28hgphf5lqUCPfKR0MXMI&sz=w300" }, 
-    { name: "Whitney Houston", img: "https://drive.google.com/thumbnail?id=1kM_9g5uIATDoEN4-43lVUjfnS4RO10jO&sz=w300" }, 
-    { name: "Madonna", img: "https://drive.google.com/thumbnail?id=1h_1LSqe8kScsDco-ezJMkK6YFEJtGoLr&sz=w300" }, 
-    { name: "Elvis Presley", img: "https://drive.google.com/thumbnail?id=1b1PBaoS__jW7hHZXL-WOVZzcCdTounX3&sz=w300" },
-    { name: "The Beatles", img: "" }, 
-    { name: "BTS", img: "" }, 
-    { name: "Taylor Swift", img: "" }, 
-    { name: "Michael Jackson", img: "" }, 
-    { name: "MY self", img: "" }
+    { name: "10CM", img: "https://drive.google.com/uc?export=view&id=1SpqRzUg-2tHvXzN1XaWRUtcmz4cHuwbY" }, 
+    { name: "최유리", img: "https://drive.google.com/uc?export=view&id=13PFcFL_ly5MStsJwmN9ImmlVDSUMMYjL" }, 
+    { name: "폴킴", img: "https://drive.google.com/uc?export=view&id=1SoRCBRqNS5ZKff5yvznIlk2qjMzZMWf6" }, 
+    { name: "적재", img: "https://drive.google.com/uc?export=view&id=1mW8UHN2ODkYFNqN1IGb0M65BufbJXcnP" }, 
+    { name: "정승환", img: "https://drive.google.com/uc?export=view&id=1Dxe58awVF_ToXKpuA1bk_qtyigzAnxS-" },
+    { name: "이무진", img: "https://drive.google.com/uc?export=view&id=10bZ0Emq5R_2NipE2dT0W0P1fn38mprb8" }, 
+    { name: "AKMU", img: "https://drive.google.com/uc?export=view&id=1qs5prO0S4CJirpE3QPrdQc0JwSsEdZLu" }, 
+    { name: "잔나비", img: "https://drive.google.com/uc?export=view&id=1mqnFNesX4hm1zdJ_KcFK3U8VLJC25Crh" }, 
+    { name: "DAY6", img: "https://drive.google.com/uc?export=view&id=1L_ULhi0J3_0AjmZ2MVYmxId4KiBNNdXs" }, 
+    { name: "WOODZ", img: "https://drive.google.com/uc?export=view&id=1xhcv2tfdJBeomtOzaUrVDAzn9jaEpegL" },
+    { name: "성시경", img: "https://drive.google.com/uc?export=view&id=1d6vfmskF4ahM29e6vivbpYIjCrJ2LXm9" }, 
+    { name: "윤하", img: "https://drive.google.com/uc?export=view&id=1NK1L-I5vIXaN4KDDL4CIqS9YaALhxkR6" }, 
+    { name: "규현", img: "https://drive.google.com/uc?export=view&id=13h8BJtPzlcr-65-AvlOjXo91CDwJ9sri" }, 
+    { name: "이승윤", img: "https://drive.google.com/uc?export=view&id=1_IXmzEP_CF2SI5_htkghRATeuso55CNL" }, 
+    { name: "김필", img: "https://drive.google.com/uc?export=view&id=1u7pucj9YpR6FRlOZyWIOGUt1sYknxYML" },
+    { name: "D.O.", img: "https://drive.google.com/uc?export=view&id=1APZ4C8JSZyYey3RhYeh2n3I9gJQhxpp6" }, 
+    { name: "WINTER", img: "https://drive.google.com/uc?export=view&id=1LnKpnEAnUde7Og8d8fCN2GIxyz7dNFMr" }, 
+    { name: "태연", img: "https://drive.google.com/uc?export=view&id=16z1joV-wAdVR3Og7kYS_cUYrRYFW1qIw" }, 
+    { name: "정국", img: "https://drive.google.com/uc?export=view&id=1QG7CWtJazUoLQpQW4icPzhMO2hLw-DrT" }, 
+    { name: "아이유", img: "https://drive.google.com/uc?export=view&id=1VinvalifbqRAROADEqMtwbuob8_WhwDV" },
+    { name: "에일리", img: "https://drive.google.com/uc?export=view&id=1tWdLCV4fKC1YhvMIqcZFIVsLUhL7kKQD" }, 
+    { name: "거미", img: "https://drive.google.com/uc?export=view&id=17DOqNH-N2F7dLC3lhbNnYdst7EhC1rIA" }, 
+    { name: "K.Will", img: "https://drive.google.com/uc?export=view&id=1IzhuIozRR7u0aoeCf46VfXYpDY7VI0wx" }, 
+    { name: "하현우", img: "https://drive.google.com/uc?export=view&id=10KbNArPrVCmhQlKgg2bDEfmwAR8u6Pe7" }, 
+    { name: "박정현", img: "https://drive.google.com/uc?export=view&id=1p4e-ghxZ8HbovVHsh06E2xnCKK8AoaDp" },
+    { name: "나얼", img: "https://drive.google.com/uc?export=view&id=1vCMuy2gTkdS0VdnL0T6LgVmYGwJhNT8_" }, 
+    { name: "김범수", img: "https://drive.google.com/uc?export=view&id=1nWA6bFSba5TiIWRLJyA0TumXXjTFj0G0" }, 
+    { name: "이수", img: "https://drive.google.com/uc?export=view&id=1q6hHBPtd2uMpUXCiubHzErjoSL-cQBwr" }, 
+    { name: "박효신", img: "https://drive.google.com/uc?export=view&id=1fiWiVMZ9T82BdM0_xl6yi0WonIcnCo3_" }, 
+    { name: "이승철", img: "https://drive.google.com/uc?export=view&id=1gadRw7tTwQArG1GNYubXlouXPNl3sUou" },
+    { name: "김경호", img: "https://drive.google.com/uc?export=view&id=1ZOvLYcbm7-yCa6CHJ-6-Iai80DuzXac3" }, 
+    { name: "박완규", img: "https://drive.google.com/uc?export=view&id=1oD5JagCCDvrUb2FGR01Thb4pLrLeW0gf" }, 
+    { name: "임재범", img: "https://drive.google.com/uc?export=view&id=1jz29-_ArV7vo80iHVnGXaDNOUKOzt4NL" }, 
+    { name: "이선희", img: "https://drive.google.com/uc?export=view&id=1X7ntYHMUemkFhg5ZOkAKoNhH89jrcyr_" }, 
+    { name: "조용필", img: "https://drive.google.com/uc?export=view&id=1W1lXRG6AHHmsYStpJhhmMCjJmmijJHKm" },
+    { name: "신승훈", img: "https://drive.google.com/uc?export=view&id=1pZXou5q8IRoWZj2AK6agJSESY_MzPfcs" }, 
+    { name: "김건모", img: "https://drive.google.com/uc?export=view&id=129Go3z8G4aZk05-wRo9asG2uOy5P2140" }, 
+    { name: "싸이", img: "https://drive.google.com/uc?export=view&id=1cZfG4WIsfuQds1_q7n0mMmUR1ixtFdYR" }, 
+    { name: "BIGBANG", img: "https://drive.google.com/uc?export=view&id=1FOKdzkyKvfGA3HLYrO7qFu3SUDN7g7ts" }, 
+    { name: "EXO", img: "https://drive.google.com/uc?export=view&id=1sZdFj3tqzFEgs3jz4IlIfybi2gubKR2a" },
+    { name: "TWICE", img: "https://drive.google.com/uc?export=view&id=1UBz7ZHW3ns09sKwyebDFmJWIIXdd5xJK" }, 
+    { name: "SEVENTEEN", img: "https://drive.google.com/uc?export=view&id=1pu92ag5NzGf_T6LTGd0ZjZ6S_ncfz-cf" }, 
+    { name: "aespa", img: "https://drive.google.com/uc?export=view&id=1vP9LDiZKBfn8vrQSH7m-U_FmaYUJSehz" }, 
+    { name: "BLACKPINK", img: "https://drive.google.com/uc?export=view&id=1leEBk5KglL_sKzgG0WaFhjH-KZJygUgo" }, 
+    { name: "임영웅", img: "https://drive.google.com/uc?export=view&id=1VKDpIe_Sy3d4XwcoY5s7WlMQdeulC1fa" },
+    { name: "X JAPAN", img: "https://drive.google.com/uc?export=view&id=1O_3Syx1NMz-3EUAcpnOJiAIosaskNagw" }, 
+    { name: "L'Arc-en-Ciel", img: "https://drive.google.com/uc?export=view&id=1kewqX33PgxDCFTg8FIo22CtQgzTvExwS" }, 
+    { name: "GLAY", img: "https://drive.google.com/uc?export=view&id=1uHHYN6T_gxWFOfuxgzxRWmhJ4zCGqW83" }, 
+    { name: "LUNA SEA", img: "https://drive.google.com/uc?export=view&id=1tpGJHsoY_9r6S1DRlLllAbSS6x0Wnvfa" }, 
+    { name: "Mrs. GREEN APPLE", img: "https://drive.google.com/uc?export=view&id=1B9-EJMVlSHadEG25X2DMyFpMKxR77PV0" },
+    { name: "Rihanna", img: "https://drive.google.com/uc?export=view&id=1Ca8pOI7kjwafds-D6xC5iZh7we-1ZrRc" }, 
+    { name: "Lady Gaga", img: "https://drive.google.com/uc?export=view&id=1i5dmdVwO3p6tfIrIrxa97cJyRkIB6tp3" }, 
+    { name: "Bruno Mars", img: "https://drive.google.com/uc?export=view&id=1oKdZ1sncRo043tQkmvM5Bcr9NoeYVm3o" }, 
+    { name: "Justin Bieber", img: "https://drive.google.com/uc?export=view&id=1ti5DYFqed6WfRNdCdZDYHHymopjEA7g_" }, 
+    { name: "Ariana Grande", img: "https://drive.google.com/uc?export=view&id=1UBvN5ihDFZYPa2OM1X4wh3NPzRvP-TR5" },
+    { name: "Adele", img: "https://drive.google.com/uc?export=view&id=1h1p-GUkj-6OCEG9xIMpB7Mvjh46P4AKg" }, 
+    { name: "Ed Sheeran", img: "https://drive.google.com/uc?export=view&id=1Qsu-xIc60h9Sv2xeYxXqoHPMbggtFXdJ" }, 
+    { name: "Beyoncé", img: "https://drive.google.com/uc?export=view&id=18SThYc_3UWgBtre0BFMyhxGoIfX4iRA2" }, 
+    { name: "Celine Dion", img: "https://drive.google.com/uc?export=view&id=1dZNm839qNOtIFp7dIu1Fmt4kEhsWQDB-" }, 
+    { name: "Stevie Wonder", img: "https://drive.google.com/uc?export=view&id=1cp_YgqnfeVLc9BLo9QD6ynf-tdDF-eo0" },
+    { name: "Freddie Mercury", img: "https://drive.google.com/uc?export=view&id=1dQA_Cy5mN6lVsf-Im6nwI3DVqP-vrEbx" }, 
+    { name: "Mariah Carey", img: "https://drive.google.com/uc?export=view&id=1Pi2p2w22Z9f28hgphf5lqUCPfKR0MXMI" }, 
+    { name: "Whitney Houston", img: "https://drive.google.com/uc?export=view&id=1kM_9g5uIATDoEN4-43lVUjfnS4RO10jO" }, 
+    { name: "Madonna", img: "https://drive.google.com/uc?export=view&id=1h_1LSqe8kScsDco-ezJMkK6YFEJtGoLr" }, 
+    { name: "Elvis Presley", img: "https://drive.google.com/uc?export=view&id=1b1PBaoS__jW7hHZXL-WOVZzcCdTounX3" },
+    { name: "The Beatles", img: "" }, { name: "BTS", img: "" }, { name: "Taylor Swift", img: "" }, { name: "Michael Jackson", img: "" }, { name: "MY self", img: "" }
   ];
 
   function getBossRank(level) {
@@ -831,12 +836,39 @@
     checkLoginStatus(); renderAll();
   }
 
+  // ★ 데이터 정규화 함수 (에러 방어)
+  function normalizeState() {
+      if(!state.totalExp) state.totalExp = 0;
+      if(!state.coins) state.coins = 0;
+      if(!state.petExp) state.petExp = 0;
+      if(!state.playerHp || isNaN(state.playerHp)) state.playerHp = 500;
+      if(!state.goals) state.goals = {};
+      if(!state.dailyGoals) state.dailyGoals = {};
+      if(!state.notes) state.notes = {};
+      if(!state.repo) state.repo = [];
+      if(!state.roadmap) state.roadmap = { ultimate:'', milestones:[] };
+      if(!state.gacha) state.gacha = { inventory: [], equipped: { weapon:null, sub:null, armor:null, skill:null } };
+      if(!state.gacha.equipped) state.gacha.equipped = { weapon:null, sub:null, armor:null, skill:null };
+      if(!Array.isArray(state.gacha.inventory)) state.gacha.inventory = [];
+      if(!state.dungeon) state.dungeon = { level: 1, hp: 200, maxHp: 200, bossImageUrl: '', stunnedDate: '' };
+      
+      if(state.gacha.equippedId && !state.gacha.equipped.weapon) state.gacha.equipped.weapon = state.gacha.equippedId;
+      
+      if(state.dungeon.maxHp < 500 && state.dungeon.level > 1) {
+          state.dungeon.maxHp = calcMaxHp(state.dungeon.level);
+          state.dungeon.hp = state.dungeon.maxHp;
+      }
+  }
+
+  // ★ 로컬 오프라인 (GUEST) 완벽 지원 데이터 로더
   async function loadData(){
     const overlay = document.getElementById('loadOverlay');
     const failsafe = setTimeout(() => { if(overlay){overlay.style.opacity = '0'; setTimeout(() => { overlay.style.display = 'none'; }, 300);} }, 3500);
 
     if(!currentUser) {
-      state = { totalExp:0, coins:0, petExp:0, playerHp: 500, goals:{}, dailyGoals:{}, notes:{}, repo:[], roadmap:{ ultimate:'', milestones:[] }, gacha:{inventory:[], equipped:{weapon:null, sub:null, armor:null, skill:null}}, dungeon:{level:1, hp:200, maxHp:200, bossImageUrl:'', stunnedDate:''} };
+      const local = localStorage.getItem('vocal-log-local-state');
+      if(local) { try { state = JSON.parse(local); } catch(e) {} }
+      normalizeState();
       try { renderAll(); } catch(e){}
       clearTimeout(failsafe); if(overlay){overlay.style.opacity = '0'; setTimeout(() => { overlay.style.display = 'none'; }, 300);}
       return;
@@ -848,39 +880,22 @@
       const rows = res.data || [];
       const myRows = rows.filter(r => r[0] === currentUser.userId);
       if(myRows.length > 0){
-        const parsed = JSON.parse(myRows[myRows.length - 1][1]);
-        state = {
-          totalExp: Number(parsed.totalExp || 0),
-          coins: Number(parsed.coins || 0),
-          petExp: Number(parsed.petExp || 0),
-          playerHp: Number(parsed.playerHp || 500),
-          goals: parsed.goals || {},
-          dailyGoals: parsed.dailyGoals || {},
-          notes: parsed.notes || {},
-          repo: Array.isArray(parsed.repo) ? parsed.repo : [],
-          roadmap: parsed.roadmap || { ultimate:'', milestones:[] },
-          gacha: parsed.gacha || { inventory: [], equipped: {weapon:null, sub:null, armor:null, skill:null} },
-          dungeon: parsed.dungeon || { level: 1, hp: 200, maxHp: 200, bossImageUrl: '', stunnedDate: '' }
-        };
-        
-        // 데이터 무결성 보장 패치
-        if(!state.gacha.equipped) state.gacha.equipped = { weapon:null, sub:null, armor:null, skill:null };
-        if(state.gacha.equippedId && !state.gacha.equipped.weapon) state.gacha.equipped.weapon = state.gacha.equippedId;
-        
-        if(state.dungeon.maxHp < 500 && state.dungeon.level > 1) {
-            state.dungeon.maxHp = calcMaxHp(state.dungeon.level);
-            state.dungeon.hp = state.dungeon.maxHp;
-        }
+        state = JSON.parse(myRows[myRows.length - 1][1]);
+        normalizeState();
       } else {
-        state = { totalExp:0, coins:0, petExp:0, playerHp: 500, goals:{}, dailyGoals:{}, notes:{}, repo:[], roadmap:{ ultimate:'', milestones:[] }, gacha:{inventory:[], equipped:{weapon:null, sub:null, armor:null, skill:null}}, dungeon:{level:1, hp:200, maxHp:200, bossImageUrl:'', stunnedDate:''} };
+        normalizeState();
       }
-    } catch(e) {}
+    } catch(e) { normalizeState(); }
     try { renderAll(); } catch(e) {}
     clearTimeout(failsafe); if(overlay){overlay.style.opacity = '0'; setTimeout(() => { overlay.style.display = 'none'; overlay.style.opacity = '1'; }, 300);}
   }
   
+  // ★ GUEST 모드 시 로컬 브라우저에 저장!
   async function save(){
-    if(!currentUser) return;
+    if(!currentUser) {
+        localStorage.setItem('vocal-log-local-state', JSON.stringify(state));
+        return;
+    }
     try{ await apiPost({ action: 'append', sheet: 'vocal_log', row: JSON.stringify([ currentUser.userId, JSON.stringify(state), new Date().toLocaleString() ]) }); }catch(e){}
   }
 
@@ -994,7 +1009,7 @@
     return { pet, totalAtk, totalDef, maxHp, eqAtk, eqDef, eqHp, activeSkill };
   }
 
-  // ★ 장착 버그 완전 해결 함수
+  // ★ GUEST 무시 제거! 이제 오프라인에서도 모든 기능 동작
   window.equipItem = function(itemType, itemId) {
       if(!state.gacha) state.gacha = { inventory: [], equipped: { weapon:null, sub:null, armor:null, skill:null } };
       if(!state.gacha.equipped) state.gacha.equipped = { weapon:null, sub:null, armor:null, skill:null };
@@ -1110,7 +1125,7 @@
       bossFullName = "THE FINAL BOSS - " + displayLevel;
     }
     
-    const bEmoji = displayLevel >= 70 ? '👑' : '🎯'; // 사파리 크래시 유발하는 복잡한 정규식 완전 삭제!
+    const bEmoji = displayLevel >= 70 ? '👑' : '🎯'; 
 
     const bossE = document.getElementById('bossEmoji'); 
     const bossI = document.getElementById('bossImg');
@@ -1118,9 +1133,13 @@
     
     const activeImgUrl = state.dungeon.bossImageUrl || currentBossData.img;
     
+    // ★ 엑스박스 절대 차단! img 태그 대신 div + background-image 로 변경 적용
     if (activeImgUrl) {
       if(bossE) bossE.style.display = 'none';
-      if(bossI) { bossI.style.display = 'block'; bossI.src = activeImgUrl; }
+      if(bossI) { 
+          bossI.style.display = 'block'; 
+          bossI.style.backgroundImage = `url('${activeImgUrl}')`;
+      }
     } else {
       if(bossE) { bossE.style.display = 'flex'; bossE.innerHTML = bEmoji; }
       if(bossI) bossI.style.display = 'none';
@@ -1147,7 +1166,6 @@
     if(document.getElementById('bsFandom')) document.getElementById('bsFandom').textContent = genStars(stats.fandom);
     if(document.getElementById('bsLegacy')) document.getElementById('bsLegacy').textContent = genStars(stats.legacy);
 
-    // HP 방어코드 적용
     let dHp = Number(state.dungeon.hp);
     let dMax = Number(state.dungeon.maxHp);
     if(isNaN(dHp)) dHp = dMax;
@@ -1157,7 +1175,7 @@
     const hText = document.getElementById('bossHpText'); 
     if(hText) hText.textContent = `${dHp.toLocaleString()} / ${dMax.toLocaleString()}`;
 
-    // ★ 기절 상태 확인 및 UI 락 (버튼은 눌릴 수 있게 CSS 포인터이벤트 방어 해제)
+    // ★ 기절 시 버튼 락 처리 (클릭 이벤트 자체를 없애지 않고 안내 메시지가 뜨게 유지)
     const isStunned = state.dungeon.stunnedDate === fmtKey(new Date());
     const atkBtn = document.getElementById('atkBtn');
     const healBtn = document.getElementById('healBtn');
@@ -1171,14 +1189,21 @@
     }
   }
 
+  // ★ GUEST 막힘 제거
   window.uploadBossImage = async function(input) {
-    if(!currentUser) { alert('LOGIN REQUIRED.'); input.value=''; return; }
     if(!input.files[0]) return;
     const overlay = document.getElementById('loadOverlay');
     if(overlay) { overlay.style.display = 'flex'; overlay.style.opacity = '1'; }
     const statMsg = document.getElementById('loadStatus');
     if(statMsg) statMsg.textContent = 'OVERRIDING VISUAL...';
     try {
+      // 업로드 기능은 서버가 필요하므로 게스트면 차단 대신 우회 경고
+      if(!currentUser) {
+          alert("[ SYSTEM ] 이미지 파일 직접 업로드는 로그인 후 가능합니다.\n(GUEST 모드에서는 서버 저장이 제한됩니다.)");
+          if(overlay) overlay.style.display = 'none'; 
+          input.value=''; 
+          return;
+      }
       const u = await uploadFileToGas(input.files[0]);
       if(!state.dungeon) state.dungeon = { level: 1, hp: 200, maxHp: 200, bossImageUrl: '', stunnedDate:'' };
       state.dungeon.bossImageUrl = u.url;
@@ -1188,13 +1213,12 @@
   };
 
   window.clearBossImage = function() {
-    if(!currentUser || !state.dungeon) return;
+    if(!state.dungeon) return;
     state.dungeon.bossImageUrl = '';
     save(); renderGame();
   };
 
   window.feedPet = function() {
-    if(!currentUser) return;
     if(Number(state.coins || 0) < 50) return;
     state.coins = Number(state.coins || 0) - 50;
     state.petExp = Number(state.petExp || 0) + 50;
@@ -1230,9 +1254,6 @@
   }
 
   window.drawGacha = function(boxType) {
-    if(!currentUser) return;
-    
-    // ★ 종류별 요금 및 확률 명확하게 분리 적용
     let cost = 500;
     if(boxType === 'skill') cost = 1000;
     
@@ -1284,9 +1305,7 @@
   }
 
   window.healPlayer = function() {
-      if(!currentUser) return;
       const todayKey = fmtKey(new Date());
-      // ★ 기절 안내문 제대로 띄우기
       if(state.dungeon.stunnedDate === todayKey) return alert('[ SYSTEM LOCKED ]\n치명적인 피해를 입어 회복 불가 상태입니다.\n명일 자정 이후에 다시 시도하십시오.'); 
 
       if(Number(state.coins || 0) < 10) return alert('REQUIRES 10 CRD.');
@@ -1300,10 +1319,7 @@
   }
 
   window.attackBoss = function() {
-    if(!currentUser) return;
-    
     const todayKey = fmtKey(new Date());
-    // ★ 기절 안내문
     if(state.dungeon.stunnedDate === todayKey) return alert('[ SYSTEM LOCKED ]\n기절 상태입니다. 명일 자정 이후에 다시 접속하십시오.');
 
     if(state.playerHp <= 0) return alert('HP IS ZERO. MUST RECOVER.');
@@ -1340,7 +1356,6 @@
         }
     }
     
-    // HP NaN 방어 적용
     state.dungeon.hp = (Number(state.dungeon.hp) || state.dungeon.maxHp) - finalDmg;
     logCombat(`> ATK: ${finalDmg.toLocaleString()} DMG!${skillText}`, "log-p-dmg");
     
@@ -1378,7 +1393,6 @@
       state.playerHp -= dmgToPlayer;
       logCombat(`< ENEMY: ${dmgToPlayer.toLocaleString()} DMG TAKEN!`, "log-b-dmg");
       
-      // ★ 플레이어 사망 (기절) 처리
       if(state.playerHp <= 0) {
           state.playerHp = 0;
           state.dungeon.stunnedDate = todayKey;
@@ -1391,7 +1405,7 @@
 
 
   // ---------- Roadmap ----------
-  window.saveUltimateGoal = function(val) { if(!currentUser) return; state.roadmap.ultimate = val; save(); }
+  window.saveUltimateGoal = function(val) { state.roadmap.ultimate = val; save(); }
   
   function renderRoadmap() {
     if(!state.roadmap) state.roadmap = { ultimate:'', milestones:[] };
@@ -1442,7 +1456,6 @@
   }
   
   window.toggleRoadmap = function(idx) {
-    if(!currentUser) return; 
     if(!state.roadmap) state.roadmap = { ultimate:'', milestones:[] };
     let list = getSafeList(state.roadmap.milestones);
     const m = list[idx]; if(!m) return;
@@ -1451,7 +1464,6 @@
   };
   
   window.deleteRoadmap = function(idx) {
-    if(!currentUser) return; 
     if(!state.roadmap) state.roadmap = { ultimate:'', milestones:[] };
     let list = getSafeList(state.roadmap.milestones);
     const m = list[idx]; if(!m) return;
@@ -1462,7 +1474,7 @@
   };
   
   document.getElementById('addMilestoneForm').addEventListener('submit', (e) => {
-    e.preventDefault(); if(!currentUser) { openAuthModal('loginModal'); return; }
+    e.preventDefault();
     const text = document.getElementById('milestoneInput').value.trim(); if(!text) return;
     if(!state.roadmap) state.roadmap = { ultimate:'', milestones:[] };
     let list = getSafeList(state.roadmap.milestones);
@@ -1509,12 +1521,12 @@
         const tierObj = TIERS[g.tier] || TIERS[1]; 
         li.innerHTML = `<button class="check ${g.done?'checked':''}"></button><span class="goal-text">${g.text}</span><span class="tier-badge">${tierObj.label} · ${tierObj.exp} EXP</span><button class="del-btn">×</button>`;
         li.querySelector('.check').onclick = () => { 
-          if(!currentUser) return; g.done=!g.done; 
+          g.done=!g.done; 
           handleExpAndCoin(g.done ? tierObj.exp : -tierObj.exp);
           save(); renderHeader(); renderDaily(); renderCalendar();
         };
         li.querySelector('.del-btn').onclick = () => { 
-          if(!currentUser) return; if(g.done) handleExpAndCoin(-tierObj.exp);
+          if(g.done) handleExpAndCoin(-tierObj.exp);
           list.splice(idx,1); 
           state.dailyGoals[key] = list;
           if(state.dailyGoals[key].length===0) delete state.dailyGoals[key]; 
@@ -1526,7 +1538,7 @@
   }
   
   document.getElementById('addDailyForm').addEventListener('submit', (e) => {
-    e.preventDefault(); if(!currentUser) return openAuthModal('loginModal');
+    e.preventDefault();
     const t = document.getElementById('dailyGoalInput').value.trim(); if(!t) return;
     const k = fmtKey(currentDailyDate); 
     if(!state.dailyGoals) state.dailyGoals = {};
@@ -1579,14 +1591,14 @@
         const li = document.createElement('li'); li.className = 'goal-row' + (g.done ? ' done' : '');
         li.innerHTML = `<button class="check ${g.done?'checked':''}"></button><span class="goal-text">${g.text}</span><span class="tier-badge" style="color:var(--amber); border-color:var(--amber);">WK REWARD · ${WEEKLY_REWARD} EXP</span><button class="del-btn">×</button>`;
         li.querySelector('.check').onclick = () => {
-          if(!currentUser) return; g.done = !g.done;
+          g.done = !g.done;
           handleExpAndCoin(g.done ? WEEKLY_REWARD : -WEEKLY_REWARD);
           save(); renderHeader(); renderGoals();
         };
         li.querySelector('.del-btn').onclick = () => {
-          if(!currentUser) return; if(g.done) handleExpAndCoin(-WEEKLY_REWARD);
+          if(g.done) handleExpAndCoin(-WEEKLY_REWARD);
           list.splice(idx, 1); 
-          state.goals[key] = list; // 업데이트
+          state.goals[key] = list; 
           if(state.goals[key].length === 0) delete state.goals[key];
           save(); renderHeader(); renderGoals(); 
         };
@@ -1598,7 +1610,7 @@
   const addWForm = document.getElementById('addWeekForm');
   if(addWForm) {
     addWForm.addEventListener('submit', (e) => {
-      e.preventDefault(); if(!currentUser) { openAuthModal('loginModal'); return; }
+      e.preventDefault(); 
       const text = document.getElementById('weekGoalInput').value.trim(); if(!text) return;
       const key = fmtKey(currentWeekMonday); 
       if(!state.goals) state.goals = {};
@@ -1637,7 +1649,6 @@
           (r.fileUrl ? `<a class="file-chip" href="${r.fileUrl}" target="_blank" rel="noopener">VIEW ATTACHMENT</a>` : '') +
         `</div><button class="del-btn">×</button>`;
       li.querySelector('.del-btn').onclick = () => { 
-        if(!currentUser) return; 
         state.repo = getSafeList(state.repo).filter(item => item && item.id !== r.id); 
         save(); renderRepo(); 
       };
@@ -1648,11 +1659,17 @@
   const addRepo = document.getElementById('addRepoForm');
   if(addRepo) {
     addRepo.addEventListener('submit', async (e) => {
-      e.preventDefault(); if(!currentUser) { openAuthModal('loginModal'); return; }
+      e.preventDefault(); 
       const song = document.getElementById('repoSong').value.trim(); const artist = document.getElementById('repoArtist').value.trim();
       const keyMemo = document.getElementById('repoKey').value.trim(); const fileInput = document.getElementById('repoFile');
       if(!song || !artist) return;
+      
       const overlay = document.getElementById('loadOverlay');
+      if(fileInput.files[0] && !currentUser) {
+          alert("[ SYSTEM ] 음원/악보 파일 직접 업로드는 로그인 후 가능합니다.");
+          return;
+      }
+
       if(overlay) { overlay.style.display = 'flex'; overlay.style.opacity = '1'; }
       const statMsg = document.getElementById('loadStatus');
       if(statMsg) statMsg.textContent = fileInput.files[0] ? 'UPLOADING...' : 'SAVING...';
@@ -1736,13 +1753,17 @@
   
   const dmSave = document.getElementById('dayModalSave');
   if(dmSave) dmSave.onclick = async () => {
-    if(!currentUser) return openAuthModal('loginModal');
     const k = fmtKey(modalDate); const text = document.getElementById('dayModalNote').value.trim();
     const tStart = document.getElementById('dayTimeStart').value; let tEnd = document.getElementById('dayTimeEnd').value;
     if(tEnd === '00:00') tEnd = '24:00'; 
     const stats = ['pitch','rhythm','breath','vocal','high','emotion'].map(id => Number(document.getElementById('stat-'+id).value));
     const fileInput = document.getElementById('dayFile');
     
+    if(fileInput.files[0] && !currentUser) {
+        alert("[ SYSTEM ] 오디오 파일 직접 첨부는 로그인 후 가능합니다.");
+        return;
+    }
+
     if(!state.notes) state.notes = {};
     let existingUrl = '', existingName = ''; if(state.notes[k]) { existingUrl = state.notes[k].fileUrl || ''; existingName = state.notes[k].fileName || ''; }
     if(text === '' && !fileInput.files[0] && !existingUrl && !tStart && !tEnd) { delete state.notes[k]; save(); renderCalendar(); renderStats(); closeDayModal(); return; }
@@ -1754,7 +1775,7 @@
       await save(); renderCalendar(); renderStats(); closeDayModal();
     } catch(e){} finally { if(overlay) overlay.style.display='none'; }
   };
-  const dmDel = document.getElementById('dayModalDelete'); if(dmDel) dmDel.onclick = () => { if(!currentUser) return; if(!state.notes) state.notes = {}; delete state.notes[fmtKey(modalDate)]; save(); renderCalendar(); renderStats(); closeDayModal(); };
+  const dmDel = document.getElementById('dayModalDelete'); if(dmDel) dmDel.onclick = () => { delete state.notes[fmtKey(modalDate)]; save(); renderCalendar(); renderStats(); closeDayModal(); };
   const dmGo = document.getElementById('dayModalGoto'); if(dmGo) dmGo.onclick = () => { currentDailyDate = new Date(modalDate); closeDayModal(); switchTab('daily'); renderDaily(); };
 
   // ---------- STATS / ANALYSIS TAB ----------
@@ -1791,11 +1812,10 @@
   // ---------- Backup & Reset ----------
   const expBtn = document.getElementById('exportBtn');
   if(expBtn) expBtn.onclick = () => {
-    if(!currentUser) return alert('LOGIN REQUIRED.');
     const blob = new Blob([JSON.stringify(state, null, 2)], { type: 'application/json' }); const url = URL.createObjectURL(blob);
-    const a = document.createElement('a'); a.href = url; a.download = `vocal-log-${currentUser.userId}-${fmtKey(today)}.json`; document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url);
+    const a = document.createElement('a'); a.href = url; a.download = `vocal-log-${currentUser ? currentUser.userId : 'guest'}-${fmtKey(today)}.json`; document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url);
   };
-  const impBtn = document.getElementById('importBtn'); if(impBtn) impBtn.onclick = () => { if(!currentUser) return alert('LOGIN REQUIRED.'); document.getElementById('importFile').click(); };
+  const impBtn = document.getElementById('importBtn'); if(impBtn) impBtn.onclick = () => { document.getElementById('importFile').click(); };
   const impFile = document.getElementById('importFile');
   if(impFile) impFile.onchange = (e) => {
     const file = e.target.files[0]; if(!file) return; const reader = new FileReader();
@@ -1815,7 +1835,6 @@
   
   const rstBtn = document.getElementById('resetBtn');
   if(rstBtn) rstBtn.onclick = () => {
-      if(!currentUser) return alert('LOGIN REQUIRED.');
       if(!confirm("⚠️ WARNING 🚨\nALL PROGRESS WILL BE WIPED.\nPROCEED?")) return;
       if(!confirm("THIS ACTION IS IRREVERSIBLE.")) return;
       
