@@ -84,7 +84,6 @@
   }
   .toast.show{transform:translateX(-50%) translateY(0);}
 
-  /* ★ 복구된 로딩 오버레이 CSS! */
   .load-overlay {
     position: fixed; inset: 0; background: rgba(10,8,6,0.92); z-index: 9999;
     display: none; align-items: center; justify-content: center; flex-direction: column; gap: 10px;
@@ -160,7 +159,6 @@
   .equip-name { font-size:11px; font-weight:700; color:var(--muted); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
   .equip-slot.filled .equip-name { text-shadow: 0 0 5px currentColor; }
 
-  /* 16개 상자 매트릭스 UI */
   .gacha-matrix { display:grid; grid-template-columns: 40px 1fr 1fr 1fr 1fr; gap:4px; margin-bottom:16px; align-items:center; }
   .gacha-matrix-header { display:grid; grid-template-columns: 40px 1fr 1fr 1fr 1fr; gap:4px; margin-bottom:4px; text-align:center; font-family:'JetBrains Mono', monospace; font-size:10px; color:var(--muted); font-weight:800; }
   .g-row-lbl { font-family:'JetBrains Mono', monospace; font-size:10px; color:var(--muted); font-weight:800; writing-mode:vertical-rl; text-align:center; transform:rotate(180deg); margin:0 auto; }
@@ -180,8 +178,11 @@
   /* Boss & Visuals */
   .boss-card { background:var(--bg-stage); border:1px solid var(--line); padding:20px; text-align:center; position:relative; overflow:hidden; }
   .boss-visual { margin-bottom:16px; position:relative; display:inline-flex; align-items:center; justify-content:center; width:100px; height:100px; }
+  
   .boss-radar { width:100px; height:100px; border-radius:50%; border:1px dashed var(--burgundy); display:flex; align-items:center; justify-content:center; font-family:'JetBrains Mono', monospace; font-size:30px; color:var(--burgundy); letter-spacing:2px; animation:spin 10s linear infinite; position:absolute; inset:0; margin:auto; z-index:1; }
   @keyframes spin { 100% { transform:rotate(360deg); } }
+  
+  /* ★ 진짜 이미지 태그 (스텔스 모드 적용) */
   .boss-img { width:100px; height:100px; border-radius:50%; border:2px solid var(--burgundy); position:relative; z-index:2; box-shadow:0 0 20px rgba(161,43,53,0.3); object-fit:cover; display:none; }
   
   .boss-info .rank { font-family:'JetBrains Mono', monospace; font-size:10px; color:var(--muted); letter-spacing:2px; margin-bottom:4px; }
@@ -206,6 +207,7 @@
   .btn-atk:hover:not(:disabled) { background:#fff; transform:scale(1.02); box-shadow:0 0 15px rgba(255,255,255,0.3); }
   .btn-heal { background:var(--bg-panel-2); color:var(--cream); border:1px solid var(--line); }
   .btn-heal:hover:not(:disabled) { border-color:var(--sage); color:var(--sage); }
+  
   .action-btn.locked, .btn-skill-cast.locked { background:#111 !important; color:#555 !important; border-color:#222 !important; cursor:not-allowed; box-shadow:none !important; transform:none !important; }
 
   .combat-log { font-family:'JetBrains Mono', monospace; font-size:10px; color:var(--muted); margin-top:16px; min-height:45px; background:var(--bg-panel); padding:12px; border:1px solid var(--line); line-height:1.6; text-align:left; }
@@ -304,7 +306,6 @@
   </div>
 </div>
 
-<!-- ★ 로딩 오버레이 (디자인 복원 완료) -->
 <div class="load-overlay" id="loadOverlay">
   <div style="font-weight:800;">SYNCING DATA...</div>
 </div>
@@ -421,7 +422,9 @@
         
         <div class="boss-visual">
           <div class="boss-radar" id="bossEmoji">🎯</div>
-          <img id="bossImg" class="boss-img" src="" alt="Boss" referrerpolicy="no-referrer" onerror="this.style.display='none'; const e=document.getElementById('bossEmoji'); e.style.display='flex'; e.innerHTML='🔒<br>LOCKED'; e.style.color='var(--burgundy)'; e.style.animation='none';">
+          <!-- ★ 진짜 img 태그 + 무적의 방어 속성 onerror 적용 완료 -->
+          <img id="bossImg" class="boss-img" src="" alt="Boss" referrerpolicy="no-referrer" 
+               onerror="this.style.display='none'; const e=document.getElementById('bossEmoji'); if(e){e.style.display='flex'; e.innerHTML='🔒<br>LOCKED'; e.style.color='var(--burgundy)'; e.style.animation='none';}">
         </div>
         
         <div class="boss-info">
@@ -697,12 +700,12 @@
     legend: { rates: [ { rank: '에픽', prob: 30.0 }, { rank: '신화', prob: 40.0 }, { rank: '전설', prob: 20.0 }, { rank: '불가능', prob: 8.0 }, { rank: '윈터', prob: 2.0 } ] }
   };
 
-  // ★ 구글 썸네일 전용 직통 우회 컨버터 (가장 확실한 방법)
+  // ★ 구글 다이렉트 lh3 완벽 우회기
   function getDisplayUrl(url) {
       if(!url) return '';
       const match = url.match(/\/d\/([a-zA-Z0-9_-]+)/);
       if(match && match[1]) {
-          return `https://drive.google.com/thumbnail?id=${match[1]}&sz=w300`;
+          return `https://lh3.googleusercontent.com/d/${match[1]}`;
       }
       return url;
   }
@@ -824,6 +827,34 @@
   let activeTab = 'daily';
   let modalDate = null;
 
+  function normalizeState() {
+      if(!state || typeof state !== 'object') state = {};
+      state.totalExp = Number(state.totalExp) || 0;
+      state.coins = Number(state.coins) || 0;
+      state.petExp = Number(state.petExp) || 0;
+      state.playerHp = Number(state.playerHp) || 500;
+      if(!state.goals) state.goals = {};
+      if(!state.dailyGoals) state.dailyGoals = {};
+      if(!state.notes) state.notes = {};
+      if(!state.repo || !Array.isArray(state.repo)) state.repo = [];
+      if(!state.roadmap) state.roadmap = { ultimate:'', milestones:[] };
+      
+      if(!state.gacha || typeof state.gacha !== 'object') state.gacha = { inventory: [], equipped: { weapon:null, sub:null, armor:null, skills:[] } };
+      if(!state.gacha.equipped || typeof state.gacha.equipped !== 'object') state.gacha.equipped = { weapon:null, sub:null, armor:null, skills:[] };
+      if(!Array.isArray(state.gacha.equipped.skills)) state.gacha.equipped.skills = [];
+      if(!Array.isArray(state.gacha.inventory)) state.gacha.inventory = [];
+      
+      if(!state.dungeon || typeof state.dungeon !== 'object') state.dungeon = { level: 1, hp: 200, maxHp: 200, bossImageUrl: '', stunnedDate: '' };
+      state.dungeon.level = Number(state.dungeon.level) || 1;
+      
+      if(state.gacha.equippedId && !state.gacha.equipped.weapon) state.gacha.equipped.weapon = state.gacha.equippedId;
+      
+      if(state.dungeon.maxHp < 500 && state.dungeon.level > 1) {
+          state.dungeon.maxHp = calcMaxHp(state.dungeon.level);
+          state.dungeon.hp = state.dungeon.maxHp;
+      }
+  }
+
   async function api(params) {
     const qs = Object.entries(params).map(([k,v]) => `${k}=${encodeURIComponent(v)}`).join('&');
     const res = await fetch(`${API}?${qs}`);
@@ -896,67 +927,27 @@
     checkLoginStatus(); renderAll();
   }
 
-  // ★ 초강력 에러 방어벽 (절대 다운되지 않음)
-  function normalizeState() {
-      if(!state || typeof state !== 'object') state = {};
-      state.totalExp = Number(state.totalExp) || 0;
-      state.coins = Number(state.coins) || 0;
-      state.petExp = Number(state.petExp) || 0;
-      state.playerHp = Number(state.playerHp) || 500;
-      if(!state.goals) state.goals = {};
-      if(!state.dailyGoals) state.dailyGoals = {};
-      if(!state.notes) state.notes = {};
-      if(!state.repo || !Array.isArray(state.repo)) state.repo = [];
-      if(!state.roadmap) state.roadmap = { ultimate:'', milestones:[] };
-      
-      if(!state.gacha || typeof state.gacha !== 'object') state.gacha = { inventory: [], equipped: { weapon:null, sub:null, armor:null, skills:[] } };
-      if(!state.gacha.equipped || typeof state.gacha.equipped !== 'object') state.gacha.equipped = { weapon:null, sub:null, armor:null, skills:[] };
-      if(!Array.isArray(state.gacha.equipped.skills)) state.gacha.equipped.skills = [];
-      if(!Array.isArray(state.gacha.inventory)) state.gacha.inventory = [];
-      
-      if(!state.dungeon || typeof state.dungeon !== 'object') state.dungeon = { level: 1, hp: 200, maxHp: 200, bossImageUrl: '', stunnedDate: '' };
-      state.dungeon.level = Number(state.dungeon.level) || 1;
-      
-      if(state.gacha.equippedId && !state.gacha.equipped.weapon) state.gacha.equipped.weapon = state.gacha.equippedId;
-      if(state.dungeon.maxHp < 500 && state.dungeon.level > 1) {
-          state.dungeon.maxHp = calcMaxHp(state.dungeon.level);
-          state.dungeon.hp = state.dungeon.maxHp;
-      }
-  }
+  async function loadData(){
+    const overlay = document.getElementById('loadOverlay');
+    if(overlay){overlay.style.display = 'flex'; overlay.style.opacity = '1';}
+    
+    const failsafe = setTimeout(() => { if(overlay){overlay.style.display = 'none';} }, 3500);
 
-  // ★ 로딩 프로세스 완벽 복구
-  async function loadData() {
-      const overlay = document.getElementById('loadOverlay');
-      if (overlay) { overlay.style.display = 'flex'; overlay.style.opacity = '1'; }
-      
-      const failsafe = setTimeout(() => { 
-          if(overlay) overlay.style.display = 'none'; 
-      }, 3500);
+    try {
+        if (!currentUser) {
+            const local = localStorage.getItem('vocal-log-local-state');
+            if (local) { try { state = JSON.parse(local); } catch(e) {} }
+        } else {
+            const res = await api({ action: 'read', sheet: 'vocal_log' });
+            const rows = res.data || [];
+            const myRows = rows.filter(r => r[0] === currentUser.userId);
+            if (myRows.length > 0) { state = JSON.parse(myRows[myRows.length - 1][1]); }
+        }
+    } catch (err) { console.error(err); }
 
-      try {
-          if (!currentUser) {
-              const local = localStorage.getItem('vocal-log-local-state');
-              if (local) {
-                  try { state = JSON.parse(local); } catch(e) {}
-              }
-          } else {
-              const res = await api({ action: 'read', sheet: 'vocal_log' });
-              const rows = res.data || [];
-              const myRows = rows.filter(r => r[0] === currentUser.userId);
-              if (myRows.length > 0) {
-                  state = JSON.parse(myRows[myRows.length - 1][1]);
-              }
-          }
-      } catch (err) {
-          console.error(err);
-      }
-
-      normalizeState();
-
-      try { renderAll(); } catch(e){ console.error(e); }
-      
-      clearTimeout(failsafe);
-      if (overlay) overlay.style.display = 'none';
+    normalizeState();
+    try { renderAll(); } catch(e){ console.error(e); }
+    clearTimeout(failsafe); if (overlay) overlay.style.display = 'none';
   }
   
   async function save(){
@@ -1052,6 +1043,7 @@
     
     let eqAtk = 0, eqDef = 0, eqHp = 0;
     const inv = getSafeList(state.gacha.inventory);
+    
     const eq = state.gacha.equipped;
 
     ['weapon', 'sub', 'armor'].forEach(type => {
@@ -1072,24 +1064,23 @@
     return { pet, totalAtk, totalDef, maxHp, eqAtk, eqDef, eqHp };
   }
 
-  // ★ GUEST 막힘 완전 해제! 오프라인도 플레이 가능
   window.equipItem = function(itemType, itemId) {
-      state.gacha.equipped[itemType] = itemId;
+      if(itemType === 'skill') {
+          if(state.gacha.equipped.skills.includes(itemId)) {
+              state.gacha.equipped.skills = state.gacha.equipped.skills.filter(id => id !== itemId);
+          } else {
+              if(state.gacha.equipped.skills.length >= 3) state.gacha.equipped.skills.shift();
+              state.gacha.equipped.skills.push(itemId);
+          }
+      } else {
+          state.gacha.equipped[itemType] = itemId;
+      }
+      
       let pStats = getPlayerStats(); 
       if(isNaN(state.playerHp) || state.playerHp > pStats.maxHp) state.playerHp = pStats.maxHp;
+      
       save(); renderHeader(); renderGame();
   };
-
-  // ★ 스킬 장착 분리!
-  window.equipSkill = function(itemId) {
-      if(state.gacha.equipped.skills.includes(itemId)) {
-          state.gacha.equipped.skills = state.gacha.equipped.skills.filter(id => id !== itemId);
-      } else {
-          if(state.gacha.equipped.skills.length >= 3) state.gacha.equipped.skills.shift();
-          state.gacha.equipped.skills.push(itemId);
-      }
-      save(); renderHeader(); renderGame();
-  }
 
   function renderGame() {
     const petExp = Number(state.petExp || 0);
@@ -1178,23 +1169,12 @@
           if(item.hp) statText.push(`HP +${item.hp.toLocaleString()}`);
           if(item.type === 'skill') statText.push('ACTIVE EFFECT');
           
-          let btnHtml = '';
-          if (item.type === 'skill') {
-              btnHtml = isEquipped 
-                  ? `<button class="nav-btn" style="width:auto; padding:0 12px; height:26px; font-size:11px; font-family:'JetBrains Mono'; border-color:var(--amber); color:var(--amber);" onclick="equipSkill('${item.id}')">UNEQUIP</button>` 
-                  : `<button class="nav-btn" style="width:auto; padding:0 12px; height:26px; font-size:11px; font-family:'JetBrains Mono';" onclick="equipSkill('${item.id}')">EQUIP</button>`;
-          } else {
-              btnHtml = isEquipped 
-                  ? `<div style="font-size:11px; font-weight:800; color:var(--amber);">EQUIPPED</div>` 
-                  : `<button class="nav-btn" style="width:auto; padding:0 12px; height:26px; font-size:11px; font-family:'JetBrains Mono';" onclick="equipItem('${item.type}', '${item.id}')">EQUIP</button>`;
-          }
-
           div.innerHTML = `
             <div style="flex:1;">
               <div class="inv-item-name" style="color:${item.color}">${item.name}</div>
               <div class="inv-item-stat">${statText.join(' | ')}</div>
             </div>
-            ${btnHtml}
+            ${isEquipped ? `<button class="nav-btn" style="width:auto; padding:0 12px; height:26px; font-size:11px; font-family:'JetBrains Mono'; border-color:var(--amber); color:var(--amber);" onclick="equipItem('${item.type}', '${item.id}')">UNEQUIP</button>` : `<button class="nav-btn" style="width:auto; padding:0 12px; height:26px; font-size:11px; font-family:'JetBrains Mono';" onclick="equipItem('${item.type}', '${item.id}')">EQUIP</button>`}
           `;
           invContainer.appendChild(div);
         });
@@ -1211,7 +1191,7 @@
     const bossE = document.getElementById('bossEmoji'); 
     const bossI = document.getElementById('bossImg');
     
-    // ★ 엑스박스 완벽 차단! 이미지 로딩 실패 시 레이더 화면 유지
+    // ★ 안전한 URL 획득 및 무적의 <img> 태그 사용!
     const activeImgUrl = getDisplayUrl(state.dungeon.bossImageUrl || currentBossData.img);
     
     if(bossE) {
@@ -1226,7 +1206,10 @@
       const img = new Image();
       img.onload = () => {
           if(bossE) bossE.style.display = 'none';
-          if(bossI) { bossI.style.display = 'block'; bossI.style.backgroundImage = `url('${activeImgUrl}')`; }
+          if(bossI) { 
+              bossI.style.display = 'block'; 
+              bossI.src = activeImgUrl; 
+          }
       };
       img.onerror = () => {
           if(bossE) { bossE.innerHTML = '🔒<br>LOCKED'; bossE.style.animation = 'none'; }
@@ -1277,7 +1260,6 @@
         }
     }
 
-    // ★ 기절 상태 확인
     const isStunned = state.dungeon.stunnedDate === fmtKey(new Date());
     const atkBtn = document.getElementById('atkBtn');
     const healBtn = document.getElementById('healBtn');
@@ -1302,7 +1284,7 @@
     if(statMsg) statMsg.textContent = 'OVERRIDING VISUAL...';
     try {
       if(!currentUser) {
-          alert("[ SYSTEM ] 이미지 파일 서버 저장은 로그인 후 가능합니다.\n(GUEST 모드 제한)");
+          alert("[ SYSTEM ] 이미지 파일 직접 업로드는 서버 권한이 필요합니다.\n로그인 후 이용해주세요.");
           if(overlay) overlay.style.display = 'none'; 
           input.value=''; 
           return;
@@ -1400,7 +1382,6 @@
     } else { processResult(); }
   }
 
-  // ★ GUEST 막힘 제거 통합 액션 시스템
   window.executeAction = function(actionType, skillId = null) {
       const todayKey = fmtKey(new Date());
       if(state.dungeon.stunnedDate === todayKey) {
@@ -1460,8 +1441,8 @@
       state.dungeon.hp = (Number(state.dungeon.hp) || state.dungeon.maxHp) - finalDmg;
       logCombat(`> ATK: ${finalDmg.toLocaleString()} DMG! ${actionLog}`, "log-p-dmg");
       
-      const targetEl = document.getElementById('bossVisualArea');
-      if(targetEl) {
+      const targetEl = document.getElementById('bossImg');
+      if(targetEl && targetEl.style.display !== 'none') {
         targetEl.style.transform = 'scale(0.8) rotate(-15deg)';
         targetEl.style.filter = 'drop-shadow(0 0 15px rgba(255,0,0,0.8))';
         setTimeout(() => { targetEl.style.transform = 'none'; targetEl.style.filter = 'none'; }, 150);
@@ -1496,6 +1477,7 @@
             logCombat(`[ CRITICAL ERROR: HP 0. SYSTEM LOCKED UNTIL TOMORROW. ]`, "log-sys");
         }
       }
+
       save(); renderHeader(); renderGame();
   }
 
@@ -1693,7 +1675,7 @@
         li.querySelector('.del-btn').onclick = () => {
           if(g.done) handleExpAndCoin(-WEEKLY_REWARD);
           list.splice(idx, 1); 
-          state.goals[key] = list; 
+          state.goals[key] = list; // 업데이트
           if(state.goals[key].length === 0) delete state.goals[key];
           save(); renderHeader(); renderGoals(); 
         };
@@ -1761,7 +1743,7 @@
       
       const overlay = document.getElementById('loadOverlay');
       if(fileInput.files[0] && !currentUser) {
-          alert("[ SYSTEM ] 음원/악보 파일 직접 업로드는 서버 권한이 필요합니다.\n로그인 후 이용해주세요.");
+          alert("[ SYSTEM ] 음원/악보 파일 서버 저장은 로그인 후 가능합니다.");
           return;
       }
 
@@ -1855,7 +1837,7 @@
     const fileInput = document.getElementById('dayFile');
     
     if(fileInput.files[0] && !currentUser) {
-        alert("[ SYSTEM ] 오디오 파일 직접 첨부는 서버 권한이 필요합니다.\n로그인 후 이용해주세요.");
+        alert("[ SYSTEM ] 오디오 파일 서버 저장은 로그인 후 가능합니다.");
         return;
     }
 
