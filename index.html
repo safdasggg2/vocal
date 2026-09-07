@@ -36,94 +36,35 @@
   /* ---------- Header ---------- */
   .marquee{
     background:linear-gradient(180deg, var(--bg-panel-2), var(--bg-panel));
-    border:1px solid var(--line);
-    border-radius:12px;
-    padding:20px 20px 18px;
-    position:relative;
-    overflow:hidden;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-  }
-  .marquee::before{
-    content:""; position:absolute; inset:0;
-    background:repeating-linear-gradient(90deg, rgba(232,163,61,0.05) 0 2px, transparent 2px 26px);
-    pointer-events:none;
+    border:1px solid var(--line); border-radius:12px; padding:20px 20px 18px;
+    position:relative; overflow:hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.5);
   }
   .marquee-top{display:flex;align-items:center;justify-content:space-between;gap:12px; margin-bottom:14px;}
   .brand{ font-family:'JetBrains Mono', monospace; font-weight:800; font-size:22px; letter-spacing:0.05em; color:var(--cream); }
   .brand span{color:var(--amber);}
-  
   .auth-area { display:flex; align-items:center; gap:10px; z-index:10; }
   .user-name { font-size:12px; color:var(--muted); font-family:'JetBrains Mono', monospace; font-weight:700; }
-  .auth-btn { 
-    background:var(--bg-panel); border:1px solid var(--amber-dim); color:var(--amber); font-weight:700;
-    border-radius:4px; padding:6px 12px; cursor:pointer; font-family:'JetBrains Mono', monospace; font-size:11px;
-    transition: 0.2s;
-  }
+  .auth-btn { background:var(--bg-panel); border:1px solid var(--amber-dim); color:var(--amber); font-weight:700; border-radius:4px; padding:6px 12px; cursor:pointer; font-family:'JetBrains Mono', monospace; font-size:11px; transition: 0.2s; }
   .auth-btn:hover { background:var(--amber-dim); color:var(--cream); }
   .auth-btn.logout { border-color:var(--line); color:var(--muted); }
 
-  .level-badge{
-    display:flex; align-items:center; gap:8px;
-    background:var(--bg-panel); border:1px solid var(--line);
-    border-radius:6px; padding:6px 14px;
-    font-family:'JetBrains Mono', monospace; font-weight:700;
-  }
+  .level-badge{ display:flex; align-items:center; gap:8px; background:var(--bg-panel); border:1px solid var(--line); border-radius:6px; padding:6px 14px; font-family:'JetBrains Mono', monospace; font-weight:700; }
   .level-badge .lv-num{font-size:15px; color:var(--cream);}
-
   .meter-row{display:flex; align-items:center; gap:10px; margin-top:12px;}
   .meter{ flex:1; display:flex; gap:2px; height:8px; }
   .meter i{ flex:1; background:var(--bg-stage); transition:0.3s; }
   .meter i.on{ background:var(--amber); box-shadow:0 0 5px var(--amber-glow); }
   .meter-label{ font-family:'JetBrains Mono', monospace; font-size:11px; color:var(--muted); }
 
-  .toast{
-    position:fixed; top:18px; left:50%; transform:translateX(-50%) translateY(-140%);
-    background:var(--cream); color:#000; font-family:'JetBrains Mono', monospace; font-weight:800;
-    padding:10px 22px; border-radius:4px; box-shadow:0 0 15px rgba(255,255,255,0.2);
-    transition:transform .35s cubic-bezier(.2,.9,.3,1.3); z-index:50; font-size:13px; letter-spacing:.05em;
-  }
+  .toast{ position:fixed; top:18px; left:50%; transform:translateX(-50%) translateY(-140%); background:var(--cream); color:#000; font-family:'JetBrains Mono', monospace; font-weight:800; padding:10px 22px; border-radius:4px; box-shadow:0 0 15px rgba(255,255,255,0.2); transition:transform .35s cubic-bezier(.2,.9,.3,1.3); z-index:50; font-size:13px; letter-spacing:.05em; }
   .toast.show{transform:translateX(-50%) translateY(0);}
 
   /* ---------- Tabs ---------- */
   .tabs{ display:flex; gap:8px; margin:24px 0 16px; overflow-x:auto; padding-bottom:6px; scrollbar-width: none; }
   .tabs::-webkit-scrollbar { display: none; }
-  .tab-btn{
-    flex:none; padding:10px 16px; background:transparent; border:none; border-bottom:2px solid transparent;
-    color:var(--muted); font-family:'JetBrains Mono', monospace; font-weight:700; font-size:12px;
-    cursor:pointer; transition:all .2s; letter-spacing:1px;
-  }
+  .tab-btn{ flex:none; padding:10px 16px; background:transparent; border:none; border-bottom:2px solid transparent; color:var(--muted); font-family:'JetBrains Mono', monospace; font-weight:700; font-size:12px; cursor:pointer; transition:all .2s; letter-spacing:1px; }
   .tab-btn.active{ color:var(--amber); border-bottom-color:var(--amber); }
   .panel{ background:var(--bg-panel); border:1px solid var(--line); border-radius:12px; padding:20px; }
-
-  /* ---------- Shared List Styles ---------- */
-  .goal-list{list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:8px;}
-  .goal-row{ display:flex; align-items:center; gap:12px; background:var(--bg-panel-2); border-left:3px solid var(--line); padding:12px 14px; transition:0.2s; }
-  .goal-row.done{border-color:var(--sage); opacity:0.6;}
-  .check{ width:18px; height:18px; border:2px solid var(--muted); background:transparent; flex:none; cursor:pointer; position:relative; transition:0.2s; }
-  .check.checked{border-color:var(--sage); background:var(--sage);}
-  .check.checked::after{
-    content:"✓"; position:absolute; inset:0; display:flex; align-items:center; justify-content:center;
-    color:#16210f; font-size:14px; font-weight:700;
-  }
-  .goal-text{flex:1; font-size:13px; font-weight:500;}
-  .goal-row.done .goal-text{color:var(--muted); text-decoration:line-through;}
-  .tier-badge{ font-family:'JetBrains Mono', monospace; font-size:10px; color:var(--gold); padding:2px 6px; border:1px solid var(--line); }
-  .del-btn{ background:none; border:none; color:var(--muted); cursor:pointer; font-size:16px; }
-  .del-btn:hover{color:var(--burgundy);}
-  .empty-note{ color:var(--muted); font-size:12px; font-family:'JetBrains Mono', monospace; text-align:center; padding:30px 10px; border:1px dashed var(--line); }
-
-  .week-nav{ display:flex; align-items:center; justify-content:space-between; margin-bottom:18px; font-family:'JetBrains Mono', monospace; }
-  .week-nav .range{ font-weight:700; font-size:14px; text-align:center; color:var(--cream); }
-  .week-nav .range small{ display:block; font-weight:400; font-size:10px; color:var(--muted); margin-top:4px; }
-  .nav-btn{ background:transparent; border:1px solid var(--line); color:var(--cream); width:30px; height:30px; cursor:pointer; transition:0.2s; }
-  .nav-btn:hover:not(:disabled){ background:var(--line); }
-  .nav-btn:disabled{opacity:.3; cursor:not-allowed;}
-  .today-chip{ background:var(--line); border:none; color:var(--cream); font-size:10px; font-weight:700; padding:6px 12px; cursor:pointer; font-family:'JetBrains Mono', monospace; }
-
-  .add-form{ display:flex; gap:8px; margin-top:16px; }
-  .add-form input[type=text], .add-form select{ background:var(--bg-stage); border:1px solid var(--line); color:var(--cream); padding:10px; font-family:'Work Sans'; font-size:13px; flex:1; outline:none; }
-  .add-form input[type=text]:focus { border-color:var(--amber); }
-  .add-btn{ background:var(--amber); border:none; color:#000; font-weight:800; padding:0 16px; cursor:pointer; font-family:'JetBrains Mono', monospace; font-size:12px; }
 
   /* ---------- Game Tab ---------- */
   .game-section { border-top:1px solid var(--line); padding:20px 0; }
@@ -131,12 +72,7 @@
   .game-section-title { font-family:'JetBrains Mono', monospace; font-size:12px; font-weight:800; color:var(--muted); letter-spacing:2px; margin-bottom:16px; text-transform:uppercase; }
   
   .player-status-box { display:flex; gap:20px; align-items:center; }
-  .player-rank-circle { 
-    width:70px; height:70px; border-radius:50%; display:flex; align-items:center; justify-content:center;
-    background:radial-gradient(circle, var(--line), var(--bg-stage)); border:2px solid var(--amber-dim);
-    font-family:'JetBrains Mono', monospace; font-weight:800; font-size:10px; color:var(--amber);
-    box-shadow: 0 0 15px rgba(232,163,61,0.1); text-align:center; line-height:1.2;
-  }
+  .player-rank-circle { width:70px; height:70px; border-radius:50%; display:flex; align-items:center; justify-content:center; background:radial-gradient(circle, var(--line), var(--bg-stage)); border:2px solid var(--amber-dim); font-family:'JetBrains Mono', monospace; font-weight:800; font-size:10px; color:var(--amber); box-shadow: 0 0 15px rgba(232,163,61,0.1); text-align:center; line-height:1.2; }
   .player-details { flex:1; }
   .stat-line { font-family:'JetBrains Mono', monospace; font-size:11px; margin-bottom:6px; display:flex; justify-content:space-between; border-bottom:1px solid var(--line); padding-bottom:4px; }
   .stat-line span.val { color:var(--cream); font-weight:700; }
@@ -146,27 +82,23 @@
   .hp-bar-fill { background:var(--sage); height:100%; transition:width 0.3s; }
   .hp-bar-text { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; font-family:'JetBrains Mono', monospace; font-size:9px; font-weight:800; color:#fff; text-shadow:0 0 2px #000; }
 
-  .equip-grid { display:grid; grid-template-columns:1fr 1fr; gap:1px; background:var(--line); margin-top:16px; border:1px solid var(--line); }
-  .equip-slot { background:var(--bg-panel); padding:12px; text-align:center; }
+  .equip-grid { display:grid; grid-template-columns:repeat(3, 1fr); gap:1px; background:var(--line); margin-top:16px; border:1px solid var(--line); }
+  .equip-slot { background:var(--bg-panel); padding:10px 4px; text-align:center; }
   .equip-label { font-family:'JetBrains Mono', monospace; font-size:9px; color:var(--muted); letter-spacing:1px; margin-bottom:6px; }
-  .equip-name { font-size:12px; font-weight:700; color:var(--muted); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .equip-name { font-size:11px; font-weight:700; color:var(--muted); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
   .equip-slot.filled .equip-name { text-shadow: 0 0 5px currentColor; }
 
-  /* 부위별 가챠 그리드 */
-  .gacha-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:16px; }
-  .gacha-box-btn { 
-    background:var(--bg-stage); border:1px solid var(--line); padding:16px 10px; cursor:pointer; transition:0.2s;
-    display:flex; flex-direction:column; align-items:center; gap:6px;
-  }
-  .gacha-box-btn:hover { background:var(--bg-panel-2); filter:brightness(1.2); }
-  .gacha-box-btn .t { font-family:'JetBrains Mono', monospace; font-weight:800; font-size:12px; }
-  .gacha-box-btn .c { font-family:'JetBrains Mono', monospace; font-size:10px; color:var(--muted); }
-  
-  .box-weapon { border-color:#a12b35; color:#ff6b6b; }
-  .box-sub { border-color:#2b6b35; color:#6bff6b; }
-  .box-armor { border-color:#2b4ba1; color:#6b9fff; }
-  .box-skill { border-color:#6b2ba1; color:#b06bff; box-shadow:inset 0 0 15px rgba(176,107,255,0.15); }
-  
+  /* 16개 상자 매트릭스 UI */
+  .gacha-matrix { display:grid; grid-template-columns: 40px 1fr 1fr 1fr 1fr; gap:4px; margin-bottom:16px; align-items:center; }
+  .gacha-matrix-header { display:grid; grid-template-columns: 40px 1fr 1fr 1fr 1fr; gap:4px; margin-bottom:4px; text-align:center; font-family:'JetBrains Mono', monospace; font-size:10px; color:var(--muted); font-weight:800; }
+  .g-row-lbl { font-family:'JetBrains Mono', monospace; font-size:10px; color:var(--muted); font-weight:800; writing-mode:vertical-rl; text-align:center; transform:rotate(180deg); margin:0 auto; }
+  .g-btn { background:var(--bg-panel-2); border:1px solid var(--line); padding:10px 4px; border-radius:4px; color:var(--cream); font-family:'JetBrains Mono', monospace; font-size:10px; font-weight:700; cursor:pointer; transition:0.2s; }
+  .g-btn:hover { filter:brightness(1.5); }
+  .g-btn.n { border-color:#a4917d; color:#a4917d; }
+  .g-btn.r { border-color:#32cd32; color:#32cd32; }
+  .g-btn.e { border-color:#8a2be2; color:#8a2be2; }
+  .g-btn.l { border-color:#ffd700; color:#ffd700; }
+
   .inv-container { max-height:180px; overflow-y:auto; background:var(--bg-stage); padding:10px; border:1px solid var(--line); display:flex; flex-direction:column; gap:4px; }
   .inv-item { display:flex; justify-content:space-between; align-items:center; padding:10px; background:var(--bg-panel); border-left:2px solid var(--line); }
   .inv-item.equipped { border-color:var(--amber); background:rgba(232,163,61,0.05); }
@@ -176,12 +108,9 @@
   /* Boss & Visuals */
   .boss-card { background:var(--bg-stage); border:1px solid var(--line); padding:20px; text-align:center; position:relative; overflow:hidden; }
   .boss-visual { margin-bottom:16px; position:relative; display:inline-flex; align-items:center; justify-content:center; width:100px; height:100px; }
-  
   .boss-radar { width:100px; height:100px; border-radius:50%; border:1px dashed var(--burgundy); display:flex; align-items:center; justify-content:center; font-family:'JetBrains Mono', monospace; font-size:30px; color:var(--burgundy); letter-spacing:2px; animation:spin 10s linear infinite; position:absolute; inset:0; margin:auto; z-index:1; }
   @keyframes spin { 100% { transform:rotate(360deg); } }
-  
-  /* ★ X박스 방지를 위해 img 태그 대신 div + background-image 로 변경 */
-  .boss-img { width:100px; height:100px; border-radius:50%; border:2px solid var(--burgundy); position:relative; z-index:2; box-shadow:0 0 20px rgba(161,43,53,0.3); background-size: cover; background-position: center; background-color: var(--bg-panel); display:none; }
+  .boss-img { width:100px; height:100px; border-radius:50%; border:2px solid var(--burgundy); position:relative; z-index:2; box-shadow:0 0 20px rgba(161,43,53,0.3); object-fit:cover; display:none; }
   
   .boss-info .rank { font-family:'JetBrains Mono', monospace; font-size:10px; color:var(--muted); letter-spacing:2px; margin-bottom:4px; }
   .boss-info .name { font-size:22px; font-weight:900; color:var(--cream); letter-spacing:1px; margin-bottom:16px; text-transform:uppercase; }
@@ -194,15 +123,18 @@
   .boss-hp-fill { background:var(--burgundy); height:100%; transition:0.2s; }
   .boss-hp-text { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; font-family:'JetBrains Mono', monospace; font-size:10px; font-weight:800; color:#fff; }
 
-  .action-btns { display:flex; gap:10px; }
-  .action-btn { flex:1; padding:16px 0; font-family:'JetBrains Mono', monospace; font-size:14px; font-weight:800; border:none; cursor:pointer; transition:0.2s; letter-spacing:1px; }
+  .action-btns { display:flex; gap:10px; margin-bottom:10px; }
+  .action-btn { flex:1; padding:12px 0; font-family:'JetBrains Mono', monospace; font-size:12px; font-weight:800; border:none; cursor:pointer; transition:0.2s; letter-spacing:1px; }
   .btn-atk { background:var(--cream); color:#000; }
   .btn-atk:hover:not(:disabled) { background:#fff; transform:scale(1.02); box-shadow:0 0 15px rgba(255,255,255,0.3); }
   .btn-heal { background:var(--bg-panel-2); color:var(--cream); border:1px solid var(--line); }
   .btn-heal:hover:not(:disabled) { border-color:var(--sage); color:var(--sage); }
-  
-  /* 잠금 상태 CSS - 클릭은 되게 하되 시각적으로만 어둡게 */
   .action-btn.locked { background:#111 !important; color:#555 !important; border-color:#222 !important; cursor:not-allowed; }
+
+  /* Active Skill Tray */
+  .skill-tray { display:flex; gap:6px; margin-bottom:10px; }
+  .btn-skill-cast { flex:1; padding:10px 0; font-family:'JetBrains Mono', monospace; font-size:11px; font-weight:800; background:var(--bg-panel-2); color:var(--neon-blue); border:1px solid var(--neon-blue); cursor:pointer; transition:0.2s; }
+  .btn-skill-cast:hover:not(:disabled) { background:var(--neon-blue); color:#000; box-shadow:0 0 10px rgba(0,243,255,0.4); }
 
   .combat-log { font-family:'JetBrains Mono', monospace; font-size:10px; color:var(--muted); margin-top:16px; min-height:45px; background:var(--bg-panel); padding:12px; border:1px solid var(--line); line-height:1.6; text-align:left; }
   .log-p-dmg { color:var(--cream); }
@@ -218,23 +150,41 @@
   .cs-flash { position: absolute; inset: 0; background: #fff; opacity: 0; pointer-events: none; }
   .cs-flash.run { animation: flashAnim 3s cubic-bezier(0.1, 0.8, 0.3, 1) forwards; }
   @keyframes flashAnim { 0% { opacity: 1; } 10% { opacity: 1; } 100% { opacity: 0; } }
-  
   .cs-content { position: relative; z-index: 10; text-align: center; }
   .cs-rank { font-family: 'JetBrains Mono', monospace; font-size: 16px; letter-spacing: 6px; margin-bottom: 12px; opacity: 0; }
   .cs-item { font-family: 'Work Sans', sans-serif; font-size: 38px; font-weight: 900; opacity: 0; transform: scale(0.8); }
-  
   .cs-content.run .cs-rank { animation: itemReveal 2s 0.2s cubic-bezier(0.1, 0.8, 0.3, 1) forwards; }
   .cs-content.run .cs-item { animation: itemReveal 2.5s 0.5s cubic-bezier(0.1, 0.8, 0.3, 1) forwards; }
-  
-  @keyframes itemReveal {
-    0% { opacity: 0; transform: scale(0.8); text-shadow: 0 0 50px currentColor; filter:blur(4px); }
-    100% { opacity: 1; transform: scale(1); text-shadow: 0 0 15px currentColor; filter:blur(0); }
-  }
+  @keyframes itemReveal { 0% { opacity: 0; transform: scale(0.8); text-shadow: 0 0 50px currentColor; filter:blur(4px); } 100% { opacity: 1; transform: scale(1); text-shadow: 0 0 15px currentColor; filter:blur(0); } }
 
   /* Utilities */
   .upload-box { border:1px dashed var(--line); padding:14px; text-align:center; font-family:'JetBrains Mono', monospace; font-size:11px; cursor:pointer; color:var(--muted); transition:0.2s; display:block; margin-bottom:10px; }
   .upload-box:hover { border-color:var(--amber); color:var(--amber); background:rgba(232,163,61,0.05); }
-  .file-chip { display:inline-block; padding:4px 8px; background:var(--bg-panel-2); font-family:'JetBrains Mono', monospace; font-size:10px; color:var(--cream); border:1px solid var(--line); text-decoration:none; margin-top:6px; }
+
+  /* Shared Layouts */
+  .goal-list{list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:8px;}
+  .goal-row{ display:flex; align-items:center; gap:12px; background:var(--bg-panel-2); border-left:3px solid var(--line); padding:12px 14px; transition:0.2s; }
+  .goal-row.done{border-color:var(--sage); opacity:0.6;}
+  .check{ width:18px; height:18px; border:2px solid var(--muted); background:transparent; flex:none; cursor:pointer; position:relative; transition:0.2s; }
+  .check.checked{border-color:var(--sage); background:var(--sage);}
+  .check.checked::after{ content:"✓"; position:absolute; inset:0; display:flex; align-items:center; justify-content:center; color:#16210f; font-size:14px; font-weight:700; }
+  .goal-text{flex:1; font-size:13px; font-weight:500;}
+  .goal-row.done .goal-text{color:var(--muted); text-decoration:line-through;}
+  .tier-badge{ font-family:'JetBrains Mono', monospace; font-size:10px; color:var(--gold); padding:2px 6px; border:1px solid var(--line); }
+  .del-btn{ background:none; border:none; color:var(--muted); cursor:pointer; font-size:16px; }
+  .del-btn:hover{color:var(--burgundy);}
+  .empty-note{ color:var(--muted); font-size:12px; font-family:'JetBrains Mono', monospace; text-align:center; padding:30px 10px; border:1px dashed var(--line); }
+  .week-nav{ display:flex; align-items:center; justify-content:space-between; margin-bottom:18px; font-family:'JetBrains Mono', monospace; }
+  .week-nav .range{ font-weight:700; font-size:14px; text-align:center; color:var(--cream); }
+  .week-nav .range small{ display:block; font-weight:400; font-size:10px; color:var(--muted); margin-top:4px; }
+  .nav-btn{ background:transparent; border:1px solid var(--line); color:var(--cream); width:30px; height:30px; cursor:pointer; transition:0.2s; }
+  .nav-btn:hover:not(:disabled){ background:var(--line); }
+  .nav-btn:disabled{opacity:.3; cursor:not-allowed;}
+  .today-chip{ background:var(--line); border:none; color:var(--cream); font-size:10px; font-weight:700; padding:6px 12px; cursor:pointer; font-family:'JetBrains Mono', monospace; }
+  .add-form{ display:flex; gap:8px; margin-top:16px; }
+  .add-form input[type=text], .add-form select{ background:var(--bg-stage); border:1px solid var(--line); color:var(--cream); padding:10px; font-family:'Work Sans'; font-size:13px; flex:1; outline:none; }
+  .add-form input[type=text]:focus { border-color:var(--amber); }
+  .add-btn{ background:var(--amber); border:none; color:#000; font-weight:800; padding:0 16px; cursor:pointer; font-family:'JetBrains Mono', monospace; font-size:12px; }
 
   /* Modal & Stats */
   .modal-overlay{ position:fixed; inset:0; background:rgba(10,8,6,0.85); display:none; align-items:center; justify-content:center; padding:20px; z-index:80; }
@@ -244,7 +194,6 @@
   .modal-box input, .modal-box textarea { width:100%; background:var(--bg-stage); border:1px solid var(--line); color:var(--cream); padding:12px; font-family:'Work Sans'; font-size:13px; outline:none; margin-bottom:12px; }
   .modal-box input:focus, .modal-box textarea:focus { border-color:var(--amber); }
   .modal-box textarea { min-height:100px; resize:vertical; }
-  .modal-actions { display:flex; gap:10px; margin-top:10px; }
   .btn-primary { background:var(--cream); color:#000; padding:12px; border:none; font-family:'JetBrains Mono', monospace; font-weight:800; font-size:13px; cursor:pointer; flex:1; transition:0.2s; }
   .btn-primary:hover { background:#fff; }
   .btn-text { background:none; border:none; color:var(--muted); font-family:'JetBrains Mono', monospace; font-size:11px; cursor:pointer; text-decoration:underline; }
@@ -341,7 +290,12 @@
         <div class="equip-slot" id="slot-weapon"><div class="equip-label">[ WEAPON ]</div><div class="equip-name">EMPTY</div></div>
         <div class="equip-slot" id="slot-sub"><div class="equip-label">[ SUB ]</div><div class="equip-name">EMPTY</div></div>
         <div class="equip-slot" id="slot-armor"><div class="equip-label">[ ARMOR ]</div><div class="equip-name">EMPTY</div></div>
-        <div class="equip-slot" id="slot-skill"><div class="equip-label">[ SKILL ]</div><div class="equip-name">EMPTY</div></div>
+      </div>
+      <!-- 스킬 3슬롯 장착창 -->
+      <div class="equip-grid" style="margin-top:1px;">
+        <div class="equip-slot" id="slot-skill-0"><div class="equip-label">[ SKILL 1 ]</div><div class="equip-name">EMPTY</div></div>
+        <div class="equip-slot" id="slot-skill-1"><div class="equip-label">[ SKILL 2 ]</div><div class="equip-name">EMPTY</div></div>
+        <div class="equip-slot" id="slot-skill-2"><div class="equip-label">[ SKILL 3 ]</div><div class="equip-name">EMPTY</div></div>
       </div>
 
       <div style="display:flex; gap:10px; align-items:center; margin-top:14px;">
@@ -353,27 +307,52 @@
       </div>
     </div>
 
+    <!-- 2. Gacha Cache 16 MATRIX -->
     <div class="game-section" style="padding:0 20px 20px;">
-      <div class="game-section-title">EQUIPMENT CACHE</div>
-      <div class="gacha-grid">
-        <button class="gacha-box-btn box-weapon" onclick="drawGacha('weapon')"><span class="t">WEAPON CACHE</span><span class="c">500 CRD</span></button>
-        <button class="gacha-box-btn box-sub" onclick="drawGacha('sub')"><span class="t">SUB CACHE</span><span class="c">500 CRD</span></button>
-        <button class="gacha-box-btn box-armor" onclick="drawGacha('armor')"><span class="t">ARMOR CACHE</span><span class="c">500 CRD</span></button>
-        <button class="gacha-box-btn box-skill" onclick="drawGacha('skill')"><span class="t">SKILL CACHE</span><span class="c">1,000 CRD</span></button>
+      <div class="game-section-title">EQUIPMENT CACHE (16 TYPES)</div>
+      
+      <div class="gacha-matrix-header">
+        <div></div><div>WPN</div><div>SUB</div><div>AMR</div><div>SKL</div>
+      </div>
+      <div class="gacha-matrix">
+        <div class="g-row-lbl">NORMAL</div>
+        <button class="g-btn n" onclick="drawGacha('weapon','normal')">100C</button>
+        <button class="g-btn n" onclick="drawGacha('sub','normal')">100C</button>
+        <button class="g-btn n" onclick="drawGacha('armor','normal')">100C</button>
+        <button class="g-btn n" onclick="drawGacha('skill','normal')">200C</button>
+        
+        <div class="g-row-lbl" style="color:#32cd32;">RARE</div>
+        <button class="g-btn r" onclick="drawGacha('weapon','rare')">500C</button>
+        <button class="g-btn r" onclick="drawGacha('sub','rare')">500C</button>
+        <button class="g-btn r" onclick="drawGacha('armor','rare')">500C</button>
+        <button class="g-btn r" onclick="drawGacha('skill','rare')">1000C</button>
+        
+        <div class="g-row-lbl" style="color:#8a2be2;">EPIC</div>
+        <button class="g-btn e" onclick="drawGacha('weapon','epic')">2K C</button>
+        <button class="g-btn e" onclick="drawGacha('sub','epic')">2K C</button>
+        <button class="g-btn e" onclick="drawGacha('armor','epic')">2K C</button>
+        <button class="g-btn e" onclick="drawGacha('skill','epic')">4K C</button>
+
+        <div class="g-row-lbl" style="color:#ffd700;">LEGEND</div>
+        <button class="g-btn l" onclick="drawGacha('weapon','legend')">10K C</button>
+        <button class="g-btn l" onclick="drawGacha('sub','legend')">10K C</button>
+        <button class="g-btn l" onclick="drawGacha('armor','legend')">10K C</button>
+        <button class="g-btn l" onclick="drawGacha('skill','legend')">20K C</button>
       </div>
       
       <div class="game-section-title" style="margin-top:20px;">INVENTORY (CLICK TO EQUIP)</div>
       <div class="inv-container" id="inventoryList"></div>
     </div>
 
+    <!-- 3. Dungeon Raid -->
     <div class="game-section" style="padding:0 20px 20px; border-bottom:none;">
       <div class="game-section-title" style="color:var(--burgundy);">VOCAL DUNGEON</div>
       <div class="boss-card">
         
         <div class="boss-visual">
           <div class="boss-radar" id="bossEmoji">🎯</div>
-          <!-- ★ X박스 뜨는 <img src> 대신 background-image 가 들어가는 빈 <div>로 교체! -->
-          <div id="bossImg" class="boss-img"></div>
+          <!-- 구글 직접 우회 주소용 img 렌더링 -->
+          <img id="bossImg" class="boss-img" src="" alt="Boss" referrerpolicy="no-referrer">
         </div>
         
         <div class="boss-info">
@@ -394,9 +373,12 @@
           <div class="boss-hp-text" id="bossHpText">100 / 100</div>
         </div>
         
+        <!-- 액티브 스킬 트레이 -->
+        <div class="skill-tray" id="activeSkillTray"></div>
+
         <div class="action-btns">
-          <button class="action-btn btn-atk" id="atkBtn" onclick="attackBoss()">ENGAGE / 10C</button>
-          <button class="action-btn btn-heal" id="healBtn" onclick="healPlayer()">RECOVER / 10C</button>
+          <button class="action-btn btn-atk" id="atkBtn" onclick="executeAction('attack')">ENGAGE (10C)</button>
+          <button class="action-btn btn-heal" id="healBtn" onclick="executeAction('heal')">RECOVER (10C)</button>
         </div>
         
         <div class="combat-log" id="combatLog">AWAITING ENGAGEMENT...</div>
@@ -602,6 +584,7 @@
     { min: 1000, name: 'MASTER', baseAtk: 800, baseHp: 100000, baseDef: 1500 }
   ];
 
+  // ★ 장비 파츠 분할 (무기, 보조무기, 방어구, 액티브 스킬)
   const GACHA_ITEMS = [
     { type: 'weapon', rank: '일반', atk: 15, name: '[WPN] 낡은 마이크', color: '#a4917d' },
     { type: 'weapon', rank: '희귀', atk: 50, name: '[WPN] 다이나믹 마이크', color: '#32cd32' },
@@ -630,90 +613,96 @@
     { type: 'armor', rank: '불가능', hp: 4000000, def: 100000, name: '[AMR] 시대를 초월한 방어구', color: '#ff00ff' },
     { type: 'armor', rank: '윈터', hp: 20000000, def: 500000, name: '[AMR] 윈터의 절대영도 방벽', color: '#00ffff' },
 
-    { type: 'skill', rank: '일반', effect:{type:'heal', val:5}, name: '[SKL] 물 마시기 (매턴 5% 회복)', color: '#a4917d' },
-    { type: 'skill', rank: '희귀', effect:{type:'dmg', val:1.2}, name: '[SKL] 목풀기 완료 (데미지 1.2배)', color: '#32cd32' },
-    { type: 'skill', rank: '초희귀', effect:{type:'heal', val:15}, name: '[SKL] 관객 호응 (매턴 15% 회복)', color: '#00bfff' },
-    { type: 'skill', rank: '에픽', effect:{type:'dmg', val:2.0}, name: '[SKL] 두성 폭발 (데미지 2배)', color: '#8a2be2' },
-    { type: 'skill', rank: '신화', effect:{type:'vamp', val:50}, name: '[SKL] 피의 샤우팅 (50% 흡혈)', color: '#ff4500' },
-    { type: 'skill', rank: '전설', effect:{type:'dmg', val:4.0}, name: '[SKL] 전설의 3단 고음 (데미지 4배)', color: '#ffd700' },
-    { type: 'skill', rank: '불가능', effect:{type:'god', val:0}, name: '[SKL] 신의 무대 (5배 딜 + 100% 흡혈)', color: '#ff00ff' },
-    { type: 'skill', rank: '윈터', effect:{type:'winter', val:0}, name: '[SKL] 윈터의 윙크 (10배 딜 + 풀피)', color: '#00ffff' }
+    // ★ 액티브 스킬로 전환
+    { type: 'skill', rank: '일반', effect:{type:'heal', val:10}, name: '[SKL] 물 마시기 (10% 회복)', color: '#a4917d' },
+    { type: 'skill', rank: '희귀', effect:{type:'dmg', val:1.5}, name: '[SKL] 목풀기 완료 (데미지 1.5배)', color: '#32cd32' },
+    { type: 'skill', rank: '초희귀', effect:{type:'heal', val:30}, name: '[SKL] 관객 호응 (30% 회복)', color: '#00bfff' },
+    { type: 'skill', rank: '에픽', effect:{type:'dmg', val:3.0}, name: '[SKL] 두성 폭발 (데미지 3배)', color: '#8a2be2' },
+    { type: 'skill', rank: '신화', effect:{type:'vamp', val:100}, name: '[SKL] 피의 샤우팅 (100% 흡혈)', color: '#ff4500' },
+    { type: 'skill', rank: '전설', effect:{type:'dmg', val:5.0}, name: '[SKL] 전설의 3단 고음 (데미지 5배)', color: '#ffd700' },
+    { type: 'skill', rank: '불가능', effect:{type:'god', val:0}, name: '[SKL] 신의 무대 (5배딜+풀피)', color: '#ff00ff' },
+    { type: 'skill', rank: '윈터', effect:{type:'winter', val:0}, name: '[SKL] 윈터의 윙크 (15배딜+풀피)', color: '#00ffff' }
   ];
 
   const GACHA_BOXES = {
-    normal: { cost: 100, rates: [ { rank: '일반', prob: 60.0 }, { rank: '희귀', prob: 30.0 }, { rank: '초희귀', prob: 8.0 }, { rank: '에픽', prob: 1.9 }, { rank: '신화', prob: 0.1 } ] },
-    epic: { cost: 500, rates: [ { rank: '희귀', prob: 50.0 }, { rank: '초희귀', prob: 35.0 }, { rank: '에픽', prob: 12.0 }, { rank: '신화', prob: 2.5 }, { rank: '전설', prob: 0.4 }, { rank: '불가능', prob: 0.09 }, { rank: '윈터', prob: 0.01 } ] },
-    legend: { cost: 2000, rates: [ { rank: '초희귀', prob: 40.0 }, { rank: '에픽', prob: 40.0 }, { rank: '신화', prob: 15.0 }, { rank: '전설', prob: 4.0 }, { rank: '불가능', prob: 0.8 }, { rank: '윈터', prob: 0.2 } ] },
-    winter: { cost: 10000, rates: [ { rank: '에픽', prob: 30.0 }, { rank: '신화', prob: 40.0 }, { rank: '전설', prob: 20.0 }, { rank: '불가능', prob: 8.0 }, { rank: '윈터', prob: 2.0 } ] }
+    normal: { rates: [ { rank: '일반', prob: 60.0 }, { rank: '희귀', prob: 30.0 }, { rank: '초희귀', prob: 8.0 }, { rank: '에픽', prob: 1.9 }, { rank: '신화', prob: 0.1 } ] },
+    rare: { rates: [ { rank: '희귀', prob: 50.0 }, { rank: '초희귀', prob: 35.0 }, { rank: '에픽', prob: 12.0 }, { rank: '신화', prob: 2.5 }, { rank: '전설', prob: 0.4 }, { rank: '불가능', prob: 0.09 }, { rank: '윈터', prob: 0.01 } ] },
+    epic: { rates: [ { rank: '초희귀', prob: 40.0 }, { rank: '에픽', prob: 40.0 }, { rank: '신화', prob: 15.0 }, { rank: '전설', prob: 4.0 }, { rank: '불가능', prob: 0.8 }, { rank: '윈터', prob: 0.2 } ] },
+    legend: { rates: [ { rank: '에픽', prob: 30.0 }, { rank: '신화', prob: 40.0 }, { rank: '전설', prob: 20.0 }, { rank: '불가능', prob: 8.0 }, { rank: '윈터', prob: 2.0 } ] }
   };
 
+  // ★ 구글 호환성 100% 최강의 포맷 lh3.googleusercontent.com 
   const BOSS_LIST = [
-    { name: "10CM", img: "https://drive.google.com/uc?export=view&id=1SpqRzUg-2tHvXzN1XaWRUtcmz4cHuwbY" }, 
-    { name: "최유리", img: "https://drive.google.com/uc?export=view&id=13PFcFL_ly5MStsJwmN9ImmlVDSUMMYjL" }, 
-    { name: "폴킴", img: "https://drive.google.com/uc?export=view&id=1SoRCBRqNS5ZKff5yvznIlk2qjMzZMWf6" }, 
-    { name: "적재", img: "https://drive.google.com/uc?export=view&id=1mW8UHN2ODkYFNqN1IGb0M65BufbJXcnP" }, 
-    { name: "정승환", img: "https://drive.google.com/uc?export=view&id=1Dxe58awVF_ToXKpuA1bk_qtyigzAnxS-" },
-    { name: "이무진", img: "https://drive.google.com/uc?export=view&id=10bZ0Emq5R_2NipE2dT0W0P1fn38mprb8" }, 
-    { name: "AKMU", img: "https://drive.google.com/uc?export=view&id=1qs5prO0S4CJirpE3QPrdQc0JwSsEdZLu" }, 
-    { name: "잔나비", img: "https://drive.google.com/uc?export=view&id=1mqnFNesX4hm1zdJ_KcFK3U8VLJC25Crh" }, 
-    { name: "DAY6", img: "https://drive.google.com/uc?export=view&id=1L_ULhi0J3_0AjmZ2MVYmxId4KiBNNdXs" }, 
-    { name: "WOODZ", img: "https://drive.google.com/uc?export=view&id=1xhcv2tfdJBeomtOzaUrVDAzn9jaEpegL" },
-    { name: "성시경", img: "https://drive.google.com/uc?export=view&id=1d6vfmskF4ahM29e6vivbpYIjCrJ2LXm9" }, 
-    { name: "윤하", img: "https://drive.google.com/uc?export=view&id=1NK1L-I5vIXaN4KDDL4CIqS9YaALhxkR6" }, 
-    { name: "규현", img: "https://drive.google.com/uc?export=view&id=13h8BJtPzlcr-65-AvlOjXo91CDwJ9sri" }, 
-    { name: "이승윤", img: "https://drive.google.com/uc?export=view&id=1_IXmzEP_CF2SI5_htkghRATeuso55CNL" }, 
-    { name: "김필", img: "https://drive.google.com/uc?export=view&id=1u7pucj9YpR6FRlOZyWIOGUt1sYknxYML" },
-    { name: "D.O.", img: "https://drive.google.com/uc?export=view&id=1APZ4C8JSZyYey3RhYeh2n3I9gJQhxpp6" }, 
-    { name: "WINTER", img: "https://drive.google.com/uc?export=view&id=1LnKpnEAnUde7Og8d8fCN2GIxyz7dNFMr" }, 
-    { name: "태연", img: "https://drive.google.com/uc?export=view&id=16z1joV-wAdVR3Og7kYS_cUYrRYFW1qIw" }, 
-    { name: "정국", img: "https://drive.google.com/uc?export=view&id=1QG7CWtJazUoLQpQW4icPzhMO2hLw-DrT" }, 
-    { name: "아이유", img: "https://drive.google.com/uc?export=view&id=1VinvalifbqRAROADEqMtwbuob8_WhwDV" },
-    { name: "에일리", img: "https://drive.google.com/uc?export=view&id=1tWdLCV4fKC1YhvMIqcZFIVsLUhL7kKQD" }, 
-    { name: "거미", img: "https://drive.google.com/uc?export=view&id=17DOqNH-N2F7dLC3lhbNnYdst7EhC1rIA" }, 
-    { name: "K.Will", img: "https://drive.google.com/uc?export=view&id=1IzhuIozRR7u0aoeCf46VfXYpDY7VI0wx" }, 
-    { name: "하현우", img: "https://drive.google.com/uc?export=view&id=10KbNArPrVCmhQlKgg2bDEfmwAR8u6Pe7" }, 
-    { name: "박정현", img: "https://drive.google.com/uc?export=view&id=1p4e-ghxZ8HbovVHsh06E2xnCKK8AoaDp" },
-    { name: "나얼", img: "https://drive.google.com/uc?export=view&id=1vCMuy2gTkdS0VdnL0T6LgVmYGwJhNT8_" }, 
-    { name: "김범수", img: "https://drive.google.com/uc?export=view&id=1nWA6bFSba5TiIWRLJyA0TumXXjTFj0G0" }, 
-    { name: "이수", img: "https://drive.google.com/uc?export=view&id=1q6hHBPtd2uMpUXCiubHzErjoSL-cQBwr" }, 
-    { name: "박효신", img: "https://drive.google.com/uc?export=view&id=1fiWiVMZ9T82BdM0_xl6yi0WonIcnCo3_" }, 
-    { name: "이승철", img: "https://drive.google.com/uc?export=view&id=1gadRw7tTwQArG1GNYubXlouXPNl3sUou" },
-    { name: "김경호", img: "https://drive.google.com/uc?export=view&id=1ZOvLYcbm7-yCa6CHJ-6-Iai80DuzXac3" }, 
-    { name: "박완규", img: "https://drive.google.com/uc?export=view&id=1oD5JagCCDvrUb2FGR01Thb4pLrLeW0gf" }, 
-    { name: "임재범", img: "https://drive.google.com/uc?export=view&id=1jz29-_ArV7vo80iHVnGXaDNOUKOzt4NL" }, 
-    { name: "이선희", img: "https://drive.google.com/uc?export=view&id=1X7ntYHMUemkFhg5ZOkAKoNhH89jrcyr_" }, 
-    { name: "조용필", img: "https://drive.google.com/uc?export=view&id=1W1lXRG6AHHmsYStpJhhmMCjJmmijJHKm" },
-    { name: "신승훈", img: "https://drive.google.com/uc?export=view&id=1pZXou5q8IRoWZj2AK6agJSESY_MzPfcs" }, 
-    { name: "김건모", img: "https://drive.google.com/uc?export=view&id=129Go3z8G4aZk05-wRo9asG2uOy5P2140" }, 
-    { name: "싸이", img: "https://drive.google.com/uc?export=view&id=1cZfG4WIsfuQds1_q7n0mMmUR1ixtFdYR" }, 
-    { name: "BIGBANG", img: "https://drive.google.com/uc?export=view&id=1FOKdzkyKvfGA3HLYrO7qFu3SUDN7g7ts" }, 
-    { name: "EXO", img: "https://drive.google.com/uc?export=view&id=1sZdFj3tqzFEgs3jz4IlIfybi2gubKR2a" },
-    { name: "TWICE", img: "https://drive.google.com/uc?export=view&id=1UBz7ZHW3ns09sKwyebDFmJWIIXdd5xJK" }, 
-    { name: "SEVENTEEN", img: "https://drive.google.com/uc?export=view&id=1pu92ag5NzGf_T6LTGd0ZjZ6S_ncfz-cf" }, 
-    { name: "aespa", img: "https://drive.google.com/uc?export=view&id=1vP9LDiZKBfn8vrQSH7m-U_FmaYUJSehz" }, 
-    { name: "BLACKPINK", img: "https://drive.google.com/uc?export=view&id=1leEBk5KglL_sKzgG0WaFhjH-KZJygUgo" }, 
-    { name: "임영웅", img: "https://drive.google.com/uc?export=view&id=1VKDpIe_Sy3d4XwcoY5s7WlMQdeulC1fa" },
-    { name: "X JAPAN", img: "https://drive.google.com/uc?export=view&id=1O_3Syx1NMz-3EUAcpnOJiAIosaskNagw" }, 
-    { name: "L'Arc-en-Ciel", img: "https://drive.google.com/uc?export=view&id=1kewqX33PgxDCFTg8FIo22CtQgzTvExwS" }, 
-    { name: "GLAY", img: "https://drive.google.com/uc?export=view&id=1uHHYN6T_gxWFOfuxgzxRWmhJ4zCGqW83" }, 
-    { name: "LUNA SEA", img: "https://drive.google.com/uc?export=view&id=1tpGJHsoY_9r6S1DRlLllAbSS6x0Wnvfa" }, 
-    { name: "Mrs. GREEN APPLE", img: "https://drive.google.com/uc?export=view&id=1B9-EJMVlSHadEG25X2DMyFpMKxR77PV0" },
-    { name: "Rihanna", img: "https://drive.google.com/uc?export=view&id=1Ca8pOI7kjwafds-D6xC5iZh7we-1ZrRc" }, 
-    { name: "Lady Gaga", img: "https://drive.google.com/uc?export=view&id=1i5dmdVwO3p6tfIrIrxa97cJyRkIB6tp3" }, 
-    { name: "Bruno Mars", img: "https://drive.google.com/uc?export=view&id=1oKdZ1sncRo043tQkmvM5Bcr9NoeYVm3o" }, 
-    { name: "Justin Bieber", img: "https://drive.google.com/uc?export=view&id=1ti5DYFqed6WfRNdCdZDYHHymopjEA7g_" }, 
-    { name: "Ariana Grande", img: "https://drive.google.com/uc?export=view&id=1UBvN5ihDFZYPa2OM1X4wh3NPzRvP-TR5" },
-    { name: "Adele", img: "https://drive.google.com/uc?export=view&id=1h1p-GUkj-6OCEG9xIMpB7Mvjh46P4AKg" }, 
-    { name: "Ed Sheeran", img: "https://drive.google.com/uc?export=view&id=1Qsu-xIc60h9Sv2xeYxXqoHPMbggtFXdJ" }, 
-    { name: "Beyoncé", img: "https://drive.google.com/uc?export=view&id=18SThYc_3UWgBtre0BFMyhxGoIfX4iRA2" }, 
-    { name: "Celine Dion", img: "https://drive.google.com/uc?export=view&id=1dZNm839qNOtIFp7dIu1Fmt4kEhsWQDB-" }, 
-    { name: "Stevie Wonder", img: "https://drive.google.com/uc?export=view&id=1cp_YgqnfeVLc9BLo9QD6ynf-tdDF-eo0" },
-    { name: "Freddie Mercury", img: "https://drive.google.com/uc?export=view&id=1dQA_Cy5mN6lVsf-Im6nwI3DVqP-vrEbx" }, 
-    { name: "Mariah Carey", img: "https://drive.google.com/uc?export=view&id=1Pi2p2w22Z9f28hgphf5lqUCPfKR0MXMI" }, 
-    { name: "Whitney Houston", img: "https://drive.google.com/uc?export=view&id=1kM_9g5uIATDoEN4-43lVUjfnS4RO10jO" }, 
-    { name: "Madonna", img: "https://drive.google.com/uc?export=view&id=1h_1LSqe8kScsDco-ezJMkK6YFEJtGoLr" }, 
-    { name: "Elvis Presley", img: "https://drive.google.com/uc?export=view&id=1b1PBaoS__jW7hHZXL-WOVZzcCdTounX3" },
-    { name: "The Beatles", img: "" }, { name: "BTS", img: "" }, { name: "Taylor Swift", img: "" }, { name: "Michael Jackson", img: "" }, { name: "MY self", img: "" }
+    { name: "10CM", img: "https://lh3.googleusercontent.com/d/1SpqRzUg-2tHvXzN1XaWRUtcmz4cHuwbY" }, 
+    { name: "최유리", img: "https://lh3.googleusercontent.com/d/13PFcFL_ly5MStsJwmN9ImmlVDSUMMYjL" }, 
+    { name: "폴킴", img: "https://lh3.googleusercontent.com/d/1SoRCBRqNS5ZKff5yvznIlk2qjMzZMWf6" }, 
+    { name: "적재", img: "https://lh3.googleusercontent.com/d/1mW8UHN2ODkYFNqN1IGb0M65BufbJXcnP" }, 
+    { name: "정승환", img: "https://lh3.googleusercontent.com/d/1Dxe58awVF_ToXKpuA1bk_qtyigzAnxS-" },
+    { name: "이무진", img: "https://lh3.googleusercontent.com/d/10bZ0Emq5R_2NipE2dT0W0P1fn38mprb8" }, 
+    { name: "AKMU", img: "https://lh3.googleusercontent.com/d/1qs5prO0S4CJirpE3QPrdQc0JwSsEdZLu" }, 
+    { name: "잔나비", img: "https://lh3.googleusercontent.com/d/1mqnFNesX4hm1zdJ_KcFK3U8VLJC25Crh" }, 
+    { name: "DAY6", img: "https://lh3.googleusercontent.com/d/1L_ULhi0J3_0AjmZ2MVYmxId4KiBNNdXs" }, 
+    { name: "WOODZ", img: "https://lh3.googleusercontent.com/d/1xhcv2tfdJBeomtOzaUrVDAzn9jaEpegL" },
+    { name: "성시경", img: "https://lh3.googleusercontent.com/d/1d6vfmskF4ahM29e6vivbpYIjCrJ2LXm9" }, 
+    { name: "윤하", img: "https://lh3.googleusercontent.com/d/1NK1L-I5vIXaN4KDDL4CIqS9YaALhxkR6" }, 
+    { name: "규현", img: "https://lh3.googleusercontent.com/d/13h8BJtPzlcr-65-AvlOjXo91CDwJ9sri" }, 
+    { name: "이승윤", img: "https://lh3.googleusercontent.com/d/1_IXmzEP_CF2SI5_htkghRATeuso55CNL" }, 
+    { name: "김필", img: "https://lh3.googleusercontent.com/d/1u7pucj9YpR6FRlOZyWIOGUt1sYknxYML" },
+    { name: "D.O.", img: "https://lh3.googleusercontent.com/d/1APZ4C8JSZyYey3RhYeh2n3I9gJQhxpp6" }, 
+    { name: "WINTER", img: "https://lh3.googleusercontent.com/d/1LnKpnEAnUde7Og8d8fCN2GIxyz7dNFMr" }, 
+    { name: "태연", img: "https://lh3.googleusercontent.com/d/16z1joV-wAdVR3Og7kYS_cUYrRYFW1qIw" }, 
+    { name: "정국", img: "https://lh3.googleusercontent.com/d/1QG7CWtJazUoLQpQW4icPzhMO2hLw-DrT" }, 
+    { name: "아이유", img: "https://lh3.googleusercontent.com/d/1VinvalifbqRAROADEqMtwbuob8_WhwDV" },
+    { name: "에일리", img: "https://lh3.googleusercontent.com/d/1tWdLCV4fKC1YhvMIqcZFIVsLUhL7kKQD" }, 
+    { name: "거미", img: "https://lh3.googleusercontent.com/d/17DOqNH-N2F7dLC3lhbNnYdst7EhC1rIA" }, 
+    { name: "K.Will", img: "https://lh3.googleusercontent.com/d/1IzhuIozRR7u0aoeCf46VfXYpDY7VI0wx" }, 
+    { name: "하현우", img: "https://lh3.googleusercontent.com/d/10KbNArPrVCmhQlKgg2bDEfmwAR8u6Pe7" }, 
+    { name: "박정현", img: "https://lh3.googleusercontent.com/d/1p4e-ghxZ8HbovVHsh06E2xnCKK8AoaDp" },
+    { name: "나얼", img: "https://lh3.googleusercontent.com/d/1vCMuy2gTkdS0VdnL0T6LgVmYGwJhNT8_" }, 
+    { name: "김범수", img: "https://lh3.googleusercontent.com/d/1nWA6bFSba5TiIWRLJyA0TumXXjTFj0G0" }, 
+    { name: "이수", img: "https://lh3.googleusercontent.com/d/1q6hHBPtd2uMpUXCiubHzErjoSL-cQBwr" }, 
+    { name: "박효신", img: "https://lh3.googleusercontent.com/d/1fiWiVMZ9T82BdM0_xl6yi0WonIcnCo3_" }, 
+    { name: "이승철", img: "https://lh3.googleusercontent.com/d/1gadRw7tTwQArG1GNYubXlouXPNl3sUou" },
+    { name: "김경호", img: "https://lh3.googleusercontent.com/d/1ZOvLYcbm7-yCa6CHJ-6-Iai80DuzXac3" }, 
+    { name: "박완규", img: "https://lh3.googleusercontent.com/d/1oD5JagCCDvrUb2FGR01Thb4pLrLeW0gf" }, 
+    { name: "임재범", img: "https://lh3.googleusercontent.com/d/1jz29-_ArV7vo80iHVnGXaDNOUKOzt4NL" }, 
+    { name: "이선희", img: "https://lh3.googleusercontent.com/d/1X7ntYHMUemkFhg5ZOkAKoNhH89jrcyr_" }, 
+    { name: "조용필", img: "https://lh3.googleusercontent.com/d/1W1lXRG6AHHmsYStpJhhmMCjJmmijJHKm" },
+    { name: "신승훈", img: "https://lh3.googleusercontent.com/d/1pZXou5q8IRoWZj2AK6agJSESY_MzPfcs" }, 
+    { name: "김건모", img: "https://lh3.googleusercontent.com/d/129Go3z8G4aZk05-wRo9asG2uOy5P2140" }, 
+    { name: "싸이", img: "https://lh3.googleusercontent.com/d/1cZfG4WIsfuQds1_q7n0mMmUR1ixtFdYR" }, 
+    { name: "BIGBANG", img: "https://lh3.googleusercontent.com/d/1FOKdzkyKvfGA3HLYrO7qFu3SUDN7g7ts" }, 
+    { name: "EXO", img: "https://lh3.googleusercontent.com/d/1sZdFj3tqzFEgs3jz4IlIfybi2gubKR2a" },
+    { name: "TWICE", img: "https://lh3.googleusercontent.com/d/1UBz7ZHW3ns09sKwyebDFmJWIIXdd5xJK" }, 
+    { name: "SEVENTEEN", img: "https://lh3.googleusercontent.com/d/1pu92ag5NzGf_T6LTGd0ZjZ6S_ncfz-cf" }, 
+    { name: "aespa", img: "https://lh3.googleusercontent.com/d/1vP9LDiZKBfn8vrQSH7m-U_FmaYUJSehz" }, 
+    { name: "BLACKPINK", img: "https://lh3.googleusercontent.com/d/1leEBk5KglL_sKzgG0WaFhjH-KZJygUgo" }, 
+    { name: "임영웅", img: "https://lh3.googleusercontent.com/d/1VKDpIe_Sy3d4XwcoY5s7WlMQdeulC1fa" },
+    { name: "X JAPAN", img: "https://lh3.googleusercontent.com/d/1O_3Syx1NMz-3EUAcpnOJiAIosaskNagw" }, 
+    { name: "L'Arc-en-Ciel", img: "https://lh3.googleusercontent.com/d/1kewqX33PgxDCFTg8FIo22CtQgzTvExwS" }, 
+    { name: "GLAY", img: "https://lh3.googleusercontent.com/d/1uHHYN6T_gxWFOfuxgzxRWmhJ4zCGqW83" }, 
+    { name: "LUNA SEA", img: "https://lh3.googleusercontent.com/d/1tpGJHsoY_9r6S1DRlLllAbSS6x0Wnvfa" }, 
+    { name: "Mrs. GREEN APPLE", img: "https://lh3.googleusercontent.com/d/1B9-EJMVlSHadEG25X2DMyFpMKxR77PV0" },
+    { name: "Rihanna", img: "https://lh3.googleusercontent.com/d/1Ca8pOI7kjwafds-D6xC5iZh7we-1ZrRc" }, 
+    { name: "Lady Gaga", img: "https://lh3.googleusercontent.com/d/1i5dmdVwO3p6tfIrIrxa97cJyRkIB6tp3" }, 
+    { name: "Bruno Mars", img: "https://lh3.googleusercontent.com/d/1oKdZ1sncRo043tQkmvM5Bcr9NoeYVm3o" }, 
+    { name: "Justin Bieber", img: "https://lh3.googleusercontent.com/d/1ti5DYFqed6WfRNdCdZDYHHymopjEA7g_" }, 
+    { name: "Ariana Grande", img: "https://lh3.googleusercontent.com/d/1UBvN5ihDFZYPa2OM1X4wh3NPzRvP-TR5" },
+    { name: "Adele", img: "https://lh3.googleusercontent.com/d/1h1p-GUkj-6OCEG9xIMpB7Mvjh46P4AKg" }, 
+    { name: "Ed Sheeran", img: "https://lh3.googleusercontent.com/d/1Qsu-xIc60h9Sv2xeYxXqoHPMbggtFXdJ" }, 
+    { name: "Beyoncé", img: "https://lh3.googleusercontent.com/d/18SThYc_3UWgBtre0BFMyhxGoIfX4iRA2" }, 
+    { name: "Celine Dion", img: "https://lh3.googleusercontent.com/d/1dZNm839qNOtIFp7dIu1Fmt4kEhsWQDB-" }, 
+    { name: "Stevie Wonder", img: "https://lh3.googleusercontent.com/d/1cp_YgqnfeVLc9BLo9QD6ynf-tdDF-eo0" },
+    { name: "Freddie Mercury", img: "https://lh3.googleusercontent.com/d/1dQA_Cy5mN6lVsf-Im6nwI3DVqP-vrEbx" }, 
+    { name: "Mariah Carey", img: "https://lh3.googleusercontent.com/d/1Pi2p2w22Z9f28hgphf5lqUCPfKR0MXMI" }, 
+    { name: "Whitney Houston", img: "https://lh3.googleusercontent.com/d/1kM_9g5uIATDoEN4-43lVUjfnS4RO10jO" }, 
+    { name: "Madonna", img: "https://lh3.googleusercontent.com/d/1h_1LSqe8kScsDco-ezJMkK6YFEJtGoLr" }, 
+    { name: "Elvis Presley", img: "https://lh3.googleusercontent.com/d/1b1PBaoS__jW7hHZXL-WOVZzcCdTounX3" },
+    { name: "The Beatles", img: "" }, 
+    { name: "BTS", img: "" }, 
+    { name: "Taylor Swift", img: "" }, 
+    { name: "Michael Jackson", img: "" }, 
+    { name: "MY self", img: "" }
   ];
 
   function getBossRank(level) {
@@ -750,10 +739,13 @@
   const todayMonday = getMonday(today);
 
   let currentUser = null;
+  
+  // ★ 스킬 3슬롯 상태 배열 추가
   let state = { 
-    totalExp:0, coins:0, petExp:0, playerHp: 500,
+    totalExp:0, coins:0, petExp:0, 
+    playerHp: 500,
     goals:{}, dailyGoals:{}, notes:{}, repo:[], roadmap:{ ultimate:'', milestones:[] },
-    gacha: { inventory: [], equipped: { weapon:null, sub:null, armor:null, skill:null } },
+    gacha: { inventory: [], equipped: { weapon:null, sub:null, armor:null, skills:[] } },
     dungeon: { level: 1, hp: 200, maxHp: 200, bossImageUrl: '', stunnedDate: '' }
   };
   
@@ -832,11 +824,10 @@
   
   window.logout = function() {
     localStorage.removeItem(LOGIN_KEY); currentUser = null;
-    state = { totalExp:0, coins:0, petExp:0, playerHp: 500, goals:{}, dailyGoals:{}, notes:{}, repo:[], roadmap:{ ultimate:'', milestones:[] }, gacha:{inventory:[], equipped:{weapon:null, sub:null, armor:null, skill:null}}, dungeon:{level:1, hp:200, maxHp:200, bossImageUrl:'', stunnedDate:''} };
+    state = { totalExp:0, coins:0, petExp:0, playerHp: 500, goals:{}, dailyGoals:{}, notes:{}, repo:[], roadmap:{ ultimate:'', milestones:[] }, gacha:{inventory:[], equipped:{weapon:null, sub:null, armor:null, skills:[]}}, dungeon:{level:1, hp:200, maxHp:200, bossImageUrl:'', stunnedDate:''} };
     checkLoginStatus(); renderAll();
   }
 
-  // ★ 데이터 정규화 함수 (에러 방어)
   function normalizeState() {
       if(!state.totalExp) state.totalExp = 0;
       if(!state.coins) state.coins = 0;
@@ -847,8 +838,9 @@
       if(!state.notes) state.notes = {};
       if(!state.repo) state.repo = [];
       if(!state.roadmap) state.roadmap = { ultimate:'', milestones:[] };
-      if(!state.gacha) state.gacha = { inventory: [], equipped: { weapon:null, sub:null, armor:null, skill:null } };
-      if(!state.gacha.equipped) state.gacha.equipped = { weapon:null, sub:null, armor:null, skill:null };
+      if(!state.gacha) state.gacha = { inventory: [], equipped: { weapon:null, sub:null, armor:null, skills:[] } };
+      if(!state.gacha.equipped) state.gacha.equipped = { weapon:null, sub:null, armor:null, skills:[] };
+      if(!Array.isArray(state.gacha.equipped.skills)) state.gacha.equipped.skills = []; // 스킬 3슬롯
       if(!Array.isArray(state.gacha.inventory)) state.gacha.inventory = [];
       if(!state.dungeon) state.dungeon = { level: 1, hp: 200, maxHp: 200, bossImageUrl: '', stunnedDate: '' };
       
@@ -860,7 +852,6 @@
       }
   }
 
-  // ★ 로컬 오프라인 (GUEST) 완벽 지원 데이터 로더
   async function loadData(){
     const overlay = document.getElementById('loadOverlay');
     const failsafe = setTimeout(() => { if(overlay){overlay.style.opacity = '0'; setTimeout(() => { overlay.style.display = 'none'; }, 300);} }, 3500);
@@ -890,7 +881,6 @@
     clearTimeout(failsafe); if(overlay){overlay.style.opacity = '0'; setTimeout(() => { overlay.style.display = 'none'; overlay.style.opacity = '1'; }, 300);}
   }
   
-  // ★ GUEST 모드 시 로컬 브라우저에 저장!
   async function save(){
     if(!currentUser) {
         localStorage.setItem('vocal-log-local-state', JSON.stringify(state));
@@ -985,19 +975,16 @@
     let eqAtk = 0, eqDef = 0, eqHp = 0;
     const inv = getSafeList(state.gacha.inventory);
     
-    if(!state.gacha.equipped) state.gacha.equipped = { weapon:null, sub:null, armor:null, skill:null };
+    if(!state.gacha.equipped) state.gacha.equipped = { weapon:null, sub:null, armor:null, skills:[] };
     const eq = state.gacha.equipped;
-    
-    let activeSkill = null;
 
-    ['weapon', 'sub', 'armor', 'skill'].forEach(type => {
+    ['weapon', 'sub', 'armor'].forEach(type => {
        if(eq[type]) {
            const item = inv.find(i => i.id === eq[type]);
            if(item) {
                if(item.atk) eqAtk += item.atk;
                if(item.def) eqDef += item.def;
                if(item.hp) eqHp += item.hp;
-               if(item.type === 'skill') activeSkill = item;
            }
        }
     });
@@ -1006,15 +993,25 @@
     totalDef += eqDef;
     maxHp += eqHp;
 
-    return { pet, totalAtk, totalDef, maxHp, eqAtk, eqDef, eqHp, activeSkill };
+    return { pet, totalAtk, totalDef, maxHp, eqAtk, eqDef, eqHp };
   }
 
-  // ★ GUEST 무시 제거! 이제 오프라인에서도 모든 기능 동작
+  // ★ 3슬롯 스킬 장착 시스템 완벽 지원
   window.equipItem = function(itemType, itemId) {
-      if(!state.gacha) state.gacha = { inventory: [], equipped: { weapon:null, sub:null, armor:null, skill:null } };
-      if(!state.gacha.equipped) state.gacha.equipped = { weapon:null, sub:null, armor:null, skill:null };
+      if(!state.gacha) state.gacha = { inventory: [], equipped: { weapon:null, sub:null, armor:null, skills:[] } };
+      if(!state.gacha.equipped) state.gacha.equipped = { weapon:null, sub:null, armor:null, skills:[] };
+      if(!Array.isArray(state.gacha.equipped.skills)) state.gacha.equipped.skills = [];
       
-      state.gacha.equipped[itemType] = itemId;
+      if(itemType === 'skill') {
+          if(state.gacha.equipped.skills.includes(itemId)) {
+              state.gacha.equipped.skills = state.gacha.equipped.skills.filter(id => id !== itemId);
+          } else {
+              if(state.gacha.equipped.skills.length >= 3) state.gacha.equipped.skills.shift();
+              state.gacha.equipped.skills.push(itemId);
+          }
+      } else {
+          state.gacha.equipped[itemType] = itemId;
+      }
       
       let pStats = getPlayerStats(); 
       if(isNaN(state.playerHp) || state.playerHp > pStats.maxHp) state.playerHp = pStats.maxHp;
@@ -1040,7 +1037,9 @@
 
     const eq = state.gacha.equipped;
     const inv = getSafeList(state.gacha.inventory);
-    ['weapon', 'sub', 'armor', 'skill'].forEach(type => {
+    
+    // 무기, 보조, 방어구 렌더링
+    ['weapon', 'sub', 'armor'].forEach(type => {
         const slot = document.getElementById('slot-' + type);
         if(!slot) return;
         if(eq[type]) {
@@ -1049,17 +1048,24 @@
                 slot.classList.add('filled');
                 slot.querySelector('.equip-name').textContent = item.name.substring(item.name.indexOf(' ') + 1);
                 slot.querySelector('.equip-name').style.color = item.color;
-            } else {
-                slot.classList.remove('filled');
-                slot.querySelector('.equip-name').textContent = 'EMPTY';
-                slot.querySelector('.equip-name').style.color = 'var(--muted)';
-            }
-        } else {
-            slot.classList.remove('filled');
-            slot.querySelector('.equip-name').textContent = 'EMPTY';
-            slot.querySelector('.equip-name').style.color = 'var(--muted)';
-        }
+            } else { slot.classList.remove('filled'); slot.querySelector('.equip-name').textContent = 'EMPTY'; slot.querySelector('.equip-name').style.color = 'var(--muted)'; }
+        } else { slot.classList.remove('filled'); slot.querySelector('.equip-name').textContent = 'EMPTY'; slot.querySelector('.equip-name').style.color = 'var(--muted)'; }
     });
+
+    // 3슬롯 스킬 렌더링
+    for(let i=0; i<3; i++) {
+        const slot = document.getElementById('slot-skill-' + i);
+        if(!slot) continue;
+        const sId = eq.skills && eq.skills[i];
+        if(sId) {
+            const item = inv.find(it => it.id === sId);
+            if(item) {
+                slot.classList.add('filled');
+                slot.querySelector('.equip-name').textContent = item.name.substring(item.name.indexOf(' ') + 1);
+                slot.querySelector('.equip-name').style.color = item.color;
+            } else { slot.classList.remove('filled'); slot.querySelector('.equip-name').textContent = 'EMPTY'; slot.querySelector('.equip-name').style.color = 'var(--muted)'; }
+        } else { slot.classList.remove('filled'); slot.querySelector('.equip-name').textContent = 'EMPTY'; slot.querySelector('.equip-name').style.color = 'var(--muted)'; }
+    }
 
     const feedBtn = document.getElementById('gameFeedBtn');
     let nextStage = PET_STAGES.find(s => s.min > petExp) || null;
@@ -1092,7 +1098,7 @@
       } else {
         [...inv].reverse().forEach(item => {
           if(!item) return;
-          const isEquipped = eq[item.type] === item.id;
+          const isEquipped = item.type === 'skill' ? (eq.skills && eq.skills.includes(item.id)) : (eq[item.type] === item.id);
           const div = document.createElement('div');
           div.className = 'inv-item' + (isEquipped ? ' equipped' : '');
           
@@ -1100,14 +1106,14 @@
           if(item.atk) statText.push(`ATK +${item.atk.toLocaleString()}`);
           if(item.def) statText.push(`DEF +${item.def.toLocaleString()}`);
           if(item.hp) statText.push(`HP +${item.hp.toLocaleString()}`);
-          if(item.type === 'skill') statText.push('PASSIVE INSTALLED');
+          if(item.type === 'skill') statText.push('ACTIVE EFFECT');
           
           div.innerHTML = `
             <div style="flex:1;">
               <div class="inv-item-name" style="color:${item.color}">${item.name}</div>
               <div class="inv-item-stat">${statText.join(' | ')}</div>
             </div>
-            ${isEquipped ? '<div style="font-size:11px; font-weight:800; color:var(--amber);">EQUIPPED</div>' : `<button class="nav-btn" style="width:auto; padding:0 12px; height:26px; font-size:11px; font-family:'JetBrains Mono';" onclick="equipItem('${item.type}', '${item.id}')">EQUIP</button>`}
+            ${isEquipped ? `<button class="nav-btn" style="width:auto; padding:0 12px; height:26px; font-size:11px; font-family:'JetBrains Mono'; border-color:var(--amber); color:var(--amber);" onclick="equipItem('${item.type}', '${item.id}')">UNEQUIP</button>` : `<button class="nav-btn" style="width:auto; padding:0 12px; height:26px; font-size:11px; font-family:'JetBrains Mono';" onclick="equipItem('${item.type}', '${item.id}')">EQUIP</button>`}
           `;
           invContainer.appendChild(div);
         });
@@ -1133,7 +1139,7 @@
     
     const activeImgUrl = state.dungeon.bossImageUrl || currentBossData.img;
     
-    // ★ 엑스박스 절대 차단! img 태그 대신 div + background-image 로 변경 적용
+    // ★ 엑스박스 절대 방지 (background-image)
     if (activeImgUrl) {
       if(bossE) bossE.style.display = 'none';
       if(bossI) { 
@@ -1175,21 +1181,41 @@
     const hText = document.getElementById('bossHpText'); 
     if(hText) hText.textContent = `${dHp.toLocaleString()} / ${dMax.toLocaleString()}`;
 
-    // ★ 기절 시 버튼 락 처리 (클릭 이벤트 자체를 없애지 않고 안내 메시지가 뜨게 유지)
+    // ★ 액티브 스킬 버튼 렌더링
+    const skillTray = document.getElementById('activeSkillTray');
+    if(skillTray) {
+        skillTray.innerHTML = '';
+        if(eq.skills && eq.skills.length > 0) {
+            eq.skills.forEach(sId => {
+                const sItem = inv.find(it => it.id === sId);
+                if(sItem) {
+                    const btn = document.createElement('button');
+                    btn.className = 'btn-skill-cast';
+                    btn.innerHTML = `${sItem.name.substring(sItem.name.indexOf(' ')+1)}<br><span style="font-size:9px; color:var(--muted);">(30C)</span>`;
+                    btn.onclick = () => window.executeAction('skill', sItem.id);
+                    skillTray.appendChild(btn);
+                }
+            });
+        }
+    }
+
+    // ★ 기절 상태 UI 락! (안내창 띄우기 위해 이벤트는 막지 않음)
     const isStunned = state.dungeon.stunnedDate === fmtKey(new Date());
     const atkBtn = document.getElementById('atkBtn');
     const healBtn = document.getElementById('healBtn');
+    const castBtns = document.querySelectorAll('.btn-skill-cast');
     
     if(isStunned) {
         if(atkBtn) { atkBtn.textContent = 'SYSTEM LOCKED'; atkBtn.classList.add('locked'); }
         if(healBtn) { healBtn.textContent = 'UNAVAILABLE'; healBtn.classList.add('locked'); }
+        castBtns.forEach(b => { b.textContent = 'LOCKED'; b.classList.add('locked'); });
     } else {
         if(atkBtn) { atkBtn.textContent = 'ENGAGE / 10C'; atkBtn.classList.remove('locked'); }
         if(healBtn) { healBtn.textContent = 'RECOVER / 10C'; healBtn.classList.remove('locked'); }
+        castBtns.forEach(b => { b.classList.remove('locked'); });
     }
   }
 
-  // ★ GUEST 막힘 제거
   window.uploadBossImage = async function(input) {
     if(!input.files[0]) return;
     const overlay = document.getElementById('loadOverlay');
@@ -1197,9 +1223,8 @@
     const statMsg = document.getElementById('loadStatus');
     if(statMsg) statMsg.textContent = 'OVERRIDING VISUAL...';
     try {
-      // 업로드 기능은 서버가 필요하므로 게스트면 차단 대신 우회 경고
       if(!currentUser) {
-          alert("[ SYSTEM ] 이미지 파일 직접 업로드는 로그인 후 가능합니다.\n(GUEST 모드에서는 서버 저장이 제한됩니다.)");
+          alert("[ SYSTEM ] 이미지 파일 직접 업로드는 서버 권한이 필요합니다.\n로그인 후 이용해주세요.");
           if(overlay) overlay.style.display = 'none'; 
           input.value=''; 
           return;
@@ -1253,19 +1278,21 @@
       }, 3500);
   }
 
-  window.drawGacha = function(boxType) {
-    let cost = 500;
-    if(boxType === 'skill') cost = 1000;
+  window.drawGacha = function(boxType, boxTier) {
+    const bConfig = {
+      'normal': { cost: 100, rates: [ { rank: '일반', prob: 60.0 }, { rank: '희귀', prob: 30.0 }, { rank: '초희귀', prob: 8.0 }, { rank: '에픽', prob: 1.9 }, { rank: '신화', prob: 0.1 } ] },
+      'rare':   { cost: 500, rates: [ { rank: '희귀', prob: 50.0 }, { rank: '초희귀', prob: 35.0 }, { rank: '에픽', prob: 12.0 }, { rank: '신화', prob: 2.5 }, { rank: '전설', prob: 0.4 }, { rank: '불가능', prob: 0.09 }, { rank: '윈터', prob: 0.01 } ] },
+      'epic':   { cost: 2000, rates: [ { rank: '초희귀', prob: 40.0 }, { rank: '에픽', prob: 40.0 }, { rank: '신화', prob: 15.0 }, { rank: '전설', prob: 4.0 }, { rank: '불가능', prob: 0.8 }, { rank: '윈터', prob: 0.2 } ] },
+      'legend': { cost: 10000, rates: [ { rank: '에픽', prob: 30.0 }, { rank: '신화', prob: 40.0 }, { rank: '전설', prob: 20.0 }, { rank: '불가능', prob: 8.0 }, { rank: '윈터', prob: 2.0 } ] }
+    };
+    
+    let cost = bConfig[boxTier].cost;
+    if(boxType === 'skill') cost = cost * 2; // 스킬 상자는 2배
     
     if(Number(state.coins || 0) < cost) return alert(`REQUIRES ${cost.toLocaleString()} CRD.`);
     state.coins = Number(state.coins || 0) - cost;
 
-    const rates = [
-        { rank: '일반', prob: 45.0 }, { rank: '희귀', prob: 30.0 }, { rank: '초희귀', prob: 15.0 },
-        { rank: '에픽', prob: 7.0 }, { rank: '신화', prob: 2.0 }, { rank: '전설', prob: 0.8 },
-        { rank: '불가능', prob: 0.15 }, { rank: '윈터', prob: 0.05 }
-    ];
-
+    const rates = bConfig[boxTier].rates;
     const rand = Math.random() * 100; 
     let cumulative = 0;
     let drawnRank = '일반';
@@ -1279,8 +1306,7 @@
 
     const processResult = () => {
         const newItem = { id: Date.now() + Math.random().toString(36).slice(2,7), ...drawnItemTemplate };
-        if(!state.gacha) state.gacha = { inventory: [], equipped: { weapon:null, sub:null, armor:null, skill:null } };
-        if(!state.gacha.equipped) state.gacha.equipped = { weapon:null, sub:null, armor:null, skill:null };
+        if(!state.gacha) state.gacha = { inventory: [], equipped: { weapon:null, sub:null, armor:null, skills:[] } };
         if(!Array.isArray(state.gacha.inventory)) state.gacha.inventory = getSafeList(state.gacha.inventory);
         
         state.gacha.inventory.push(newItem);
@@ -1304,184 +1330,108 @@
     }
   }
 
-  window.healPlayer = function() {
+  // ★ 통합 전투 액션 시스템 (공격/회복/스킬 모두 관리)
+  window.executeAction = function(actionType, skillId = null) {
       const todayKey = fmtKey(new Date());
-      if(state.dungeon.stunnedDate === todayKey) return alert('[ SYSTEM LOCKED ]\n치명적인 피해를 입어 회복 불가 상태입니다.\n명일 자정 이후에 다시 시도하십시오.'); 
+      if(state.dungeon.stunnedDate === todayKey) {
+          return alert('[ SYSTEM LOCKED ]\n치명적인 피해를 입어 회복 불가 상태입니다.\n명일 자정 이후에 다시 시도하십시오.'); 
+      }
 
-      if(Number(state.coins || 0) < 10) return alert('REQUIRES 10 CRD.');
       const pStats = getPlayerStats();
-      if(state.playerHp >= pStats.maxHp) return alert('HP ALREADY AT MAXIMUM.');
       
-      state.coins = Number(state.coins || 0) - 10;
-      state.playerHp = pStats.maxHp;
-      logCombat("SYSTEM: HP RECOVERED 100%", "log-skill");
+      // 1. 행동 처리
+      if(actionType === 'heal') {
+          if(Number(state.coins || 0) < 10) return alert('REQUIRES 10 CRD.');
+          if(state.playerHp >= pStats.maxHp) return alert('HP ALREADY AT MAXIMUM.');
+          state.coins -= 10;
+          state.playerHp = pStats.maxHp;
+          logCombat("SYSTEM: HP RECOVERED 100%", "log-skill");
+          save(); renderHeader(); renderGame();
+          return; // 힐은 턴 소모 안함
+      }
+      
+      let reqCoin = actionType === 'skill' ? 30 : 10;
+      if(Number(state.coins || 0) < reqCoin) return alert(`REQUIRES ${reqCoin} CRD TO ENGAGE.`);
+      if(state.playerHp <= 0) return alert('HP IS ZERO. MUST RECOVER.');
+      
+      state.coins -= reqCoin;
+
+      let finalDmg = Math.floor(pStats.totalAtk * (0.8 + Math.random() * 0.4));
+      let actionLog = '';
+
+      if(actionType === 'skill' && skillId) {
+          const inv = getSafeList(state.gacha.inventory);
+          const skillItem = inv.find(i => i.id === skillId);
+          if(!skillItem) return;
+          
+          const ef = skillItem.effect;
+          if(ef.type === 'dmg') {
+              finalDmg = Math.floor(finalDmg * ef.val);
+              actionLog = `[SKILL: ${skillItem.name.split(']')[1].trim()} - DMG x${ef.val}]`;
+          } else if(ef.type === 'heal') {
+              finalDmg = Math.floor(finalDmg * 0.5); // 힐 스킬은 공격력 절반
+              const healAmt = Math.floor(pStats.maxHp * (ef.val / 100));
+              state.playerHp = Math.min(pStats.maxHp, state.playerHp + healAmt);
+              actionLog = `[SKILL: ${skillItem.name.split(']')[1].trim()} - HEAL +${healAmt.toLocaleString()}]`;
+          } else if(ef.type === 'vamp') {
+              const vampAmt = Math.floor(finalDmg * (ef.val / 100));
+              state.playerHp = Math.min(pStats.maxHp, state.playerHp + vampAmt);
+              actionLog = `[SKILL: ${skillItem.name.split(']')[1].trim()} - VAMP +${vampAmt.toLocaleString()}]`;
+          } else if(ef.type === 'god') {
+              finalDmg = finalDmg * 5;
+              state.playerHp = pStats.maxHp;
+              actionLog = `[SKILL: GOD MODE - DMG x5, FULL HP]`;
+          } else if(ef.type === 'winter') {
+              finalDmg = finalDmg * 10;
+              state.playerHp = pStats.maxHp;
+              actionLog = `[SKILL: WINTER - DMG x10, FULL HP]`;
+          }
+      }
+
+      state.dungeon.hp = (Number(state.dungeon.hp) || state.dungeon.maxHp) - finalDmg;
+      logCombat(`> ATK: ${finalDmg.toLocaleString()} DMG! ${actionLog}`, "log-p-dmg");
+      
+      const bossLevel = Number(state.dungeon.level);
+      const targetEl = document.getElementById('bossImg');
+      if(targetEl && targetEl.style.display !== 'none') {
+        targetEl.style.transform = 'scale(0.8) rotate(-15deg)';
+        targetEl.style.filter = 'drop-shadow(0 0 15px rgba(255,0,0,0.8))';
+        setTimeout(() => { targetEl.style.transform = 'none'; targetEl.style.filter = 'none'; }, 150);
+      }
+
+      // 2. 결과 및 보스 반격
+      if(state.dungeon.hp <= 0) {
+        if(state.dungeon.level >= 70) {
+          alert(`[ MISSION ACCOMPLISHED ]\n\n과거의 자신을 뛰어넘어 궁극의 영역에 도달했습니다.\n(엔딩 보상: 50,000 EXP / CRD)`);
+          handleExpAndCoin(50000);
+        } else {
+          const reward = Number(state.dungeon.level) * 150;
+          alert(`[ TARGET DESTROYED ]\nREWARD: ${reward.toLocaleString()} EXP / CRD`);
+          handleExpAndCoin(reward);
+        }
+        
+        state.playerHp = pStats.maxHp; 
+        state.dungeon.level = Number(state.dungeon.level) + 1;
+        state.dungeon.maxHp = calcMaxHp(state.dungeon.level);
+        state.dungeon.hp = state.dungeon.maxHp;
+        document.getElementById('combatLog').innerHTML = 'AWAITING ENGAGEMENT...'; 
+      } else {
+        const bossAtk = calcBossAtk(bossLevel);
+        const bossDmg = Math.floor(bossAtk * (0.8 + Math.random() * 0.4));
+        const dmgToPlayer = Math.max(1, bossDmg - pStats.totalDef);
+        
+        state.playerHp -= dmgToPlayer;
+        logCombat(`< ENEMY: ${dmgToPlayer.toLocaleString()} DMG TAKEN!`, "log-b-dmg");
+        
+        if(state.playerHp <= 0) {
+            state.playerHp = 0;
+            state.dungeon.stunnedDate = todayKey;
+            logCombat(`[ CRITICAL ERROR: HP 0. SYSTEM LOCKED UNTIL TOMORROW. ]`, "log-sys");
+        }
+      }
+
       save(); renderHeader(); renderGame();
   }
-
-  window.attackBoss = function() {
-    const todayKey = fmtKey(new Date());
-    if(state.dungeon.stunnedDate === todayKey) return alert('[ SYSTEM LOCKED ]\n기절 상태입니다. 명일 자정 이후에 다시 접속하십시오.');
-
-    if(state.playerHp <= 0) return alert('HP IS ZERO. MUST RECOVER.');
-    if(Number(state.coins || 0) < 10) return alert('REQUIRES 10 CRD TO ENGAGE.');
-    
-    state.coins = Number(state.coins || 0) - 10;
-
-    const pStats = getPlayerStats();
-    let totalAtk = pStats.totalAtk;
-    let finalDmg = Math.floor(totalAtk * (0.8 + Math.random() * 0.4));
-    
-    let skillText = '';
-    if(pStats.activeSkill && pStats.activeSkill.effect) {
-        const ef = pStats.activeSkill.effect;
-        if(ef.type === 'dmg') {
-            finalDmg = Math.floor(finalDmg * ef.val);
-            skillText = ` [PASSIVE: DMG x${ef.val}]`;
-        } else if(ef.type === 'heal') {
-            const healAmt = Math.floor(pStats.maxHp * (ef.val / 100));
-            state.playerHp = Math.min(pStats.maxHp, state.playerHp + healAmt);
-            skillText = ` [PASSIVE: HEAL +${healAmt.toLocaleString()}]`;
-        } else if(ef.type === 'vamp') {
-            const vampAmt = Math.floor(finalDmg * (ef.val / 100));
-            state.playerHp = Math.min(pStats.maxHp, state.playerHp + vampAmt);
-            skillText = ` [PASSIVE: VAMP +${vampAmt.toLocaleString()}]`;
-        } else if(ef.type === 'god') {
-            finalDmg = finalDmg * 5;
-            state.playerHp = pStats.maxHp;
-            skillText = ` [PASSIVE: GOD MODE (DMG x5, FULL HP)]`;
-        } else if(ef.type === 'winter') {
-            finalDmg = finalDmg * 10;
-            state.playerHp = pStats.maxHp;
-            skillText = ` [PASSIVE: WINTER (DMG x10, FULL HP)]`;
-        }
-    }
-    
-    state.dungeon.hp = (Number(state.dungeon.hp) || state.dungeon.maxHp) - finalDmg;
-    logCombat(`> ATK: ${finalDmg.toLocaleString()} DMG!${skillText}`, "log-p-dmg");
-    
-    const bossLevel = Number(state.dungeon.level);
-    const bossNameIndex = Math.max(0, bossLevel - 1) % BOSS_LIST.length;
-    const preMappedImg = BOSS_LIST[bossNameIndex] ? BOSS_LIST[bossNameIndex].img : '';
-    
-    const targetEl = (state.dungeon.bossImageUrl || preMappedImg) ? document.getElementById('bossImg') : document.getElementById('bossEmoji');
-    if(targetEl) {
-      targetEl.style.transform = 'scale(0.8) rotate(-15deg)';
-      targetEl.style.filter = 'drop-shadow(0 0 15px rgba(255,0,0,0.8))';
-      setTimeout(() => { targetEl.style.transform = 'none'; targetEl.style.filter = 'none'; }, 150);
-    }
-
-    if(state.dungeon.hp <= 0) {
-      if(state.dungeon.level >= 70) {
-        alert(`[ MISSION ACCOMPLISHED ]\n\n과거의 자신을 뛰어넘어 궁극의 영역에 도달했습니다.\n(엔딩 보상: 50,000 EXP / CRD)`);
-        handleExpAndCoin(50000);
-      } else {
-        const reward = Number(state.dungeon.level) * 150;
-        alert(`[ TARGET DESTROYED ]\nREWARD: ${reward.toLocaleString()} EXP / CRD`);
-        handleExpAndCoin(reward);
-      }
-      
-      state.playerHp = pStats.maxHp; 
-      state.dungeon.level = Number(state.dungeon.level) + 1;
-      state.dungeon.maxHp = calcMaxHp(state.dungeon.level);
-      state.dungeon.hp = state.dungeon.maxHp;
-      document.getElementById('combatLog').innerHTML = 'AWAITING ENGAGEMENT...'; 
-    } else {
-      const bossAtk = calcBossAtk(bossLevel);
-      const bossDmg = Math.floor(bossAtk * (0.8 + Math.random() * 0.4));
-      const dmgToPlayer = Math.max(1, bossDmg - pStats.totalDef);
-      
-      state.playerHp -= dmgToPlayer;
-      logCombat(`< ENEMY: ${dmgToPlayer.toLocaleString()} DMG TAKEN!`, "log-b-dmg");
-      
-      if(state.playerHp <= 0) {
-          state.playerHp = 0;
-          state.dungeon.stunnedDate = todayKey;
-          logCombat(`[ CRITICAL ERROR: HP 0. SYSTEM LOCKED UNTIL TOMORROW. ]`, "log-sys");
-      }
-    }
-
-    save(); renderHeader(); renderGame();
-  }
-
-
-  // ---------- Roadmap ----------
-  window.saveUltimateGoal = function(val) { state.roadmap.ultimate = val; save(); }
-  
-  function renderRoadmap() {
-    if(!state.roadmap) state.roadmap = { ultimate:'', milestones:[] };
-    const ul = document.getElementById('ultimateGoalInput'); if(ul) ul.value = state.roadmap.ultimate || '';
-    const list = getSafeList(state.roadmap.milestones);
-    const container = document.getElementById('roadmapMapContainer');
-    const emptyNote = document.getElementById('roadmapEmptyNote');
-    if(!container || !emptyNote) return;
-
-    if(list.length === 0) { container.style.display = 'none'; emptyNote.style.display = 'block'; return; }
-    container.style.display = 'block'; emptyNote.style.display = 'none';
-    
-    const STAGE_EMOJIS = ['Ⅰ', 'Ⅱ', 'Ⅲ', 'Ⅳ', 'Ⅴ'];
-    const STAGE_NAMES = ['STAGE 1', 'STAGE 2', 'STAGE 3', 'STAGE 4', 'STAGE 5'];
-    
-    let activeIdx = 0;
-    for(let i=0; i<list.length; i++) { if(list[i] && list[i].done) activeIdx = i + 1; else break; }
-    if(activeIdx >= list.length) activeIdx = list.length - 1; 
-
-    let html = `<div class="roadmap-map"><div class="map-line"></div><div class="map-line-fill" id="mapFill"></div>`;
-    list.forEach((m, idx) => {
-      if(!m) return;
-      const tier = Math.min(idx, 4);
-      const isDone = m.done;
-      const isActive = (!isDone && idx === activeIdx) || (isDone && idx === list.length - 1 && activeIdx === list.length - 1);
-      html += `
-        <div class="map-node-wrapper">
-          <div class="map-node ${isDone ? 'done' : ''} ${isActive ? 'active' : ''}">
-            <div class="stage-icon">${isActive ? '<div class="avatar" style="font-size:16px;">[ V ]</div>' : STAGE_EMOJIS[tier]}</div>
-            <div class="node-card">
-              <div style="flex:1;">
-                <div class="stage-name">${STAGE_NAMES[tier]}</div>
-                <div class="goal-text" style="${isDone ? 'color:var(--muted); text-decoration:line-through;' : 'color:var(--cream);'}">${m.text}</div>
-              </div>
-              <button class="check ${isDone ? 'checked' : ''}" onclick="toggleRoadmap(${idx})"></button>
-              <button class="del-btn" onclick="deleteRoadmap(${idx})">×</button>
-            </div>
-          </div>
-        </div>
-      `;
-    });
-    html += `</div>`;
-    container.innerHTML = html;
-    setTimeout(() => {
-        const fill = document.getElementById('mapFill');
-        if(fill) { const pct = list.length <= 1 ? (list[0].done ? 100 : 0) : (activeIdx / (list.length - 1)) * 100; fill.style.height = `calc(${pct}% - 20px)`; }
-    }, 50);
-  }
-  
-  window.toggleRoadmap = function(idx) {
-    if(!state.roadmap) state.roadmap = { ultimate:'', milestones:[] };
-    let list = getSafeList(state.roadmap.milestones);
-    const m = list[idx]; if(!m) return;
-    m.done = !m.done; handleExpAndCoin(m.done ? ROADMAP_REWARD : -ROADMAP_REWARD);
-    save(); renderHeader(); renderRoadmap(); 
-  };
-  
-  window.deleteRoadmap = function(idx) {
-    if(!state.roadmap) state.roadmap = { ultimate:'', milestones:[] };
-    let list = getSafeList(state.roadmap.milestones);
-    const m = list[idx]; if(!m) return;
-    if(m.done) handleExpAndCoin(-ROADMAP_REWARD);
-    list.splice(idx, 1); 
-    state.roadmap.milestones = list;
-    save(); renderHeader(); renderRoadmap();
-  };
-  
-  document.getElementById('addMilestoneForm').addEventListener('submit', (e) => {
-    e.preventDefault();
-    const text = document.getElementById('milestoneInput').value.trim(); if(!text) return;
-    if(!state.roadmap) state.roadmap = { ultimate:'', milestones:[] };
-    let list = getSafeList(state.roadmap.milestones);
-    list.push({ id: Date.now()+'-'+Math.random().toString(36).slice(2,7), text: text, done: false });
-    state.roadmap.milestones = list;
-    document.getElementById('milestoneInput').value = ''; save(); renderRoadmap();
-  });
 
   // ---------- Daily Logic ----------
   function renderDaily(){
@@ -1538,7 +1488,7 @@
   }
   
   document.getElementById('addDailyForm').addEventListener('submit', (e) => {
-    e.preventDefault();
+    e.preventDefault(); 
     const t = document.getElementById('dailyGoalInput').value.trim(); if(!t) return;
     const k = fmtKey(currentDailyDate); 
     if(!state.dailyGoals) state.dailyGoals = {};
@@ -1736,6 +1686,7 @@
     const note = state.notes[k] || {};
     const dNote = document.getElementById('dayModalNote'); if(dNote) dNote.value = note.text || (typeof note === 'string' ? note : '');
     
+    // 00:00 -> 24:00 User Correction Logic
     const ts = document.getElementById('dayTimeStart'); if(ts) ts.value = note.timeStart || '';
     let tEnd = note.timeEnd || ''; if(tEnd === '24:00') tEnd = '00:00'; 
     const te = document.getElementById('dayTimeEnd'); if(te) te.value = tEnd;
@@ -1826,7 +1777,7 @@
         state.playerHp = Number(parsed.playerHp || 500);
         state.goals = parsed.goals || {}; state.dailyGoals = parsed.dailyGoals || {}; state.notes = parsed.notes || {}; 
         state.repo = Array.isArray(parsed.repo) ? parsed.repo : []; state.roadmap = parsed.roadmap || { ultimate:'', milestones:[] };
-        state.gacha = parsed.gacha || {inventory:[], equipped:{weapon:null, sub:null, armor:null, skill:null}}; 
+        state.gacha = parsed.gacha || {inventory:[], equipped:{weapon:null, sub:null, armor:null, skills:[]}}; 
         state.dungeon = parsed.dungeon || {level:1, hp:200, maxHp:200, bossImageUrl:'', stunnedDate:''};
         save(); renderAll();
       }catch(err){ alert('FILE ERROR.'); }
@@ -1839,7 +1790,7 @@
       if(!confirm("THIS ACTION IS IRREVERSIBLE.")) return;
       
       state.totalExp = 0; state.coins = 0; state.petExp = 0; state.playerHp = 500;
-      state.gacha = {inventory:[], equipped:{weapon:null, sub:null, armor:null, skill:null}};
+      state.gacha = {inventory:[], equipped:{weapon:null, sub:null, armor:null, skills:[]}};
       state.dungeon = {level:1, hp:200, maxHp:200, bossImageUrl:'', stunnedDate:''};
       
       save(); renderAll(); alert("SYSTEM RESET COMPLETED.");
