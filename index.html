@@ -36,8 +36,12 @@
   /* ---------- Header ---------- */
   .marquee{
     background:linear-gradient(180deg, var(--bg-panel-2), var(--bg-panel));
-    border:1px solid var(--line); border-radius:12px; padding:20px 20px 18px;
-    position:relative; overflow:hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    border:1px solid var(--line);
+    border-radius:12px;
+    padding:20px 20px 18px;
+    position:relative;
+    overflow:hidden;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
   }
   .marquee::before{
     content:""; position:absolute; inset:0;
@@ -152,7 +156,7 @@
   .equip-name { font-size:11px; font-weight:700; color:var(--muted); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
   .equip-slot.filled .equip-name { text-shadow: 0 0 5px currentColor; }
 
-  /* 부위별 가챠 그리드 */
+  /* 16개 상자 매트릭스 UI */
   .gacha-matrix { display:grid; grid-template-columns: 40px 1fr 1fr 1fr 1fr; gap:4px; margin-bottom:16px; align-items:center; }
   .gacha-matrix-header { display:grid; grid-template-columns: 40px 1fr 1fr 1fr 1fr; gap:4px; margin-bottom:4px; text-align:center; font-family:'JetBrains Mono', monospace; font-size:10px; color:var(--muted); font-weight:800; }
   .g-row-lbl { font-family:'JetBrains Mono', monospace; font-size:10px; color:var(--muted); font-weight:800; writing-mode:vertical-rl; text-align:center; transform:rotate(180deg); margin:0 auto; }
@@ -163,18 +167,27 @@
   .g-btn.e { border-color:#8a2be2; color:#8a2be2; }
   .g-btn.l { border-color:#ffd700; color:#ffd700; }
 
-  .inv-container { max-height:180px; overflow-y:auto; background:var(--bg-stage); padding:10px; border:1px solid var(--line); display:flex; flex-direction:column; gap:4px; }
-  .inv-item { display:flex; justify-content:space-between; align-items:center; padding:10px; background:var(--bg-panel); border-left:2px solid var(--line); }
-  .inv-item.equipped { border-color:var(--amber); background:rgba(232,163,61,0.05); }
-  .inv-item-name { font-size:12px; font-weight:700; margin-bottom:4px; }
-  .inv-item-stat { font-family:'JetBrains Mono', monospace; font-size:9px; color:var(--muted); }
+  /* ★ 인벤토리 카드 UI 전면 개조 */
+  .inv-container { display: grid; grid-template-columns: 1fr; gap: 8px; max-height: 280px; overflow-y: auto; padding: 4px; background:transparent; border:none; margin-top:10px; }
+  .inv-card { background: var(--bg-panel); border: 1px solid var(--line); border-radius: 8px; padding: 12px; display: flex; flex-direction: column; gap: 10px; position: relative; transition:0.2s; }
+  .inv-card:hover { border-color:var(--amber-dim); }
+  .inv-card.equipped { border-color: var(--amber); background: linear-gradient(135deg, rgba(232,163,61,0.05), transparent); box-shadow:0 0 10px rgba(232,163,61,0.1); }
+  .inv-card-top { display: flex; justify-content: space-between; align-items: flex-start; }
+  .inv-card-name { font-size: 13px; font-weight: 800; letter-spacing:0.5px; }
+  .inv-card-rank { font-family:'JetBrains Mono', monospace; font-size:9px; border:1px solid currentColor; padding:2px 4px; border-radius:3px; }
+  .inv-card-stats { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--muted); background: var(--bg-stage); padding: 8px; border-radius: 6px; border:1px solid var(--line); }
+  .inv-btn { width: 100%; padding: 10px; font-family: 'JetBrains Mono', monospace; font-weight: 800; font-size: 12px; border-radius: 6px; cursor: pointer; transition: 0.2s; letter-spacing:1px; }
+  .inv-btn.equip { background: var(--bg-stage); color: var(--cream); border: 1px solid var(--line); }
+  .inv-btn.equip:hover { border-color: var(--amber); color: var(--amber); background:var(--bg-panel-2); }
+  .inv-btn.unequip { background: var(--amber); color: #000; border: none; box-shadow:0 0 10px rgba(232,163,61,0.3); }
+  .inv-btn.unequip:hover { filter:brightness(1.1); }
 
   /* Boss & Visuals */
   .boss-card { background:var(--bg-stage); border:1px solid var(--line); padding:20px; text-align:center; position:relative; overflow:hidden; }
   .boss-visual { margin-bottom:16px; position:relative; display:inline-flex; align-items:center; justify-content:center; width:100px; height:100px; }
-  .boss-radar { width:100px; height:100px; border-radius:50%; border:1px dashed var(--burgundy); display:flex; flex-direction:column; align-items:center; justify-content:center; font-family:'JetBrains Mono', monospace; font-size:30px; color:var(--burgundy); letter-spacing:2px; animation:spin 10s linear infinite; position:absolute; inset:0; margin:auto; z-index:1; }
+  .boss-radar { width:100px; height:100px; border-radius:50%; border:1px dashed var(--burgundy); display:flex; align-items:center; justify-content:center; font-family:'JetBrains Mono', monospace; font-size:30px; color:var(--burgundy); letter-spacing:2px; animation:spin 10s linear infinite; position:absolute; inset:0; margin:auto; z-index:1; }
   @keyframes spin { 100% { transform:rotate(360deg); } }
-  .boss-img { width:100px; height:100px; border-radius:50%; border:2px solid var(--burgundy); position:relative; z-index:2; box-shadow:0 0 20px rgba(161,43,53,0.3); display:none; background-size:cover; background-position:center; background-color:var(--bg-stage); }
+  .boss-img { width:100px; height:100px; border-radius:50%; border:2px solid var(--burgundy); position:relative; z-index:2; box-shadow:0 0 20px rgba(161,43,53,0.3); object-fit:cover; display:none; }
   
   .boss-info .rank { font-family:'JetBrains Mono', monospace; font-size:10px; color:var(--muted); letter-spacing:2px; margin-bottom:4px; }
   .boss-info .name { font-size:22px; font-weight:900; color:var(--cream); letter-spacing:1px; margin-bottom:16px; text-transform:uppercase; }
@@ -208,27 +221,27 @@
 
   /* ---------- 🔥 간지 폭발 Glitch Cutscene ---------- */
   #gachaCutscene {
-    position: fixed; inset: 0; background: #000; z-index: 9999;
+    position: fixed; inset: 0; background: rgba(0,0,0,0.95); z-index: 9999;
     display: none; align-items: center; justify-content: center; flex-direction: column; overflow: hidden;
   }
   
   .cs-shatter {
     position: absolute; inset: 0; pointer-events: none; opacity: 0;
-    background: repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(255,255,255,0.05) 10px, rgba(255,255,255,0.05) 11px),
-                repeating-linear-gradient(-45deg, transparent, transparent 20px, rgba(255,255,255,0.05) 20px, rgba(255,255,255,0.05) 21px);
+    background: repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(255,255,255,0.03) 10px, rgba(255,255,255,0.03) 11px),
+                repeating-linear-gradient(-45deg, transparent, transparent 20px, rgba(255,255,255,0.03) 20px, rgba(255,255,255,0.03) 21px);
   }
 
   .cs-content { position: relative; z-index: 10; text-align: center; }
-  .cs-rank { font-family: 'JetBrains Mono', monospace; font-size: 18px; letter-spacing: 8px; margin-bottom: 16px; opacity: 0; }
-  .cs-item { font-family: 'Work Sans', sans-serif; font-size: 40px; font-weight: 900; opacity: 0; transform: scale(0.8); }
+  .cs-rank { font-family: 'JetBrains Mono', monospace; font-size: 20px; letter-spacing: 10px; margin-bottom: 16px; opacity: 0; }
+  .cs-item { font-family: 'Work Sans', sans-serif; font-size: 42px; font-weight: 900; opacity: 0; transform: scale(0.8); }
   
-  /* 글리치 애니메이션 클래스 */
+  /* 글리치 애니메이션 작동 트리거 */
   .run .cs-shatter { animation: shatterAnim 0.3s cubic-bezier(0.1, 0.8, 0.3, 1) forwards; }
   .run .cs-rank { animation: itemReveal 0.5s 0.3s cubic-bezier(0.1, 0.8, 0.3, 1) forwards; }
   .run .cs-item { animation: itemReveal 0.5s 0.6s cubic-bezier(0.1, 0.8, 0.3, 1) forwards; }
   .run.shake { animation: shake 0.4s cubic-bezier(.36,.07,.19,.97) both; }
 
-  /* 글리치 텍스트 효과 */
+  /* 데이터 텍스트 애트리뷰트를 활용한 글리치 잔상 효과 */
   .glitch-text { position: relative; }
   .glitch-text::before, .glitch-text::after { content: attr(data-text); position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0; }
   .run .glitch-text::before { left: 3px; text-shadow: -2px 0 red; clip-path: polygon(0 0, 100% 0, 100% 45%, 0 45%); animation: glitch-anim 2s infinite linear alternate-reverse; opacity: 1; }
@@ -281,7 +294,7 @@
 </head>
 <body>
 
-<!-- GACHA CUTSCENE OVERLAY (UPGRADED) -->
+<!-- GACHA CUTSCENE OVERLAY (글리치 효과 적용) -->
 <div id="gachaCutscene">
   <div class="cs-shatter" id="csShatter"></div>
   <div class="cs-content" id="csContent">
@@ -397,6 +410,7 @@
       </div>
       
       <div class="game-section-title" style="margin-top:20px;">INVENTORY (CLICK TO EQUIP)</div>
+      <!-- ★ 인벤토리 카드형 디자인 렌더링을 위한 컨테이너 -->
       <div class="inv-container" id="inventoryList"></div>
     </div>
 
@@ -447,36 +461,100 @@
     </div>
   </div>
 
-  <!-- 나머지 탭 내용 생략 (기존과 동일하므로 유지) -->
+  <!-- DAILY GOALS TAB -->
   <div class="panel" id="dailyPanel">
-    <div class="week-nav"><button class="nav-btn" id="prevDay">‹</button><div class="range"><span id="dailyMain"></span><small id="dailySub"></small></div><div style="display:flex; gap:6px;"><button class="today-chip" id="gotoTodayDaily">TODAY</button><button class="nav-btn" id="nextDay">›</button></div></div>
-    <ul class="goal-list" id="dailyList"></ul><div class="empty-note" id="dailyEmptyNote">NO ACTIVE DIRECTIVES.</div>
-    <form class="add-form" id="addDailyForm"><input type="text" id="dailyGoalInput" placeholder="ENTER NEW DIRECTIVE..." maxlength="60" required><select id="dailyTierSelect" style="flex:none; width:90px;"><option value="0">LOW</option><option value="1" selected>MID</option><option value="2">HIGH</option></select><button type="submit" class="add-btn">ADD</button></form>
+    <div class="week-nav">
+      <button class="nav-btn" id="prevDay">‹</button>
+      <div class="range"><span id="dailyMain"></span><small id="dailySub"></small></div>
+      <div style="display:flex; gap:6px;"><button class="today-chip" id="gotoTodayDaily">TODAY</button><button class="nav-btn" id="nextDay">›</button></div>
+    </div>
+    <ul class="goal-list" id="dailyList"></ul>
+    <div class="empty-note" id="dailyEmptyNote">NO ACTIVE DIRECTIVES.</div>
+    <form class="add-form" id="addDailyForm">
+      <input type="text" id="dailyGoalInput" placeholder="ENTER NEW DIRECTIVE..." maxlength="60" required>
+      <select id="dailyTierSelect" style="flex:none; width:90px;">
+        <option value="0">LOW</option>
+        <option value="1" selected>MID</option>
+        <option value="2">HIGH</option>
+      </select>
+      <button type="submit" class="add-btn">ADD</button>
+    </form>
   </div>
+
+  <!-- WEEKLY GOALS TAB -->
   <div class="panel" id="goalsPanel" style="display:none;">
-    <div class="week-nav"><button class="nav-btn" id="prevWeek">‹</button><div class="range"><span id="weekMain"></span><small id="weekSub"></small></div><div style="display:flex; gap:6px;"><button class="today-chip" id="gotoToday">THIS WK</button><button class="nav-btn" id="nextWeek">›</button></div></div>
-    <ul class="goal-list" id="goalList"></ul><div class="empty-note" id="emptyNote">NO WEEKLY DIRECTIVES.</div>
-    <form class="add-form" id="addWeekForm"><input type="text" id="weekGoalInput" placeholder="ENTER WEEKLY DIRECTIVE..." maxlength="60" required><button type="submit" class="add-btn">ADD</button></form>
+    <div class="week-nav">
+      <button class="nav-btn" id="prevWeek">‹</button>
+      <div class="range"><span id="weekMain"></span><small id="weekSub"></small></div>
+      <div style="display:flex; gap:6px;"><button class="today-chip" id="gotoToday">THIS WK</button><button class="nav-btn" id="nextWeek">›</button></div>
+    </div>
+    <ul class="goal-list" id="goalList"></ul>
+    <div class="empty-note" id="emptyNote">NO WEEKLY DIRECTIVES.</div>
+    <form class="add-form" id="addWeekForm">
+      <input type="text" id="weekGoalInput" placeholder="ENTER WEEKLY DIRECTIVE..." maxlength="60" required>
+      <button type="submit" class="add-btn">ADD</button>
+    </form>
   </div>
+
+  <!-- ROADMAP TAB -->
   <div class="panel" id="roadmapPanel" style="display:none;">
-    <div style="margin-bottom:20px;"><div style="font-family:'JetBrains Mono', monospace; font-size:10px; color:var(--muted); margin-bottom:6px;">[ ULTIMATE OBJECTIVE ]</div><textarea id="ultimateGoalInput" placeholder="Define your ultimate end-goal..." style="width:100%; background:var(--bg-stage); border:1px solid var(--line); color:var(--cream); font-family:'Work Sans'; font-size:13px; padding:10px; resize:none; outline:none; height:60px;" onchange="saveUltimateGoal(this.value)"></textarea></div>
-    <div id="roadmapMapContainer"></div><div class="empty-note" id="roadmapEmptyNote">NO MILESTONES DEFINED.</div>
-    <form class="add-form" id="addMilestoneForm"><input type="text" id="milestoneInput" placeholder="Enter milestone..." maxlength="60" required><button type="submit" class="add-btn">ADD</button></form>
+    <div style="margin-bottom:20px;">
+      <div style="font-family:'JetBrains Mono', monospace; font-size:10px; color:var(--muted); margin-bottom:6px;">[ ULTIMATE OBJECTIVE ]</div>
+      <textarea id="ultimateGoalInput" placeholder="Define your ultimate end-goal..." style="width:100%; background:var(--bg-stage); border:1px solid var(--line); color:var(--cream); font-family:'Work Sans'; font-size:13px; padding:10px; resize:none; outline:none; height:60px;" onchange="saveUltimateGoal(this.value)"></textarea>
+    </div>
+    <div id="roadmapMapContainer"></div>
+    <div class="empty-note" id="roadmapEmptyNote">NO MILESTONES DEFINED.</div>
+    <form class="add-form" id="addMilestoneForm">
+      <input type="text" id="milestoneInput" placeholder="Enter milestone..." maxlength="60" required>
+      <button type="submit" class="add-btn">ADD</button>
+    </form>
   </div>
+
+  <!-- REPERTOIRE TAB -->
   <div class="panel" id="repoPanel" style="display:none;">
-    <ul class="goal-list" id="repoList"></ul><div class="empty-note" id="repoEmpty">NO REPERTOIRE DATA.</div>
-    <form class="add-form" id="addRepoForm" style="flex-direction:column; margin-top:20px; border-top:1px solid var(--line); padding-top:20px;"><div style="display:flex; gap:8px;"><input type="text" id="repoSong" placeholder="TITLE" required style="flex:2;"><input type="text" id="repoArtist" placeholder="ARTIST" required style="flex:1.5;"><input type="text" id="repoKey" placeholder="KEY" style="flex:1;"></div><label class="upload-box" for="repoFile" style="margin:0;"><input type="file" id="repoFile" onchange="showRepoFile()"><span id="repoFileName">ATTACH FILE (MAX 4MB)</span></label><button type="submit" class="add-btn" style="padding:12px;">SAVE RECORD</button></form>
+    <ul class="goal-list" id="repoList"></ul>
+    <div class="empty-note" id="repoEmpty">NO REPERTOIRE DATA.</div>
+    <form class="add-form" id="addRepoForm" style="flex-direction:column; margin-top:20px; border-top:1px solid var(--line); padding-top:20px;">
+      <div style="display:flex; gap:8px;">
+        <input type="text" id="repoSong" placeholder="TITLE" required style="flex:2;">
+        <input type="text" id="repoArtist" placeholder="ARTIST" required style="flex:1.5;">
+        <input type="text" id="repoKey" placeholder="KEY" style="flex:1;">
+      </div>
+      <label class="upload-box" for="repoFile" style="margin:0;">
+        <input type="file" id="repoFile" onchange="showRepoFile()">
+        <span id="repoFileName">ATTACH FILE (MAX 4MB)</span>
+      </label>
+      <button type="submit" class="add-btn" style="padding:12px;">SAVE RECORD</button>
+    </form>
   </div>
+
+  <!-- CALENDAR TAB -->
   <div class="panel" id="calPanel" style="display:none;">
-    <div class="cal-head"><div class="cal-title" id="calTitle" style="font-family:'JetBrains Mono', monospace; font-size:16px;"></div><div style="display:flex; gap:6px;"><select id="yearSelect" style="background:var(--bg-stage); border:1px solid var(--line); color:var(--cream); font-family:'JetBrains Mono'; font-size:11px; padding:4px; outline:none;"></select><select id="monthSelect" style="background:var(--bg-stage); border:1px solid var(--line); color:var(--cream); font-family:'JetBrains Mono'; font-size:11px; padding:4px; outline:none;"></select><button class="nav-btn" id="prevMonth" style="width:24px; height:24px;">‹</button><button class="nav-btn" id="nextMonth" style="width:24px; height:24px;">›</button></div></div>
-    <div class="dow-row"><div class="dow">MON</div><div class="dow">TUE</div><div class="dow">WED</div><div class="dow">THU</div><div class="dow">FRI</div><div class="dow">SAT</div><div class="dow">SUN</div></div>
+    <div class="cal-head">
+      <div class="cal-title" id="calTitle" style="font-family:'JetBrains Mono', monospace; font-size:16px;"></div>
+      <div style="display:flex; gap:6px;">
+        <select id="yearSelect" style="background:var(--bg-stage); border:1px solid var(--line); color:var(--cream); font-family:'JetBrains Mono'; font-size:11px; padding:4px; outline:none;"></select>
+        <select id="monthSelect" style="background:var(--bg-stage); border:1px solid var(--line); color:var(--cream); font-family:'JetBrains Mono'; font-size:11px; padding:4px; outline:none;"></select>
+        <button class="nav-btn" id="prevMonth" style="width:24px; height:24px;">‹</button>
+        <button class="nav-btn" id="nextMonth" style="width:24px; height:24px;">›</button>
+      </div>
+    </div>
+    <div class="dow-row">
+      <div class="dow">MON</div><div class="dow">TUE</div><div class="dow">WED</div>
+      <div class="dow">THU</div><div class="dow">FRI</div><div class="dow">SAT</div><div class="dow">SUN</div>
+    </div>
     <div class="cal-grid" id="calGrid"></div>
   </div>
+
+  <!-- STATS / ANALYSIS TAB -->
   <div class="panel" id="statsPanel" style="display:none;">
     <div style="font-family:'JetBrains Mono', monospace; font-size:12px; color:var(--muted); text-align:center; margin-bottom:20px; letter-spacing:2px;">[ RADAR ANALYSIS ]</div>
-    <div style="background:var(--bg-stage); padding:20px; border-radius:50%; border:1px solid var(--line); width:280px; height:280px; margin:0 auto 20px; display:flex; align-items:center; justify-content:center;"><canvas id="radarChart" width="240" height="240"></canvas></div>
+    <div style="background:var(--bg-stage); padding:20px; border-radius:50%; border:1px solid var(--line); width:280px; height:280px; margin:0 auto 20px; display:flex; align-items:center; justify-content:center;">
+      <canvas id="radarChart" width="240" height="240"></canvas>
+    </div>
     <div class="empty-note" id="statsEmpty" style="display:none;">INSUFFICIENT DATA.</div>
-    <div style="font-family:'JetBrains Mono', monospace; font-size:12px; color:var(--muted); text-align:center; margin:30px 0 16px; letter-spacing:2px;">[ TIME LOGS ]</div><div id="timeLogContainer" style="display:flex; flex-direction:column; gap:8px;"></div>
+    <div style="font-family:'JetBrains Mono', monospace; font-size:12px; color:var(--muted); text-align:center; margin:30px 0 16px; letter-spacing:2px;">[ TIME LOGS ]</div>
+    <div id="timeLogContainer" style="display:flex; flex-direction:column; gap:8px;"></div>
   </div>
   
   <div style="display:flex; gap:10px; justify-content:center; margin-top:20px;">
@@ -490,19 +568,70 @@
 <!-- DAY MODAL -->
 <div class="modal-overlay" id="dayModal">
   <div class="modal-box">
-    <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:20px;"><div><div class="modal-title" id="dayModalTitle">DATE</div><div style="font-family:'JetBrains Mono'; font-size:10px; color:var(--muted);" id="dayModalSub">DAY</div></div><button class="del-btn" onclick="closeDayModal()">✕</button></div>
-    <div style="display:flex; gap:10px; margin-bottom:20px;"><div style="flex:1;"><div style="font-family:'JetBrains Mono'; font-size:9px; color:var(--muted); margin-bottom:4px;">START</div><input type="time" id="dayTimeStart" style="margin:0;"></div><div style="flex:1;"><div style="font-family:'JetBrains Mono'; font-size:9px; color:var(--muted); margin-bottom:4px;">END</div><input type="time" id="dayTimeEnd" style="margin:0;"></div></div>
-    <div class="stat-sliders"><div style="font-family:'JetBrains Mono'; font-size:10px; color:var(--amber); margin-bottom:14px; letter-spacing:1px;">[ METRICS EVALUATION ]</div><div class="stat-row"><div class="stat-label">PITCH</div><input type="range" class="stat-slider" id="stat-pitch" min="1" max="5" value="3" oninput="this.nextElementSibling.textContent=this.value"><div class="stat-val">3</div></div><div class="stat-row"><div class="stat-label">RHYTHM</div><input type="range" class="stat-slider" id="stat-rhythm" min="1" max="5" value="3" oninput="this.nextElementSibling.textContent=this.value"><div class="stat-val">3</div></div><div class="stat-row"><div class="stat-label">BREATH</div><input type="range" class="stat-slider" id="stat-breath" min="1" max="5" value="3" oninput="this.nextElementSibling.textContent=this.value"><div class="stat-val">3</div></div><div class="stat-row"><div class="stat-label">VOCAL</div><input type="range" class="stat-slider" id="stat-vocal" min="1" max="5" value="3" oninput="this.nextElementSibling.textContent=this.value"><div class="stat-val">3</div></div><div class="stat-row"><div class="stat-label">HIGH</div><input type="range" class="stat-slider" id="stat-high" min="1" max="5" value="3" oninput="this.nextElementSibling.textContent=this.value"><div class="stat-val">3</div></div><div class="stat-row"><div class="stat-label">EMOTION</div><input type="range" class="stat-slider" id="stat-emotion" min="1" max="5" value="3" oninput="this.nextElementSibling.textContent=this.value"><div class="stat-val">3</div></div></div>
-    <label class="upload-box" for="dayFile" style="margin-bottom:12px;"><input type="file" id="dayFile" onchange="showDayFile()"><span id="dayFileTitle">ATTACH AUDIO RECORDING</span></label><div id="dayFileLink" style="display:none; margin-bottom:16px;"></div>
+    <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:20px;">
+      <div>
+        <div class="modal-title" id="dayModalTitle">DATE</div>
+        <div style="font-family:'JetBrains Mono'; font-size:10px; color:var(--muted);" id="dayModalSub">DAY</div>
+      </div>
+      <button class="del-btn" onclick="closeDayModal()">✕</button>
+    </div>
+    
+    <div style="display:flex; gap:10px; margin-bottom:20px;">
+      <div style="flex:1;">
+        <div style="font-family:'JetBrains Mono'; font-size:9px; color:var(--muted); margin-bottom:4px;">START</div>
+        <input type="time" id="dayTimeStart" style="margin:0;">
+      </div>
+      <div style="flex:1;">
+        <div style="font-family:'JetBrains Mono'; font-size:9px; color:var(--muted); margin-bottom:4px;">END</div>
+        <input type="time" id="dayTimeEnd" style="margin:0;">
+      </div>
+    </div>
+
+    <div class="stat-sliders">
+      <div style="font-family:'JetBrains Mono'; font-size:10px; color:var(--amber); margin-bottom:14px; letter-spacing:1px;">[ METRICS EVALUATION ]</div>
+      <div class="stat-row"><div class="stat-label">PITCH</div><input type="range" class="stat-slider" id="stat-pitch" min="1" max="5" value="3" oninput="this.nextElementSibling.textContent=this.value"><div class="stat-val">3</div></div>
+      <div class="stat-row"><div class="stat-label">RHYTHM</div><input type="range" class="stat-slider" id="stat-rhythm" min="1" max="5" value="3" oninput="this.nextElementSibling.textContent=this.value"><div class="stat-val">3</div></div>
+      <div class="stat-row"><div class="stat-label">BREATH</div><input type="range" class="stat-slider" id="stat-breath" min="1" max="5" value="3" oninput="this.nextElementSibling.textContent=this.value"><div class="stat-val">3</div></div>
+      <div class="stat-row"><div class="stat-label">VOCAL</div><input type="range" class="stat-slider" id="stat-vocal" min="1" max="5" value="3" oninput="this.nextElementSibling.textContent=this.value"><div class="stat-val">3</div></div>
+      <div class="stat-row"><div class="stat-label">HIGH</div><input type="range" class="stat-slider" id="stat-high" min="1" max="5" value="3" oninput="this.nextElementSibling.textContent=this.value"><div class="stat-val">3</div></div>
+      <div class="stat-row"><div class="stat-label">EMOTION</div><input type="range" class="stat-slider" id="stat-emotion" min="1" max="5" value="3" oninput="this.nextElementSibling.textContent=this.value"><div class="stat-val">3</div></div>
+    </div>
+
+    <label class="upload-box" for="dayFile" style="margin-bottom:12px;">
+      <input type="file" id="dayFile" onchange="showDayFile()">
+      <span id="dayFileTitle">ATTACH AUDIO RECORDING</span>
+    </label>
+    <div id="dayFileLink" style="display:none; margin-bottom:16px;"></div>
+
     <textarea id="dayModalNote" maxlength="500" placeholder="Enter log notes..."></textarea>
-    <div style="display:flex; gap:8px;"><button class="btn-primary" style="background:var(--bg-panel-2); color:var(--cream); border:1px solid var(--line);" id="dayModalGoto">GO TO DIRECTIVES</button><button class="btn-primary" style="background:var(--amber);" id="dayModalSave">SAVE LOG</button></div>
+    <div style="display:flex; gap:8px;">
+      <button class="btn-primary" style="background:var(--bg-panel-2); color:var(--cream); border:1px solid var(--line);" id="dayModalGoto">GO TO DIRECTIVES</button>
+      <button class="btn-primary" style="background:var(--amber);" id="dayModalSave">SAVE LOG</button>
+    </div>
     <div style="text-align:right; margin-top:10px;"><button class="btn-text" style="color:var(--burgundy);" id="dayModalDelete">DELETE LOG</button></div>
   </div>
 </div>
 
 <!-- AUTH MODALS -->
-<div class="modal-overlay" id="loginModal"><div class="modal-box"><div class="modal-title" style="display:flex; justify-content:space-between;"><span>SYSTEM LOGIN</span><button class="del-btn" onclick="closeAuthModal('loginModal')">✕</button></div><input type="text" id="login-id" placeholder="USER ID"><input type="password" id="login-pw" placeholder="PASSWORD"><button class="btn-primary" style="background:var(--amber); width:100%; margin:10px 0;" onclick="doLogin()">AUTHENTICATE</button><button class="btn-text" onclick="closeAuthModal('loginModal'); openAuthModal('signupModal');">REGISTER NEW USER</button></div></div>
-<div class="modal-overlay" id="signupModal"><div class="modal-box"><div class="modal-title" style="display:flex; justify-content:space-between;"><span>NEW REGISTRATION</span><button class="del-btn" onclick="closeAuthModal('signupModal')">✕</button></div><input type="text" id="su-id" placeholder="USER ID (Alphanumeric)"><input type="password" id="su-pw" placeholder="PASSWORD (Min 4 chars)"><input type="text" id="su-name" placeholder="ALIAS"><button class="btn-primary" style="background:var(--amber); width:100%; margin-top:10px;" onclick="doSignup()">REGISTER</button></div></div>
+<div class="modal-overlay" id="loginModal">
+  <div class="modal-box">
+    <div class="modal-title" style="display:flex; justify-content:space-between;"><span>SYSTEM LOGIN</span><button class="del-btn" onclick="closeAuthModal('loginModal')">✕</button></div>
+    <input type="text" id="login-id" placeholder="USER ID">
+    <input type="password" id="login-pw" placeholder="PASSWORD">
+    <button class="btn-primary" style="background:var(--amber); width:100%; margin:10px 0;" onclick="doLogin()">AUTHENTICATE</button>
+    <button class="btn-text" onclick="closeAuthModal('loginModal'); openAuthModal('signupModal');">REGISTER NEW USER</button>
+  </div>
+</div>
+
+<div class="modal-overlay" id="signupModal">
+  <div class="modal-box">
+    <div class="modal-title" style="display:flex; justify-content:space-between;"><span>NEW REGISTRATION</span><button class="del-btn" onclick="closeAuthModal('signupModal')">✕</button></div>
+    <input type="text" id="su-id" placeholder="USER ID (Alphanumeric)">
+    <input type="password" id="su-pw" placeholder="PASSWORD (Min 4 chars)">
+    <input type="text" id="su-name" placeholder="ALIAS">
+    <button class="btn-primary" style="background:var(--amber); width:100%; margin-top:10px;" onclick="doSignup()">REGISTER</button>
+  </div>
+</div>
 
 <script>
 (function(){
@@ -522,58 +651,38 @@
     { min: 1000, name: 'MASTER', baseAtk: 800, baseHp: 100000, baseDef: 1500 }
   ];
 
-  // ★ 아이템 대량 추가!
   const GACHA_ITEMS = [
-    // WEAPONS
-    { type: 'weapon', rank: '일반', atk: 15, name: '[WPN] 낡은 유선 마이크', color: '#a4917d' },
-    { type: 'weapon', rank: '일반', atk: 18, name: '[WPN] 장난감 마이크', color: '#a4917d' },
-    { type: 'weapon', rank: '일반', atk: 20, name: '[WPN] 블루투스 마이크', color: '#a4917d' },
+    { type: 'weapon', rank: '일반', atk: 15, name: '[WPN] 낡은 마이크', color: '#a4917d' },
     { type: 'weapon', rank: '희귀', atk: 50, name: '[WPN] 다이나믹 마이크', color: '#32cd32' },
-    { type: 'weapon', rank: '희귀', atk: 60, name: '[WPN] 연습실 스탠드 마이크', color: '#32cd32' },
     { type: 'weapon', rank: '초희귀', atk: 150, name: '[WPN] 콘덴서 마이크', color: '#00bfff' },
-    { type: 'weapon', rank: '초희귀', atk: 180, name: '[WPN] 락스타의 스탠드 마이크', color: '#00bfff' },
     { type: 'weapon', rank: '에픽', atk: 500, name: '[WPN] 스튜디오 마이크', color: '#8a2be2' },
-    { type: 'weapon', rank: '에픽', atk: 600, name: '[WPN] 커스텀 핸드마이크', color: '#8a2be2' },
     { type: 'weapon', rank: '신화', atk: 2500, name: '[WPN] 세이렌의 잃어버린 성대', color: '#ff4500' },
     { type: 'weapon', rank: '전설', atk: 10000, name: '[WPN] 절대음감의 황금 마이크', color: '#ffd700' },
     { type: 'weapon', rank: '불가능', atk: 50000, name: '[WPN] 시공간을 찢는 샤우팅', color: '#ff00ff' },
     { type: 'weapon', rank: '윈터', atk: 300000, name: '[WPN] 윈터의 서리가 내린 마이크', color: '#00ffff' },
 
-    // SUBS
     { type: 'sub', rank: '일반', atk: 5, def: 2, name: '[SUB] 낡은 메트로놈', color: '#a4917d' },
-    { type: 'sub', rank: '일반', atk: 6, def: 3, name: '[SUB] 휴대용 가습기', color: '#a4917d' },
     { type: 'sub', rank: '희귀', atk: 20, def: 10, name: '[SUB] 은빛 메트로놈', color: '#32cd32' },
-    { type: 'sub', rank: '희귀', atk: 25, def: 15, name: '[SUB] 인이어 모니터', color: '#32cd32' },
     { type: 'sub', rank: '초희귀', atk: 80, def: 40, name: '[SUB] 리듬의 지휘봉', color: '#00bfff' },
     { type: 'sub', rank: '에픽', atk: 300, def: 150, name: '[SUB] 마스터의 튜닝 포크', color: '#8a2be2' },
-    { type: 'sub', rank: '에픽', atk: 350, def: 200, name: '[SUB] 최고급 오디오 인터페이스', color: '#8a2be2' },
     { type: 'sub', rank: '신화', atk: 1200, def: 600, name: '[SUB] 영혼을 울리는 탬버린', color: '#ff4500' },
     { type: 'sub', rank: '전설', atk: 5000, def: 2500, name: '[SUB] 뮤즈의 하프', color: '#ffd700' },
     { type: 'sub', rank: '불가능', atk: 25000, def: 12000, name: '[SUB] 신들의 화음 반지', color: '#ff00ff' },
     { type: 'sub', rank: '윈터', atk: 150000, def: 80000, name: '[SUB] 윈터의 눈꽃 귀걸이', color: '#00ffff' },
 
-    // ARMORS
     { type: 'armor', rank: '일반', hp: 500, def: 10, name: '[AMR] 따뜻한 넥워머', color: '#a4917d' },
-    { type: 'armor', rank: '일반', hp: 600, def: 15, name: '[AMR] 털 목도리', color: '#a4917d' },
     { type: 'armor', rank: '희귀', hp: 2000, def: 50, name: '[AMR] 복식호흡 코르셋', color: '#32cd32' },
-    { type: 'armor', rank: '희귀', hp: 2500, def: 60, name: '[AMR] 도라지 배즙', color: '#32cd32' },
     { type: 'armor', rank: '초희귀', hp: 8000, def: 200, name: '[AMR] 강철의 흉곽', color: '#00bfff' },
     { type: 'armor', rank: '에픽', hp: 30000, def: 800, name: '[AMR] 무대용 수트', color: '#8a2be2' },
-    { type: 'armor', rank: '에픽', hp: 40000, def: 1000, name: '[AMR] 개인 방음부스', color: '#8a2be2' },
     { type: 'armor', rank: '신화', hp: 150000, def: 4000, name: '[AMR] 불사조의 성대 보호막', color: '#ff4500' },
     { type: 'armor', rank: '전설', hp: 800000, def: 20000, name: '[AMR] 황제 팬덤의 함성 방패', color: '#ffd700' },
     { type: 'armor', rank: '불가능', hp: 4000000, def: 100000, name: '[AMR] 시대를 초월한 방어구', color: '#ff00ff' },
     { type: 'armor', rank: '윈터', hp: 20000000, def: 500000, name: '[AMR] 윈터의 절대영도 방벽', color: '#00ffff' },
 
-    // SKILLS
     { type: 'skill', rank: '일반', effect:{type:'heal', val:10}, name: '[SKL] 물 마시기 (10% 회복)', color: '#a4917d' },
-    { type: 'skill', rank: '일반', effect:{type:'dmg', val:1.1}, name: '[SKL] 잔기침 (데미지 1.1배)', color: '#a4917d' },
     { type: 'skill', rank: '희귀', effect:{type:'dmg', val:1.5}, name: '[SKL] 목풀기 완료 (데미지 1.5배)', color: '#32cd32' },
-    { type: 'skill', rank: '희귀', effect:{type:'dmg', val:1.6}, name: '[SKL] 바이브레이션 (데미지 1.6배)', color: '#32cd32' },
     { type: 'skill', rank: '초희귀', effect:{type:'heal', val:30}, name: '[SKL] 관객 호응 (30% 회복)', color: '#00bfff' },
-    { type: 'skill', rank: '초희귀', effect:{type:'dmg', val:1.8}, name: '[SKL] 퍼포먼스 (데미지 1.8배)', color: '#00bfff' },
     { type: 'skill', rank: '에픽', effect:{type:'dmg', val:3.0}, name: '[SKL] 두성 폭발 (데미지 3배)', color: '#8a2be2' },
-    { type: 'skill', rank: '에픽', effect:{type:'vamp', val:30}, name: '[SKL] 무대 장악 (30% 흡혈)', color: '#8a2be2' },
     { type: 'skill', rank: '신화', effect:{type:'vamp', val:100}, name: '[SKL] 피의 샤우팅 (100% 흡혈)', color: '#ff4500' },
     { type: 'skill', rank: '전설', effect:{type:'dmg', val:5.0}, name: '[SKL] 전설의 3단 고음 (데미지 5배)', color: '#ffd700' },
     { type: 'skill', rank: '불가능', effect:{type:'god', val:0}, name: '[SKL] 신의 무대 (5배딜+풀피)', color: '#ff00ff' },
@@ -587,7 +696,6 @@
     legend: { rates: [ { rank: '에픽', prob: 30.0 }, { rank: '신화', prob: 40.0 }, { rank: '전설', prob: 20.0 }, { rank: '불가능', prob: 8.0 }, { rank: '윈터', prob: 2.0 } ] }
   };
 
-  // ★ 100% 작동하는 직접 썸네일 변환기 (엑스박스 절대 방어)
   function getDisplayUrl(url) {
       if(!url) return '';
       const match = url.match(/\/d\/([a-zA-Z0-9_-]+)/);
@@ -597,6 +705,7 @@
       return url;
   }
 
+  // ★ 70명 라인업 완벽 적용
   const BOSS_LIST = [
     { name: "10CM", img: "https://drive.google.com/file/d/1SpqRzUg-2tHvXzN1XaWRUtcmz4cHuwbY/view?usp=drive_link" },
     { name: "최유리", img: "https://drive.google.com/file/d/13PFcFL_ly5MStsJwmN9ImmlVDSUMMYjL/view?usp=drive_link" },
@@ -635,38 +744,38 @@
     { name: "조용필", img: "https://drive.google.com/file/d/1jz29-_ArV7vo80iHVnGXaDNOUKOzt4NL/view?usp=drive_link" },
     { name: "신승훈", img: "https://drive.google.com/file/d/1XSftHVAAkaeXOrs6IwLklVs6UVeewQkp/view?usp=drive_link" },
     { name: "싸이", img: "https://drive.google.com/file/d/1X7ntYHMUemkFhg5ZOkAKoNhH89jrcyr_/view?usp=drive_link" },
-    { name: "빅뱅", img: "https://drive.google.com/file/d/1W1lXRG6AHHmsYStpJhhmMCjJmmijJHKm/view?usp=drive_link" },
-    { name: "exo", img: "https://drive.google.com/file/d/1pZXou5q8IRoWZj2AK6agJSESY_MzPfcs/view?usp=drive_link" },
-    { name: "트와이스", img: "https://drive.google.com/file/d/129Go3z8G4aZk05-wRo9asG2uOy5P2140/view?usp=drive_link" },
-    { name: "세븐틴", img: "https://drive.google.com/file/d/1cZfG4WIsfuQds1_q7n0mMmUR1ixtFdYR/view?usp=drive_link" },
-    { name: "에스파", img: "https://drive.google.com/file/d/1FOKdzkyKvfGA3HLYrO7qFu3SUDN7g7ts/view?usp=drive_link" },
-    { name: "블랙핑크", img: "https://drive.google.com/file/d/1sZdFj3tqzFEgs3jz4IlIfybi2gubKR2a/view?usp=drive_link" },
+    { name: "BIGBANG", img: "https://drive.google.com/file/d/1W1lXRG6AHHmsYStpJhhmMCjJmmijJHKm/view?usp=drive_link" },
+    { name: "EXO", img: "https://drive.google.com/file/d/1pZXou5q8IRoWZj2AK6agJSESY_MzPfcs/view?usp=drive_link" },
+    { name: "TWICE", img: "https://drive.google.com/file/d/129Go3z8G4aZk05-wRo9asG2uOy5P2140/view?usp=drive_link" },
+    { name: "SEVENTEEN", img: "https://drive.google.com/file/d/1cZfG4WIsfuQds1_q7n0mMmUR1ixtFdYR/view?usp=drive_link" },
+    { name: "aespa", img: "https://drive.google.com/file/d/1FOKdzkyKvfGA3HLYrO7qFu3SUDN7g7ts/view?usp=drive_link" },
+    { name: "BLACKPINK", img: "https://drive.google.com/file/d/1sZdFj3tqzFEgs3jz4IlIfybi2gubKR2a/view?usp=drive_link" },
     { name: "임영웅", img: "https://drive.google.com/file/d/1UBz7ZHW3ns09sKwyebDFmJWIIXdd5xJK/view?usp=drive_link" },
-    { name: "x japan", img: "https://drive.google.com/file/d/1pu92ag5NzGf_T6LTGd0ZjZ6S_ncfz-cf/view?usp=drive_link" },
-    { name: "l’arc-en-ciel", img: "https://drive.google.com/file/d/1vP9LDiZKBfn8vrQSH7m-U_FmaYUJSehz/view?usp=drive_link" },
-    { name: "glay", img: "https://drive.google.com/file/d/1leEBk5KglL_sKzgG0WaFhjH-KZJygUgo/view?usp=drive_link" },
-    { name: "luna sea", img: "https://drive.google.com/file/d/1VKDpIe_Sy3d4XwcoY5s7WlMQdeulC1fa/view?usp=drive_link" },
+    { name: "X JAPAN", img: "https://drive.google.com/file/d/1pu92ag5NzGf_T6LTGd0ZjZ6S_ncfz-cf/view?usp=drive_link" },
+    { name: "L'Arc-en-Ciel", img: "https://drive.google.com/file/d/1vP9LDiZKBfn8vrQSH7m-U_FmaYUJSehz/view?usp=drive_link" },
+    { name: "GLAY", img: "https://drive.google.com/file/d/1leEBk5KglL_sKzgG0WaFhjH-KZJygUgo/view?usp=drive_link" },
+    { name: "LUNA SEA", img: "https://drive.google.com/file/d/1VKDpIe_Sy3d4XwcoY5s7WlMQdeulC1fa/view?usp=drive_link" },
     { name: "hide", img: "https://drive.google.com/file/d/1ZNAnwofg5hCb2isx4fLRGzpiWga6kF0j/view?usp=drive_link" },
-    { name: "mrs.greenapple", img: "https://drive.google.com/file/d/1O_3Syx1NMz-3EUAcpnOJiAIosaskNagw/view?usp=drive_link" },
-    { name: "rihanna", img: "https://drive.google.com/file/d/1kewqX33PgxDCFTg8FIo22CtQgzTvExwS/view?usp=drive_link" },
-    { name: "lady gaga", img: "https://drive.google.com/file/d/1uHHYN6T_gxWFOfuxgzxRWmhJ4zCGqW83/view?usp=drive_link" },
-    { name: "bruno mars", img: "https://drive.google.com/file/d/1tpGJHsoY_9r6S1DRlLllAbSS6x0Wnvfa/view?usp=drive_link" },
-    { name: "justin bieber", img: "https://drive.google.com/file/d/1B9-EJMVlSHadEG25X2DMyFpMKxR77PV0/view?usp=drive_link" },
-    { name: "ariana grande", img: "https://drive.google.com/file/d/1Ca8pOI7kjwafds-D6xC5iZh7we-1ZrRc/view?usp=drive_link" },
-    { name: "adele", img: "https://drive.google.com/file/d/1i5dmdVwO3p6tfIrIrxa97cJyRkIB6tp3/view?usp=drive_link" },
-    { name: "Ed sheeran", img: "https://drive.google.com/file/d/1oKdZ1sncRo043tQkmvM5Bcr9NoeYVm3o/view?usp=drive_link" },
+    { name: "Mrs. GREEN APPLE", img: "https://drive.google.com/file/d/1O_3Syx1NMz-3EUAcpnOJiAIosaskNagw/view?usp=drive_link" },
+    { name: "Rihanna", img: "https://drive.google.com/file/d/1kewqX33PgxDCFTg8FIo22CtQgzTvExwS/view?usp=drive_link" },
+    { name: "Lady Gaga", img: "https://drive.google.com/file/d/1uHHYN6T_gxWFOfuxgzxRWmhJ4zCGqW83/view?usp=drive_link" },
+    { name: "Bruno Mars", img: "https://drive.google.com/file/d/1tpGJHsoY_9r6S1DRlLllAbSS6x0Wnvfa/view?usp=drive_link" },
+    { name: "Justin Bieber", img: "https://drive.google.com/file/d/1B9-EJMVlSHadEG25X2DMyFpMKxR77PV0/view?usp=drive_link" },
+    { name: "Ariana Grande", img: "https://drive.google.com/file/d/1Ca8pOI7kjwafds-D6xC5iZh7we-1ZrRc/view?usp=drive_link" },
+    { name: "Adele", img: "https://drive.google.com/file/d/1i5dmdVwO3p6tfIrIrxa97cJyRkIB6tp3/view?usp=drive_link" },
+    { name: "Ed Sheeran", img: "https://drive.google.com/file/d/1oKdZ1sncRo043tQkmvM5Bcr9NoeYVm3o/view?usp=drive_link" },
     { name: "Beyoncé", img: "https://drive.google.com/file/d/1ti5DYFqed6WfRNdCdZDYHHymopjEA7g_/view?usp=drive_link" },
-    { name: "celine Dion", img: "https://drive.google.com/file/d/1UBvN5ihDFZYPa2OM1X4wh3NPzRvP-TR5/view?usp=drive_link" },
-    { name: "stevie wonder", img: "https://drive.google.com/file/d/1h1p-GUkj-6OCEG9xIMpB7Mvjh46P4AKg/view?usp=drive_link" },
-    { name: "freddie mercury", img: "https://drive.google.com/file/d/1Qsu-xIc60h9Sv2xeYxXqoHPMbggtFXdJ/view?usp=drive_link" },
-    { name: "mariah carey", img: "https://drive.google.com/file/d/18SThYc_3UWgBtre0BFMyhxGoIfX4iRA2/view?usp=drive_link" },
-    { name: "whitney houston", img: "https://drive.google.com/file/d/1dZNm839qNOtIFp7dIu1Fmt4kEhsWQDB-/view?usp=drive_link" },
-    { name: "madonna", img: "https://drive.google.com/file/d/1cp_YgqnfeVLc9BLo9QD6ynf-tdDF-eo0/view?usp=drive_link" },
-    { name: "elvis presley", img: "https://drive.google.com/file/d/1dQA_Cy5mN6lVsf-Im6nwI3DVqP-vrEbx/view?usp=drive_link" },
-    { name: "The Beatles", img: "https://drive.google.com/file/d/1Pi2p2w22Z9f28hgphf5lqUCPfKR0MXMI/view?usp=drive_link" }, 
-    { name: "BTS", img: "https://drive.google.com/file/d/1JT45BmFTE7RTdVGnIo23oDPw22lAR75t/view?usp=drive_link" }, 
-    { name: "Taylor Swift", img: "https://drive.google.com/file/d/1kM_9g5uIATDoEN4-43lVUjfnS4RO10jO/view?usp=drive_link" }, 
-    { name: "Michael Jackson", img: "https://drive.google.com/file/d/1h_1LSqe8kScsDco-ezJMkK6YFEJtGoLr/view?usp=drive_link" }, 
+    { name: "Celine Dion", img: "https://drive.google.com/file/d/1UBvN5ihDFZYPa2OM1X4wh3NPzRvP-TR5/view?usp=drive_link" },
+    { name: "Stevie Wonder", img: "https://drive.google.com/file/d/1h1p-GUkj-6OCEG9xIMpB7Mvjh46P4AKg/view?usp=drive_link" },
+    { name: "Freddie Mercury", img: "https://drive.google.com/file/d/1Qsu-xIc60h9Sv2xeYxXqoHPMbggtFXdJ/view?usp=drive_link" },
+    { name: "Mariah Carey", img: "https://drive.google.com/file/d/18SThYc_3UWgBtre0BFMyhxGoIfX4iRA2/view?usp=drive_link" },
+    { name: "Whitney Houston", img: "https://drive.google.com/file/d/1dZNm839qNOtIFp7dIu1Fmt4kEhsWQDB-/view?usp=drive_link" },
+    { name: "Madonna", img: "https://drive.google.com/file/d/1cp_YgqnfeVLc9BLo9QD6ynf-tdDF-eo0/view?usp=drive_link" },
+    { name: "Elvis Presley", img: "https://drive.google.com/file/d/1dQA_Cy5mN6lVsf-Im6nwI3DVqP-vrEbx/view?usp=drive_link" },
+    { name: "The Beatles", img: "https://drive.google.com/file/d/1Pi2p2w22Z9f28hgphf5lqUCPfKR0MXMI/view?usp=drive_link" },
+    { name: "BTS", img: "https://drive.google.com/file/d/1JT45BmFTE7RTdVGnIo23oDPw22lAR75t/view?usp=drive_link" },
+    { name: "Taylor Swift", img: "https://drive.google.com/file/d/1kM_9g5uIATDoEN4-43lVUjfnS4RO10jO/view?usp=drive_link" },
+    { name: "Michael Jackson", img: "https://drive.google.com/file/d/1h_1LSqe8kScsDco-ezJMkK6YFEJtGoLr/view?usp=drive_link" },
     { name: "MY self", img: "https://drive.google.com/file/d/1b1PBaoS__jW7hHZXL-WOVZzcCdTounX3/view?usp=drive_link" }
   ];
 
@@ -679,13 +788,11 @@
     return "GOD TIER";
   }
 
-  // ★ 하드코어 보스 체력 스케일링 (1레벨은 잡을 수 있게 100부터 시작)
   function calcMaxHp(level) {
     if (level >= 70) return 999999999;
     return Math.floor(100 * Math.pow(level, 2.5)); 
   }
   
-  // ★ 하드코어 보스 공격력 스케일링
   function calcBossAtk(level) {
     if (level >= 70) return 10000000;
     return Math.floor(50 * Math.pow(level, 2.3));
@@ -722,7 +829,6 @@
       state.petExp = Number(state.petExp) || 0;
       state.playerHp = Number(state.playerHp) || 500;
       
-      // ★ 1레벨 돌파를 위한 긴급 지원금 투척
       if(state.totalExp === 0 && state.coins === 0 && state.petExp === 0) {
           state.coins = 2000; 
       }
@@ -961,16 +1067,12 @@
     return { pet, totalAtk, totalDef, maxHp, eqAtk, eqDef, eqHp };
   }
 
+  // ★ 장착 해제 기능 분리 (인벤토리에서 클릭 시 장착/해제 토글)
   window.equipItem = function(itemType, itemId) {
-      if(itemType === 'skill') {
-          if(state.gacha.equipped.skills.includes(itemId)) {
-              state.gacha.equipped.skills = state.gacha.equipped.skills.filter(id => id !== itemId);
-          } else {
-              if(state.gacha.equipped.skills.length >= 3) state.gacha.equipped.skills.shift();
-              state.gacha.equipped.skills.push(itemId);
-          }
+      if(state.gacha.equipped[itemType] === itemId) {
+          state.gacha.equipped[itemType] = null; // 장착 해제
       } else {
-          state.gacha.equipped[itemType] = itemId;
+          state.gacha.equipped[itemType] = itemId; // 새 장착
       }
       
       let pStats = getPlayerStats(); 
@@ -978,6 +1080,20 @@
       
       save(); renderHeader(); renderGame();
   };
+
+  window.equipSkill = function(itemId) {
+      if(state.gacha.equipped.skills.includes(itemId)) {
+          state.gacha.equipped.skills = state.gacha.equipped.skills.filter(id => id !== itemId);
+      } else {
+          if(state.gacha.equipped.skills.length >= 3) state.gacha.equipped.skills.shift();
+          state.gacha.equipped.skills.push(itemId);
+      }
+      
+      let pStats = getPlayerStats(); 
+      if(isNaN(state.playerHp) || state.playerHp > pStats.maxHp) state.playerHp = pStats.maxHp;
+      
+      save(); renderHeader(); renderGame();
+  }
 
   function renderGame() {
     const petExp = Number(state.petExp || 0);
@@ -1048,6 +1164,7 @@
       }
     }
 
+    // ★ 인벤토리 카드 UI 적용
     const invContainer = document.getElementById('inventoryList');
     if(invContainer) {
       invContainer.innerHTML = '';
@@ -1058,7 +1175,7 @@
           if(!item) return;
           const isEquipped = item.type === 'skill' ? (eq.skills && eq.skills.includes(item.id)) : (eq[item.type] === item.id);
           const div = document.createElement('div');
-          div.className = 'inv-item' + (isEquipped ? ' equipped' : '');
+          div.className = 'inv-card' + (isEquipped ? ' equipped' : '');
           
           let statText = [];
           if(item.atk) statText.push(`ATK +${item.atk.toLocaleString()}`);
@@ -1066,12 +1183,27 @@
           if(item.hp) statText.push(`HP +${item.hp.toLocaleString()}`);
           if(item.type === 'skill') statText.push('ACTIVE EFFECT');
           
+          let btnHtml = '';
+          if (item.type === 'skill') {
+              btnHtml = isEquipped 
+                  ? `<button class="inv-btn unequip" onclick="equipSkill('${item.id}')">UNEQUIP</button>` 
+                  : `<button class="inv-btn equip" onclick="equipSkill('${item.id}')">EQUIP SKILL</button>`;
+          } else {
+              btnHtml = isEquipped 
+                  ? `<button class="inv-btn unequip" onclick="equipItem('${item.type}', '${item.id}')">UNEQUIP</button>` 
+                  : `<button class="inv-btn equip" onclick="equipItem('${item.type}', '${item.id}')">EQUIP</button>`;
+          }
+
+          let tag = item.type.toUpperCase();
+          if (tag === 'WEAPON') tag = 'WPN';
+
           div.innerHTML = `
-            <div style="flex:1;">
-              <div class="inv-item-name" style="color:${item.color}">${item.name}</div>
-              <div class="inv-item-stat">${statText.join(' | ')}</div>
+            <div class="inv-card-top">
+                <div class="inv-card-name" style="color:${item.color}">${item.name}</div>
+                <div class="inv-card-rank" style="color:${item.color}">${item.rank}</div>
             </div>
-            ${isEquipped ? `<button class="nav-btn" style="width:auto; padding:0 12px; height:26px; font-size:11px; font-family:'JetBrains Mono'; border-color:var(--amber); color:var(--amber);" onclick="equipItem('${item.type}', '${item.id}')">UNEQUIP</button>` : `<button class="nav-btn" style="width:auto; padding:0 12px; height:26px; font-size:11px; font-family:'JetBrains Mono';" onclick="equipItem('${item.type}', '${item.id}')">EQUIP</button>`}
+            <div class="inv-card-stats">${statText.join(' | ')}</div>
+            ${btnHtml}
           `;
           invContainer.appendChild(div);
         });
@@ -1088,7 +1220,6 @@
     const bossE = document.getElementById('bossEmoji'); 
     const bossI = document.getElementById('bossImg');
     
-    // ★ 엑스박스 절대 방어용 썸네일 자동 변환 (좀비 버그 완전 해결)
     const activeImgUrl = getDisplayUrl(state.dungeon.bossImageUrl || currentBossData.img);
     
     if(bossE) {
@@ -1202,7 +1333,7 @@
     save(); renderHeader(); renderGame();
   }
 
-  // ★ 글리치 컷씬
+  // ★ 글리치 컷씬 연출 (버그 수정 완료)
   function playGachaCutscene(item, callback) {
       const cs = document.getElementById('gachaCutscene');
       const flash = document.getElementById('csFlash');
@@ -1211,12 +1342,15 @@
       const name = document.getElementById('csItemName');
 
       rank.textContent = `[ ${item.rank} ]`;
+      rank.setAttribute('data-text', `[ ${item.rank} ]`);
       rank.style.color = item.color;
+      
       name.textContent = item.name;
+      name.setAttribute('data-text', item.name);
       name.style.color = item.color;
 
       cs.style.display = 'flex';
-      void cs.offsetWidth;
+      void cs.offsetWidth; // 트리거
 
       flash.classList.add('run');
       content.classList.add('run', 'shake');
@@ -1229,7 +1363,7 @@
       }, 3500);
   }
 
-  // ★ 중복 방지 (완벽한 콜렉션 시스템)
+  // ★ 가챠 중복 완벽 방지 시스템 탑재
   window.drawGacha = function(boxType, boxTier) {
     const bConfig = {
       'normal': { cost: 100, rates: [ { rank: '일반', prob: 60.0 }, { rank: '희귀', prob: 30.0 }, { rank: '초희귀', prob: 8.0 }, { rank: '에픽', prob: 1.9 }, { rank: '신화', prob: 0.1 } ] },
@@ -1246,24 +1380,29 @@
 
     const rates = bConfig[boxTier].rates;
     const rand = Math.random() * 100; 
-    let cumulative = 0;
     let drawnRank = '일반';
+    let cumulative = 0;
+    
     for (const rate of rates) {
         cumulative += rate.prob;
         if (rand <= cumulative) { drawnRank = rate.rank; break; }
     }
     
-    const invNames = getSafeList(state.gacha.inventory).map(i => i.name);
-    let candidates = GACHA_ITEMS.filter(i => i.type === boxType && i.rank === drawnRank && !invNames.includes(i.name));
+    const hasItem = (name) => state.gacha.inventory.some(it => it.name === name);
+    
+    // 1순위: 해당 랭크 중 안 뽑은 거
+    let candidates = GACHA_ITEMS.filter(i => i.type === boxType && i.rank === drawnRank && !hasItem(i.name));
 
+    // 2순위: 그 랭크 다 뽑았으면, 다른 랭크라도 안 뽑은 거
     if (candidates.length === 0) {
-        candidates = GACHA_ITEMS.filter(i => i.type === boxType && !invNames.includes(i.name));
+        candidates = GACHA_ITEMS.filter(i => i.type === boxType && !hasItem(i.name));
     }
 
+    // 3순위: 아예 해당 부위 템을 다 모았을 때 (환불)
     if (candidates.length === 0) {
         alert("[ ALL ITEMS SECURED ]\n해당 슬롯의 모든 아이템을 수집했습니다. 코인이 반환됩니다.");
         state.coins += cost;
-        save(); renderHeader();
+        save(); renderHeader(); renderGame();
         return;
     }
 
@@ -1289,6 +1428,7 @@
     } else { processResult(); }
   }
 
+  // ★ 전투 시스템 (기절 로직 및 보스 사진 삭제)
   window.executeAction = function(actionType, skillId = null) {
       const todayKey = fmtKey(new Date());
       if(state.dungeon.stunnedDate === todayKey) {
@@ -1367,7 +1507,7 @@
         
         state.playerHp = pStats.maxHp; 
         state.dungeon.level = Number(state.dungeon.level) + 1;
-        state.dungeon.bossImageUrl = ''; // ★ 좀비 버그 해결 (사진 강제 초기화)
+        state.dungeon.bossImageUrl = ''; // ★ 좀비 버그 원천 봉쇄 (사진 강제 리셋)
         state.dungeon.maxHp = calcMaxHp(state.dungeon.level);
         state.dungeon.hp = state.dungeon.maxHp;
         document.getElementById('combatLog').innerHTML = 'AWAITING ENGAGEMENT...'; 
@@ -1523,7 +1663,7 @@
   }
   
   document.getElementById('addDailyForm').addEventListener('submit', (e) => {
-    e.preventDefault();
+    e.preventDefault(); 
     const t = document.getElementById('dailyGoalInput').value.trim(); if(!t) return;
     const k = fmtKey(currentDailyDate); 
     if(!state.dailyGoals) state.dailyGoals = {};
