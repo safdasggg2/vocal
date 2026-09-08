@@ -179,6 +179,7 @@
   /* Boss & Visuals */
   .boss-card { background:var(--bg-stage); border:1px solid var(--line); padding:20px; text-align:center; position:relative; overflow:hidden; }
   .boss-visual { margin-bottom:16px; position:relative; display:inline-flex; align-items:center; justify-content:center; width:100px; height:100px; }
+  
   .boss-radar { width:100px; height:100px; border-radius:50%; border:1px dashed var(--burgundy); display:flex; align-items:center; justify-content:center; font-family:'JetBrains Mono', monospace; font-size:30px; color:var(--burgundy); letter-spacing:2px; animation:spin 10s linear infinite; position:absolute; inset:0; margin:auto; z-index:1; }
   @keyframes spin { 100% { transform:rotate(360deg); } }
   
@@ -420,8 +421,7 @@
         
         <div class="boss-visual">
           <div class="boss-radar" id="bossEmoji">🎯</div>
-          <!-- 엑스박스 절대 방어용 img 설정 -->
-          <img id="bossImg" class="boss-img" src="" alt="Boss" referrerpolicy="no-referrer" onerror="this.style.display='none'; const e=document.getElementById('bossEmoji'); if(e){e.style.display='flex'; e.innerHTML='<div style=\'line-height:1.2; font-size:12px;\'>🔒<br>DRIVE<br>LOCKED</div>'; e.style.color='var(--burgundy)'; e.style.animation='none';}">
+          <img id="bossImg" class="boss-img" src="" alt="Boss" referrerpolicy="no-referrer" onerror="this.style.display='none'; document.getElementById('bossEmoji').style.display='flex';">
         </div>
         
         <div class="boss-info">
@@ -697,75 +697,6 @@
     legend: { rates: [ { rank: '에픽', prob: 30.0 }, { rank: '신화', prob: 40.0 }, { rank: '전설', prob: 20.0 }, { rank: '불가능', prob: 8.0 }, { rank: '윈터', prob: 2.0 } ] }
   };
 
-  const BOSS_LIST = [
-    { name: "10CM", img: "https://drive.google.com/file/d/1SpqRzUg-2tHvXzN1XaWRUtcmz4cHuwbY/view?usp=drive_link" },
-    { name: "최유리", img: "https://drive.google.com/file/d/13PFcFL_ly5MStsJwmN9ImmlVDSUMMYjL/view?usp=drive_link" },
-    { name: "폴킴", img: "https://drive.google.com/file/d/1SoRCBRqNS5ZKff5yvznIlk2qjMzZMWf6/view?usp=drive_link" },
-    { name: "적재", img: "https://drive.google.com/file/d/1mW8UHN2ODkYFNqN1IGb0M65BufbJXcnP/view?usp=drive_link" },
-    { name: "정승환", img: "https://drive.google.com/file/d/1Dxe58awVF_ToXKpuA1bk_qtyigzAnxS-/view?usp=drive_link" },
-    { name: "이무진", img: "https://drive.google.com/file/d/10bZ0Emq5R_2NipE2dT0W0P1fn38mprb8/view?usp=drive_link" },
-    { name: "AKMU", img: "https://drive.google.com/file/d/1qs5prO0S4CJirpE3QPrdQc0JwSsEdZLu/view?usp=drive_link" },
-    { name: "잔나비", img: "https://drive.google.com/file/d/1mqnFNesX4hm1zdJ_KcFK3U8VLJC25Crh/view?usp=drive_link" },
-    { name: "DAY6", img: "https://drive.google.com/file/d/1L_ULhi0J3_0AjmZ2MVYmxId4KiBNNdXs/view?usp=drive_link" },
-    { name: "WOODZ", img: "https://drive.google.com/file/d/1xhcv2tfdJBeomtOzaUrVDAzn9jaEpegL/view?usp=drive_link" },
-    { name: "성시경", img: "https://drive.google.com/file/d/1d6vfmskF4ahM29e6vivbpYIjCrJ2LXm9/view?usp=drive_link" },
-    { name: "윤하", img: "https://drive.google.com/file/d/1NK1L-I5vIXaN4KDDL4CIqS9YaALhxkR6/view?usp=drive_link" },
-    { name: "규현", img: "https://drive.google.com/file/d/13h8BJtPzlcr-65-AvlOjXo91CDwJ9sri/view?usp=drive_link" },
-    { name: "이승윤", img: "https://drive.google.com/file/d/1_IXmzEP_CF2SI5_htkghRATeuso55CNL/view?usp=drive_link" },
-    { name: "김필", img: "https://drive.google.com/file/d/1u7pucj9YpR6FRlOZyWIOGUt1sYknxYML/view?usp=drive_link" },
-    { name: "D.O.", img: "https://drive.google.com/file/d/1APZ4C8JSZyYey3RhYeh2n3I9gJQhxpp6/view?usp=drive_link" },
-    { name: "WINTER", img: "https://drive.google.com/file/d/1LnKpnEAnUde7Og8d8fCN2GIxyz7dNFMr/view?usp=drive_link" },
-    { name: "태연", img: "https://drive.google.com/file/d/16z1joV-wAdVR3Og7kYS_cUYrRYFW1qIw/view?usp=drive_link" },
-    { name: "정국", img: "https://drive.google.com/file/d/1QG7CWtJazUoLQpQW4icPzhMO2hLw-DrT/view?usp=drive_link" },
-    { name: "아이유", img: "https://drive.google.com/file/d/1VinvalifbqRAROADEqMtwbuob8_WhwDV/view?usp=drive_link" },
-    { name: "에일리", img: "https://drive.google.com/file/d/1tWdLCV4fKC1YhvMIqcZFIVsLUhL7kKQD/view?usp=drive_link" },
-    { name: "거미", img: "https://drive.google.com/file/d/17DOqNH-N2F7dLC3lhbNnYdst7EhC1rIA/view?usp=drive_link" },
-    { name: "K.Will", img: "https://drive.google.com/file/d/1IzhuIozRR7u0aoeCf46VfXYpDY7VI0wx/view?usp=drive_link" },
-    { name: "하현우", img: "https://drive.google.com/file/d/10KbNArPrVCmhQlKgg2bDEfmwAR8u6Pe7/view?usp=drive_link" },
-    { name: "박정현", img: "https://drive.google.com/file/d/1p4e-ghxZ8HbovVHsh06E2xnCKK8AoaDp/view?usp=drive_link" },
-    { name: "나얼", img: "https://drive.google.com/file/d/1vCMuy2gTkdS0VdnL0T6LgVmYGwJhNT8_/view?usp=drive_link" },
-    { name: "김범수", img: "https://drive.google.com/file/d/1nWA6bFSba5TiIWRLJyA0TumXXjTFj0G0/view?usp=drive_link" },
-    { name: "이수", img: "https://drive.google.com/file/d/1q6hHBPtd2uMpUXCiubHzErjoSL-cQBwr/view?usp=drive_link" },
-    { name: "박효신", img: "https://drive.google.com/file/d/1fiWiVMZ9T82BdM0_xl6yi0WonIcnCo3_/view?usp=drive_link" },
-    { name: "이승철", img: "https://drive.google.com/file/d/1gadRw7tTwQArG1GNYubXlouXPNl3sUou/view?usp=drive_link" },
-    { name: "김경호", img: "https://drive.google.com/file/d/1ZOvLYcbm7-yCa6CHJ-6-Iai80DuzXac3/view?usp=drive_link" },
-    { name: "박완규", img: "https://drive.google.com/file/d/1oD5JagCCDvrUb2FGR01Thb4pLrLeW0gf/view?usp=drive_link" },
-    { name: "임재범", img: "https://drive.google.com/file/d/1jz29-_ArV7vo80iHVnGXaDNOUKOzt4NL/view?usp=drive_link" },
-    { name: "이선희", img: "https://drive.google.com/file/d/1X7ntYHMUemkFhg5ZOkAKoNhH89jrcyr_/view?usp=drive_link" },
-    { name: "조용필", img: "https://drive.google.com/file/d/1W1lXRG6AHHmsYStpJhhmMCjJmmijJHKm/view?usp=drive_link" },
-    { name: "신승훈", img: "https://drive.google.com/file/d/1pZXou5q8IRoWZj2AK6agJSESY_MzPfcs/view?usp=drive_link" },
-    { name: "김건모", img: "https://drive.google.com/file/d/129Go3z8G4aZk05-wRo9asG2uOy5P2140/view?usp=drive_link" },
-    { name: "싸이", img: "https://drive.google.com/file/d/1cZfG4WIsfuQds1_q7n0mMmUR1ixtFdYR/view?usp=drive_link" },
-    { name: "BIGBANG", img: "https://drive.google.com/file/d/1FOKdzkyKvfGA3HLYrO7qFu3SUDN7g7ts/view?usp=drive_link" },
-    { name: "EXO", img: "https://drive.google.com/file/d/1sZdFj3tqzFEgs3jz4IlIfybi2gubKR2a/view?usp=drive_link" },
-    { name: "TWICE", img: "https://drive.google.com/file/d/1UBz7ZHW3ns09sKwyebDFmJWIIXdd5xJK/view?usp=drive_link" },
-    { name: "SEVENTEEN", img: "https://drive.google.com/file/d/1pu92ag5NzGf_T6LTGd0ZjZ6S_ncfz-cf/view?usp=drive_link" },
-    { name: "aespa", img: "https://drive.google.com/file/d/1vP9LDiZKBfn8vrQSH7m-U_FmaYUJSehz/view?usp=drive_link" },
-    { name: "BLACKPINK", img: "https://drive.google.com/file/d/1leEBk5KglL_sKzgG0WaFhjH-KZJygUgo/view?usp=drive_link" },
-    { name: "임영웅", img: "https://drive.google.com/file/d/1VKDpIe_Sy3d4XwcoY5s7WlMQdeulC1fa/view?usp=drive_link" },
-    { name: "X JAPAN", img: "https://drive.google.com/file/d/1O_3Syx1NMz-3EUAcpnOJiAIosaskNagw/view?usp=drive_link" },
-    { name: "L'Arc-en-Ciel", img: "https://drive.google.com/file/d/1kewqX33PgxDCFTg8FIo22CtQgzTvExwS/view?usp=drive_link" },
-    { name: "GLAY", img: "https://drive.google.com/file/d/1uHHYN6T_gxWFOfuxgzxRWmhJ4zCGqW83/view?usp=drive_link" },
-    { name: "LUNA SEA", img: "https://drive.google.com/file/d/1tpGJHsoY_9r6S1DRlLllAbSS6x0Wnvfa/view?usp=drive_link" },
-    { name: "Mrs. GREEN APPLE", img: "https://drive.google.com/file/d/1B9-EJMVlSHadEG25X2DMyFpMKxR77PV0/view?usp=drive_link" },
-    { name: "Rihanna", img: "https://drive.google.com/file/d/1Ca8pOI7kjwafds-D6xC5iZh7we-1ZrRc/view?usp=drive_link" },
-    { name: "Lady Gaga", img: "https://drive.google.com/file/d/1i5dmdVwO3p6tfIrIrxa97cJyRkIB6tp3/view?usp=drive_link" },
-    { name: "Bruno Mars", img: "https://drive.google.com/file/d/1oKdZ1sncRo043tQkmvM5Bcr9NoeYVm3o/view?usp=drive_link" },
-    { name: "Justin Bieber", img: "https://drive.google.com/file/d/1ti5DYFqed6WfRNdCdZDYHHymopjEA7g_/view?usp=drive_link" },
-    { name: "Ariana Grande", img: "https://drive.google.com/file/d/1UBvN5ihDFZYPa2OM1X4wh3NPzRvP-TR5/view?usp=drive_link" },
-    { name: "Adele", img: "https://drive.google.com/file/d/1h1p-GUkj-6OCEG9xIMpB7Mvjh46P4AKg/view?usp=drive_link" },
-    { name: "Ed Sheeran", img: "https://drive.google.com/file/d/1Qsu-xIc60h9Sv2xeYxXqoHPMbggtFXdJ/view?usp=drive_link" },
-    { name: "Beyoncé", img: "https://drive.google.com/file/d/18SThYc_3UWgBtre0BFMyhxGoIfX4iRA2/view?usp=drive_link" },
-    { name: "Celine Dion", img: "https://drive.google.com/file/d/1dZNm839qNOtIFp7dIu1Fmt4kEhsWQDB-/view?usp=drive_link" },
-    { name: "Stevie Wonder", img: "https://drive.google.com/file/d/1cp_YgqnfeVLc9BLo9QD6ynf-tdDF-eo0/view?usp=drive_link" },
-    { name: "Freddie Mercury", img: "https://drive.google.com/file/d/1dQA_Cy5mN6lVsf-Im6nwI3DVqP-vrEbx/view?usp=drive_link" },
-    { name: "Mariah Carey", img: "https://drive.google.com/file/d/1Pi2p2w22Z9f28hgphf5lqUCPfKR0MXMI/view?usp=drive_link" },
-    { name: "Whitney Houston", img: "https://drive.google.com/file/d/1kM_9g5uIATDoEN4-43lVUjfnS4RO10jO/view?usp=drive_link" },
-    { name: "Madonna", img: "https://drive.google.com/file/d/1h_1LSqe8kScsDco-ezJMkK6YFEJtGoLr/view?usp=drive_link" },
-    { name: "Elvis Presley", img: "https://drive.google.com/file/d/1b1PBaoS__jW7hHZXL-WOVZzcCdTounX3/view?usp=drive_link" },
-    { name: "The Beatles", img: "" }, { name: "BTS", img: "" }, { name: "Taylor Swift", img: "" }, { name: "Michael Jackson", img: "" }, { name: "MY self", img: "" }
-  ];
-
   function getDisplayUrl(url) {
       if(!url) return '';
       const match = url.match(/\/d\/([a-zA-Z0-9_-]+)/);
@@ -774,6 +705,79 @@
       }
       return url;
   }
+
+  const BOSS_LIST = [
+    { name: "10CM", img: "https://drive.google.com/file/d/1SpqRzUg-2tHvXzN1XaWRUtcmz4cHuwbY/view?usp=drive_link" },
+    { name: "최유리", img: "https://drive.google.com/file/d/13PFcFL_ly5MStsJwmN9ImmlVDSUMMYjL/view?usp=drive_link" },
+    { name: "폴킴", img: "https://drive.google.com/file/d/1SoRCBRqNS5ZKff5yvznIlk2qjMzZMWf6/view?usp=drive_link" },
+    { name: "적재", img: "https://drive.google.com/file/d/1mW8UHN2ODkYFNqN1IGb0M65BufbJXcnP/view?usp=drive_link" },
+    { name: "정승환", img: "https://drive.google.com/file/d/1Dxe58awVF_ToXKpuA1bk_qtyigzAnxS-/view?usp=drive_link" },
+    { name: "이무진", img: "https://drive.google.com/file/d/10bZ0Emq5R_2NipE2dT0W0P1fn38mprb8/view?usp=drive_link" },
+    { name: "악뮤", img: "https://drive.google.com/file/d/1qs5prO0S4CJirpE3QPrdQc0JwSsEdZLu/view?usp=drive_link" },
+    { name: "잔나비", img: "https://drive.google.com/file/d/1mqnFNesX4hm1zdJ_KcFK3U8VLJC25Crh/view?usp=drive_link" },
+    { name: "데이식스", img: "https://drive.google.com/file/d/1L_ULhi0J3_0AjmZ2MVYmxId4KiBNNdXs/view?usp=drive_link" },
+    { name: "woodz", img: "https://drive.google.com/file/d/1xhcv2tfdJBeomtOzaUrVDAzn9jaEpegL/view?usp=drive_link" },
+    { name: "성시경", img: "https://drive.google.com/file/d/1d6vfmskF4ahM29e6vivbpYIjCrJ2LXm9/view?usp=drive_link" },
+    { name: "윤하", img: "https://drive.google.com/file/d/1NK1L-I5vIXaN4KDDL4CIqS9YaALhxkR6/view?usp=drive_link" },
+    { name: "규현", img: "https://drive.google.com/file/d/13h8BJtPzlcr-65-AvlOjXo91CDwJ9sri/view?usp=drive_link" },
+    { name: "이승윤", img: "https://drive.google.com/file/d/1_IXmzEP_CF2SI5_htkghRATeuso55CNL/view?usp=drive_link" },
+    { name: "김필", img: "https://drive.google.com/file/d/1u7pucj9YpR6FRlOZyWIOGUt1sYknxYML/view?usp=drive_link" },
+    { name: "D.O.", img: "https://drive.google.com/file/d/1APZ4C8JSZyYey3RhYeh2n3I9gJQhxpp6/view?usp=drive_link" },
+    { name: "윈터", img: "https://drive.google.com/file/d/1LnKpnEAnUde7Og8d8fCN2GIxyz7dNFMr/view?usp=drive_link" },
+    { name: "태연", img: "https://drive.google.com/file/d/16z1joV-wAdVR3Og7kYS_cUYrRYFW1qIw/view?usp=drive_link" },
+    { name: "정국", img: "https://drive.google.com/file/d/1QG7CWtJazUoLQpQW4icPzhMO2hLw-DrT/view?usp=drive_link" },
+    { name: "아이유", img: "https://drive.google.com/file/d/1VinvalifbqRAROADEqMtwbuob8_WhwDV/view?usp=drive_link" },
+    { name: "에일리", img: "https://drive.google.com/file/d/1tWdLCV4fKC1YhvMIqcZFIVsLUhL7kKQD/view?usp=drive_link" },
+    { name: "거미", img: "https://drive.google.com/file/d/17DOqNH-N2F7dLC3lhbNnYdst7EhC1rIA/view?usp=drive_link" },
+    { name: "케이윌", img: "https://drive.google.com/file/d/1IzhuIozRR7u0aoeCf46VfXYpDY7VI0wx/view?usp=drive_link" },
+    { name: "하현우", img: "https://drive.google.com/file/d/10KbNArPrVCmhQlKgg2bDEfmwAR8u6Pe7/view?usp=drive_link" },
+    { name: "박정현", img: "https://drive.google.com/file/d/1p4e-ghxZ8HbovVHsh06E2xnCKK8AoaDp/view?usp=drive_link" },
+    { name: "나얼", img: "https://drive.google.com/file/d/1vCMuy2gTkdS0VdnL0T6LgVmYGwJhNT8_/view?usp=drive_link" },
+    { name: "김범수", img: "https://drive.google.com/file/d/1nWA6bFSba5TiIWRLJyA0TumXXjTFj0G0/view?usp=drive_link" },
+    { name: "이수", img: "https://drive.google.com/file/d/1q6hHBPtd2uMpUXCiubHzErjoSL-cQBwr/view?usp=drive_link" },
+    { name: "박효신", img: "https://drive.google.com/file/d/1fiWiVMZ9T82BdM0_xl6yi0WonIcnCo3_/view?usp=drive_link" },
+    { name: "이승철", img: "https://drive.google.com/file/d/1gadRw7tTwQArG1GNYubXlouXPNl3sUou/view?usp=drive_link" },
+    { name: "김경호", img: "https://drive.google.com/file/d/18Kkzl2OhvLktQRztP6PTWHt4vfwkUqJW/view?usp=drive_link" },
+    { name: "박완규", img: "https://drive.google.com/file/d/1NzT_12G3uzTm8b9bfTvv_9-g5nsfXssI/view?usp=drive_link" },
+    { name: "임재범", img: "https://drive.google.com/file/d/1oD5JagCCDvrUb2FGR01Thb4pLrLeW0gf/view?usp=drive_link" },
+    { name: "이선희", img: "https://drive.google.com/file/d/1ZOvLYcbm7-yCa6CHJ-6-Iai80DuzXac3/view?usp=drive_link" },
+    { name: "조용필", img: "https://drive.google.com/file/d/1jz29-_ArV7vo80iHVnGXaDNOUKOzt4NL/view?usp=drive_link" },
+    { name: "심승훈", img: "https://drive.google.com/file/d/1XSftHVAAkaeXOrs6IwLklVs6UVeewQkp/view?usp=drive_link" },
+    { name: "싸이", img: "https://drive.google.com/file/d/1X7ntYHMUemkFhg5ZOkAKoNhH89jrcyr_/view?usp=drive_link" },
+    { name: "빅뱅", img: "https://drive.google.com/file/d/1W1lXRG6AHHmsYStpJhhmMCjJmmijJHKm/view?usp=drive_link" },
+    { name: "exo", img: "https://drive.google.com/file/d/1pZXou5q8IRoWZj2AK6agJSESY_MzPfcs/view?usp=drive_link" },
+    { name: "트와이스", img: "https://drive.google.com/file/d/129Go3z8G4aZk05-wRo9asG2uOy5P2140/view?usp=drive_link" },
+    { name: "세븐틴", img: "https://drive.google.com/file/d/1cZfG4WIsfuQds1_q7n0mMmUR1ixtFdYR/view?usp=drive_link" },
+    { name: "에스파", img: "https://drive.google.com/file/d/1FOKdzkyKvfGA3HLYrO7qFu3SUDN7g7ts/view?usp=drive_link" },
+    { name: "블랙핑크", img: "https://drive.google.com/file/d/1sZdFj3tqzFEgs3jz4IlIfybi2gubKR2a/view?usp=drive_link" },
+    { name: "임영웅", img: "https://drive.google.com/file/d/1UBz7ZHW3ns09sKwyebDFmJWIIXdd5xJK/view?usp=drive_link" },
+    { name: "x japan", img: "https://drive.google.com/file/d/1pu92ag5NzGf_T6LTGd0ZjZ6S_ncfz-cf/view?usp=drive_link" },
+    { name: "l’arc-en-ciel", img: "https://drive.google.com/file/d/1vP9LDiZKBfn8vrQSH7m-U_FmaYUJSehz/view?usp=drive_link" },
+    { name: "glay", img: "https://drive.google.com/file/d/1leEBk5KglL_sKzgG0WaFhjH-KZJygUgo/view?usp=drive_link" },
+    { name: "luna sea", img: "https://drive.google.com/file/d/1VKDpIe_Sy3d4XwcoY5s7WlMQdeulC1fa/view?usp=drive_link" },
+    { name: "hide", img: "https://drive.google.com/file/d/1ZNAnwofg5hCb2isx4fLRGzpiWga6kF0j/view?usp=drive_link" },
+    { name: "mrs.greenapple", img: "https://drive.google.com/file/d/1O_3Syx1NMz-3EUAcpnOJiAIosaskNagw/view?usp=drive_link" },
+    { name: "rihanna", img: "https://drive.google.com/file/d/1kewqX33PgxDCFTg8FIo22CtQgzTvExwS/view?usp=drive_link" },
+    { name: "lady gaga", img: "https://drive.google.com/file/d/1uHHYN6T_gxWFOfuxgzxRWmhJ4zCGqW83/view?usp=drive_link" },
+    { name: "bruno mars", img: "https://drive.google.com/file/d/1tpGJHsoY_9r6S1DRlLllAbSS6x0Wnvfa/view?usp=drive_link" },
+    { name: "justin bieber", img: "https://drive.google.com/file/d/1B9-EJMVlSHadEG25X2DMyFpMKxR77PV0/view?usp=drive_link" },
+    { name: "ariana grande", img: "https://drive.google.com/file/d/1Ca8pOI7kjwafds-D6xC5iZh7we-1ZrRc/view?usp=drive_link" },
+    { name: "adele", img: "https://drive.google.com/file/d/1i5dmdVwO3p6tfIrIrxa97cJyRkIB6tp3/view?usp=drive_link" },
+    { name: "Ed sheeran", img: "https://drive.google.com/file/d/1oKdZ1sncRo043tQkmvM5Bcr9NoeYVm3o/view?usp=drive_link" },
+    { name: "Beyoncé", img: "https://drive.google.com/file/d/1ti5DYFqed6WfRNdCdZDYHHymopjEA7g_/view?usp=drive_link" },
+    { name: "celine Dion", img: "https://drive.google.com/file/d/1UBvN5ihDFZYPa2OM1X4wh3NPzRvP-TR5/view?usp=drive_link" },
+    { name: "stevie wonder", img: "https://drive.google.com/file/d/1h1p-GUkj-6OCEG9xIMpB7Mvjh46P4AKg/view?usp=drive_link" },
+    { name: "freddie mercury", img: "https://drive.google.com/file/d/1Qsu-xIc60h9Sv2xeYxXqoHPMbggtFXdJ/view?usp=drive_link" },
+    { name: "mariah carey", img: "https://drive.google.com/file/d/18SThYc_3UWgBtre0BFMyhxGoIfX4iRA2/view?usp=drive_link" },
+    { name: "whitney houston", img: "https://drive.google.com/file/d/1dZNm839qNOtIFp7dIu1Fmt4kEhsWQDB-/view?usp=drive_link" },
+    { name: "madonna", img: "https://drive.google.com/file/d/1cp_YgqnfeVLc9BLo9QD6ynf-tdDF-eo0/view?usp=drive_link" },
+    { name: "elvis presley", img: "https://drive.google.com/file/d/1dQA_Cy5mN6lVsf-Im6nwI3DVqP-vrEbx/view?usp=drive_link" },
+    { name: "the beatles", img: "https://drive.google.com/file/d/1Pi2p2w22Z9f28hgphf5lqUCPfKR0MXMI/view?usp=drive_link" },
+    { name: "BTS", img: "https://drive.google.com/file/d/1JT45BmFTE7RTdVGnIo23oDPw22lAR75t/view?usp=drive_link" },
+    { name: "taylor swift", img: "https://drive.google.com/file/d/1kM_9g5uIATDoEN4-43lVUjfnS4RO10jO/view?usp=drive_link" },
+    { name: "Micheal jackson", img: "https://drive.google.com/file/d/1h_1LSqe8kScsDco-ezJMkK6YFEJtGoLr/view?usp=drive_link" },
+    { name: "my self", img: "https://drive.google.com/file/d/1b1PBaoS__jW7hHZXL-WOVZzcCdTounX3/view?usp=drive_link" }
+  ];
 
   function getBossRank(level) {
     if(level <= 15) return "BEGINNER";
@@ -784,7 +788,7 @@
     return "GOD TIER";
   }
 
-  // ★ 피통 대폭 하향 (1레벨 50 HP)
+  // ★ 1레벨 50 HP 보정
   function calcMaxHp(level) {
     if (level >= 70) return 999999999;
     return Math.floor(50 * Math.pow(level, 1.8)); 
@@ -819,7 +823,6 @@
   let activeTab = 'daily';
   let modalDate = null;
 
-  // ★ 완전 방어형 데이터 정리기 (절대 뻗지 않음)
   function normalizeState() {
       if(!state || typeof state !== 'object') state = {};
       state.totalExp = Number(state.totalExp) || 0;
@@ -827,7 +830,7 @@
       state.petExp = Number(state.petExp) || 0;
       state.playerHp = Number(state.playerHp) || 500;
       
-      // ★ 첫 시작 유저 지원금 2,000 CRD 쾌척! (1레벨 박살내기 위함)
+      // ★ 1레벨 보스 격파를 위한 시작 지원금!
       if(state.totalExp === 0 && state.coins === 0 && state.petExp === 0) {
           state.coins = 2000; 
       }
@@ -848,7 +851,7 @@
       
       if(state.gacha.equippedId && !state.gacha.equipped.weapon) state.gacha.equipped.weapon = state.gacha.equippedId;
       
-      // ★ 기존 잘못된 체력(200 HP) 초기화 및 강제 적용
+      // ★ HP 동기화 완벽 보장
       const correctMaxHp = calcMaxHp(state.dungeon.level);
       if(state.dungeon.maxHp !== correctMaxHp || isNaN(state.dungeon.maxHp)) {
           state.dungeon.maxHp = correctMaxHp;
@@ -857,7 +860,6 @@
           }
       }
       
-      // ★ 1레벨인데 돈 다 쓴 유저 구제
       if(state.dungeon.level === 1 && state.coins < 50) {
           state.coins += 1000;
       }
@@ -1195,21 +1197,30 @@
     const bossE = document.getElementById('bossEmoji'); 
     const bossI = document.getElementById('bossImg');
     
-    // ★ 순정 `<img>` 태그 방식으로 복구
+    // ★ 안전한 URL 획득기 사용
     const activeImgUrl = getDisplayUrl(state.dungeon.bossImageUrl || currentBossData.img);
+    
+    if(bossE) {
+        bossE.style.display = 'flex';
+        bossE.innerHTML = displayLevel >= 70 ? '👑' : '🎯';
+        bossE.style.color = 'var(--burgundy)';
+        bossE.style.animation = 'spin 10s linear infinite';
+    }
+    if(bossI) { bossI.style.display = 'none'; bossI.src = ''; }
 
     if (activeImgUrl) {
-      if(bossE) bossE.style.display = 'none';
-      if(bossI) { 
-          bossI.style.display = 'block'; 
-          bossI.src = activeImgUrl; 
-      }
-    } else {
-      if(bossE) { 
-          bossE.style.display = 'flex'; 
-          bossE.innerHTML = displayLevel >= 70 ? '👑' : '🎯'; 
-      }
-      if(bossI) bossI.style.display = 'none';
+      const img = new Image();
+      img.onload = () => {
+          if(bossE) bossE.style.display = 'none';
+          if(bossI) { 
+              bossI.style.display = 'block'; 
+              bossI.src = activeImgUrl; 
+          }
+      };
+      img.onerror = () => {
+          if(bossE) { bossE.innerHTML = '🔒<br>LOCKED'; bossE.style.animation = 'none'; }
+      };
+      img.src = activeImgUrl;
     }
 
     const clearBtn = document.getElementById('clearBossBtn');
@@ -1279,6 +1290,12 @@
     const statMsg = document.getElementById('loadStatus');
     if(statMsg) statMsg.textContent = 'OVERRIDING VISUAL...';
     try {
+      if(!currentUser) {
+          alert("[ SYSTEM ] 이미지 파일 서버 저장은 로그인 후 가능합니다.\n(GUEST 모드 제한)");
+          if(overlay) overlay.style.display = 'none'; 
+          input.value=''; 
+          return;
+      }
       const u = await uploadFileToGas(input.files[0]);
       state.dungeon.bossImageUrl = u.url;
       await save(); renderGame();
@@ -1354,6 +1371,9 @@
 
     const processResult = () => {
         const newItem = { id: Date.now() + Math.random().toString(36).slice(2,7), ...drawnItemTemplate };
+        if(!state.gacha) state.gacha = { inventory: [], equipped: { weapon:null, sub:null, armor:null, skills:[] } };
+        if(!Array.isArray(state.gacha.inventory)) state.gacha.inventory = getSafeList(state.gacha.inventory);
+        
         state.gacha.inventory.push(newItem);
         save(); renderHeader(); renderGame();
         
@@ -1372,7 +1392,7 @@
     } else { processResult(); }
   }
 
-  // ★ 통합 전투 로직 (사진 좀비 버그 해결)
+  // ★ 좀비 사진 완벽 폭파 적용!
   window.executeAction = function(actionType, skillId = null) {
       const todayKey = fmtKey(new Date());
       if(state.dungeon.stunnedDate === todayKey) {
@@ -1451,7 +1471,7 @@
         
         state.playerHp = pStats.maxHp; 
         state.dungeon.level = Number(state.dungeon.level) + 1;
-        state.dungeon.bossImageUrl = ''; // ★ 여기서 보스 사진을 강제로 날려버림! (좀비 버그 해결)
+        state.dungeon.bossImageUrl = ''; // ★ 여기서 보스 사진 강제 초기화!
         state.dungeon.maxHp = calcMaxHp(state.dungeon.level);
         state.dungeon.hp = state.dungeon.maxHp;
         document.getElementById('combatLog').innerHTML = 'AWAITING ENGAGEMENT...'; 
@@ -1607,7 +1627,7 @@
   }
   
   document.getElementById('addDailyForm').addEventListener('submit', (e) => {
-    e.preventDefault();
+    e.preventDefault(); 
     const t = document.getElementById('dailyGoalInput').value.trim(); if(!t) return;
     const k = fmtKey(currentDailyDate); 
     if(!state.dailyGoals) state.dailyGoals = {};
@@ -1667,7 +1687,7 @@
         li.querySelector('.del-btn').onclick = () => {
           if(g.done) handleExpAndCoin(-WEEKLY_REWARD);
           list.splice(idx, 1); 
-          state.goals[key] = list; 
+          state.goals[key] = list; // 업데이트
           if(state.goals[key].length === 0) delete state.goals[key];
           save(); renderHeader(); renderGoals(); 
         };
@@ -1734,6 +1754,11 @@
       if(!song || !artist) return;
       
       const overlay = document.getElementById('loadOverlay');
+      if(fileInput.files[0] && !currentUser) {
+          alert("[ SYSTEM ] 음원/악보 파일 서버 저장은 로그인 후 가능합니다.");
+          return;
+      }
+
       if(overlay) { overlay.style.display = 'flex'; overlay.style.opacity = '1'; }
       const statMsg = document.getElementById('loadStatus');
       if(statMsg) statMsg.textContent = fileInput.files[0] ? 'UPLOADING...' : 'SAVING...';
@@ -1823,6 +1848,11 @@
     const stats = ['pitch','rhythm','breath','vocal','high','emotion'].map(id => Number(document.getElementById('stat-'+id).value));
     const fileInput = document.getElementById('dayFile');
     
+    if(fileInput.files[0] && !currentUser) {
+        alert("[ SYSTEM ] 오디오 파일 서버 저장은 로그인 후 가능합니다.");
+        return;
+    }
+
     if(!state.notes) state.notes = {};
     let existingUrl = '', existingName = ''; if(state.notes[k]) { existingUrl = state.notes[k].fileUrl || ''; existingName = state.notes[k].fileName || ''; }
     if(text === '' && !fileInput.files[0] && !existingUrl && !tStart && !tEnd) { delete state.notes[k]; save(); renderCalendar(); renderStats(); closeDayModal(); return; }
