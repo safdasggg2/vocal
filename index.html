@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>VOCAL LOG: PROJECT STAGE</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700;9..144,900&family=Work+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700;9..144,900&family=Work+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700;800;900&display=swap" rel="stylesheet">
 <style>
   :root{
     --bg-stage: #0a0a0a;
@@ -21,6 +21,12 @@
     --sage: #4caf50;
     --gold: #ffd700;
     --neon-blue: #00f3ff;
+    
+    /* Winter Cutscene Colors */
+    --w-cyan: #00ffff;
+    --w-blue: #0088ff;
+    --w-magenta: #ff00ff;
+    --m-red: #ff003c;
   }
   *{box-sizing:border-box;}
   html,body{margin:0;padding:0;}
@@ -108,10 +114,7 @@
   .goal-row.done{border-color:var(--sage); opacity:0.6;}
   .check{ width:18px; height:18px; border:2px solid var(--muted); background:transparent; flex:none; cursor:pointer; position:relative; transition:0.2s; }
   .check.checked{border-color:var(--sage); background:var(--sage);}
-  .check.checked::after{
-    content:"✓"; position:absolute; inset:0; display:flex; align-items:center; justify-content:center;
-    color:#16210f; font-size:14px; font-weight:700;
-  }
+  .check.checked::after{ content:"✓"; position:absolute; inset:0; display:flex; align-items:center; justify-content:center; color:#16210f; font-size:14px; font-weight:700; }
   .goal-text{flex:1; font-size:13px; font-weight:500;}
   .goal-row.done .goal-text{color:var(--muted); text-decoration:line-through;}
   .tier-badge{ font-family:'JetBrains Mono', monospace; font-size:10px; color:var(--gold); padding:2px 6px; border:1px solid var(--line); }
@@ -215,9 +218,9 @@
   .log-skill { color:var(--neon-blue); }
   .log-sys { color:var(--amber); font-weight:700; }
 
-  /* ---------- Gacha Cutscene ---------- */
+  /* ---------- Gacha Cutscene (Standard) ---------- */
   #gachaCutscene {
-    position: fixed; inset: 0; background: rgba(10,8,6,0.98); z-index: 9999;
+    position: fixed; inset: 0; background: rgba(10,8,6,0.98); z-index: 9998;
     display: none; align-items: center; justify-content: center; flex-direction: column; overflow: hidden;
   }
   .cs-flash { position: absolute; inset: 0; background: #fff; opacity: 0; pointer-events: none; }
@@ -230,9 +233,117 @@
   .cs-content.run .cs-item { animation: itemReveal 2.5s 0.5s cubic-bezier(0.1, 0.8, 0.3, 1) forwards; }
   @keyframes itemReveal { 0% { opacity: 0; transform: scale(0.8); text-shadow: 0 0 50px currentColor; filter:blur(4px); } 100% { opacity: 1; transform: scale(1); text-shadow: 0 0 15px currentColor; filter:blur(0); } }
 
-  /* Utilities */
-  .upload-box { border:1px dashed var(--line); padding:14px; text-align:center; font-family:'JetBrains Mono', monospace; font-size:11px; cursor:pointer; color:var(--muted); transition:0.2s; display:block; margin-bottom:10px; }
-  .upload-box:hover { border-color:var(--amber); color:var(--amber); background:rgba(232,163,61,0.05); }
+  /* =========================================
+     ❄️ THE WINTER ENGINE (SYNK DIVE : WINTER)
+     ========================================= */
+  #winterCutscene {
+    position: fixed; inset: 0; z-index: 9999; display: none;
+    background: #000; overflow: hidden; perspective: 1500px;
+  }
+  #winterCutscene .wt-kwangya-bg {
+    position: absolute; inset: -50%; width: 200%; height: 200%;
+    background: radial-gradient(circle at 50% 50%, #000a1f 0%, #000 70%);
+    z-index: 1; opacity: 0; transition: opacity 2s;
+  }
+  #winterCutscene.phase-awaken .wt-kwangya-bg { opacity: 1; }
+
+  #winterCutscene .wt-cyber-grid {
+    position: absolute; bottom: -50%; left: -50%; width: 200%; height: 150%;
+    background-image: linear-gradient(transparent 95%, rgba(0, 255, 255, 0.3) 100%), linear-gradient(90deg, transparent 95%, rgba(0, 255, 255, 0.3) 100%);
+    background-size: 100px 100px; transform: rotateX(75deg); opacity: 0; z-index: 2;
+  }
+  #winterCutscene.phase-awaken .wt-cyber-grid { animation: gridMoveWt 2s infinite linear; opacity: 0.8; }
+  @keyframes gridMoveWt { 0% { background-position: 0 0; } 100% { background-position: 0 100px; } }
+
+  /* Falling Snow (Star Flakes) */
+  #wtFallingSnowContainer { position: absolute; inset: 0; z-index: 79; pointer-events: none; opacity: 0; transition: opacity 2s; }
+  #winterCutscene.phase-awaken #wtFallingSnowContainer { opacity: 1; }
+  .wt-falling-star {
+    position: absolute; background: #fff;
+    clip-path: polygon(50% 0%, 55% 45%, 100% 50%, 55% 55%, 50% 100%, 45% 55%, 0% 50%, 45% 45%);
+    filter: drop-shadow(0 0 8px var(--w-cyan)) drop-shadow(0 0 15px var(--w-magenta));
+  }
+
+  /* Gun & Sword Elements */
+  .wt-gun-container, .wt-sword-container { position: absolute; inset: 0; z-index: 70; display: none; align-items: center; justify-content: center; }
+  .wt-crosshair {
+    position: relative; width: 300px; height: 300px; border: 4px solid var(--w-cyan); border-radius: 50%;
+    box-shadow: 0 0 30px var(--w-cyan), inset 0 0 30px var(--w-cyan);
+    animation: lockOnWt 1.5s cubic-bezier(0.1, 0.9, 0.2, 1) forwards; opacity: 0;
+  }
+  .wt-crosshair::before, .wt-crosshair::after { content: ''; position: absolute; background: var(--w-cyan); }
+  .wt-crosshair::before { top: -20px; bottom: -20px; left: calc(50% - 2px); width: 4px; }
+  .wt-crosshair::after { left: -20px; right: -20px; top: calc(50% - 2px); height: 4px; }
+  .wt-ch-target { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 10px; height: 10px; background: #fff; border-radius: 50%; box-shadow: 0 0 20px #fff; }
+  @keyframes lockOnWt { 0% { transform: scale(3) rotate(45deg); opacity: 0; } 50% { transform: scale(0.9) rotate(0deg); opacity: 1; border-color: var(--w-cyan); } 80% { transform: scale(1); border-color: var(--m-red); } 100% { transform: scale(1); opacity: 1; border-color: var(--m-red); } }
+  .wt-muzzle-flash { position: absolute; inset: 0; background: radial-gradient(circle, #fff 0%, var(--w-cyan) 20%, transparent 80%); opacity: 0; mix-blend-mode: screen; pointer-events: none; }
+  .wt-fire .wt-muzzle-flash { animation: gunshotWt 0.3s ease-out forwards; }
+  @keyframes gunshotWt { 0% { opacity: 1; transform: scale(0.5); } 100% { opacity: 0; transform: scale(2); } }
+  .wt-sword-glint { position: absolute; width: 300vw; height: 10px; background: #fff; box-shadow: 0 0 50px 20px var(--w-cyan), 0 0 100px 40px #fff; transform: rotate(-35deg) translate(-150vw, 0); opacity: 0; }
+  .wt-strike .wt-sword-glint { animation: swordSlashWt 0.4s cubic-bezier(0.8, 0, 0.2, 1) forwards; }
+  @keyframes swordSlashWt { 0% { transform: rotate(-35deg) translate(-150vw, 0); opacity: 1; height: 2px; } 50% { height: 20px; background: #fff; } 100% { transform: rotate(-35deg) translate(150vw, 0); opacity: 0; height: 2px; } }
+
+  /* Mamba */
+  .wt-mamba-container { position: absolute; inset: 0; z-index: 35; display: none; align-items: center; justify-content: center; background: radial-gradient(circle at 50% 40%, rgba(255, 0, 60, 0.1) 0%, transparent 60%); opacity: 0; transition: opacity 2s; }
+  .wt-mamba-eyes { display: flex; gap: 120px; position: relative; }
+  .wt-mamba-eye { width: 60px; height: 20px; background: var(--m-red); border-radius: 100%; box-shadow: 0 0 40px 20px var(--m-red), inset 0 0 10px #fff; filter: blur(1px); position: relative; overflow: hidden; }
+  .wt-mamba-eye::after { content: ''; position: absolute; top: -10px; bottom: -10px; left: 25px; width: 10px; background: #000; filter: blur(2px); }
+  .wt-eye-l { transform: rotate(-15deg); } .wt-eye-r { transform: rotate(15deg); }
+  .wt-mamba-container.slashed .wt-mamba-eyes { animation: mambaSplitWt 1s cubic-bezier(0.1, 0.9, 0.2, 1) forwards; }
+  @keyframes mambaSplitWt { 0% { filter: drop-shadow(0 0 50px red) drop-shadow(0 0 100px red); transform: scale(1); } 10% { transform: scale(1.1) skewX(-20deg); filter: hue-rotate(90deg) blur(5px); } 100% { transform: scale(1.5) translateY(100px); clip-path: polygon(0 50%, 100% 10%, 100% 100%, 0 100%); opacity: 0; } }
+
+  /* Frost & Slash & Core */
+  .wt-frost-overlay { position: absolute; inset: 0; z-index: 30; pointer-events: none; opacity: 0; box-shadow: inset 0 0 300px 150px rgba(0, 255, 255, 0.2); background-color: rgba(0, 10, 30, 0.5); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); }
+  #winterCutscene.phase-freeze .wt-frost-overlay { animation: frostBiteWt 2s ease-in forwards; }
+  @keyframes frostBiteWt { 0% { opacity: 0; } 100% { opacity: 1; } }
+
+  .wt-slash-container { position: absolute; inset: 0; z-index: 40; display: none; }
+  .wt-slash-line-ice { position: absolute; background: #fff; height: 6px; width: 200vw; opacity: 0; box-shadow: 0 0 40px 15px var(--w-cyan), 0 0 80px 30px #fff; mix-blend-mode: screen; }
+  .wt-sl-1 { top: 30%; left: 50%; transform: translate(-50%, -50%) rotate(25deg) scaleX(0); } .wt-sl-2 { top: 70%; left: 50%; transform: translate(-50%, -50%) rotate(-35deg) scaleX(0); } .wt-sl-3 { top: 50%; left: 50%; transform: translate(-50%, -50%) rotate(85deg) scaleX(0); } .wt-sl-4 { top: 50%; left: 50%; transform: translate(-50%, -50%) rotate(-10deg) scaleX(0); }
+  #winterCutscene.phase-slash .wt-slash-container { display: block; }
+  #winterCutscene.phase-slash .wt-sl-1 { animation: slashIceWt 0.2s 0s cubic-bezier(0.8, 0, 0.2, 1) forwards; } #winterCutscene.phase-slash .wt-sl-2 { animation: slashIceWt 0.2s 0.4s cubic-bezier(0.8, 0, 0.2, 1) forwards; } #winterCutscene.phase-slash .wt-sl-3 { animation: slashIceWt 0.2s 0.8s cubic-bezier(0.8, 0, 0.2, 1) forwards; } #winterCutscene.phase-slash .wt-sl-4 { animation: slashIceMassiveWt 0.5s 1.5s cubic-bezier(0.8, 0, 0.2, 1) forwards; } 
+  @keyframes slashIceWt { 0% { transform: translate(-50%, -50%) rotate(var(--rot)) scaleX(0); opacity: 1; } 50% { transform: translate(-50%, -50%) rotate(var(--rot)) scaleX(1); opacity: 1; height: 80px; } 100% { transform: translate(-50%, -50%) rotate(var(--rot)) scaleX(1.5); opacity: 0; height: 0px; } }
+  @keyframes slashIceMassiveWt { 0% { transform: translate(-50%, -50%) rotate(var(--rot)) scaleX(0); opacity: 1; } 50% { transform: translate(-50%, -50%) rotate(var(--rot)) scaleX(1); opacity: 1; height: 500px; background: var(--w-cyan); } 100% { transform: translate(-50%, -50%) rotate(var(--rot)) scaleX(2); opacity: 0; height: 0px; } }
+
+  .wt-core-container { position: absolute; inset: 0; z-index: 50; display: none; align-items: center; justify-content: center; }
+  .wt-core { width: 0; height: 0; border-radius: 50%; background: #fff; box-shadow: 0 0 50px 20px #fff, 0 0 200px 100px var(--w-cyan), 0 0 400px 200px var(--w-magenta); z-index: 51; opacity: 0; }
+  #wtSuckParticles { position: absolute; inset: 0; z-index: 49; }
+  .wt-suck-particle { position: absolute; background: #fff; border-radius: 50%; box-shadow: 0 0 15px var(--w-cyan), 0 0 30px var(--w-magenta); }
+  #winterCutscene.phase-implode .wt-core-container { display: flex; }
+  #winterCutscene.phase-implode .wt-core { animation: coreImplodeWt 3s cubic-bezier(0.4, 0, 0.2, 1) forwards; }
+  @keyframes coreImplodeWt { 0% { width: 0; height: 0; opacity: 0; } 30% { width: 100px; height: 100px; opacity: 1; box-shadow: 0 0 100px 50px var(--w-cyan); } 80% { width: 20px; height: 20px; opacity: 1; box-shadow: 0 0 300px 200px var(--w-magenta), inset 0 0 50px #000; } 100% { width: 2px; height: 2px; opacity: 1; box-shadow: 0 0 10px #fff; } }
+
+  /* Burst & Flash */
+  #wtMeteorContainer { position: absolute; inset: 0; z-index: 75; pointer-events: none; }
+  .wt-burst-flake { position: absolute; top: 50%; left: 50%; background: #fff; clip-path: polygon(50% 0%, 55% 45%, 100% 50%, 55% 55%, 50% 100%, 45% 55%, 0% 50%, 45% 45%); filter: drop-shadow(0 0 5px var(--w-cyan)) drop-shadow(0 0 15px var(--w-magenta)); }
+  .wt-supernova-flash { position: absolute; inset: 0; background: #fff; z-index: 70; opacity: 0; pointer-events: none; mix-blend-mode: screen; }
+  #winterCutscene.phase-reveal .wt-supernova-flash { animation: theBigBangWt 3.5s ease-out forwards; }
+  @keyframes theBigBangWt { 0% { opacity: 1; background: #fff; } 20% { opacity: 1; background: var(--w-cyan); } 100% { opacity: 0; } }
+
+  /* Typo */
+  .wt-typo-container { position: absolute; inset: 0; z-index: 60; display: none; align-items: center; justify-content: center; background: rgba(0,0,0,0.6); }
+  .wt-typo { font-family: 'JetBrains Mono', monospace; font-size: 60px; font-weight: 900; font-style: italic; color: #fff; text-transform: uppercase; opacity: 0; text-align: center; text-shadow: 0 0 20px var(--w-cyan), -5px 0 var(--w-magenta), 5px 0 var(--w-blue); }
+  #winterCutscene.phase-typo .wt-typo-container { display: flex; }
+  #winterCutscene.phase-typo .wt-typo { animation: hackerTextWt 2s cubic-bezier(0.1, 0.9, 0.2, 1) forwards; }
+  @keyframes hackerTextWt { 0% { opacity:0; transform: scale(1.5); letter-spacing: 40px; filter: blur(15px); } 15% { opacity:1; filter: blur(0); letter-spacing: 10px; transform: scale(1); } 85% { opacity:1; filter: blur(0); letter-spacing: 10px; transform: scale(1); } 100% { opacity:0; transform: scale(0.9); filter: blur(10px); } }
+
+  /* UI */
+  .wt-ui { position: relative; z-index: 80; text-align: center; display: none; flex-direction: column; align-items: center; justify-content: center; width: 100%; height: 100%; }
+  .wt-rank { font-family: 'JetBrains Mono', monospace; font-size: 38px; font-weight: 900; letter-spacing: 40px; margin-bottom: 20px; color: #fff; text-shadow: 0 0 30px var(--w-cyan), 0 0 60px var(--w-magenta); text-transform: uppercase; font-style: italic; }
+  .wt-item { font-family: 'Work Sans', sans-serif; font-size: 95px; font-weight: 900; letter-spacing: -3px; color: transparent; background: linear-gradient(90deg, #fff, var(--w-cyan), var(--w-magenta), #fff); background-size: 200% auto; -webkit-background-clip: text; background-clip: text; animation: goldFlowWt 3s linear infinite; filter: drop-shadow(0 0 20px rgba(0,255,255,0.8)) drop-shadow(0 0 50px rgba(255,0,255,0.5)); font-style: italic; line-height: 1.1; }
+  @keyframes goldFlowWt { to { background-position: 200% center; } }
+  #winterCutscene.phase-reveal .wt-ui { display: flex; animation: winterDescendWt 5s cubic-bezier(0.1, 0.9, 0.2, 1) forwards; }
+  @keyframes winterDescendWt { 0% { transform: scale(3) translateY(-300px); opacity: 0; filter: blur(30px) brightness(3); letter-spacing: 40px; } 15% { transform: scale(0.95) translateY(20px); opacity: 1; filter: blur(0) brightness(1); letter-spacing: normal; } 25% { transform: scale(1.02) translateY(-10px); } 100% { transform: scale(1) translateY(0); opacity: 1; } }
+
+  /* Shakes */
+  #winterCutscene.quake-slash { animation: qSlashWt 0.2s cubic-bezier(.36,.07,.19,.97) both; }
+  #winterCutscene.quake-slash-heavy { animation: qSlashHWt 0.5s cubic-bezier(.36,.07,.19,.97) both; }
+  #winterCutscene.quake-suck { animation: qSuckWt 0.1s infinite; } 
+  #winterCutscene.quake-nuke { animation: qNukeWt 1.5s cubic-bezier(.36,.07,.19,.97) both; } 
+  @keyframes qSlashWt { 0%,100%{transform:translate(0,0);} 25%{transform:translate(-15px,15px);} 75%{transform:translate(15px,-15px);} }
+  @keyframes qSlashHWt { 0%,100%{transform:translate(0,0) scale(1);} 20%{transform:translate(-40px,40px) scale(1.1);} 40%{transform:translate(40px,-40px) scale(1.1);} 60%{transform:translate(-15px,15px) scale(1.05);} }
+  @keyframes qSuckWt { 0%,100%{transform:translate(0,0);} 50%{transform:translate(-3px,3px) rotate(-1deg);} }
+  @keyframes qNukeWt { 0%,100%{transform:translate(0,0) scale(1);} 10%{transform:translate(-60px,50px) scale(1.15) rotate(-4deg);} 30%{transform:translate(60px,-50px) scale(1.15) rotate(4deg);} 50%{transform:translate(-20px,20px) scale(1.03);} }
 
   /* Shared Layouts */
   .goal-list{list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:8px;}
@@ -296,12 +407,61 @@
 </head>
 <body>
 
-<!-- GACHA CUTSCENE OVERLAY -->
+<!-- GACHA CUTSCENE OVERLAY (STANDARD) -->
 <div id="gachaCutscene">
   <div class="cs-flash" id="csFlash"></div>
   <div class="cs-content" id="csContent">
     <div class="cs-rank" id="csRank">[ RANK ]</div>
     <div class="cs-item" id="csItemName">ITEM NAME</div>
+  </div>
+</div>
+
+<!-- ❄️ GACHA CUTSCENE OVERLAY (SYNK: WINTER) -->
+<div id="winterCutscene">
+  <div class="wt-kwangya-bg" id="wtKwangyaBg"><div class="wt-cyber-grid"></div></div>
+  <div id="wtFallingSnowContainer"></div>
+
+  <div class="wt-gun-container" id="wtGun">
+    <div class="wt-crosshair"><div class="wt-ch-target"></div></div>
+    <div class="wt-muzzle-flash" id="wtMuzzleFlash"></div>
+  </div>
+
+  <div class="wt-sword-container" id="wtSword">
+    <div class="wt-sword-glint"></div>
+  </div>
+
+  <div class="wt-mamba-container" id="wtMamba">
+    <div class="wt-mamba-eyes">
+      <div class="wt-mamba-eye wt-eye-l"></div>
+      <div class="wt-mamba-eye wt-eye-r"></div>
+    </div>
+  </div>
+
+  <div class="wt-frost-overlay" id="wtFrost"></div>
+
+  <div class="wt-slash-container" id="wtSlashContainer">
+      <div class="wt-slash-line-ice wt-sl-1" style="--rot: 25deg;"></div>
+      <div class="wt-slash-line-ice wt-sl-2" style="--rot: -35deg;"></div>
+      <div class="wt-slash-line-ice wt-sl-3" style="--rot: 85deg;"></div>
+      <div class="wt-slash-line-ice wt-sl-4" style="--rot: -10deg;"></div>
+  </div>
+
+  <div class="wt-core-container" id="wtCoreContainer">
+      <div id="wtSuckParticles"></div>
+      <div class="wt-core"></div>
+  </div>
+
+  <div id="wtMeteorContainer"></div>
+
+  <div class="wt-supernova-flash" id="wtBigbangFlash"></div>
+
+  <div class="wt-typo-container" id="wtTypoContainer">
+      <div class="wt-typo" id="wtTypo">WARNING</div>
+  </div>
+
+  <div class="wt-ui" id="wtUI">
+    <div class="wt-rank" id="wtRank">[ SYNK DIVE : WINTER ]</div>
+    <div class="wt-item" id="wtItemName">윈터의 절대영도 방벽</div>
   </div>
 </div>
 
@@ -660,7 +820,7 @@
     { type: 'weapon', rank: '신화', atk: 2500, name: '[WPN] 세이렌의 잃어버린 성대', color: '#ff4500' },
     { type: 'weapon', rank: '전설', atk: 10000, name: '[WPN] 절대음감의 황금 마이크', color: '#ffd700' },
     { type: 'weapon', rank: '불가능', atk: 50000, name: '[WPN] 시공간을 찢는 샤우팅', color: '#ff00ff' },
-    { type: 'weapon', rank: '윈터', atk: 300000, name: '[WPN] 윈터의 서리가 내린 마이크', color: '#00ffff' },
+    { type: 'weapon', rank: 'SYNK : WINTER', atk: 300000, name: '[WPN] 윈터의 서리가 내린 마이크', color: '#00ffff' },
 
     { type: 'sub', rank: '일반', atk: 5, def: 2, name: '[SUB] 낡은 메트로놈', color: '#a4917d' },
     { type: 'sub', rank: '희귀', atk: 20, def: 10, name: '[SUB] 은빛 메트로놈', color: '#32cd32' },
@@ -669,7 +829,7 @@
     { type: 'sub', rank: '신화', atk: 1200, def: 600, name: '[SUB] 영혼을 울리는 탬버린', color: '#ff4500' },
     { type: 'sub', rank: '전설', atk: 5000, def: 2500, name: '[SUB] 뮤즈의 하프', color: '#ffd700' },
     { type: 'sub', rank: '불가능', atk: 25000, def: 12000, name: '[SUB] 신들의 화음 반지', color: '#ff00ff' },
-    { type: 'sub', rank: '윈터', atk: 150000, def: 80000, name: '[SUB] 윈터의 눈꽃 귀걸이', color: '#00ffff' },
+    { type: 'sub', rank: 'SYNK : WINTER', atk: 150000, def: 80000, name: '[SUB] 윈터의 눈꽃 귀걸이', color: '#00ffff' },
 
     { type: 'armor', rank: '일반', hp: 500, def: 10, name: '[AMR] 따뜻한 넥워머', color: '#a4917d' },
     { type: 'armor', rank: '희귀', hp: 2000, def: 50, name: '[AMR] 복식호흡 코르셋', color: '#32cd32' },
@@ -678,7 +838,7 @@
     { type: 'armor', rank: '신화', hp: 150000, def: 4000, name: '[AMR] 불사조의 성대 보호막', color: '#ff4500' },
     { type: 'armor', rank: '전설', hp: 800000, def: 20000, name: '[AMR] 황제 팬덤의 함성 방패', color: '#ffd700' },
     { type: 'armor', rank: '불가능', hp: 4000000, def: 100000, name: '[AMR] 시대를 초월한 방어구', color: '#ff00ff' },
-    { type: 'armor', rank: '윈터', hp: 20000000, def: 500000, name: '[AMR] 윈터의 절대영도 방벽', color: '#00ffff' },
+    { type: 'armor', rank: 'SYNK : WINTER', hp: 20000000, def: 500000, name: '[AMR] 윈터의 절대영도 방벽', color: '#00ffff' },
 
     { type: 'skill', rank: '일반', effect:{type:'heal', val:10}, name: '[SKL] 물 마시기 (10% 회복)', color: '#a4917d' },
     { type: 'skill', rank: '희귀', effect:{type:'dmg', val:1.5}, name: '[SKL] 목풀기 완료 (데미지 1.5배)', color: '#32cd32' },
@@ -687,14 +847,14 @@
     { type: 'skill', rank: '신화', effect:{type:'vamp', val:100}, name: '[SKL] 피의 샤우팅 (100% 흡혈)', color: '#ff4500' },
     { type: 'skill', rank: '전설', effect:{type:'dmg', val:5.0}, name: '[SKL] 전설의 3단 고음 (데미지 5배)', color: '#ffd700' },
     { type: 'skill', rank: '불가능', effect:{type:'god', val:0}, name: '[SKL] 신의 무대 (5배딜+풀피)', color: '#ff00ff' },
-    { type: 'skill', rank: '윈터', effect:{type:'winter', val:0}, name: '[SKL] 윈터의 윙크 (15배딜+풀피)', color: '#00ffff' }
+    { type: 'skill', rank: 'SYNK : WINTER', effect:{type:'winter', val:0}, name: '[SKL] 윈터의 윙크 (15배딜+풀피)', color: '#00ffff' }
   ];
 
   const GACHA_BOXES = {
     normal: { rates: [ { rank: '일반', prob: 60.0 }, { rank: '희귀', prob: 30.0 }, { rank: '초희귀', prob: 8.0 }, { rank: '에픽', prob: 1.9 }, { rank: '신화', prob: 0.1 } ] },
-    rare: { rates: [ { rank: '희귀', prob: 50.0 }, { rank: '초희귀', prob: 35.0 }, { rank: '에픽', prob: 12.0 }, { rank: '신화', prob: 2.5 }, { rank: '전설', prob: 0.4 }, { rank: '불가능', prob: 0.09 }, { rank: '윈터', prob: 0.01 } ] },
-    epic: { rates: [ { rank: '초희귀', prob: 40.0 }, { rank: '에픽', prob: 40.0 }, { rank: '신화', prob: 15.0 }, { rank: '전설', prob: 4.0 }, { rank: '불가능', prob: 0.8 }, { rank: '윈터', prob: 0.2 } ] },
-    legend: { rates: [ { rank: '에픽', prob: 30.0 }, { rank: '신화', prob: 40.0 }, { rank: '전설', prob: 20.0 }, { rank: '불가능', prob: 8.0 }, { rank: '윈터', prob: 2.0 } ] }
+    rare: { rates: [ { rank: '희귀', prob: 50.0 }, { rank: '초희귀', prob: 35.0 }, { rank: '에픽', prob: 12.0 }, { rank: '신화', prob: 2.5 }, { rank: '전설', prob: 0.4 }, { rank: '불가능', prob: 0.09 }, { rank: 'SYNK : WINTER', prob: 0.01 } ] },
+    epic: { rates: [ { rank: '초희귀', prob: 40.0 }, { rank: '에픽', prob: 40.0 }, { rank: '신화', prob: 15.0 }, { rank: '전설', prob: 4.0 }, { rank: '불가능', prob: 0.8 }, { rank: 'SYNK : WINTER', prob: 0.2 } ] },
+    legend: { rates: [ { rank: '에픽', prob: 30.0 }, { rank: '신화', prob: 40.0 }, { rank: '전설', prob: 20.0 }, { rank: '불가능', prob: 8.0 }, { rank: 'SYNK : WINTER', prob: 2.0 } ] }
   };
 
   function getDisplayUrl(url) {
@@ -788,7 +948,6 @@
     return "GOD TIER";
   }
 
-  // ★ 1레벨 50 HP 보정
   function calcMaxHp(level) {
     if (level >= 70) return 999999999;
     return Math.floor(50 * Math.pow(level, 1.8)); 
@@ -830,7 +989,6 @@
       state.petExp = Number(state.petExp) || 0;
       state.playerHp = Number(state.playerHp) || 500;
       
-      // ★ 1레벨 보스 격파를 위한 시작 지원금!
       if(state.totalExp === 0 && state.coins === 0 && state.petExp === 0) {
           state.coins = 2000; 
       }
@@ -851,7 +1009,6 @@
       
       if(state.gacha.equippedId && !state.gacha.equipped.weapon) state.gacha.equipped.weapon = state.gacha.equippedId;
       
-      // ★ HP 동기화 완벽 보장
       const correctMaxHp = calcMaxHp(state.dungeon.level);
       if(state.dungeon.maxHp !== correctMaxHp || isNaN(state.dungeon.maxHp)) {
           state.dungeon.maxHp = correctMaxHp;
@@ -1197,7 +1354,6 @@
     const bossE = document.getElementById('bossEmoji'); 
     const bossI = document.getElementById('bossImg');
     
-    // ★ 안전한 URL 획득기 사용
     const activeImgUrl = getDisplayUrl(state.dungeon.bossImageUrl || currentBossData.img);
     
     if(bossE) {
@@ -1346,9 +1502,9 @@
   window.drawGacha = function(boxType, boxTier) {
     const bConfig = {
       'normal': { cost: 100, rates: [ { rank: '일반', prob: 60.0 }, { rank: '희귀', prob: 30.0 }, { rank: '초희귀', prob: 8.0 }, { rank: '에픽', prob: 1.9 }, { rank: '신화', prob: 0.1 } ] },
-      'rare':   { cost: 500, rates: [ { rank: '희귀', prob: 50.0 }, { rank: '초희귀', prob: 35.0 }, { rank: '에픽', prob: 12.0 }, { rank: '신화', prob: 2.5 }, { rank: '전설', prob: 0.4 }, { rank: '불가능', prob: 0.09 }, { rank: '윈터', prob: 0.01 } ] },
-      'epic':   { cost: 2000, rates: [ { rank: '초희귀', prob: 40.0 }, { rank: '에픽', prob: 40.0 }, { rank: '신화', prob: 15.0 }, { rank: '전설', prob: 4.0 }, { rank: '불가능', prob: 0.8 }, { rank: '윈터', prob: 0.2 } ] },
-      'legend': { cost: 10000, rates: [ { rank: '에픽', prob: 30.0 }, { rank: '신화', prob: 40.0 }, { rank: '전설', prob: 20.0 }, { rank: '불가능', prob: 8.0 }, { rank: '윈터', prob: 2.0 } ] }
+      'rare':   { cost: 500, rates: [ { rank: '희귀', prob: 50.0 }, { rank: '초희귀', prob: 35.0 }, { rank: '에픽', prob: 12.0 }, { rank: '신화', prob: 2.5 }, { rank: '전설', prob: 0.4 }, { rank: '불가능', prob: 0.09 }, { rank: 'SYNK : WINTER', prob: 0.01 } ] },
+      'epic':   { cost: 2000, rates: [ { rank: '초희귀', prob: 40.0 }, { rank: '에픽', prob: 40.0 }, { rank: '신화', prob: 15.0 }, { rank: '전설', prob: 4.0 }, { rank: '불가능', prob: 0.8 }, { rank: 'SYNK : WINTER', prob: 0.2 } ] },
+      'legend': { cost: 10000, rates: [ { rank: '에픽', prob: 30.0 }, { rank: '신화', prob: 40.0 }, { rank: '전설', prob: 20.0 }, { rank: '불가능', prob: 8.0 }, { rank: 'SYNK : WINTER', prob: 2.0 } ] }
     };
     
     let cost = bConfig[boxTier].cost;
@@ -1387,12 +1543,15 @@
         }
     };
 
-    if(['에픽', '신화', '전설', '불가능', '윈터'].includes(drawnRank)) {
+    if(drawnItemTemplate.rank === 'SYNK : WINTER') {
+        playWinterAespaCutscene(drawnItemTemplate, processResult);
+    } else if(['에픽', '신화', '전설', '불가능'].includes(drawnRank)) {
         playGachaCutscene(drawnItemTemplate, processResult);
-    } else { processResult(); }
+    } else { 
+        processResult(); 
+    }
   }
 
-  // ★ 좀비 사진 완벽 폭파 적용!
   window.executeAction = function(actionType, skillId = null) {
       const todayKey = fmtKey(new Date());
       if(state.dungeon.stunnedDate === todayKey) {
@@ -1471,7 +1630,7 @@
         
         state.playerHp = pStats.maxHp; 
         state.dungeon.level = Number(state.dungeon.level) + 1;
-        state.dungeon.bossImageUrl = ''; // ★ 여기서 보스 사진 강제 초기화!
+        state.dungeon.bossImageUrl = ''; 
         state.dungeon.maxHp = calcMaxHp(state.dungeon.level);
         state.dungeon.hp = state.dungeon.maxHp;
         document.getElementById('combatLog').innerHTML = 'AWAITING ENGAGEMENT...'; 
@@ -1948,6 +2107,161 @@
     try { renderRoadmap(); } catch(e) { console.error('Roadmap Error:', e); }
     try { renderStats(); } catch(e) { console.error('Stats Error:', e); }
     try { renderCalendar(); } catch(e) { console.error('Calendar Error:', e); }
+  }
+
+  // --- 추가된 컷씬 스크립트 실행 파트 ---
+  function playWinterAespaCutscene(item, callback) {
+      const cs = document.getElementById('winterCutscene');
+      const typo = document.getElementById('wtTypo');
+      const rank = document.getElementById('wtRank');
+      const name = document.getElementById('wtItemName');
+
+      rank.textContent = `[ ${item.rank} ]`; rank.setAttribute('data-text', `[ ${item.rank} ]`); rank.style.color = item.color;
+      name.textContent = item.name; name.setAttribute('data-text', item.name); name.style.color = item.color;
+      cs.style.setProperty('--item-color', item.color);
+
+      // 눈보라 생성
+      const fallingContainer = document.getElementById('wtFallingSnowContainer');
+      fallingContainer.innerHTML = '';
+      for(let i=0; i<80; i++) {
+          const star = document.createElement('div');
+          star.className = 'wt-falling-star';
+          const size = Math.random() * 12 + 6;
+          star.style.width = size + 'px'; star.style.height = size + 'px';
+          star.style.backgroundColor = Math.random() > 0.4 ? '#fff' : 'var(--w-cyan)';
+          star.style.left = Math.random() * 100 + 'vw';
+          star.style.top = -20 + 'vh'; 
+          
+          const duration = Math.random() * 4 + 3;
+          const delay = Math.random() * 5; 
+          const sway = (Math.random() - 0.5) * 40; 
+          const rotation = Math.random() * 360 + 360; 
+          
+          star.animate([
+              { transform: `translate(0, 0) rotate(0deg)`, opacity: 0 },
+              { opacity: 1, offset: 0.1 },
+              { opacity: 1, offset: 0.9 },
+              { transform: `translate(${sway}vw, 120vh) rotate(${rotation}deg)`, opacity: 0 }
+          ], { duration: duration * 1000, delay: delay * 1000, iterations: Infinity, easing: 'linear' });
+          fallingContainer.appendChild(star);
+      }
+
+      // 초기화
+      cs.className = ''; cs.style.display = 'block';
+      document.getElementById('wtGun').style.display = 'none';
+      document.getElementById('wtSword').style.display = 'none';
+      document.getElementById('wtMamba').style.display = 'none';
+      document.getElementById('wtMamba').classList.remove('slashed');
+      document.getElementById('wtGun').classList.remove('wt-fire');
+      document.getElementById('wtSword').classList.remove('wt-strike');
+      document.getElementById('wtSuckParticles').innerHTML = '';
+      document.getElementById('wtMeteorContainer').innerHTML = '';
+      document.getElementById('wtBigbangFlash').style.opacity = '0';
+      void cs.offsetWidth; 
+
+      cs.classList.add('phase-typo');
+      typo.textContent = "ROLE : ARMAMENTER";
+      typo.style.color = "#00ffff"; typo.style.textShadow = "0 0 20px #00ffff";
+
+      setTimeout(() => { cs.classList.remove('phase-typo'); document.getElementById('wtGun').style.display = 'flex'; }, 2000);
+      setTimeout(() => { document.getElementById('wtGun').classList.add('wt-fire'); cs.classList.add('quake-slash'); setTimeout(() => cs.classList.remove('quake-slash'), 200); }, 3500);
+      setTimeout(() => { document.getElementById('wtGun').style.display = 'none'; document.getElementById('wtSword').style.display = 'block'; document.getElementById('wtSword').classList.add('wt-strike'); }, 4000);
+      
+      setTimeout(() => { document.getElementById('wtSword').style.display = 'none'; cs.classList.add('phase-awaken', 'phase-freeze'); }, 5000);
+      
+      setTimeout(() => {
+          document.getElementById('wtMamba').style.display = 'flex';
+          setTimeout(() => document.getElementById('wtMamba').style.opacity = '1', 50);
+          cs.classList.add('phase-typo');
+          typo.textContent = "BLACK MAMBA DETECTED";
+          typo.style.color = "#ff0055"; typo.style.textShadow = "0 0 20px #ff0055";
+      }, 7000);
+
+      setTimeout(() => {
+          cs.classList.remove('phase-typo'); cs.classList.add('phase-slash');
+          cs.classList.add('quake-slash');
+          setTimeout(() => { cs.classList.remove('quake-slash'); void cs.offsetWidth; cs.classList.add('quake-slash'); }, 400);
+          setTimeout(() => { cs.classList.remove('quake-slash'); void cs.offsetWidth; cs.classList.add('quake-slash'); }, 800);
+          
+          setTimeout(() => { 
+              cs.classList.remove('quake-slash'); void cs.offsetWidth; 
+              cs.classList.add('quake-slash-heavy'); 
+              document.getElementById('wtMamba').classList.add('slashed');
+          }, 1500);
+      }, 9000);
+
+      setTimeout(() => {
+          cs.classList.remove('phase-slash', 'quake-slash-heavy');
+          cs.classList.add('phase-implode', 'quake-suck');
+          
+          // 빨려드는 마력
+          const sContainer = document.getElementById('wtSuckParticles');
+          sContainer.innerHTML = '';
+          for(let i=0; i<100; i++) {
+              const p = document.createElement('div');
+              p.className = 'wt-suck-particle';
+              p.style.width = (Math.random() * 5 + 2) + 'px'; p.style.height = p.style.width;
+              p.style.backgroundColor = Math.random() > 0.3 ? '#00ffff' : '#ff0055'; 
+              const angle = Math.random() * Math.PI * 2;
+              const startDist = 60 + Math.random() * 60; 
+              p.animate([
+                  { transform: `translate(calc(-50% + ${Math.cos(angle)*startDist}vw), calc(-50% + ${Math.sin(angle)*startDist}vh)) scale(1)`, opacity: 0 },
+                  { opacity: 1, offset: 0.2 },
+                  { transform: `translate(-50%, -50%) scale(0)`, opacity: 0 }
+              ], { duration: 1000 + Math.random() * 2000, delay: Math.random() * 3000, easing: 'cubic-bezier(0.8, 0, 1, 1)', fill: 'forwards' });
+              sContainer.appendChild(p);
+          }
+      }, 12000);
+
+      setTimeout(() => {
+          cs.classList.add('phase-typo');
+          typo.textContent = "ABSOLUTE ZERO REACHED.";
+          typo.style.color = "#fff"; typo.style.textShadow = "0 0 30px #fff, 0 0 50px #00ffff";
+      }, 15000);
+
+      setTimeout(() => {
+          cs.classList.remove('phase-typo', 'phase-implode', 'quake-suck');
+          cs.classList.add('phase-supernova', 'quake-nuke');
+          
+          // 눈보라 초신성
+          const mContainer = document.getElementById('wtMeteorContainer');
+          mContainer.innerHTML = '';
+          for(let i=0; i<200; i++) {
+              const star = document.createElement('div');
+              star.className = 'wt-burst-flake';
+              star.style.width = (Math.random() * 15 + 5) + 'px'; star.style.height = star.style.width;
+              star.style.backgroundColor = Math.random() > 0.3 ? '#fff' : '#ff00ff';
+              const angle = Math.random() * 360;
+              const distance = 80 + Math.random() * 60; 
+              const duration = Math.random() * 1.5 + 0.5; 
+              const delay = Math.random() * 0.3; 
+              const rotation = Math.random() * 1080 + 360; 
+              star.animate([
+                  { transform: `translate(-50%, -50%) rotate(0deg) translateX(0px) scale(0)`, opacity: 1 },
+                  { transform: `translate(-50%, -50%) rotate(${rotation}deg) translateX(${distance}vw) scale(3)`, opacity: 0 }
+              ], { duration: duration * 1000, delay: delay * 1000, easing: 'cubic-bezier(0.1, 0.9, 0.2, 1)', fill: 'forwards' });
+              mContainer.appendChild(star);
+          }
+      }, 16500);
+
+      setTimeout(() => {
+          cs.classList.remove('quake-nuke');
+          cs.classList.add('phase-reveal', 'quake-slash-heavy'); 
+          setTimeout(() => cs.classList.remove('quake-slash-heavy'), 600);
+      }, 17000);
+
+      setTimeout(() => {
+          cs.style.transition = "opacity 2s";
+          cs.style.opacity = "0";
+      }, 30000);
+
+      setTimeout(() => {
+          cs.style.display = 'none';
+          cs.style.opacity = "1";
+          cs.style.transition = "none";
+          cs.className = '';
+          if(callback) callback();
+      }, 32000);
   }
 
   checkLoginStatus(); loadData();
