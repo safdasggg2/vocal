@@ -276,9 +276,11 @@
   .wt-crosshair::after { left: -20px; right: -20px; top: calc(50% - 2px); height: 4px; }
   .wt-ch-target { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 10px; height: 10px; background: #fff; border-radius: 50%; box-shadow: 0 0 20px #fff; }
   @keyframes lockOnWt { 0% { transform: scale(3) rotate(45deg); opacity: 0; } 50% { transform: scale(0.9) rotate(0deg); opacity: 1; border-color: var(--w-cyan); } 80% { transform: scale(1); border-color: var(--m-red); } 100% { transform: scale(1); opacity: 1; border-color: var(--m-red); } }
+  
   .wt-muzzle-flash { position: absolute; inset: 0; background: radial-gradient(circle, #fff 0%, var(--w-cyan) 20%, transparent 80%); opacity: 0; mix-blend-mode: screen; pointer-events: none; }
   .wt-fire .wt-muzzle-flash { animation: gunshotWt 0.3s ease-out forwards; }
   @keyframes gunshotWt { 0% { opacity: 1; transform: scale(0.5); } 100% { opacity: 0; transform: scale(2); } }
+  
   .wt-sword-glint { position: absolute; width: 300vw; height: 10px; background: #fff; box-shadow: 0 0 50px 20px var(--w-cyan), 0 0 100px 40px #fff; transform: rotate(-35deg) translate(-150vw, 0); opacity: 0; }
   .wt-strike .wt-sword-glint { animation: swordSlashWt 0.4s cubic-bezier(0.8, 0, 0.2, 1) forwards; }
   @keyframes swordSlashWt { 0% { transform: rotate(-35deg) translate(-150vw, 0); opacity: 1; height: 2px; } 50% { height: 20px; background: #fff; } 100% { transform: rotate(-35deg) translate(150vw, 0); opacity: 0; height: 2px; } }
@@ -300,6 +302,7 @@
   .wt-slash-container { position: absolute; inset: 0; z-index: 40; display: none; }
   .wt-slash-line-ice { position: absolute; background: #fff; height: 6px; width: 200vw; opacity: 0; box-shadow: 0 0 40px 15px var(--w-cyan), 0 0 80px 30px #fff; mix-blend-mode: screen; }
   .wt-sl-1 { top: 30%; left: 50%; transform: translate(-50%, -50%) rotate(25deg) scaleX(0); } .wt-sl-2 { top: 70%; left: 50%; transform: translate(-50%, -50%) rotate(-35deg) scaleX(0); } .wt-sl-3 { top: 50%; left: 50%; transform: translate(-50%, -50%) rotate(85deg) scaleX(0); } .wt-sl-4 { top: 50%; left: 50%; transform: translate(-50%, -50%) rotate(-10deg) scaleX(0); }
+  
   #winterCutscene.phase-slash .wt-slash-container { display: block; }
   #winterCutscene.phase-slash .wt-sl-1 { animation: slashIceWt 0.2s 0s cubic-bezier(0.8, 0, 0.2, 1) forwards; } #winterCutscene.phase-slash .wt-sl-2 { animation: slashIceWt 0.2s 0.4s cubic-bezier(0.8, 0, 0.2, 1) forwards; } #winterCutscene.phase-slash .wt-sl-3 { animation: slashIceWt 0.2s 0.8s cubic-bezier(0.8, 0, 0.2, 1) forwards; } #winterCutscene.phase-slash .wt-sl-4 { animation: slashIceMassiveWt 0.5s 1.5s cubic-bezier(0.8, 0, 0.2, 1) forwards; } 
   @keyframes slashIceWt { 0% { transform: translate(-50%, -50%) rotate(var(--rot)) scaleX(0); opacity: 1; } 50% { transform: translate(-50%, -50%) rotate(var(--rot)) scaleX(1); opacity: 1; height: 80px; } 100% { transform: translate(-50%, -50%) rotate(var(--rot)) scaleX(1.5); opacity: 0; height: 0px; } }
@@ -309,6 +312,7 @@
   .wt-core { width: 0; height: 0; border-radius: 50%; background: #fff; box-shadow: 0 0 50px 20px #fff, 0 0 200px 100px var(--w-cyan), 0 0 400px 200px var(--w-magenta); z-index: 51; opacity: 0; }
   #wtSuckParticles { position: absolute; inset: 0; z-index: 49; }
   .wt-suck-particle { position: absolute; background: #fff; border-radius: 50%; box-shadow: 0 0 15px var(--w-cyan), 0 0 30px var(--w-magenta); }
+  
   #winterCutscene.phase-implode .wt-core-container { display: flex; }
   #winterCutscene.phase-implode .wt-core { animation: coreImplodeWt 3s cubic-bezier(0.4, 0, 0.2, 1) forwards; }
   @keyframes coreImplodeWt { 0% { width: 0; height: 0; opacity: 0; } 30% { width: 100px; height: 100px; opacity: 1; box-shadow: 0 0 100px 50px var(--w-cyan); } 80% { width: 20px; height: 20px; opacity: 1; box-shadow: 0 0 300px 200px var(--w-magenta), inset 0 0 50px #000; } 100% { width: 2px; height: 2px; opacity: 1; box-shadow: 0 0 10px #fff; } }
@@ -320,18 +324,26 @@
   #winterCutscene.phase-reveal .wt-supernova-flash { animation: theBigBangWt 3.5s ease-out forwards; }
   @keyframes theBigBangWt { 0% { opacity: 1; background: #fff; } 20% { opacity: 1; background: var(--w-cyan); } 100% { opacity: 0; } }
 
-  /* Typo */
+  /* Typo (대사 콤보용) */
   .wt-typo-container { position: absolute; inset: 0; z-index: 60; display: none; align-items: center; justify-content: center; background: rgba(0,0,0,0.6); }
   .wt-typo { font-family: 'JetBrains Mono', monospace; font-size: 60px; font-weight: 900; font-style: italic; color: #fff; text-transform: uppercase; opacity: 0; text-align: center; text-shadow: 0 0 20px var(--w-cyan), -5px 0 var(--w-magenta), 5px 0 var(--w-blue); }
   #winterCutscene.phase-typo .wt-typo-container { display: flex; }
+  
+  /* 대사 템포: 서서히 선명해지고 서서히 흐려지게 (여유로운 연출) */
   #winterCutscene.phase-typo .wt-typo { animation: hackerTextWt 2s cubic-bezier(0.1, 0.9, 0.2, 1) forwards; }
-  @keyframes hackerTextWt { 0% { opacity:0; transform: scale(1.5); letter-spacing: 40px; filter: blur(15px); } 15% { opacity:1; filter: blur(0); letter-spacing: 10px; transform: scale(1); } 85% { opacity:1; filter: blur(0); letter-spacing: 10px; transform: scale(1); } 100% { opacity:0; transform: scale(0.9); filter: blur(10px); } }
+  @keyframes hackerTextWt { 
+    0% { opacity:0; transform: scale(1.3); letter-spacing: 20px; filter: blur(15px); } 
+    20% { opacity:1; filter: blur(0); letter-spacing: 5px; transform: scale(1); } 
+    80% { opacity:1; filter: blur(0); letter-spacing: 5px; transform: scale(1); } 
+    100% { opacity:0; transform: scale(0.9); filter: blur(10px); } 
+  }
 
   /* UI */
   .wt-ui { position: relative; z-index: 80; text-align: center; display: none; flex-direction: column; align-items: center; justify-content: center; width: 100%; height: 100%; }
   .wt-rank { font-family: 'JetBrains Mono', monospace; font-size: 38px; font-weight: 900; letter-spacing: 40px; margin-bottom: 20px; color: #fff; text-shadow: 0 0 30px var(--w-cyan), 0 0 60px var(--w-magenta); text-transform: uppercase; font-style: italic; }
   .wt-item { font-family: 'Work Sans', sans-serif; font-size: 95px; font-weight: 900; letter-spacing: -3px; color: transparent; background: linear-gradient(90deg, #fff, var(--w-cyan), var(--w-magenta), #fff); background-size: 200% auto; -webkit-background-clip: text; background-clip: text; animation: goldFlowWt 3s linear infinite; filter: drop-shadow(0 0 20px rgba(0,255,255,0.8)) drop-shadow(0 0 50px rgba(255,0,255,0.5)); font-style: italic; line-height: 1.1; }
   @keyframes goldFlowWt { to { background-position: 200% center; } }
+  
   #winterCutscene.phase-reveal .wt-ui { display: flex; animation: winterDescendWt 5s cubic-bezier(0.1, 0.9, 0.2, 1) forwards; }
   @keyframes winterDescendWt { 0% { transform: scale(3) translateY(-300px); opacity: 0; filter: blur(30px) brightness(3); letter-spacing: 40px; } 15% { transform: scale(0.95) translateY(20px); opacity: 1; filter: blur(0) brightness(1); letter-spacing: normal; } 25% { transform: scale(1.02) translateY(-10px); } 100% { transform: scale(1) translateY(0); opacity: 1; } }
 
@@ -344,6 +356,10 @@
   @keyframes qSlashHWt { 0%,100%{transform:translate(0,0) scale(1);} 20%{transform:translate(-40px,40px) scale(1.1);} 40%{transform:translate(40px,-40px) scale(1.1);} 60%{transform:translate(-15px,15px) scale(1.05);} }
   @keyframes qSuckWt { 0%,100%{transform:translate(0,0);} 50%{transform:translate(-3px,3px) rotate(-1deg);} }
   @keyframes qNukeWt { 0%,100%{transform:translate(0,0) scale(1);} 10%{transform:translate(-60px,50px) scale(1.15) rotate(-4deg);} 30%{transform:translate(60px,-50px) scale(1.15) rotate(4deg);} 50%{transform:translate(-20px,20px) scale(1.03);} }
+
+  /* Utilities */
+  .upload-box { border:1px dashed var(--line); padding:14px; text-align:center; font-family:'JetBrains Mono', monospace; font-size:11px; cursor:pointer; color:var(--muted); transition:0.2s; display:block; margin-bottom:10px; }
+  .upload-box:hover { border-color:var(--amber); color:var(--amber); background:rgba(232,163,61,0.05); }
 
   /* Shared Layouts */
   .goal-list{list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:8px;}
@@ -406,64 +422,6 @@
 </style>
 </head>
 <body>
-
-<!-- GACHA CUTSCENE OVERLAY (STANDARD) -->
-<div id="gachaCutscene">
-  <div class="cs-flash" id="csFlash"></div>
-  <div class="cs-content" id="csContent">
-    <div class="cs-rank" id="csRank">[ RANK ]</div>
-    <div class="cs-item" id="csItemName">ITEM NAME</div>
-  </div>
-</div>
-
-<!-- ❄️ GACHA CUTSCENE OVERLAY (SYNK: WINTER) -->
-<div id="winterCutscene">
-  <div class="wt-kwangya-bg" id="wtKwangyaBg"><div class="wt-cyber-grid"></div></div>
-  <div id="wtFallingSnowContainer"></div>
-
-  <div class="wt-gun-container" id="wtGun">
-    <div class="wt-crosshair"><div class="wt-ch-target"></div></div>
-    <div class="wt-muzzle-flash" id="wtMuzzleFlash"></div>
-  </div>
-
-  <div class="wt-sword-container" id="wtSword">
-    <div class="wt-sword-glint"></div>
-  </div>
-
-  <div class="wt-mamba-container" id="wtMamba">
-    <div class="wt-mamba-eyes">
-      <div class="wt-mamba-eye wt-eye-l"></div>
-      <div class="wt-mamba-eye wt-eye-r"></div>
-    </div>
-  </div>
-
-  <div class="wt-frost-overlay" id="wtFrost"></div>
-
-  <div class="wt-slash-container" id="wtSlashContainer">
-      <div class="wt-slash-line-ice wt-sl-1" style="--rot: 25deg;"></div>
-      <div class="wt-slash-line-ice wt-sl-2" style="--rot: -35deg;"></div>
-      <div class="wt-slash-line-ice wt-sl-3" style="--rot: 85deg;"></div>
-      <div class="wt-slash-line-ice wt-sl-4" style="--rot: -10deg;"></div>
-  </div>
-
-  <div class="wt-core-container" id="wtCoreContainer">
-      <div id="wtSuckParticles"></div>
-      <div class="wt-core"></div>
-  </div>
-
-  <div id="wtMeteorContainer"></div>
-
-  <div class="wt-supernova-flash" id="wtBigbangFlash"></div>
-
-  <div class="wt-typo-container" id="wtTypoContainer">
-      <div class="wt-typo" id="wtTypo">WARNING</div>
-  </div>
-
-  <div class="wt-ui" id="wtUI">
-    <div class="wt-rank" id="wtRank">[ SYNK DIVE : WINTER ]</div>
-    <div class="wt-item" id="wtItemName">윈터의 절대영도 방벽</div>
-  </div>
-</div>
 
 <div class="load-overlay" id="loadOverlay">
   <div style="font-weight:800;">SYNCING DATA...</div>
@@ -794,6 +752,64 @@
   </div>
 </div>
 
+<!-- GACHA CUTSCENE OVERLAY (STANDARD) -->
+<div id="gachaCutscene">
+  <div class="cs-flash" id="csFlash"></div>
+  <div class="cs-content" id="csContent">
+    <div class="cs-rank" id="csRank">[ RANK ]</div>
+    <div class="cs-item" id="csItemName">ITEM NAME</div>
+  </div>
+</div>
+
+<!-- ❄️ GACHA CUTSCENE OVERLAY (SYNK: WINTER) -->
+<div id="winterCutscene">
+  <div class="wt-kwangya-bg" id="wtKwangyaBg"><div class="wt-cyber-grid"></div></div>
+  <div id="wtFallingSnowContainer"></div>
+
+  <div class="wt-gun-container" id="wtGun">
+    <div class="wt-crosshair"><div class="wt-ch-target"></div></div>
+    <div class="wt-muzzle-flash" id="wtMuzzleFlash"></div>
+  </div>
+
+  <div class="wt-sword-container" id="wtSword">
+    <div class="wt-sword-glint"></div>
+  </div>
+
+  <div class="wt-mamba-container" id="wtMamba">
+    <div class="wt-mamba-eyes">
+      <div class="wt-mamba-eye wt-eye-l"></div>
+      <div class="wt-mamba-eye wt-eye-r"></div>
+    </div>
+  </div>
+
+  <div class="wt-frost-overlay" id="wtFrost"></div>
+
+  <div class="wt-slash-container" id="wtSlashContainer">
+      <div class="wt-slash-line-ice wt-sl-1" style="--rot: 25deg;"></div>
+      <div class="wt-slash-line-ice wt-sl-2" style="--rot: -35deg;"></div>
+      <div class="wt-slash-line-ice wt-sl-3" style="--rot: 85deg;"></div>
+      <div class="wt-slash-line-ice wt-sl-4" style="--rot: -10deg;"></div>
+  </div>
+
+  <div class="wt-core-container" id="wtCoreContainer">
+      <div id="wtSuckParticles"></div>
+      <div class="wt-core"></div>
+  </div>
+
+  <div id="wtMeteorContainer"></div>
+
+  <div class="wt-supernova-flash" id="wtBigbangFlash"></div>
+
+  <div class="wt-typo-container" id="wtTypoContainer">
+      <div class="wt-typo" id="wtTypo">WARNING</div>
+  </div>
+
+  <div class="wt-ui" id="wtUI">
+    <div class="wt-rank" id="wtRank">[ SYNK DIVE : WINTER ]</div>
+    <div class="wt-item" id="wtItemName">윈터의 절대영도 방벽</div>
+  </div>
+</div>
+
 <script>
 (function(){
   const API = 'https://script.google.com/macros/s/AKfycbwnJWD2jZxLMRCVTUDr7IDL5TzQVMlmIAy7jwQUBd7jjqVBvvLk9KUR-9dNM33CCHXf/exec';
@@ -849,6 +865,18 @@
     { type: 'skill', rank: '불가능', effect:{type:'god', val:0}, name: '[SKL] 신의 무대 (5배딜+풀피)', color: '#ff00ff' },
     { type: 'skill', rank: 'SYNK : WINTER', effect:{type:'winter', val:0}, name: '[SKL] 윈터의 윙크 (15배딜+풀피)', color: '#00ffff' }
   ];
+
+  // ★ 스킬 코인 비용 맵핑
+  const SKILL_COSTS = {
+      '일반': 10,
+      '희귀': 30,
+      '초희귀': 100,
+      '에픽': 500,
+      '신화': 2000,
+      '전설': 10000,
+      '불가능': 30000,
+      'SYNK : WINTER': 50000
+  };
 
   const GACHA_BOXES = {
     normal: { rates: [ { rank: '일반', prob: 60.0 }, { rank: '희귀', prob: 30.0 }, { rank: '초희귀', prob: 8.0 }, { rank: '에픽', prob: 1.9 }, { rank: '신화', prob: 0.1 } ] },
@@ -939,6 +967,17 @@
     { name: "my self", img: "https://drive.google.com/file/d/1b1PBaoS__jW7hHZXL-WOVZzcCdTounX3/view?usp=drive_link" }
   ];
 
+  // ★ 체력 대폭 상향 적용!
+  function calcMaxHp(level) {
+    if (level >= 70) return 9999999999;
+    return Math.floor(500 * Math.pow(level, 2.5)); 
+  }
+  
+  function calcBossAtk(level) {
+    if (level >= 70) return 10000000;
+    return Math.floor(20 * Math.pow(level, 2.2));
+  }
+
   function getBossRank(level) {
     if(level <= 15) return "BEGINNER";
     if(level <= 30) return "HARD";
@@ -946,16 +985,6 @@
     if(level <= 60) return "LEGEND";
     if(level <= 69) return "MYTHIC";
     return "GOD TIER";
-  }
-
-  function calcMaxHp(level) {
-    if (level >= 70) return 999999999;
-    return Math.floor(50 * Math.pow(level, 1.8)); 
-  }
-  
-  function calcBossAtk(level) {
-    if (level >= 70) return 10000000;
-    return Math.floor(20 * Math.pow(level, 2.2));
   }
 
   function getBossStats(level) {
@@ -1004,7 +1033,7 @@
       if(!Array.isArray(state.gacha.equipped.skills)) state.gacha.equipped.skills = [];
       if(!Array.isArray(state.gacha.inventory)) state.gacha.inventory = [];
       
-      if(!state.dungeon || typeof state.dungeon !== 'object') state.dungeon = { level: 1, hp: 50, maxHp: 50, bossImageUrl: '', stunnedDate: '' };
+      if(!state.dungeon || typeof state.dungeon !== 'object') state.dungeon = { level: 1, hp: 500, maxHp: 500, bossImageUrl: '', stunnedDate: '' };
       state.dungeon.level = Number(state.dungeon.level) || 1;
       
       if(state.gacha.equippedId && !state.gacha.equipped.weapon) state.gacha.equipped.weapon = state.gacha.equippedId;
@@ -1415,7 +1444,8 @@
                 if(sItem) {
                     const btn = document.createElement('button');
                     btn.className = 'btn-skill-cast';
-                    btn.innerHTML = `${sItem.name.substring(sItem.name.indexOf(' ')+1)}<br><span style="font-size:9px; color:var(--muted);">(30C)</span>`;
+                    const cost = SKILL_COSTS[sItem.rank] || 30;
+                    btn.innerHTML = `${sItem.name.substring(sItem.name.indexOf(' ')+1)}<br><span style="font-size:9px; color:var(--muted);">(${cost.toLocaleString()}C)</span>`;
                     btn.onclick = () => window.executeAction('skill', sItem.id);
                     skillTray.appendChild(btn);
                 }
@@ -1552,6 +1582,7 @@
     }
   }
 
+  // ★ 다중 연속 공격 시스템 추가
   window.executeAction = function(actionType, skillId = null) {
       const todayKey = fmtKey(new Date());
       if(state.dungeon.stunnedDate === todayKey) {
@@ -1559,6 +1590,7 @@
       }
 
       const pStats = getPlayerStats();
+      let reqCoin = 10;
       
       if(actionType === 'heal') {
           if(Number(state.coins || 0) < 10) return alert('REQUIRES 10 CRD.');
@@ -1570,8 +1602,16 @@
           return; 
       }
       
-      let reqCoin = actionType === 'skill' ? 30 : 10;
-      if(Number(state.coins || 0) < reqCoin) return alert(`REQUIRES ${reqCoin} CRD TO ENGAGE.`);
+      // 스킬 등급별 코인 소모 맵핑
+      if(actionType === 'skill' && skillId) {
+          const inv = getSafeList(state.gacha.inventory);
+          const skillItem = inv.find(i => i.id === skillId);
+          if(skillItem) {
+              reqCoin = SKILL_COSTS[skillItem.rank] || 30;
+          }
+      }
+
+      if(Number(state.coins || 0) < reqCoin) return alert(`REQUIRES ${reqCoin.toLocaleString()} CRD TO ENGAGE.`);
       if(state.playerHp <= 0) return alert('HP IS ZERO. MUST RECOVER.');
       
       state.coins -= reqCoin;
@@ -1635,12 +1675,22 @@
         state.dungeon.hp = state.dungeon.maxHp;
         document.getElementById('combatLog').innerHTML = 'AWAITING ENGAGEMENT...'; 
       } else {
+        // ★ 보스 연속 공격 (1~3회)
         const bossAtk = calcBossAtk(Number(state.dungeon.level));
-        const bossDmg = Math.floor(bossAtk * (0.8 + Math.random() * 0.4));
-        const dmgToPlayer = Math.max(1, bossDmg - pStats.totalDef);
+        const hitCount = Math.floor(Math.random() * 3) + 1;
+        let totalDmgTaken = 0;
         
-        state.playerHp -= dmgToPlayer;
-        logCombat(`< ENEMY: ${dmgToPlayer.toLocaleString()} DMG TAKEN!`, "log-b-dmg");
+        for(let i=0; i<hitCount; i++) {
+            const bossDmg = Math.floor(bossAtk * (0.8 + Math.random() * 0.4));
+            totalDmgTaken += Math.max(1, bossDmg - pStats.totalDef);
+        }
+        
+        state.playerHp -= totalDmgTaken;
+        if(hitCount > 1) {
+            logCombat(`< ENEMY: ${hitCount}연속 공격! ${totalDmgTaken.toLocaleString()} DMG TAKEN!`, "log-b-dmg");
+        } else {
+            logCombat(`< ENEMY: ${totalDmgTaken.toLocaleString()} DMG TAKEN!`, "log-b-dmg");
+        }
         
         if(state.playerHp <= 0) {
             state.playerHp = 0;
